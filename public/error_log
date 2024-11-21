@@ -1,0 +1,2 @@
+[01-Jun-2022 02:55:05 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\User\UserController::logout() in /home/ngat9299/public_html/bid-sp/app/Http/Controllers/User/UserController.php on line 224
+[01-Jun-2022 02:57:21 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\User\UserController::logout() in /home/ngat9299/public_html/bid-sp/app/Http/Controllers/User/UserController.php on line 224
