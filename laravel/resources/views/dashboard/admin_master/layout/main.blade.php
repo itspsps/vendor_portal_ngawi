@@ -998,6 +998,7 @@
     <!-- end::Global Config -->
 </body>
 @include('dashboard.admin_master.layout.js') @yield('js')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
     function get_notifdatapembelian() {
         $.ajax({

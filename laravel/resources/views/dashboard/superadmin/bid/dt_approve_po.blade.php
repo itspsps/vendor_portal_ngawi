@@ -150,7 +150,7 @@ SURYA PANGAN SEMESTA
                         data: 'nopol'
                     },
                     {
-                        data: 'status'
+                        data: 'status',
                     },
                     {
                         data: 'cetak'

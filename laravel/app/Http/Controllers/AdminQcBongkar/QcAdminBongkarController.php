@@ -11,6 +11,8 @@ use App\Models\Notif;
 use App\Models\QcAdminBongkar;
 use App\Models\DataQcBongkar;
 use App\Models\Lab1GabahBasah;
+use App\Models\Lab1Pecahkulit;
+use App\Models\Lab2GabahBasah;
 use App\Models\LogAktivityQc;
 use App\Models\NotifBongkar;
 use App\Models\NotifLab;
@@ -31,9 +33,9 @@ class QcAdminBongkarController extends Controller
         // $oke = json_encode($array);
         // dd($array);
         if ($fieldType == "username") {
-            $data = DB::table('admins_qc_bongkar')->where('username', $array)->first();
+            $data = QcAdminBongkar::where('username', $array)->first();
         } else {
-            $data = DB::table('admins_qc_bongkar')->where('email', $array)->first();
+            $data = QcAdminBongkar::where('email', $array)->first();
         }
         if (Auth::guard('bongkar')->attempt(array($fieldType => $request->username, 'password' => $request->password))) {
             Alert::success('Berhasil', 'Selamat Datang ' . $data->name_qc_bongkar);
@@ -52,8 +54,7 @@ class QcAdminBongkarController extends Controller
     public function data_antrian_bongkar_pandan_wangi_index()
     {
 
-        return Datatables::of(DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('lab1_gb', 'lab1_gb.lab1_kode_po_gb', '=', 'data_po.kode_po')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
@@ -104,7 +105,7 @@ class QcAdminBongkarController extends Controller
     public function data_antrian_bongkar_ketan_putih_index()
     {
 
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('lab1_gb', 'lab1_gb.lab1_kode_po_gb', '=', 'data_po.kode_po')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
@@ -157,7 +158,7 @@ class QcAdminBongkarController extends Controller
     public function data_antrian_bongkar_longgrain_index()
     {
 
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('lab1_gb', 'lab1_gb.lab1_kode_po_gb', '=', 'data_po.kode_po')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
@@ -210,7 +211,7 @@ class QcAdminBongkarController extends Controller
     public function data_antrian_bongkar_pk_index()
     {
 
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('lab1_pk', 'lab1_pk.lab1_kode_po_pk', '=', 'data_po.kode_po')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
@@ -264,7 +265,7 @@ class QcAdminBongkarController extends Controller
     }
     public function antrian_qc_longgrain_index()
     {
-        // $data = DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        // $data =DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
         //     ->join('users', 'users.id', '=', 'data_po.user_idbid')
         //     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
         //     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -273,7 +274,7 @@ class QcAdminBongkarController extends Controller
         //     ->where('lab1_gb.status_lab1_gb', '=', '9')
         //     ->get();
         // dd($data);
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -372,7 +373,7 @@ class QcAdminBongkarController extends Controller
     public function antrian_qc_pandan_wangi_index()
     {
 
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -473,7 +474,7 @@ class QcAdminBongkarController extends Controller
     public function antrian_qc_ketan_putih_index()
     {
 
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -574,7 +575,7 @@ class QcAdminBongkarController extends Controller
     public function antrian_qc_bongkar_pk_index()
     {
 
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -628,11 +629,11 @@ class QcAdminBongkarController extends Controller
 
     public function data_antrian_bongkar()
     {
-        $panggil = DB::table('lab1_gb')->where('status_lab1_gb', "7")->where('lokasi_bongkar_gb', 'UTARA')->orderBy('id_lab1_gb', 'asc')->first();
-        $panggil1 = DB::table('lab1_gb')->where('status_lab1_gb', "7")->where('lokasi_bongkar_gb', 'SELATAN')->orderBy('id_lab1_gb', 'asc')->first();
-        $panggil_pk = DB::table('lab1_pk')->where('status_lab1_pk', "7")->orderBy('created_at_pk', 'asc')->first();
+        $panggil = Lab1GabahBasah::where('status_lab1_gb', "7")->where('lokasi_bongkar_gb', 'UTARA')->orderBy('id_lab1_gb', 'asc')->first();
+        $panggil1 = Lab1GabahBasah::where('status_lab1_gb', "7")->where('lokasi_bongkar_gb', 'SELATAN')->orderBy('id_lab1_gb', 'asc')->first();
+        $panggil_pk = Lab1Pecahkulit::where('status_lab1_pk', "7")->orderBy('created_at_pk', 'asc')->first();
         // dd($panggil);
-        $data_utara = DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $data_utara =DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('lab1_gb', 'lab1_gb.lab1_kode_po_gb', '=', 'data_po.kode_po')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
@@ -644,7 +645,7 @@ class QcAdminBongkarController extends Controller
             ->get();
 
         // dd($data_utara);
-        $data_selatan = DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $data_selatan =DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('lab1_gb', 'lab1_gb.lab1_kode_po_gb', '=', 'data_po.kode_po')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
@@ -654,7 +655,7 @@ class QcAdminBongkarController extends Controller
             ->where('lab1_gb.output_lab_gb', 'Unload')
             ->orderBy('lab1_gb.id_lab1_gb', 'asc')
             ->get();
-        $data_pk = DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $data_pk =DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('lab1_pk', 'lab1_pk.lab1_kode_po_pk', '=', 'data_po.kode_po')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
@@ -664,7 +665,7 @@ class QcAdminBongkarController extends Controller
             ->orderBy('lab1_pk.id_lab1_pk', 'asc')
             ->get();
         // dd($data_pk);
-        $data_pending = DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $data_pending =DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('lab1_gb', 'lab1_gb.lab1_kode_po_gb', '=', 'data_po.kode_po')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
@@ -680,7 +681,7 @@ class QcAdminBongkarController extends Controller
     public function data_antrian_bongkar_index()
     {
 
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('lab1_gb', 'lab1_gb.gabahincoming_kode_po', '=', 'data_po.kode_po')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
@@ -724,7 +725,7 @@ class QcAdminBongkarController extends Controller
                 return $result;
             })
             ->addColumn('ckelola', function ($list) {
-                $a = DB::table('lab1_gb')->orderBy('id_lab1_gb', 'desc')->first();
+                $a = Lab1GabahBasah::orderBy('id_lab1_gb', 'desc')->first();
                 if ($list->status_penerimaan == 7) {
                     if ($a == '') {
                         return
@@ -742,11 +743,11 @@ class QcAdminBongkarController extends Controller
 
     public function data_antrian_bongkar_panggil_gb($id)
     {
-        $data = DB::table('penerimaan_po')->where('id_penerimaan_po', $id)->first();
+        $data = PenerimaanPO::where('id_penerimaan_po', $id)->first();
         if ($data->status_penerimaan == 7) {
-            $data1 = DB::table('penerimaan_po')->where('id_penerimaan_po', $id)->update(['status_penerimaan' => 8]);
-            $data2 = DB::table('data_po')->where('kode_po', $data->penerimaan_kode_po)->update(['status_bid' => 8]);
-            $data3 = DB::table('lab1_gb')->where('lab1_kode_po_gb', $data->penerimaan_kode_po)->update(['status_lab1_gb' => 8]);
+            $data1 = PenerimaanPO::where('id_penerimaan_po', $id)->update(['status_penerimaan' => 8]);
+            $data2 =DataPO::where('kode_po', $data->penerimaan_kode_po)->update(['status_bid' => 8]);
+            $data3 = Lab1GabahBasah::where('lab1_kode_po_gb', $data->penerimaan_kode_po)->update(['status_lab1_gb' => 8]);
             // return redirect()->back();
             $log                                = new LogAktivityQc();
             $log->nama_user                     = Auth::guard('bongkar')->user()->name_qc_bongkar;
@@ -777,12 +778,12 @@ class QcAdminBongkarController extends Controller
     }
     public function data_antrian_bongkar_panggil_pk($id)
     {
-        $data = DB::table('penerimaan_po')->where('id_penerimaan_po', $id)->first();
+        $data = PenerimaanPO::where('id_penerimaan_po', $id)->first();
         // dd($data);
         if ($data->status_penerimaan == 7) {
-            $data1 = DB::table('penerimaan_po')->where('id_penerimaan_po', $id)->update(['status_penerimaan' => 8]);
-            $data2 = DB::table('data_po')->where('kode_po', $data->penerimaan_kode_po)->update(['status_bid' => 8]);
-            $data3 = DB::table('lab1_pk')->where('lab1_kode_po_pk', $data->penerimaan_kode_po)->update(['status_lab1_pk' => 8]);
+            $data1 = PenerimaanPO::where('id_penerimaan_po', $id)->update(['status_penerimaan' => 8]);
+            $data2 =DataPO::where('kode_po', $data->penerimaan_kode_po)->update(['status_bid' => 8]);
+            $data3 = Lab1Pecahkulit::where('lab1_kode_po_pk', $data->penerimaan_kode_po)->update(['status_lab1_pk' => 8]);
             // return redirect()->back();
             $log                                = new LogAktivityQc();
             $log->nama_user                     = Auth::guard('bongkar')->user()->name_qc_bongkar;
@@ -796,7 +797,7 @@ class QcAdminBongkarController extends Controller
 
     public function show_qc_bongkar_gb_show($id)
     {
-        $show_data = DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $show_data =DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->where('data_po.status_bid', 9)
@@ -807,7 +808,7 @@ class QcAdminBongkarController extends Controller
     }
     public function show_qc_bongkar_pk_show($id)
     {
-        $show_data = DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $show_data =DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->where('data_po.status_bid', 9)
@@ -997,10 +998,9 @@ class QcAdminBongkarController extends Controller
     {
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
-                $data = DB::table('data_qc_bongkar')->join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')->join('users', 'users.id', '=', 'data_po.user_idbid')->orderBy('id_data_qc_bongkar', 'desc')->get();
+                $data = DataQcBongkar::join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')->join('users', 'users.id', '=', 'data_po.user_idbid')->orderBy('id_data_qc_bongkar', 'desc')->get();
 
-                return Datatables::of(DB::table('data_qc_bongkar')
-                    ->join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')
+                return Datatables::of(DataQcBongkar::join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')
                     ->join('bid', 'data_po.bid_id', '=', 'bid.id_bid')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->whereBetween('data_qc_bongkar.tanggal_bongkar', array($request->from_date, $request->to_date))
@@ -1043,10 +1043,9 @@ class QcAdminBongkarController extends Controller
                     ->rawColumns(['kode_po_bongkar', 'nama_vendor', 'surveyor_bongkar', 'keterangan_bongkar', 'waktu_bongkar', 'tempat_bongkar', 'z_yang_dibawa', 'z_yang_ditolak'])
                     ->make(true);
             } else {
-                $data = DB::table('data_qc_bongkar')->join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')->join('users', 'users.id', '=', 'data_po.user_idbid')->orderBy('id_data_qc_bongkar', 'desc')->get();
+                $data = DataQcBongkar::join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')->join('users', 'users.id', '=', 'data_po.user_idbid')->orderBy('id_data_qc_bongkar', 'desc')->get();
 
-                return Datatables::of(DB::table('data_qc_bongkar')
-                    ->join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')
+                return Datatables::of(DataQcBongkar::join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')
                     ->join('bid', 'data_po.bid_id', '=', 'bid.id_bid')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->where('bid.name_bid', 'LIKE', '%GABAH BASAH%')
@@ -1094,10 +1093,9 @@ class QcAdminBongkarController extends Controller
     {
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
-                $data = DB::table('data_qc_bongkar')->join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')->join('users', 'users.id', '=', 'data_po.user_idbid')->orderBy('id_data_qc_bongkar', 'desc')->get();
+                $data = DataQcBongkar::join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')->join('users', 'users.id', '=', 'data_po.user_idbid')->orderBy('id_data_qc_bongkar', 'desc')->get();
 
-                return Datatables::of(DB::table('data_qc_bongkar')
-                    ->join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')
+                return Datatables::of(DataQcBongkar::join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')
                     ->join('bid', 'data_po.bid_id', '=', 'bid.id_bid')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->whereBetween('data_qc_bongkar.tanggal_bongkar', array($request->from_date, $request->to_date))
@@ -1140,10 +1138,9 @@ class QcAdminBongkarController extends Controller
                     ->rawColumns(['kode_po_bongkar', 'nama_vendor', 'surveyor_bongkar', 'keterangan_bongkar', 'waktu_bongkar', 'tempat_bongkar', 'z_yang_dibawa', 'z_yang_ditolak'])
                     ->make(true);
             } else {
-                $data = DB::table('data_qc_bongkar')->join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')->join('users', 'users.id', '=', 'data_po.user_idbid')->orderBy('id_data_qc_bongkar', 'desc')->get();
+                $data = DataQcBongkar::join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')->join('users', 'users.id', '=', 'data_po.user_idbid')->orderBy('id_data_qc_bongkar', 'desc')->get();
 
-                return Datatables::of(DB::table('data_qc_bongkar')
-                    ->join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')
+                return Datatables::of(DataQcBongkar::join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')
                     ->join('bid', 'data_po.bid_id', '=', 'bid.id_bid')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->where('bid.name_bid', 'LIKE', '%GABAH BASAH%')
@@ -1191,10 +1188,9 @@ class QcAdminBongkarController extends Controller
     {
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
-                $data = DB::table('data_qc_bongkar')->join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')->join('users', 'users.id', '=', 'data_po.user_idbid')->orderBy('id_data_qc_bongkar', 'desc')->get();
+                $data = DataQcBongkar::join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')->join('users', 'users.id', '=', 'data_po.user_idbid')->orderBy('id_data_qc_bongkar', 'desc')->get();
 
-                return Datatables::of(DB::table('data_qc_bongkar')
-                    ->join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')
+                return Datatables::of(DataQcBongkar::join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')
                     ->join('bid', 'data_po.bid_id', '=', 'bid.id_bid')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
@@ -1236,10 +1232,9 @@ class QcAdminBongkarController extends Controller
                     ->rawColumns(['kode_po_bongkar', 'nama_vendor', 'surveyor_bongkar', 'keterangan_bongkar', 'waktu_bongkar', 'tempat_bongkar', 'z_yang_dibawa', 'z_yang_ditolak'])
                     ->make(true);
             } else {
-                $data = DB::table('data_qc_bongkar')->join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')->join('users', 'users.id', '=', 'data_po.user_idbid')->orderBy('id_data_qc_bongkar', 'desc')->get();
+                $data = DataQcBongkar::join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')->join('users', 'users.id', '=', 'data_po.user_idbid')->orderBy('id_data_qc_bongkar', 'desc')->get();
 
-                return Datatables::of(DB::table('data_qc_bongkar')
-                    ->join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')
+                return Datatables::of(DataQcBongkar::join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')
                     ->join('bid', 'data_po.bid_id', '=', 'bid.id_bid')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->where('bid.name_bid', 'LIKE', '%BERAS PECAH KULIT%')
@@ -1288,15 +1283,15 @@ class QcAdminBongkarController extends Controller
     }
     public function update_dtm(Request $request)
     {
-        $data = DB::table('data_qc_bongkar')->where('kode_po_bongkar', $request->penerimaan_kode_po)
+        $data = DataQcBongkar::where('kode_po_bongkar', $request->penerimaan_kode_po)
             ->update([
                 'no_dtm' => $request->dtm_gb,
             ]);
-        $data = DB::table('lab2_gb')->where('lab2_kode_po_gb', $request->penerimaan_kode_po)
+        $data =Lab2GabahBasah::where('lab2_kode_po_gb', $request->penerimaan_kode_po)
             ->update([
                 'dtm_gb' => $request->dtm_gb,
             ]);
-        $data = DB::table('penerimaan_po')->where('id_penerimaan_po', $request->id_penerimaan_po)
+        $data = PenerimaanPO::where('id_penerimaan_po', $request->id_penerimaan_po)
             ->update([
                 'status_revisi' => '1',
             ]);
@@ -1323,14 +1318,13 @@ class QcAdminBongkarController extends Controller
     }
     public function show_revisi_gb($id)
     {
-        $data = DB::table('penerimaan_po')
-            ->join('data_qc_bongkar', 'data_qc_bongkar.kode_po_bongkar', 'penerimaan_po.penerimaan_kode_po')
+        $data = PenerimaanPO::join('data_qc_bongkar', 'data_qc_bongkar.kode_po_bongkar', 'penerimaan_po.penerimaan_kode_po')
             ->where('penerimaan_po.id_penerimaan_po', $id)->first();
         return json_encode($data);
     }
     public function data_revisi_gb_longgrain_index()
     {
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
             ->join('data_qc_bongkar', 'data_qc_bongkar.kode_po_bongkar', '=', 'data_po.kode_po')
@@ -1387,7 +1381,7 @@ class QcAdminBongkarController extends Controller
     }
     public function data_revisi_gb_ciherang_index()
     {
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
             ->join('data_qc_bongkar', 'data_qc_bongkar.kode_po_bongkar', '=', 'data_po.kode_po')
@@ -1445,7 +1439,7 @@ class QcAdminBongkarController extends Controller
     public function data_revisi_gb_pandan_wangi_index()
     {
 
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
             ->join('data_qc_bongkar', 'data_qc_bongkar.kode_po_bongkar', '=', 'data_po.kode_po')
@@ -1503,7 +1497,7 @@ class QcAdminBongkarController extends Controller
     public function data_revisi_gb_ketan_putih_index()
     {
 
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
             ->join('data_qc_bongkar', 'data_qc_bongkar.kode_po_bongkar', '=', 'data_po.kode_po')
@@ -1566,26 +1560,23 @@ class QcAdminBongkarController extends Controller
             ->select('notifikasi_qcbongkar.*', 'penerimaan_po.id_penerimaan_po', 'penerimaan_po.no_antrian')
             ->get();
 
-        $getcountnotif_antrianbongkar = DB::table('data_po')
-            ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
+        $getcountnotif_antrianbongkar = DataPO::join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
             ->where('lab1_gb.status_lab1_gb', '=', '7')
             ->count();
-        $getcountnotif_antrianbongkar1 = DB::table('data_po')
-            ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
+        $getcountnotif_antrianbongkar1 = DataPO::join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('lab1_pk', 'lab1_pk.lab1_id_data_po_pk', '=', 'data_po.id_data_po')
             ->where('lab1_pk.status_lab1_pk', '=', '7')
             ->count();
         $total_antrianbongkar = ($getcountnotif_antrianbongkar + $getcountnotif_antrianbongkar1);
-        $getcountnotif_prosesbongkar = DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $getcountnotif_prosesbongkar =DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
             ->join('lab1_gb', 'lab1_gb.lab1_kode_po_gb', '=', 'data_po.kode_po')
             ->where('lab1_gb.status_lab1_gb', '=', '9')
             ->count();
-        $getcountnotif_prosesbongkar1 = DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $getcountnotif_prosesbongkar1 = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -1594,13 +1585,12 @@ class QcAdminBongkarController extends Controller
             ->where('lab1_pk.status_lab1_pk', '=', '9')
             ->count();
         $total_prosesbongkar = ($getcountnotif_prosesbongkar + $getcountnotif_prosesbongkar1);
-        $getcountnotif_databongkar = DB::table('data_qc_bongkar')
-            ->join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')
+        $getcountnotif_databongkar = DataQcBongkar::join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')
             ->join('bid', 'data_po.bid_id', '=', 'bid.id_bid')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->where('bid.name_bid', 'LIKE', '%GABAH BASAH%')
             ->count();
-        $getcountnotif_revisibongkar = DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $getcountnotif_revisibongkar =DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
             ->join('data_qc_bongkar', 'data_qc_bongkar.kode_po_bongkar', '=', 'data_po.kode_po')

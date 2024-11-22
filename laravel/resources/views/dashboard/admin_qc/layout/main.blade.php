@@ -216,7 +216,7 @@
     </script>
 </body>
 @include('dashboard.admin_qc.layout.js') @yield('js')
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 @if(Auth::guard('lab')->user()->level=='QC')
 <script>
     function getnotif(){

@@ -174,29 +174,21 @@ SURYA PANGAN SEMESTA
             method: "GET",
             dataType: "json",
             success: function(data) {
-                console.log(data);
-                $.each(data.chart_supplier, function(item) {
-
-                });
                 var chartContainer = KTUtil.getByID('chart_supplier');
 
                 if (!chartContainer) {
                     return;
                 }
                 var chartData = {
-                    labels: data.chart_supplier,
+                    labels: data.chart_value,
                     datasets: [{
                         //label: 'Dataset 1',
-                        backgroundColor: KTApp.getStateColor('success'),
-                        data: [
-                            15, 20, 25, 30, 25, 20, 15, 20, 25, 30, 25, 20, 15, 10, 15, 20
-                        ]
+                        backgroundColor: KTApp.getStateColor('brand'),
+                        data: data.chart_key1
                     }, {
                         //label: 'Dataset 2',
                         backgroundColor: '#f3f3fb',
-                        data: [
-                            15, 20, 25, 30, 25, 20, 15, 20, 25, 30, 25, 20, 15, 10, 15, 20
-                        ]
+                        data: data.chart_key
                     }]
                 };
                 fun_chart_supplier(chartData, chartContainer);
@@ -302,7 +294,8 @@ SURYA PANGAN SEMESTA
                 data: chartData,
                 options: {
                     title: {
-                        display: false,
+                        display: true,
+                        text: 'Grafik PO Supplier'
                     },
                     tooltips: {
                         intersect: false,
@@ -312,11 +305,11 @@ SURYA PANGAN SEMESTA
                         caretPadding: 10
                     },
                     legend: {
-                        display: true
+                        display: false
                     },
                     responsive: true,
                     maintainAspectRatio: true,
-                    barRadius: 4,
+                    barRadius: 3,
                     scales: {
                         xAxes: [{
                             display: true,

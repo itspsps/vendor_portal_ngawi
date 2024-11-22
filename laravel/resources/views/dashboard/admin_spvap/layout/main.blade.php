@@ -224,6 +224,7 @@
     <!-- end::Global Config -->
 </body>
 @include('dashboard.admin_spvap.layout.js') @yield('js')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
     function getnotif() {
         $.ajax({

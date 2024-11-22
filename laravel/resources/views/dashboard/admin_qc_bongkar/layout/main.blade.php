@@ -205,7 +205,7 @@
     <!-- end::Global Config -->
 </body>
 @include('dashboard.admin_qc_bongkar.layout.js') @yield('js')
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
     function getnotif() {
         $.ajax({

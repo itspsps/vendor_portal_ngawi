@@ -12,6 +12,7 @@ use DB;
 use Illuminate\Support\Str;
 use App\Models\DataPO;
 use App\Models\Lab1GabahBasah;
+use App\Models\Lab2GabahBasah;
 use App\Models\LogAktivitySecurity;
 use App\Models\LogAktivitySourching;
 use App\Models\Notif;
@@ -33,9 +34,9 @@ class AdminController extends Controller
         // $oke = json_encode($array);
         // dd($array);
         if ($fieldType == "username") {
-            $data = DB::table('admins')->where('username', $array)->first();
+            $data = Admin::where('username', $array)->first();
         } else {
-            $data = DB::table('admins')->where('email', $array)->first();
+            $data = Admin::where('email', $array)->first();
         }
         if (Auth::guard('security')->attempt(array($fieldType => $request->username, 'password' => $request->password))) {
             Alert::success('Berhasil', 'Selamat Datang ' . $data->name);
@@ -54,8 +55,7 @@ class AdminController extends Controller
 
     public function gabah_kering()
     {
-        $po_kemarin = DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $po_kemarin = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->where('data_po.status_bid', 1)
             ->where('bid.name_bid', '=', 'GABAH KERING')
@@ -93,8 +93,7 @@ class AdminController extends Controller
     }
     public function cetak_po($id)
     {
-        $data = DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $data = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'user_idbid')
             ->where('id_data_po', $id)
             ->first();
@@ -123,8 +122,7 @@ class AdminController extends Controller
     public function gabah_basah()
     {
         $date = date('Y-m-d H:i:s');
-        $PONum = DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $PONum = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->where('data_po.status_bid', 1)
             ->where('bid.name_bid', 'like', '%GABAH BASAH%')
@@ -143,7 +141,7 @@ class AdminController extends Controller
             $promise->then(
                 function (Response $response) use ($get) {
                     $response = $response->getBody()->getContents();
-                    $get_id = DB::table('data_po')->where('PONum', $get->PONum)->update(['status_bid' => '5']);
+                    $get_id = DataPO::where('PONum', $get->PONum)->update(['status_bid' => '5']);
                 }
 
             );
@@ -172,8 +170,7 @@ class AdminController extends Controller
     public function beras_pk()
     {
         $date = date('Y-m-d H:i:s');
-        $PONum = DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $PONum = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->where('data_po.status_bid', 1)
             ->where('bid.name_bid', 'like', '%BERAS PECAH KULIT%')
@@ -190,7 +187,7 @@ class AdminController extends Controller
             $promise->then(
                 function (Response $response) use ($get) {
                     echo $response = $response->getBody()->getContents();
-                    $get_id = DB::table('data_po')->where('PONum', $get->PONum)->update(['status_bid' => '5']);
+                    $get_id = DataPO::where('PONum', $get->PONum)->update(['status_bid' => '5']);
                 }
 
             );
@@ -206,8 +203,7 @@ class AdminController extends Controller
             $data->save();
         }
 
-        $po_kemarin = DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $po_kemarin = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->where('data_po.status_bid', 1)
             ->where('bid.name_bid', 'like', '%BERAS PECAH KULIT%')
@@ -215,8 +211,7 @@ class AdminController extends Controller
             ->orderBy("id_data_po", "desc")
             ->get();
 
-        $po_besok = DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $po_besok = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->where('data_po.status_bid', 1)
             ->where('bid.name_bid', 'like', '%BERAS PECAH KULIT%')
@@ -228,8 +223,7 @@ class AdminController extends Controller
     public function beras_ds_urgent()
     {
         $date = date('Y-m-d H:i:s');
-        $PONum = DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $PONum = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->where('data_po.status_bid', 1)
             ->where('bid.name_bid', 'like', '%BERAS DS%')
@@ -246,7 +240,7 @@ class AdminController extends Controller
             $promise->then(
                 function (Response $response) use ($get) {
                     echo $response = $response->getBody()->getContents();
-                    $get_id = DB::table('data_po')->where('PONum', $get->PONum)->update(['status_bid' => '5']);
+                    $get_id = DataPO::where('PONum', $get->PONum)->update(['status_bid' => '5']);
                 }
 
             );
@@ -272,8 +266,7 @@ class AdminController extends Controller
     public function gabahbasah_index_kemarin()
     {
 
-        return Datatables::of(DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->where('data_po.status_bid', 5)
             ->where('bid.name_bid', 'like', '%GABAH BASAH%')
@@ -317,8 +310,7 @@ class AdminController extends Controller
     public function gabahbasah_index_sekarang()
     {
 
-        return Datatables::of(DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->where('data_po.status_bid', 1)
             ->where('bid.name_bid', 'like', '%GABAH BASAH%')
@@ -385,8 +377,7 @@ class AdminController extends Controller
     public function gabahbasah_index_besok()
     {
 
-        return Datatables::of(DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->where('data_po.status_bid', 1)
             ->where('bid.name_bid', 'like', '%GABAH BASAH%')
@@ -445,8 +436,7 @@ class AdminController extends Controller
     public function gabahkering_index_sekarang()
     {
 
-        return Datatables::of(DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->where('data_po.status_bid', 1)
             ->where('bid.name_bid', '=', 'GABAH KERING')
@@ -515,8 +505,7 @@ class AdminController extends Controller
     public function beraspk_index_kemarin()
     {
 
-        return Datatables::of(DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->where('data_po.status_bid', 5)
             ->where('bid.name_bid', 'like', '%BERAS PECAH KULIT%')
@@ -560,8 +549,7 @@ class AdminController extends Controller
     public function beraspk_index_sekarang()
     {
 
-        return Datatables::of(DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->where('data_po.status_bid', 1)
             ->where('bid.name_bid', 'like', '%BERAS PECAH KULIT%')
@@ -630,8 +618,7 @@ class AdminController extends Controller
     public function beraspk_index_besok()
     {
 
-        return Datatables::of(DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->where('data_po.status_bid', 1)
             ->where('bid.name_bid', 'like', '%BERAS PECAH KULIT%')
@@ -690,8 +677,7 @@ class AdminController extends Controller
     public function berasdsurgent_index_kemarin()
     {
 
-        return Datatables::of(DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->where('data_po.status_bid', 1)
             ->where('bid.name_bid', 'like', '%BERAS DS%')
@@ -752,8 +738,7 @@ class AdminController extends Controller
     public function berasdsurgent_index_sekarang()
     {
 
-        return Datatables::of(DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->where('data_po.status_bid', 1)
             ->where('bid.name_bid', 'like', '%BERAS DS%')
@@ -822,8 +807,7 @@ class AdminController extends Controller
     public function berasdsurgent_index_besok()
     {
 
-        return Datatables::of(DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->where('data_po.status_bid', 1)
             ->where('bid.name_bid', 'like', '%BERAS DS%')
@@ -885,8 +869,7 @@ class AdminController extends Controller
     public function berasdsnoturgent_index_sekarang()
     {
 
-        return Datatables::of(DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->where('data_po.status_bid', 1)
             ->where('bid.name_bid', '=', 'BERAS DS')
@@ -961,14 +944,13 @@ class AdminController extends Controller
 
     public function show_penerimaan_po($id)
     {
-        $check_penerimaan_po = DB::table('penerimaan_po')->where('penerimaan_id_data_po', $id)->first();
+        $check_penerimaan_po = PenerimaanPO::where('penerimaan_id_data_po', $id)->first();
         //dd($check_penerimaan_po);
         if (!$check_penerimaan_po) {
-            $data1 = DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')->where('id_data_po', $id)->first();
+            $data1 = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')->where('id_data_po', $id)->first();
             return json_encode($data1);
         } else {
-            $data2 = DB::table('penerimaan_po')
-                ->join('data_po', 'data_po.id_data_po', '=', 'penerimaan_po.penerimaan_id_data_po')
+            $data2 = PenerimaanPO::join('data_po', 'data_po.id_data_po', '=', 'penerimaan_po.penerimaan_id_data_po')
                 ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                 ->where('penerimaan_po.penerimaan_id_data_po', $id)
                 ->first();
@@ -978,12 +960,11 @@ class AdminController extends Controller
 
     public function generate(Request $request)
     {
-        $get_cetak = DB::table('data_po')->where('kode_po', $request->kode_po)
+        $get_cetak = DataPO::where('kode_po', $request->kode_po)
             ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')->first();
         // dd($get_cetak);
-        $cek = DB::table('penerimaan_po')->where('penerimaan_kode_po', $get_cetak->kode_po)->first();
-        $params_antrian = DB::table('penerimaan_po')
-            ->join('data_po', 'data_po.id_data_po', 'penerimaan_po.penerimaan_id_data_po')
+        $cek = PenerimaanPO::where('penerimaan_kode_po', $get_cetak->kode_po)->first();
+        $params_antrian = PenerimaanPO::join('data_po', 'data_po.id_data_po', 'penerimaan_po.penerimaan_id_data_po')
             ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->where('data_po.tanggal_po', $get_cetak->tanggal_po)
             ->where('bid.name_bid', $get_cetak->name_bid)
@@ -1017,15 +998,15 @@ class AdminController extends Controller
                 $log->created_at                   = date('Y-m-d H:i:s');
                 $log->save();
                 if ($get_cetak->status_bid == 1) {
-                    $data = DB::table('data_po')->where('id_data_po', $get_cetak->id_data_po)->update(['status_bid' => '3']);
+                    $data = DataPO::where('id_data_po', $get_cetak->id_data_po)->update(['status_bid' => '3']);
                 }
                 // return redirect()->route('security.cetak_po', $get_cetak->id_data_po);
             } else {
-                $query = DB::table('penerimaan_po')->where('penerimaan_kode_po', $get_cetak->kode_po)->first();
+                $query = PenerimaanPO::where('penerimaan_kode_po', $get_cetak->kode_po)->first();
                 if ($query->status_penerimaan == 5) {
-                    $data = DB::table('penerimaan_po')->where('penerimaan_kode_po', $get_cetak->kode_po)->update(['status_penerimaan' => 3]);
+                    $data = PenerimaanPO::where('penerimaan_kode_po', $get_cetak->kode_po)->update(['status_penerimaan' => 3]);
                     if ($get_cetak->status_bid == 1) {
-                        $data = DB::table('data_po')->where('id_data_po', $get_cetak->id_data_po)->update(['status_bid' => 3]);
+                        $data = DataPO::where('id_data_po', $get_cetak->id_data_po)->update(['status_bid' => 3]);
                     }
                 }
                 return response()->json('exits');
@@ -1073,7 +1054,7 @@ class AdminController extends Controller
         $data->penerimaan_po_num           = $request->ponum;
         $data->save();
 
-        $update_status_data_po_TabelPO      = DB::table('data_po')->where('id_data_po', $request->penerimaan_id_data_po)->first();
+        $update_status_data_po_TabelPO      = DataPO::where('id_data_po', $request->penerimaan_id_data_po)->first();
 
         $log                               = new LogAktivitySecurity();
         $log->name_user                    = Auth::guard('security')->user()->name;
@@ -1104,7 +1085,7 @@ class AdminController extends Controller
         $notif->save();
 
         if ($update_status_data_po_TabelPO->status_bid == 1) {
-            $data = DB::table('data_po')->where('id_data_po', $request->penerimaan_id_data_po)->update(['nopol' => Str::upper($request->plat_kendaraan), 'status_bid' => $request->status_penerimaan]);
+            $data = DataPO::where('id_data_po', $request->penerimaan_id_data_po)->update(['nopol' => Str::upper($request->plat_kendaraan), 'status_bid' => $request->status_penerimaan]);
         }
         return response()->json($data);
     }
@@ -1128,9 +1109,9 @@ class AdminController extends Controller
         $data->status_penerimaan        = $request->status_penerimaan;
         $data->save();
 
-        $update_status_data_po_TabelPO  = DB::table('data_po')->where('id_data_po', $request->penerimaan_id_data_po)->first();
+        $update_status_data_po_TabelPO  = DataPO::where('id_data_po', $request->penerimaan_id_data_po)->first();
         if ($update_status_data_po_TabelPO->status_bid == 1) {
-            $data1 = DB::table('data_po')->where('id_data_po', $request->penerimaan_id_data_po)->update(['nopol' => $request->plat_kendaraan, 'status_bid' => 5]);
+            $data1 = DataPO::where('id_data_po', $request->penerimaan_id_data_po)->update(['nopol' => $request->plat_kendaraan, 'status_bid' => 5]);
         }
         Alert::success('Berhasil', 'Data anda berhasil di Simpan.', 1500);
         return redirect()->back()->with('success', 'Data anda berhasil di Simpan.', 1500);
@@ -1140,7 +1121,7 @@ class AdminController extends Controller
     public function po_diterima()
     {
 
-        $po_diterima_kemarin = DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $po_diterima_kemarin = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -1149,7 +1130,7 @@ class AdminController extends Controller
             ->where('penerimaan_po.status_penerimaan', '=', 3)
             ->orderBy('penerimaan_po.id_penerimaan_po', 'ASC')
             ->get();
-        $po_diterima_besok = DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $po_diterima_besok = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -1164,14 +1145,14 @@ class AdminController extends Controller
     public function po_ditolak()
     {
 
-        $po_ditolak_kemarin = DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $po_ditolak_kemarin = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
 
             ->where('data_po.tanggal_po', date('Y-m-d', strtotime('-1 days')))
             ->where('data_po.status_bid', 5)
             ->orderBy('data_po.id_data_po', 'DESC')
             ->get();
-        $po_ditolak_besok = DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $po_ditolak_besok = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
 
             ->where('data_po.tanggal_po', date('Y-m-d', strtotime('+1 days')))
@@ -1184,7 +1165,7 @@ class AdminController extends Controller
     public function po_diterima_index()
     {
 
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -1262,7 +1243,7 @@ class AdminController extends Controller
     }
     public function data_revisi_index()
     {
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -1311,7 +1292,7 @@ class AdminController extends Controller
 
     public function show_nopol($id)
     {
-        $data = DB::table('penerimaan_po')->where('id_penerimaan_po', $id)->first();
+        $data = PenerimaanPO::where('id_penerimaan_po', $id)->first();
         return json_encode($data);
     }
 
@@ -1325,13 +1306,13 @@ class AdminController extends Controller
             $data->update();
 
             // Update Lab 2 
-            $query = DB::table('lab2_gb')->where('lab2_kode_po_gb', $req->penerimaan_kode_po)
+            $query = Lab2GabahBasah::where('lab2_kode_po_gb', $req->penerimaan_kode_po)
                 ->update([
                     'lab2_plat_gb' => $req->plat_kendaraan,
                 ]);
 
             // Update Lab 1 
-            $query = DB::table('lab1_gb')->where('lab1_kode_po_gb', $req->penerimaan_kode_po)
+            $query = Lab1GabahBasah::where('lab1_kode_po_gb', $req->penerimaan_kode_po)
                 ->update([
                     'lab1_plat_gb' => $req->plat_kendaraan,
                 ]);
@@ -1344,7 +1325,7 @@ class AdminController extends Controller
         $data->status_revisi    = NULL;
         $data->update();
         //  Update Data PO
-        $query = DB::table('data_po')->where('kode_po', $req->penerimaan_kode_po)
+        $query = DataPO::where('kode_po', $req->penerimaan_kode_po)
             ->update([
                 'nopol' => $req->plat_kendaraan,
             ]);
@@ -1384,7 +1365,7 @@ class AdminController extends Controller
     public function po_bongkar_index()
     {
 
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -1472,7 +1453,7 @@ class AdminController extends Controller
     public function po_pending_index()
     {
 
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -1538,7 +1519,7 @@ class AdminController extends Controller
     public function data_po_diterima_index()
     {
 
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -1646,7 +1627,7 @@ class AdminController extends Controller
     public function po_parkir_index()
     {
 
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -1736,7 +1717,7 @@ class AdminController extends Controller
     public function po_on_call_index()
     {
 
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -1818,7 +1799,7 @@ class AdminController extends Controller
     public function po_ditolak_index()
     {
 
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
 
@@ -1870,7 +1851,7 @@ class AdminController extends Controller
     public function data_po_ditolak_index()
     {
 
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
 
@@ -1926,7 +1907,7 @@ class AdminController extends Controller
     public function unloading_location_index()
     {
 
-        return Datatables::of($cek = DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of($cek = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
 
@@ -1990,7 +1971,7 @@ class AdminController extends Controller
 
     public function to_satpam_for_bonkar($id)
     {
-        $data = DB::table('lab1_gb')->where('lab1_id_penerimaan_po_gb', $id)->first();
+        $data = Lab1GabahBasah::where('lab1_id_penerimaan_po_gb', $id)->first();
         $data_notif = 'Please waiting process lab';
         if (!$data) {
             return json_encode($data_notif);

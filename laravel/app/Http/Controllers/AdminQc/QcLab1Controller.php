@@ -97,7 +97,7 @@ class QcLab1Controller extends Controller
 
     public function proses_lab1_gabah_basah_ciherang_index()
     {
-        // $data = DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        // $data = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
         //     ->join('users', 'users.id', '=', 'data_po.user_idbid')
         //     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
         //     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -106,7 +106,7 @@ class QcLab1Controller extends Controller
         //     ->orderBy('penerimaan_po.waktu_penerimaan', 'asc')
         //     ->get();
         //     dd($data);
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -156,7 +156,7 @@ class QcLab1Controller extends Controller
     }
     public function proses_lab1_gabah_basah_longgrain_index()
     {
-        // $data = DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        // $data = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
         //     ->join('users', 'users.id', '=', 'data_po.user_idbid')
         //     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
         //     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -165,7 +165,7 @@ class QcLab1Controller extends Controller
         //     ->orderBy('penerimaan_po.waktu_penerimaan', 'asc')
         //     ->get();
         //     dd($data);
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -222,7 +222,7 @@ class QcLab1Controller extends Controller
     }
     public function proses_lab1_gabah_basah_pandan_wangi_index()
     {
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -278,7 +278,7 @@ class QcLab1Controller extends Controller
     }
     public function proses_lab1_gabah_basah_ketan_putih_index()
     {
-        // $data = DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        // $data = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
         //     ->join('users', 'users.id', '=', 'data_po.user_idbid')
         //     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
         //     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -287,7 +287,7 @@ class QcLab1Controller extends Controller
         //     ->orderBy('penerimaan_po.waktu_penerimaan', 'asc')
         //     ->get();
         //     dd($data);
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -344,7 +344,7 @@ class QcLab1Controller extends Controller
 
     public function proses_lab1_gabah_kering_index()
     {
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -385,8 +385,7 @@ class QcLab1Controller extends Controller
             ->addColumn('ckelola', function ($list) {
                 $a = DB::table('lab1_gk')->orderBy('id_lab1_gk', 'desc')->first();
                 if (($a) == '') {
-                    $b = DB::table('data_po')
-                        ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                    $b = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                         ->join('users', 'users.id', '=', 'data_po.user_idbid')
                         ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                         ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -406,8 +405,7 @@ class QcLab1Controller extends Controller
                     </button>';
                     }
                 } else if (($a->status_lab1_gk) >= '7') {
-                    $b = DB::table('data_po')
-                        ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                    $b = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                         ->join('users', 'users.id', '=', 'data_po.user_idbid')
                         ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                         ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -439,7 +437,7 @@ class QcLab1Controller extends Controller
 
     public function proses_lab1_pecah_kulit_index()
     {
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -489,7 +487,7 @@ class QcLab1Controller extends Controller
 
     public function proses_lab1_beras_ds_index()
     {
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -530,8 +528,7 @@ class QcLab1Controller extends Controller
             ->addColumn('ckelola', function ($list) {
                 $a = DB::table('lab1_ds')->orderBy('id_lab1_ds', 'desc')->first();
                 if (($a) == '') {
-                    $b = DB::table('data_po')
-                        ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                    $b = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                         ->join('users', 'users.id', '=', 'data_po.user_idbid')
                         ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                         ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -552,8 +549,7 @@ class QcLab1Controller extends Controller
                     </button>';
                     }
                 } else if (($a->status_lab1_ds) >= '7') {
-                    $b = DB::table('data_po')
-                        ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                    $b = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                         ->join('users', 'users.id', '=', 'data_po.user_idbid')
                         ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                         ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -588,7 +584,7 @@ class QcLab1Controller extends Controller
         if (request()->ajax()) {
 
             if (!empty($request->from_date)) {
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -995,7 +991,7 @@ class QcLab1Controller extends Controller
                     ->rawColumns(['waktu_penerimaan', 'antrian', 'kode_po', 'nama_vendor', 'lokasi_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'ckelola_manager', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             } else {
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -1408,7 +1404,7 @@ class QcLab1Controller extends Controller
         if (request()->ajax()) {
 
             if (!empty($request->from_date)) {
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -1814,7 +1810,7 @@ class QcLab1Controller extends Controller
                     ->rawColumns(['waktu_penerimaan', 'antrian', 'kode_po', 'nama_vendor', 'lokasi_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'ckelola_manager', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             } else {
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -2223,7 +2219,7 @@ class QcLab1Controller extends Controller
     }
     public function output_lab1_gb_ciherang_index(Request $request)
     {
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -2515,7 +2511,7 @@ class QcLab1Controller extends Controller
         if (request()->ajax()) {
 
             if (!empty($request->from_date)) {
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -2921,7 +2917,7 @@ class QcLab1Controller extends Controller
                     ->rawColumns(['waktu_penerimaan', 'antrian', 'kode_po', 'nama_vendor', 'lokasi_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'ckelola_manager', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             } else {
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -3330,7 +3326,7 @@ class QcLab1Controller extends Controller
     }
     public function output_lab1_pk_index(Request $request)
     {
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -3738,7 +3734,7 @@ class QcLab1Controller extends Controller
     public function approve_tolak_lab1_pk($id)
     {
         $get_id_lab            = DB::table('lab1_pk')->where('id_lab1_pk', $id)->first();
-        $get_data_po            = DB::table('data_po')->where('kode_po', $get_id_lab->lab1_kode_po_pk)->first();
+        $get_data_po            = DataPO::where('kode_po', $get_id_lab->lab1_kode_po_pk)->first();
         //  Integrasi Epicor
         $client = new \GuzzleHttp\Client();
         $url = 'http://34.34.222.145:2022/api/PO/ClosePO?PONum=' . $get_data_po->PONum;
@@ -3783,12 +3779,12 @@ class QcLab1Controller extends Controller
     {
         if ($req->output_lab1 == 'Unload') {
             $update_status_data_po = DB::table('penerimaan_po')->where('penerimaan_kode_po', $req->gabahincoming_kode_po)->update(['status_penerimaan' => 7]);
-            $update_status_penerimaan_data_po = DB::table('data_po')->where('kode_po', $req->gabahincoming_kode_po)->update(['status_bid' => 7]);
+            $update_status_penerimaan_data_po = DataPO::where('kode_po', $req->gabahincoming_kode_po)->update(['status_bid' => 7]);
             $update_status_gabahincoming_data_po = DB::table('gabahincoming_qc')->where('gabahincoming_kode_po', $req->gabahincoming_kode_po)->update(['status_gabahincoming_qc' => 7, 'output_lab1' => 'Unload']);
             return redirect()->back();
         } else {
             $update_status_data_po = DB::table('penerimaan_po')->where('penerimaan_kode_po', $req->gabahincoming_kode_po)->update(['status_penerimaan' => 5]);
-            $update_status_penerimaan_data_po = DB::table('data_po')->where('kode_po', $req->gabahincoming_kode_po)->update(['status_bid' => 5]);
+            $update_status_penerimaan_data_po = DataPO::where('kode_po', $req->gabahincoming_kode_po)->update(['status_bid' => 5]);
             $update_status_gabahincoming_data_po = DB::table('gabahincoming_qc')->where('gabahincoming_kode_po', $req->gabahincoming_kode_po)->update(['status_gabahincoming_qc' => 5, 'output_lab1' => 'Reject']);
             return redirect()->back();
         }
@@ -4208,7 +4204,7 @@ class QcLab1Controller extends Controller
             $update_status_penerimaan_po = DB::table('penerimaan_po')->where('id_penerimaan_po', $request->lab1_id_penerimaan_po_pk)->where('penerimaan_kode_po', $request->lab1_kode_po_pk)
                 ->update(['status_penerimaan' => 16]);
 
-            $update_status_data_po = DB::table('data_po')->where('id_data_po', $request->lab1_id_data_po_pk)->where('kode_po', $request->lab1_kode_po_pk)
+            $update_status_data_po = DataPO::where('id_data_po', $request->lab1_id_data_po_pk)->where('kode_po', $request->lab1_kode_po_pk)
                 ->update(['status_bid' => 16]);
             $update_status_lab1pk = DB::table('lab1_pk')->where('lab1_id_penerimaan_po_pk', $request->lab1_id_penerimaan_po_pk)->where('lab1_kode_po_pk', $request->lab1_kode_po_pk)
                 ->update(['aksi_harga_pk' => 'Pending', 'status_lab1_pk' => 16]);
@@ -4216,7 +4212,7 @@ class QcLab1Controller extends Controller
             $update_status_penerimaan_po = DB::table('penerimaan_po')->where('id_penerimaan_po', $request->lab1_id_penerimaan_po_pk)->where('penerimaan_kode_po', $request->lab1_kode_po_pk)
                 ->update(['status_penerimaan' => 5]);
 
-            $update_status_data_po = DB::table('data_po')->where('id_data_po', $request->lab1_id_data_po_pk)
+            $update_status_data_po = DataPO::where('id_data_po', $request->lab1_id_data_po_pk)
                 ->update(['status_bid' => 5]);
             $update_status_lab1pk = DB::table('lab1_pk')->where('lab1_id_penerimaan_po_pk', $request->lab1_id_penerimaan_po_pk)->where('lab1_kode_po_pk', $request->lab1_kode_po_pk)
                 ->update(['aksi_harga_pk' => 'Reject', 'status_lab1_pk' => 5]);
@@ -4224,7 +4220,7 @@ class QcLab1Controller extends Controller
             $update_status_penerimaan_po = DB::table('penerimaan_po')->where('id_penerimaan_po', $request->lab1_id_penerimaan_po_pk)->where('penerimaan_kode_po', $request->lab1_kode_po_pk)
                 ->update(['status_penerimaan' => 6]);
 
-            $update_status_data_po = DB::table('data_po')->where('id_data_po', $request->lab1_id_data_po_pk)->where('kode_po', $request->lab1_kode_po_pk)
+            $update_status_data_po = DataPO::where('id_data_po', $request->lab1_id_data_po_pk)->where('kode_po', $request->lab1_kode_po_pk)
                 ->update(['status_bid' => 6]);
         }
         return redirect()->back();
@@ -4608,7 +4604,7 @@ class QcLab1Controller extends Controller
             $update_status_penerimaan_po = DB::table('penerimaan_po')->where('id_penerimaan_po', $request->lab1_id_penerimaan_po_pk)->where('penerimaan_kode_po', $request->lab1_kode_po_pk)
                 ->update(['status_penerimaan' => 16]);
 
-            $update_status_data_po = DB::table('data_po')->where('id_data_po', $request->lab1_id_data_po_pk)->where('kode_po', $request->lab1_kode_po_pk)
+            $update_status_data_po = DataPO::where('id_data_po', $request->lab1_id_data_po_pk)->where('kode_po', $request->lab1_kode_po_pk)
                 ->update(['status_bid' => 16]);
             $update_status_lab1pk = DB::table('lab1_pk')->where('lab1_id_penerimaan_po_pk', $request->lab1_id_penerimaan_po_pk)->where('lab1_kode_po_pk', $request->lab1_kode_po_pk)
                 ->update(['aksi_harga_pk' => 'Pending', 'status_lab1_pk' => 16]);
@@ -4616,7 +4612,7 @@ class QcLab1Controller extends Controller
             $update_status_penerimaan_po = DB::table('penerimaan_po')->where('id_penerimaan_po', $request->lab1_id_penerimaan_po_pk)->where('penerimaan_kode_po', $request->lab1_kode_po_pk)
                 ->update(['status_penerimaan' => 5]);
 
-            $update_status_data_po = DB::table('data_po')->where('id_data_po', $request->lab1_id_data_po_pk)->where('kode_po', $request->lab1_kode_po_pk)
+            $update_status_data_po = DataPO::where('id_data_po', $request->lab1_id_data_po_pk)->where('kode_po', $request->lab1_kode_po_pk)
                 ->update(['status_bid' => 5]);
             $update_status_lab1pk = DB::table('lab1_pk')->where('lab1_id_penerimaan_po_pk', $request->lab1_id_penerimaan_po_pk)->where('lab1_kode_po_pk', $request->lab1_kode_po_pk)
                 ->update(['aksi_harga_pk' => 'Reject', 'status_lab1_pk' => 5]);
@@ -4624,7 +4620,7 @@ class QcLab1Controller extends Controller
             $update_status_penerimaan_po = DB::table('penerimaan_po')->where('id_penerimaan_po', $request->lab1_id_penerimaan_po_pk)->where('penerimaan_kode_po', $request->lab1_kode_po_pk)
                 ->update(['status_penerimaan' => 6]);
 
-            $update_status_data_po = DB::table('data_po')->where('id_data_po', $request->lab1_id_data_po_pk)->where('kode_po', $request->lab1_kode_po_pk)
+            $update_status_data_po = DataPO::where('id_data_po', $request->lab1_id_data_po_pk)->where('kode_po', $request->lab1_kode_po_pk)
                 ->update(['status_bid' => 6]);
         }
         return redirect()->back();
@@ -4638,7 +4634,7 @@ class QcLab1Controller extends Controller
     {
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -4815,7 +4811,7 @@ class QcLab1Controller extends Controller
                     ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             } else {
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -5001,7 +4997,7 @@ class QcLab1Controller extends Controller
     {
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -5281,7 +5277,7 @@ class QcLab1Controller extends Controller
                     ->make(true);
             } else {
                 $site_qc = QcAdmin::select('site_qc')->where('site_qc', Auth::user()->site_qc)->first();
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -5569,7 +5565,7 @@ class QcLab1Controller extends Controller
     {
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -5747,7 +5743,7 @@ class QcLab1Controller extends Controller
                     ->make(true);
             } else {
                 $site_qc = QcAdmin::select('site_qc')->where('site_qc', Auth::user()->site_qc)->first();
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -5929,7 +5925,7 @@ class QcLab1Controller extends Controller
     {
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -6107,7 +6103,7 @@ class QcLab1Controller extends Controller
                     ->make(true);
             } else {
                 $site_qc = QcAdmin::select('site_qc')->where('site_qc', Auth::user()->site_qc)->first();
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -6289,7 +6285,7 @@ class QcLab1Controller extends Controller
     {
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -6467,7 +6463,7 @@ class QcLab1Controller extends Controller
                     ->make(true);
             } else {
                 $site_qc = QcAdmin::select('site_qc')->where('site_qc', Auth::user()->site_qc)->first();
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -6649,7 +6645,7 @@ class QcLab1Controller extends Controller
     {
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -6827,7 +6823,7 @@ class QcLab1Controller extends Controller
                     ->make(true);
             } else {
                 $site_qc = QcAdmin::select('site_qc')->where('site_qc', Auth::user()->site_qc)->first();
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -7013,7 +7009,7 @@ class QcLab1Controller extends Controller
     {
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -7190,7 +7186,7 @@ class QcLab1Controller extends Controller
                     ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             } else {
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -7463,7 +7459,7 @@ class QcLab1Controller extends Controller
     {
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -7634,7 +7630,7 @@ class QcLab1Controller extends Controller
                     ->make(true);
             } else {
                 $site_qc = QcAdmin::select('site_qc')->where('site_qc', Auth::user()->site_qc)->first();
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -7809,7 +7805,7 @@ class QcLab1Controller extends Controller
     {
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -7980,7 +7976,7 @@ class QcLab1Controller extends Controller
                     ->make(true);
             } else {
                 $site_qc = QcAdmin::select('site_qc')->where('site_qc', Auth::user()->site_qc)->first();
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -8154,7 +8150,7 @@ class QcLab1Controller extends Controller
     {
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -8325,7 +8321,7 @@ class QcLab1Controller extends Controller
                     ->make(true);
             } else {
                 $site_qc = QcAdmin::select('site_qc')->where('site_qc', Auth::user()->site_qc)->first();
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -8503,7 +8499,7 @@ class QcLab1Controller extends Controller
     {
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -8757,7 +8753,7 @@ class QcLab1Controller extends Controller
                     ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             } else {
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')

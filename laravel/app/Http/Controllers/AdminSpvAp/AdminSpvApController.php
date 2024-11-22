@@ -56,9 +56,9 @@ class AdminSpvApController extends Controller
         // $oke = json_encode($array);
         // dd($array);
         if ($fieldType == "username") {
-            $data = DB::table('admin_spv_ap')->where('username', $array)->first();
+            $data = AdminSpvAp::where('username', $array)->first();
         } else {
-            $data = DB::table('admin_spv_ap')->where('email', $array)->first();
+            $data = AdminSpvAp::where('email', $array)->first();
         }
         if (Auth::guard('spvap')->attempt(array($fieldType => $request->username, 'password' => $request->password))) {
             // return 'aa';
@@ -74,29 +74,25 @@ class AdminSpvApController extends Controller
     function home()
     {
         // $date= date('Y-m-d 12:00:00');
-        $po_approve_receipt = DB::table('data_po')
-            ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', 'data_po.id_data_po')
+        $po_approve_receipt = DataPO::join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', 'data_po.id_data_po')
             ->where('penerimaan_po.status_penerimaan', 13)
             ->where('penerimaan_po.analisa', '=', 'verified')
             ->where('penerimaan_po.status_epicor', NULL)
             ->where('penerimaan_po.status_approved_receipt', '=', '0')
             ->count();
-        $po_approve_revisi = DB::table('data_po')
-            ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', 'data_po.id_data_po')
+        $po_approve_revisi = DataPO::join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', 'data_po.id_data_po')
             ->where('penerimaan_po.status_penerimaan', 13)
             ->where('penerimaan_po.analisa', '=', 'revisi')
             ->where('penerimaan_po.status_analisa', '1')
             ->where('penerimaan_po.status_approved_receipt', '=', NULL)
             ->count();
-        $po_send_epicor = DB::table('data_po')
-            ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', 'data_po.id_data_po')
+        $po_send_epicor = DataPO::join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', 'data_po.id_data_po')
             ->where('penerimaan_po.status_penerimaan', 13)
             ->where('penerimaan_po.analisa', '=', 'verified')
             ->where('penerimaan_po.status_epicor', '=', NULL)
             ->where('penerimaan_po.status_approved_receipt', '=', '1')
             ->count();
-        $po_success_epicor = DB::table('data_po')
-            ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', 'data_po.id_data_po')
+        $po_success_epicor = DataPO::join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', 'data_po.id_data_po')
             ->where('penerimaan_po.status_penerimaan', 13)
             ->where('penerimaan_po.analisa', '=', 'verified')
             ->where('penerimaan_po.status_epicor', '=', '1')
@@ -108,12 +104,10 @@ class AdminSpvApController extends Controller
     }
     public function approve_receipt($id)
     {
-        $get = DB::table('penerimaan_po')
-            ->join('data_po', 'data_po.id_data_po', '=', 'penerimaan_po.penerimaan_id_data_po')
+        $get = PenerimaanPO::join('data_po', 'data_po.id_data_po', '=', 'penerimaan_po.penerimaan_id_data_po')
             ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'penerimaan_po.penerimaan_kode_po')
             ->where('penerimaan_po.id_penerimaan_po', $id)->first();
-        $get_bin_num = DB::table('penerimaan_po')
-            ->join('lab1_gb', 'lab1_gb.lab1_id_penerimaan_po_gb', 'penerimaan_po.id_penerimaan_po')
+        $get_bin_num = PenerimaanPO::join('lab1_gb', 'lab1_gb.lab1_id_penerimaan_po_gb', 'penerimaan_po.id_penerimaan_po')
             ->where('penerimaan_po.id_penerimaan_po', $id)->first();
         // dd($get_bin_num->lokasi_bongkar_gb);
         if ($get_bin_num->lokasi_bongkar_gb == 'UTARA') {
@@ -172,12 +166,10 @@ class AdminSpvApController extends Controller
     }
     public function approve_receipt_pk($id)
     {
-        $data = DB::table('penerimaan_po')
-            ->join('data_po', 'data_po.id_data_po', '=', 'penerimaan_po.penerimaan_id_data_po')
+        $data = PenerimaanPO::join('data_po', 'data_po.id_data_po', '=', 'penerimaan_po.penerimaan_id_data_po')
             ->join('lab2_pk', 'lab2_pk.lab2_kode_po_pk', '=', 'penerimaan_po.penerimaan_kode_po')
             ->where('penerimaan_po.id_penerimaan_po', $id)->first();
-        $get_bin_num = DB::table('penerimaan_po')
-            ->join('lab1_pk', 'lab1_pk.lab1_id_penerimaan_po_pk', 'penerimaan_po.id_penerimaan_po')
+        $get_bin_num = PenerimaanPO::join('lab1_pk', 'lab1_pk.lab1_id_penerimaan_po_pk', 'penerimaan_po.id_penerimaan_po')
             ->where('penerimaan_po.id_penerimaan_po', $id)->first();
         // dd($get_bin_num->lokasi_bongkar_gb);
 
@@ -193,7 +185,7 @@ class AdminSpvApController extends Controller
             'codepo_c'      => $data->penerimaan_kode_po,
             'plant'         => 'NGW',
             'WarehouseCode' => 'WHDRNGW',
-            'BinNum' => $bin_num,
+            // 'BinNum' => $bin_num,
             'SPS_Nopol_c' => $data->plat_kendaraan,
             'PTI_PONum_c' => $data->penerimaan_kode_po,
             'SPS_PODate_c'   => $data->tanggal_po,
@@ -201,11 +193,11 @@ class AdminSpvApController extends Controller
         $response = $client->post($url, ['form_params' => $form_params]);
         $response = $response->getBody()->getContents();
         // dd($response);   
-        $query = DB::table('penerimaan_po')->where('id_penerimaan_po', $id)->update(['penerimaan_po_num' => $data->PONum, 'created_at_approved_receipt' => date('Y-m-d H:i:s'), 'status_approved_receipt' => 1]);
+        $query = PenerimaanPO::where('id_penerimaan_po', $id)->update(['penerimaan_po_num' => $data->PONum, 'created_at_approved_receipt' => date('Y-m-d H:i:s'), 'status_approved_receipt' => 1]);
     }
     public function not_approve_receipt_pk($id)
     {
-        $query = DB::table('penerimaan_po')->where('id_penerimaan_po', $id)
+        $query = PenerimaanPO::where('id_penerimaan_po', $id)
             ->update([
                 'analisa' => NULL,
                 'status_analisa' => NULL,
@@ -261,7 +253,7 @@ class AdminSpvApController extends Controller
 
     public function data_pembelian_gb_index()
     {
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -326,7 +318,7 @@ class AdminSpvApController extends Controller
     }
     public function data_pembelian_pk_index()
     {
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -391,15 +383,14 @@ class AdminSpvApController extends Controller
 
     public function data_pembelian_show($id)
     {
-        $data = DB::table('penerimaan_po')->where('id_penerimaan_po', $id)->first();
+        $data = PenerimaanPO::where('id_penerimaan_po', $id)->first();
         return json_encode($data);
     }
 
     public function data_pembelian_update(Request $request)
     {
         if ($request->analisa == 'revisi') {
-            $data = DB::table('penerimaan_po')
-                ->where('id_penerimaan_po', $request->id_penerimaan_po)
+            $data = PenerimaanPO::where('id_penerimaan_po', $request->id_penerimaan_po)
                 ->update([
                     'analisa' => $request->analisa,
                     'id_adminanalisa' => $request->namaadmin,
@@ -408,8 +399,7 @@ class AdminSpvApController extends Controller
 
                 ]);
         } else if ($request->analisa == 'verified') {
-            $data = DB::table('penerimaan_po')
-                ->where('id_penerimaan_po', $request->id_penerimaan_po)
+            $data = PenerimaanPO::where('id_penerimaan_po', $request->id_penerimaan_po)
                 ->update([
                     'analisa' => $request->analisa,
                     'keterangan_analisa' => 'Sesuai',
@@ -447,7 +437,7 @@ class AdminSpvApController extends Controller
 
     public function revisi_data_gb_index()
     {
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -547,7 +537,7 @@ class AdminSpvApController extends Controller
 
     public function revisi_data_pk_index()
     {
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -628,7 +618,7 @@ class AdminSpvApController extends Controller
 
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -729,7 +719,7 @@ class AdminSpvApController extends Controller
                     ->rawColumns(['site', 'kode_po', 'approved', 'nama_vendor', 'tanggal_po', 'selected', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'harga_akhir', 'ckelola'])
                     ->make(true);
             } else {
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -835,7 +825,7 @@ class AdminSpvApController extends Controller
     {
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -932,8 +922,7 @@ class AdminSpvApController extends Controller
                     ->rawColumns(['site', 'kode_po', 'approved', 'nama_vendor', 'tanggal_po', 'selected', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'harga_akhir', 'ckelola'])
                     ->make(true);
             } else {
-                return Datatables::of(DB::table('data_po')
-                    ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -1040,7 +1029,7 @@ class AdminSpvApController extends Controller
     {
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -1137,7 +1126,7 @@ class AdminSpvApController extends Controller
                     ->rawColumns(['site', 'kode_po', 'approved', 'nama_vendor', 'tanggal_po', 'selected', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'harga_akhir', 'ckelola'])
                     ->make(true);
             } else {
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -1239,7 +1228,7 @@ class AdminSpvApController extends Controller
     {
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -1336,7 +1325,7 @@ class AdminSpvApController extends Controller
                     ->rawColumns(['site', 'kode_po', 'approved', 'nama_vendor', 'tanggal_po', 'selected', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'harga_akhir', 'ckelola'])
                     ->make(true);
             } else {
-                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -1436,8 +1425,7 @@ class AdminSpvApController extends Controller
     }
     public function kirim_epicor_gb($id)
     {
-        $get_id = DB::table('penerimaan_po')
-            ->where('id_penerimaan_po', $id)
+        $get_id = PenerimaanPO::where('id_penerimaan_po', $id)
             ->first();
         // dd($get_id->PONum);
         //  Integrasi Epicor
@@ -1468,12 +1456,11 @@ class AdminSpvApController extends Controller
     }
     public function kirim_epicor_pk($id)
     {
-        $get_id = DB::table('penerimaan_po')
-            ->where('id_penerimaan_po', $id)
+        $get_id = PenerimaanPO::where('id_penerimaan_po', $id)
             ->first();
         // dd($get_id->PONum);
         //  Integrasi Epicor
-        $update_status_penerimaan_po = DB::table('penerimaan_po')->where('id_penerimaan_po', $id)
+        $update_status_penerimaan_po = PenerimaanPO::where('id_penerimaan_po', $id)
             ->update(['status_epicor' => '1']);
         $client = new \GuzzleHttp\Client();
         $url = 'http://34.34.222.145:2022/api/PO/ApprovalPO?PONum=' . $get_id->penerimaan_po_num;
@@ -1619,7 +1606,7 @@ class AdminSpvApController extends Controller
             $promise->then(
                 function (Response $response) use ($get) {
                     echo $response = $response->getBody()->getContents();
-                    $get_id = DB::table('penerimaan_po')->where('penerimaan_po_num', $get)->update(['status_epicor' => '1']);
+                    $get_id = PenerimaanPO::where('penerimaan_po_num', $get)->update(['status_epicor' => '1']);
 
                     $log                               = new LogAktivitySpvAp();
                     $log->nama_user                    = Auth::guard('spvap')->user()->name_spv_ap;

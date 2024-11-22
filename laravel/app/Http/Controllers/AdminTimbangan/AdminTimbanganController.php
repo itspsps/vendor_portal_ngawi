@@ -62,9 +62,9 @@ class AdminTimbanganController extends Controller
         // $oke = json_encode($array);
         // dd($array);
         if ($fieldType == "username") {
-            $data = DB::table('admins_timbangan')->where('username', $array)->first();
+            $data = AdminTimbangan::where('username', $array)->first();
         } else {
-            $data = DB::table('admins_timbangan')->where('email', $array)->first();
+            $data = AdminTimbangan::where('email', $array)->first();
         }
         if (Auth::guard('timbangan')->attempt(array($fieldType => $request->username, 'password' => $request->password))) {
             Alert::success('Berhasil', 'Selamat Datang ' . $data->name_admin_timbangan);
@@ -88,7 +88,7 @@ class AdminTimbanganController extends Controller
     public function timbangan_awal_gb_ciherang_index()
     {
 
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -140,7 +140,7 @@ class AdminTimbanganController extends Controller
     public function timbangan_awal_gb_longgrain_index()
     {
 
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -193,7 +193,7 @@ class AdminTimbanganController extends Controller
     public function timbangan_awal_gb_pandan_wangi_index()
     {
 
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -246,7 +246,7 @@ class AdminTimbanganController extends Controller
     public function timbangan_awal_gb_ketan_putih_index()
     {
 
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -299,7 +299,7 @@ class AdminTimbanganController extends Controller
     public function timbangan_awal_pk_index()
     {
 
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -357,8 +357,7 @@ class AdminTimbanganController extends Controller
 
     public function show_antrian_timbangan_masuk($id)
     {
-        $show_data = DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $show_data = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->where('data_po.status_bid', 8)
@@ -375,7 +374,7 @@ class AdminTimbanganController extends Controller
     public function data_timbangan_awal_gb_ciherang_index()
     {
 
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins_timbangan', 'admins_timbangan.id_admin_timbangan', '=', 'penerimaan_po.penerima_tonase_awal')
@@ -433,7 +432,7 @@ class AdminTimbanganController extends Controller
     public function data_timbangan_awal_gb_longgrain_index()
     {
 
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins_timbangan', 'admins_timbangan.id_admin_timbangan', '=', 'penerimaan_po.penerima_tonase_awal')
@@ -491,7 +490,7 @@ class AdminTimbanganController extends Controller
     public function data_timbangan_awal_gb_pandan_wangi_index()
     {
 
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins_timbangan', 'admins_timbangan.id_admin_timbangan', '=', 'penerimaan_po.penerima_tonase_awal')
@@ -549,7 +548,7 @@ class AdminTimbanganController extends Controller
     public function data_timbangan_awal_gb_ketan_putih_index()
     {
 
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins_timbangan', 'admins_timbangan.id_admin_timbangan', '=', 'penerimaan_po.penerima_tonase_awal')
@@ -606,7 +605,7 @@ class AdminTimbanganController extends Controller
     }
     public function data_timbangan_awal_pk_index()
     {
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins_timbangan', 'admins_timbangan.id_admin_timbangan', '=', 'penerimaan_po.penerima_tonase_awal')
@@ -747,19 +746,18 @@ class AdminTimbanganController extends Controller
 
     public function show_timbangan_akhir($id)
     {
-        $show_data = DB::table('penerimaan_po')
-            ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'penerimaan_po.penerimaan_kode_po')
+        $show_data = PenerimaanPO::join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'penerimaan_po.penerimaan_kode_po')
             ->where('id_penerimaan_po', $id)
             ->count();
         // dd($show_data);
         if ($show_data == '0') {
-            $data = DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+            $data = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                 ->join('users', 'users.id', '=', 'data_po.user_idbid')
                 ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                 ->where('id_penerimaan_po', $id)
                 ->first();
         } else {
-            $data = DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+            $data = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                 ->join('users', 'users.id', '=', 'data_po.user_idbid')
                 ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                 ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'penerimaan_po.penerimaan_kode_po')
@@ -771,16 +769,14 @@ class AdminTimbanganController extends Controller
 
     public function cetak_penerimaanpo($id)
     {
-        $params = DB::table('penerimaan_po')
-            ->join('data_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
+        $params = PenerimaanPO::join('data_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'user_idbid')
             ->join('lab1_gb', 'lab1_gb.lab1_id_penerimaan_po_gb', '=', 'penerimaan_po.id_penerimaan_po')
             ->join('data_qc_bongkar', 'penerimaan_po.penerimaan_kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')
             ->where('penerimaan_po.id_penerimaan_po', $id)
             ->first();
-        $data = DB::table('penerimaan_po')
-            ->join('data_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
+        $data = PenerimaanPO::join('data_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'user_idbid')
             ->join('lab1_gb', 'lab1_gb.lab1_id_penerimaan_po_gb', '=', 'penerimaan_po.id_penerimaan_po')
@@ -805,16 +801,14 @@ class AdminTimbanganController extends Controller
     }
     public function cetak_penerimaanpo_pk($id)
     {
-        $params = DB::table('penerimaan_po')
-            ->join('data_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
+        $params = PenerimaanPO::join('data_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'user_idbid')
             ->join('lab1_pk', 'lab1_pk.lab1_id_penerimaan_po_pk', '=', 'penerimaan_po.id_penerimaan_po')
             ->join('data_qc_bongkar', 'penerimaan_po.penerimaan_kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')
             ->where('penerimaan_po.id_penerimaan_po', $id)
             ->first();
-        $data = DB::table('penerimaan_po')
-            ->join('data_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
+        $data = PenerimaanPO::join('data_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'user_idbid')
             ->join('lab1_pk', 'lab1_pk.lab1_id_penerimaan_po_pk', '=', 'penerimaan_po.id_penerimaan_po')
@@ -839,16 +833,14 @@ class AdminTimbanganController extends Controller
     }
     public function cetak_penerimaanpo_2($id)
     {
-        $params = DB::table('penerimaan_po')
-            ->join('data_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
+        $params = PenerimaanPO::join('data_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'user_idbid')
             ->join('lab1_gb', 'lab1_gb.lab1_id_penerimaan_po_gb', '=', 'penerimaan_po.id_penerimaan_po')
             ->join('data_qc_bongkar', 'penerimaan_po.penerimaan_kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')
             ->where('penerimaan_po.id_penerimaan_po', $id)
             ->first();
-        $data = DB::table('penerimaan_po')
-            ->join('data_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
+        $data = PenerimaanPO::join('data_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'user_idbid')
             ->join('lab1_gb', 'lab1_gb.lab1_id_penerimaan_po_gb', '=', 'penerimaan_po.id_penerimaan_po')
@@ -873,16 +865,14 @@ class AdminTimbanganController extends Controller
     }
     public function cetak_penerimaanpo2_pk($id)
     {
-        $params = DB::table('penerimaan_po')
-            ->join('data_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
+        $params = PenerimaanPO::join('data_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'user_idbid')
             ->join('lab1_pk', 'lab1_pk.lab1_id_penerimaan_po_pk', '=', 'penerimaan_po.id_penerimaan_po')
             ->join('data_qc_bongkar', 'penerimaan_po.penerimaan_kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')
             ->where('penerimaan_po.id_penerimaan_po', $id)
             ->first();
-        $data = DB::table('penerimaan_po')
-            ->join('data_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
+        $data = PenerimaanPO::join('data_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'user_idbid')
             ->join('lab1_pk', 'lab1_pk.lab1_id_penerimaan_po_pk', '=', 'penerimaan_po.id_penerimaan_po')
@@ -908,8 +898,7 @@ class AdminTimbanganController extends Controller
     public function terima_tonase_akhir(Request $request)
     {
         $tgl_po = \Carbon\Carbon::parse($request->tanggal_po)->format('m.y');
-        $hitung = DB::table('penerimaan_po')
-            ->where('status_penerimaan', '!=', '16')
+        $hitung = PenerimaanPO::where('status_penerimaan', '!=', '16')
             ->where('form_tonase_akhir', '!=', NULL)
             ->count();
         $count = $hitung + 1;
@@ -1108,15 +1097,13 @@ class AdminTimbanganController extends Controller
         if (request()->ajax()) {
 
             if (!empty($request->mulai_date)) {
-                $data_utara = DB::table('data_po')
-                    ->join('data_qc_bongkar', 'data_qc_bongkar.kode_po_bongkar', '=', 'data_po.kode_po')
+                $data_utara = DataPO::join('data_qc_bongkar', 'data_qc_bongkar.kode_po_bongkar', '=', 'data_po.kode_po')
                     ->join('penerimaan_po', 'data_po.id_data_po', '=', 'penerimaan_po.penerimaan_id_data_po')
                     ->whereBetween('data_po.tanggal_po', array($request->mulai_date, $request->akhir_date))
                     ->where('data_qc_bongkar.tempat_bongkar', 'UTARA')
                     ->select(DB::raw("data_po.tanggal_po, SUM(netto2) as total_tonase"))
                     ->get();
-                $data_selatan = DB::table('data_po')
-                    ->join('data_qc_bongkar', 'data_qc_bongkar.kode_po_bongkar', '=', 'data_po.kode_po')
+                $data_selatan = DataPO::join('data_qc_bongkar', 'data_qc_bongkar.kode_po_bongkar', '=', 'data_po.kode_po')
                     ->join('penerimaan_po', 'data_po.id_data_po', '=', 'penerimaan_po.penerimaan_id_data_po')
                     ->whereBetween('data_po.tanggal_po', array($request->mulai_date, $request->akhir_date))
                     ->where('data_qc_bongkar.tempat_bongkar', 'SELATAN')
@@ -1149,8 +1136,7 @@ class AdminTimbanganController extends Controller
         if (request()->ajax()) {
 
             if (!empty($request->from_date)) {
-                return Datatables::of(DB::table('data_po')
-                    ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('data_qc_bongkar', 'data_qc_bongkar.kode_po_bongkar', '=', 'data_po.kode_po')
@@ -1211,8 +1197,7 @@ class AdminTimbanganController extends Controller
                     ->rawColumns(['kode_po', 'nama_vendor', 'plat_kendaraan', 'name_bid', 'tanggal_po', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'rafraksi', 'ckelola'])
                     ->make(true);
             } else {
-                return Datatables::of(DB::table('data_po')
-                    ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('data_qc_bongkar', 'data_qc_bongkar.kode_po_bongkar', '=', 'data_po.kode_po')
@@ -1271,8 +1256,7 @@ class AdminTimbanganController extends Controller
         if (request()->ajax()) {
 
             if (!empty($request->from_date)) {
-                return Datatables::of(DB::table('data_po')
-                    ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('data_qc_bongkar', 'data_qc_bongkar.kode_po_bongkar', '=', 'data_po.kode_po')
@@ -1325,8 +1309,7 @@ class AdminTimbanganController extends Controller
                     ->rawColumns(['kode_po', 'name_bid', 'nama_vendor', 'plat_kendaraan', 'tanggal_po', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'rafraksi', 'ckelola'])
                     ->make(true);
             } else {
-                return Datatables::of(DB::table('data_po')
-                    ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('data_qc_bongkar', 'data_qc_bongkar.kode_po_bongkar', '=', 'data_po.kode_po')
@@ -1385,8 +1368,7 @@ class AdminTimbanganController extends Controller
         if (request()->ajax()) {
 
             if (!empty($request->from_date)) {
-                return Datatables::of(DB::table('data_po')
-                    ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('data_qc_bongkar', 'data_qc_bongkar.kode_po_bongkar', '=', 'data_po.kode_po')
@@ -1447,8 +1429,7 @@ class AdminTimbanganController extends Controller
                     ->rawColumns(['kode_po', 'nama_vendor', 'plat_kendaraan', 'name_bid', 'tanggal_po', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'rafraksi', 'ckelola'])
                     ->make(true);
             } else {
-                return Datatables::of(DB::table('data_po')
-                    ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('data_qc_bongkar', 'data_qc_bongkar.kode_po_bongkar', '=', 'data_po.kode_po')
@@ -1507,8 +1488,7 @@ class AdminTimbanganController extends Controller
         if (request()->ajax()) {
 
             if (!empty($request->from_date)) {
-                return Datatables::of(DB::table('data_po')
-                    ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('data_qc_bongkar', 'data_qc_bongkar.kode_po_bongkar', '=', 'data_po.kode_po')
@@ -1569,8 +1549,7 @@ class AdminTimbanganController extends Controller
                     ->rawColumns(['kode_po', 'nama_vendor', 'plat_kendaraan', 'name_bid', 'tanggal_po', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'rafraksi', 'ckelola'])
                     ->make(true);
             } else {
-                return Datatables::of(DB::table('data_po')
-                    ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('data_qc_bongkar', 'data_qc_bongkar.kode_po_bongkar', '=', 'data_po.kode_po')
@@ -1629,8 +1608,7 @@ class AdminTimbanganController extends Controller
         if (request()->ajax()) {
 
             if (!empty($request->from_date)) {
-                return Datatables::of(DB::table('data_po')
-                    ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('data_qc_bongkar', 'data_qc_bongkar.kode_po_bongkar', '=', 'data_po.kode_po')
@@ -1691,8 +1669,7 @@ class AdminTimbanganController extends Controller
                     ->rawColumns(['kode_po', 'nama_vendor', 'plat_kendaraan', 'name_bid', 'tanggal_po', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'rafraksi', 'ckelola'])
                     ->make(true);
             } else {
-                return Datatables::of(DB::table('data_po')
-                    ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('data_qc_bongkar', 'data_qc_bongkar.kode_po_bongkar', '=', 'data_po.kode_po')
@@ -1762,8 +1739,7 @@ class AdminTimbanganController extends Controller
     public function data_revisi_timbangan_longgrain_index(Request $request)
     {
 
-        return Datatables::of(DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->where('penerimaan_po.tonase_akhir', '!=', NULL)
@@ -1823,8 +1799,7 @@ class AdminTimbanganController extends Controller
     public function data_revisi_timbangan_ciherang_index(Request $request)
     {
 
-        return Datatables::of(DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->where('penerimaan_po.tonase_akhir', '!=', NULL)
@@ -1884,8 +1859,7 @@ class AdminTimbanganController extends Controller
     public function data_revisi_timbangan_pandan_wangi_index(Request $request)
     {
 
-        return Datatables::of(DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->where('penerimaan_po.tonase_akhir', '!=', NULL)
@@ -1945,8 +1919,7 @@ class AdminTimbanganController extends Controller
     public function data_revisi_timbangan_ketan_putih_index(Request $request)
     {
 
-        return Datatables::of(DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->where('penerimaan_po.tonase_akhir', '!=', NULL)
@@ -2005,8 +1978,7 @@ class AdminTimbanganController extends Controller
     }
     public function show_timbangan_revisi($id)
     {
-        $show_data = DB::table('penerimaan_po')
-            ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'penerimaan_po.penerimaan_kode_po')
+        $show_data = PenerimaanPO::join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'penerimaan_po.penerimaan_kode_po')
             ->where('penerimaan_po.id_penerimaan_po', $id)
             ->first();
         return json_encode($show_data);
@@ -2052,8 +2024,7 @@ class AdminTimbanganController extends Controller
     }
     public function timbangan_akhir_gb_ciherang_index()
     {
-        return Datatables::of(DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins_timbangan', 'admins_timbangan.id_admin_timbangan', '=', 'penerimaan_po.penerima_tonase_awal')
@@ -2111,8 +2082,7 @@ class AdminTimbanganController extends Controller
     }
     public function timbangan_akhir_gb_longgrain_index()
     {
-        return Datatables::of(DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('data_qc_bongkar', 'data_qc_bongkar.kode_po_bongkar', '=', 'data_po.kode_po')
@@ -2169,8 +2139,7 @@ class AdminTimbanganController extends Controller
     }
     public function timbangan_akhir_gb_pandan_wangi_index()
     {
-        return Datatables::of(DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins_timbangan', 'admins_timbangan.id_admin_timbangan', '=', 'penerimaan_po.penerima_tonase_awal')
@@ -2228,8 +2197,7 @@ class AdminTimbanganController extends Controller
     }
     public function timbangan_akhir_gb_ketan_putih_index()
     {
-        return Datatables::of(DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins_timbangan', 'admins_timbangan.id_admin_timbangan', '=', 'penerimaan_po.penerima_tonase_awal')
@@ -2287,8 +2255,7 @@ class AdminTimbanganController extends Controller
     }
     public function timbangan_akhir_pk_index()
     {
-        return Datatables::of(DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins_timbangan', 'admins_timbangan.id_admin_timbangan', '=', 'penerimaan_po.penerima_tonase_awal')

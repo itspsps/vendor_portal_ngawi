@@ -14,6 +14,7 @@ use DB;
 use App\Models\Notif;
 use Carbon\Carbon;
 use App\Models\AdminAP;
+use App\Models\DataPO;
 use App\Models\LogAktivityAp;
 use App\Models\NotifAp;
 use App\Models\NotifSpvap;
@@ -53,9 +54,9 @@ class AdminAPController extends Controller
         // $oke = json_encode($array);
         // dd($array);
         if ($fieldType == "username") {
-            $data = DB::table('admins_ap')->where('username', $array)->first();
+            $data = AdminAP::where('username', $array)->first();
         } else {
-            $data = DB::table('admins_ap')->where('email', $array)->first();
+            $data = AdminAP::where('email', $array)->first();
         }
         if (Auth::guard('ap')->attempt(array($fieldType => $request->username, 'password' => $request->password))) {
             Alert::success('Berhasil', 'Selamat Datang ' . $data->name_ap);
@@ -166,14 +167,7 @@ class AdminAPController extends Controller
     }
     public function potong_pajak_index()
     {
-        // dd(DB::table('data_po')
-        //     ->join('users', 'users.id', 'data_po.user_idbid')
-        //     ->where('data_po.status_bid', '!=', '5')
-        //     ->groupBy('data_po.user_idbid')
-        //     ->get());
-        // dd($previousmonth);
-        return Datatables::of(DB::table('data_po')
-            ->join('users', 'users.id', 'data_po.user_idbid')
+        return Datatables::of(DataPO::join('users', 'users.id', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', 'data_po.id_data_po')
             // ->leftjoin('potong_pajak', 'potong_pajak.potong_pajak_id_user', 'users.id')
             ->where('data_po.status_bid', '!=', '5')
@@ -231,7 +225,7 @@ class AdminAPController extends Controller
     }
     public function potong_pajak1_index()
     {
-        // dd(DB::table('data_po')
+        // dd(DataPO::
         //     ->join('users', 'users.id', 'data_po.user_idbid')
         //     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', 'data_po.id_data_po')
         //     // ->leftjoin('potong_pajak', 'potong_pajak.potong_pajak_id_user', 'users.id')
@@ -240,8 +234,7 @@ class AdminAPController extends Controller
         //     ->groupBy('data_po.user_idbid')
         //     ->selectRaw('users.id,users.nama_vendor,COUNT(*) AS total_po')
         //     ->get());
-        return Datatables::of(DB::table('data_po')
-            ->join('users', 'users.id', 'data_po.user_idbid')
+        return Datatables::of(DataPO::join('users', 'users.id', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', 'data_po.id_data_po')
             // ->leftjoin('potong_pajak', 'potong_pajak.potong_pajak_id_user', 'users.id')
             ->where('data_po.status_bid', '!=', '5')
@@ -315,8 +308,7 @@ class AdminAPController extends Controller
 
     public function data_pembelian_gb_ciherang_index()
     {
-        return Datatables::of(DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -412,8 +404,7 @@ class AdminAPController extends Controller
     }
     public function data_pembelian_gb_longgrain_index()
     {
-        return Datatables::of(DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -510,7 +501,7 @@ class AdminAPController extends Controller
     }
     public function data_pembelian_gb_longgrain1_index()
     {
-        // $data = DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        // $data = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
         //     ->join('users', 'users.id', '=', 'data_po.user_idbid')
         //     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
         //     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -523,7 +514,7 @@ class AdminAPController extends Controller
         //     ->orderby('id_penerimaan_po', 'desc')
         //     ->get();
         // dd($data);
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -620,7 +611,7 @@ class AdminAPController extends Controller
     }
     public function getcount_verifikasi()
     {
-        $data_verifikasi = DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $data_verifikasi = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -631,7 +622,7 @@ class AdminAPController extends Controller
             ->where('penerimaan_po.analisa', NULL)
             ->orderby('id_penerimaan_po', 'desc')
             ->count();
-            $data_verified = DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+            $data_verified = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                 ->join('users', 'users.id', '=', 'data_po.user_idbid')
                 ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                 ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -647,7 +638,7 @@ class AdminAPController extends Controller
 
     public function data_pembelian_gb_ketan_putih_index()
     {
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -743,7 +734,7 @@ class AdminAPController extends Controller
     }
     public function data_pembelian_pk_index()
     {
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -821,7 +812,7 @@ class AdminAPController extends Controller
 
     public function data_pembelian_show($id)
     {
-        $data = DB::table('penerimaan_po')->where('id_penerimaan_po', $id)->first();
+        $data = PenerimaanPO::where('id_penerimaan_po', $id)->first();
         return json_encode($data);
     }
 
@@ -913,7 +904,7 @@ class AdminAPController extends Controller
 
     public function revisi_data_gb_index()
     {
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -1017,7 +1008,7 @@ class AdminAPController extends Controller
 
     public function revisi_data_pk_index()
     {
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -1090,7 +1081,7 @@ class AdminAPController extends Controller
 
     public function integrasi_epicor_gb_index()
     {
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -1160,7 +1151,7 @@ class AdminAPController extends Controller
 
     public function integrasi_epicor_pk_index()
     {
-        return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -1226,8 +1217,7 @@ class AdminAPController extends Controller
     }
     public function Kirim_epicor_gb($id)
     {
-        $get_id = DB::table('penerimaan_po')
-            ->join('data_po', 'data_po.id_data_po', 'penerimaan_po.penerimaan_id_data_po')
+        $get_id = PenerimaanPO::join('data_po', 'data_po.id_data_po', 'penerimaan_po.penerimaan_id_data_po')
             ->where('penerimaan_po.id_penerimaan_po', $id)
             ->first();
         // dd($get_id);
@@ -1237,13 +1227,12 @@ class AdminAPController extends Controller
         $response = $client->get($url);
         $response = $response->getBody()->getContents();
         // dd($response); 
-        $update_status_penerimaan_po = DB::table('penerimaan_po')->where('id_penerimaan_po', $id)
+        $update_status_penerimaan_po = PenerimaanPO::where('id_penerimaan_po', $id)
             ->update(['status_epicor' => '1']);
     }
     public function Kirim_epicor_pk($id)
     {
-        $get_id = DB::table('penerimaan_po')
-            ->join('data_po', 'data_po.id_data_po', 'penerimaan_po.penerimaan_id_data_po')
+        $get_id = PenerimaanPO::join('data_po', 'data_po.id_data_po', 'penerimaan_po.penerimaan_id_data_po')
             ->where('penerimaan_po.id_penerimaan_po', $id)
             ->first();
         // dd($get_id);
@@ -1253,7 +1242,7 @@ class AdminAPController extends Controller
         $response = $client->get($url);
         $response = $response->getBody()->getContents();
         // dd($response); 
-        $update_status_penerimaan_po = DB::table('penerimaan_po')->where('id_penerimaan_po', $id)
+        $update_status_penerimaan_po = PenerimaanPO::where('id_penerimaan_po', $id)
             ->update(['status_epicor' => '1']);
     }
     public function get_notifikasiap()

@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use DataTables;
 use App\Models\BidUser;
+use App\Models\DataPO;
 use DateTime;
 use App\Models\Province;
 use App\Models\Regency;
@@ -21,6 +22,7 @@ use App\Models\Lab1GabahBasah;
 use App\Models\LogAktivitySourching;
 use App\Models\LogAktivityUser;
 use App\Models\NotifSourching;
+use App\Models\PenerimaanPO;
 use App\Models\trackerPO;
 use App\Models\Village;
 use Illuminate\Support\Str;
@@ -273,8 +275,7 @@ class UserController extends Controller
 
         $date = date('Y-m-d');
         $id = Auth::user()->id;
-        $getcount_transaksi    = DB::table('data_po')
-            ->leftjoin('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $getcount_transaksi    = DataPO::leftjoin('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->leftjoin('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->leftjoin('bid_user', 'data_po.bid_user_id', '=', 'bid_user.id_biduser')
             ->leftjoin('users', 'users.id', '=', 'data_po.user_idbid')
@@ -298,8 +299,7 @@ class UserController extends Controller
     {
         $date = date('Y-m-d');
         $id = Auth::user()->id;
-        $data    = DB::table('data_po')
-            ->leftjoin('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $data    = DataPO::leftjoin('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->leftjoin('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->leftjoin('bid_user', 'data_po.bid_user_id', '=', 'bid_user.id_biduser')
             ->leftjoin('users', 'users.id', '=', 'data_po.user_idbid')
@@ -465,8 +465,7 @@ class UserController extends Controller
         }
         if (Auth()->user()) {
             $id = Auth::user()->id;
-            $count_transaksi = DB::table('data_po')
-                ->leftjoin('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+            $count_transaksi = DataPO::leftjoin('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                 ->leftjoin('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                 ->leftjoin('bid_user', 'data_po.bid_user_id', '=', 'bid_user.id_biduser')
                 ->leftjoin('users', 'users.id', '=', 'data_po.user_idbid')
@@ -702,8 +701,7 @@ class UserController extends Controller
         $date = date('Y-m-d');
         if (Auth()->user()) {
             $id = Auth::user()->id;
-            $data_pengajuan  = DB::table('data_po')
-                ->leftjoin('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+            $data_pengajuan  = DataPO::leftjoin('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                 ->leftjoin('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                 ->leftjoin('bid_user', 'data_po.bid_user_id', '=', 'bid_user.id_biduser')
                 ->leftjoin('users', 'users.id', '=', 'data_po.user_idbid')
@@ -875,8 +873,7 @@ class UserController extends Controller
     public function lihat_po($id)
     {
         $iduser = Auth::user()->id;
-        $data = DB::table('data_po')
-            ->join('approve_bid', 'data_po.id_approvebid', '=', 'approve_bid.id_approvebid')
+        $data = DataPO::join('approve_bid', 'data_po.id_approvebid', '=', 'approve_bid.id_approvebid')
             ->where('data_po.id_approvebid', $id)
             ->first();
         // dd($data);
@@ -895,8 +892,7 @@ class UserController extends Controller
 
     public function data_list_po($id)
     {
-        $data = DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $data = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->leftjoin('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->leftjoin('bid_user', 'data_po.bid_user_id', '=', 'bid_user.id_biduser')
@@ -932,13 +928,11 @@ class UserController extends Controller
             $data->status_approved = '1';
             $data->update();
 
-            $data1 = DB::table('data_po')
-                ->where('id_data_po', $request->id_datapo)
+            $data1 = DataPO::where('id_data_po', $request->id_datapo)
                 ->update([
                     'status_bid' => '7',
                 ]);
-            $data2 = DB::table('penerimaan_po')
-                ->where('penerimaan_id_data_po', $request->id_datapo)
+            $data2 = PenerimaanPO::where('penerimaan_id_data_po', $request->id_datapo)
                 ->update([
                     'status_penerimaan' => '7',
                 ]);
@@ -971,13 +965,11 @@ class UserController extends Controller
             $data->status_approved = '0';
             $data->update();
 
-            $data1 = DB::table('data_po')
-                ->where('id_data_po', $request->id_datapo)
+            $data1 = DataPO::where('id_data_po', $request->id_datapo)
                 ->update([
                     'status_bid' => '5',
                 ]);
-            $data2 = DB::table('penerimaan_po')
-                ->where('penerimaan_id_data_po', $request->id_datapo)
+            $data2 = PenerimaanPO::where('penerimaan_id_data_po', $request->id_datapo)
                 ->update([
                     'status_penerimaan' => '5',
                 ]);
@@ -1003,13 +995,11 @@ class UserController extends Controller
     }
     public function cetak_po($id)
     {
-        $params = DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $params = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'user_idbid')
             ->where('id_data_po', $id)
             ->first();
-        $data = DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $data = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'user_idbid')
             ->where('id_data_po', $id)
             ->get();
@@ -1029,8 +1019,7 @@ class UserController extends Controller
 
     public function scan_po($id)
     {
-        $data = DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $data = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'user_idbid')
             ->where('id_data_po', $id)
             ->first();

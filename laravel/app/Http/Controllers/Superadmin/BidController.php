@@ -14,12 +14,14 @@ use App\Models\Transaksi;
 use App\Models\DataPO;
 use App\Models\HargaAtas;
 use App\Models\HargaBawah;
+use App\Models\Item;
 use App\Models\Lab1GabahBasah;
 use App\Models\LogAktivitySourching;
 use App\Models\Notif;
 use App\Models\NotifSecurity;
 use App\Models\PotonganBongkarGt04;
 use App\Models\trackerPO;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
@@ -104,8 +106,7 @@ class BidController extends Controller
                         }
                     })
                     ->addColumn('list_po', function ($list) {
-                        $data_count = DB::table('data_po')
-                            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                        $data_count = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                             ->join('users', 'users.id', '=', 'data_po.user_idbid')
                             ->where('data_po.bid_id', $list->id_bid)
                             ->count();
@@ -149,7 +150,7 @@ class BidController extends Controller
                         if (is_null($list->image_bid)) {
                             return '
                             <img src="' . $img . '" width="100px"/>
-                        '; 
+                        ';
                         } else
                             return '
                             <img src="' . $img . '" width="100px"/>
@@ -160,8 +161,7 @@ class BidController extends Controller
                         return $result;
                     })
                     ->addColumn('response', function ($list) {
-                        $data_count = DB::table('bid_user')
-                            ->join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
+                        $data_count = BidUser::join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
                             ->join('users', 'id', '=', 'bid_user.user_id')
                             ->where('id_bid', $list->id_bid)
                             ->where('status_biduser', 0)
@@ -265,8 +265,7 @@ class BidController extends Controller
                         }
                     })
                     ->addColumn('list_po', function ($list) {
-                        $data_count = DB::table('data_po')
-                            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                        $data_count = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                             ->join('users', 'users.id', '=', 'data_po.user_idbid')
                             ->where('data_po.bid_id', $list->id_bid)
                             ->count();
@@ -321,8 +320,7 @@ class BidController extends Controller
                         return $result;
                     })
                     ->addColumn('response', function ($list) {
-                        $data_count = DB::table('bid_user')
-                            ->join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
+                        $data_count = BidUser::join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
                             ->join('users', 'id', '=', 'bid_user.user_id')
                             ->where('id_bid', $list->id_bid)
                             ->where('status_biduser', 0)
@@ -429,8 +427,7 @@ class BidController extends Controller
                         }
                     })
                     ->addColumn('list_po', function ($list) {
-                        $data_count = DB::table('data_po')
-                            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                        $data_count = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                             ->join('users', 'users.id', '=', 'data_po.user_idbid')
                             ->where('data_po.bid_id', $list->id_bid)
                             ->count();
@@ -485,8 +482,7 @@ class BidController extends Controller
                         return $result;
                     })
                     ->addColumn('response', function ($list) {
-                        $data_count = DB::table('bid_user')
-                            ->join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
+                        $data_count = BidUser::join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
                             ->join('users', 'id', '=', 'bid_user.user_id')
                             ->where('id_bid', $list->id_bid)
                             ->where('status_biduser', 0)
@@ -584,8 +580,7 @@ class BidController extends Controller
                         }
                     })
                     ->addColumn('list_po', function ($list) {
-                        $data_count = DB::table('data_po')
-                            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                        $data_count = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                             ->join('users', 'users.id', '=', 'data_po.user_idbid')
                             ->where('data_po.bid_id', $list->id_bid)
                             ->count();
@@ -640,8 +635,7 @@ class BidController extends Controller
                         return $result;
                     })
                     ->addColumn('response', function ($list) {
-                        $data_count = DB::table('bid_user')
-                            ->join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
+                        $data_count = BidUser::join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
                             ->join('users', 'id', '=', 'bid_user.user_id')
                             ->where('id_bid', $list->id_bid)
                             ->where('status_biduser', 0)
@@ -748,8 +742,7 @@ class BidController extends Controller
                         }
                     })
                     ->addColumn('list_po', function ($list) {
-                        $data_count = DB::table('data_po')
-                            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                        $data_count = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                             ->join('users', 'users.id', '=', 'data_po.user_idbid')
                             ->where('data_po.bid_id', $list->id_bid)
                             ->count();
@@ -804,8 +797,7 @@ class BidController extends Controller
                         return $result;
                     })
                     ->addColumn('response', function ($list) {
-                        $data_count = DB::table('bid_user')
-                            ->join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
+                        $data_count = BidUser::join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
                             ->join('users', 'id', '=', 'bid_user.user_id')
                             ->where('id_bid', $list->id_bid)
                             ->where('status_biduser', 0)
@@ -903,8 +895,7 @@ class BidController extends Controller
                         }
                     })
                     ->addColumn('list_po', function ($list) {
-                        $data_count = DB::table('data_po')
-                            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                        $data_count = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                             ->join('users', 'users.id', '=', 'data_po.user_idbid')
                             ->where('data_po.bid_id', $list->id_bid)
                             ->count();
@@ -959,8 +950,7 @@ class BidController extends Controller
                         return $result;
                     })
                     ->addColumn('response', function ($list) {
-                        $data_count = DB::table('bid_user')
-                            ->join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
+                        $data_count = BidUser::join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
                             ->join('users', 'id', '=', 'bid_user.user_id')
                             ->where('id_bid', $list->id_bid)
                             ->where('status_biduser', 0)
@@ -1003,18 +993,8 @@ class BidController extends Controller
     }
     public function data_list_index($id_bid)
     {
-        // dd(
-        //     DB::table('data_po')
-        //         ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-        //         ->join('bid_user', 'bid_user.id_biduser', '=', 'data_po.bid_user_id')
-        //         ->join('users', 'users.id', '=', 'data_po.user_idbid')
-        //         ->join('item', 'bid.name_bid', '=', 'item.nama_item')
-        //         ->join('pemasok', 'users.pemasok_id', '=', 'pemasok.id_pemasok')
-        //         ->where('data_po.bid_id', $id_bid)
-        //         ->get()
-        // );
-        return Datatables::of(DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('bid_user', 'bid_user.id_biduser', '=', 'data_po.bid_user_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->where('data_po.bid_id', $id_bid)
@@ -1030,10 +1010,10 @@ class BidController extends Controller
             ->addColumn('nopol', function ($list) {
                 if ($list->nopol == '') {
                     if ($list->status_bid == 5) {
-                        return '<span style="margin:2px;" class="badge badge-danger">PO CLOSE</span>';
+                        return '<span style="margin:2px;" class="btn btn-label-danger btn-sm">PO CLOSE</span>';
                     } else {
                         return '
-                        <span class="badge bg-warning text-dark">Belum Diinput Security</span>';
+                        <span class="btn btn-label-warning btn-sm"><i class="flaticon2-information"></i> Belum Diinput Security</span>';
                     }
                 } else {
                     $result = $list->nopol;
@@ -1043,34 +1023,35 @@ class BidController extends Controller
             ->addColumn('status', function ($list) {
                 if ($list->status_bid == 5) {
                     if ($list->nopol == '') {
-                        return '<span style="margin:2px;" class="badge badge-danger">PO CLOSE</span>';
+                        return '<span style="margin:2px;" class="btn btn-label-danger btn-sm">PO CLOSE</span>';
                     } else {
-                        return '<span style="margin:2px;" class="badge badge-danger">TOLAK</span>';
+                        return '<span style="margin:2px;" class="btn btn-label-danger btn-sm">TOLAK</span>';
                     }
+                    // <span class="btn btn-label-info btn-sm "><i class="flaticon2-information"></i> Pastikan Nopol Terisi Dengan Benar</span>
                 } else if ($list->status_bid == 16) {
                     return '<button type="button" id="btn_lihat_harga" data-id="' . $list->id_data_po . '" data-hp="' . $list->nomer_hp  . '" data-nopol="' . $list->nopol  . '" data-supplier="' . $list->nama_vendor  . '" data-ponum="' . $list->PONum . '"  class="btn btn-light"><span style="margin:2px;" title="Lihat Harga" class="badge badge-warning">Pending Harga</span></button>';
                 } else if ($list->status_bid == 1) {
-                    return  '<span style="margin:2px;" class="badge badge-primary">Proses&nbsp;Pengiriman</span>';
+                    return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm">Proses&nbsp;Pengiriman</span>';
                 } else if ($list->status_bid == 3) {
-                    return  '<span style="margin:2px;" class="badge badge-primary">Proses&nbsp;Lab&nbsp;1</span>';
+                    return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm">Proses&nbsp;Lab&nbsp;1</span>';
                 } else if ($list->status_bid == 6) {
-                    return  '<span style="margin:2px;" class="badge badge-primary">Selesai&nbsp;Lab1</span>';
+                    return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm">Selesai&nbsp;Lab1</span>';
                 } else if ($list->status_bid == 7) {
-                    return  '<span style="margin:2px;" class="badge badge-primary">Truk&nbsp;Parkir</span>';
+                    return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm">Truk&nbsp;Parkir</span>';
                 } else if ($list->status_bid == 8) {
-                    return  '<span style="margin:2px;" class="badge badge-primary">Timbangan&nbsp;Masuk</span>';
+                    return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm">Timbangan&nbsp;Masuk</span>';
                 } else if ($list->status_bid == 9) {
-                    return  '<span style="margin:2px;" class="badge badge-primary">Proses&nbsp;Bongkar</span>';
+                    return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm">Proses&nbsp;Bongkar</span>';
                 } else if ($list->status_bid == 10) {
-                    return  '<span style="margin:2px;" class="badge badge-primary">Timbangan&nbsp;Keluar/Lab&nbsp;2</span>';
+                    return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm">Timbangan&nbsp;Keluar/Lab&nbsp;2</span>';
                 } else if ($list->status_bid == 11) {
-                    return  '<span style="margin:2px;" class="badge badge-primary">Selesai Lab2 /Timbangan</span>';
+                    return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm">Selesai Lab2 /Timbangan</span>';
                 } else if ($list->status_bid == 12) {
-                    return  '<span style="margin:2px;" class="badge badge-primary">Pengajuan Approve SPV QC</span>';
+                    return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm">Pengajuan Approve SPV QC</span>';
                 } else if ($list->status_bid == 13) {
-                    return  '<span style="margin:2px;" class="badge badge-primary">Pembayaran</span>';
+                    return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm">Pembayaran</span>';
                 } else {
-                    return  '<span style="margin:2px;" class="badge badge-success">Bongkar</span>';
+                    return  '<span style="margin:2px;" class="btn btn-label-success btn-sm">Bongkar</span>';
                 }
             })
             ->addColumn('cetak', function ($list) {
@@ -1090,8 +1071,7 @@ class BidController extends Controller
     }
     public function data_list_pk_index($id_bid)
     {
-        return Datatables::of(DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->where('bid.name_bid', 'LIKE', '%BERAS PECAH KULIT%')
             ->where('data_po.bid_id', $id_bid)
@@ -1146,8 +1126,7 @@ class BidController extends Controller
     }
     public function data_list_ds_index($id_bid)
     {
-        return Datatables::of(DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->where('bid.name_bid', 'LIKE', '%BERAS DS%')
             ->where('data_po.bid_id', $id_bid)
@@ -1209,13 +1188,13 @@ class BidController extends Controller
 
     public function status_pending($id)
     {
-        $data = DB::table('lab1_gb')->where('lab1_id_data_po_gb', $id)->first();
+        $data = Lab1GabahBasah::where('lab1_id_data_po_gb', $id)->first();
         // dd($data);
         return json_encode($data);
     }
     public function bid_status($id_bid)
     {
-        $get = DB::table('bid')->where('id_bid', $id_bid)->first();
+        $get = Bid::where('id_bid', $id_bid)->first();
         // dd($data->name_bid);
         if ($get->bid_status == 1) {
             // insert Log Aktivity
@@ -1226,7 +1205,7 @@ class BidController extends Controller
             $data->keterangan_aktivitas              = 'Selesai';
             $data->created_at           = date('Y-m-d H:i:s');
             $data->save();
-            $data1 = DB::table('bid')->where('id_bid', $id_bid)->update(['bid_status' => 0]);
+            $data1 = Bid::where('id_bid', $id_bid)->update(['bid_status' => 0]);
             // return redirect()->back();
         } else {
             // insert Log Aktivity
@@ -1237,15 +1216,15 @@ class BidController extends Controller
             $data->keterangan_aktivitas              = 'Selesai';
             $data->created_at           = date('Y-m-d H:i:s');
             $data->save();
-            $data2 = DB::table('bid')->where('id_bid', $id_bid)->update(['bid_status' => 1]);
+            $data2 = Bid::where('id_bid', $id_bid)->update(['bid_status' => 1]);
             // return redirect()->back();
         }
     }
 
     public function add_kuota(Request $request)
     {
-        $data = DB::table('bid')->where('id_bid', $request->id)->first();
-        $query = DB::table('bid')->where('id_bid', $request->id)->update(['add_kuota' => $request->add_kuota]);
+        $data = Bid::where('id_bid', $request->id)->first();
+        $query = Bid::where('id_bid', $request->id)->update(['add_kuota' => $request->add_kuota]);
         // insert Log Aktivity
         $data = new LogAktivitySourching();
         $data->name_user    = Auth::guard('sourching')->user()->name;
@@ -1258,8 +1237,8 @@ class BidController extends Controller
     }
     public function delete_add_kuota($id)
     {
-        $data = DB::table('bid')->where('id_bid', $id)->first();
-        $query = DB::table('bid')->where('id_bid', $id)->update(['add_kuota' => NULL]);
+        $data = Bid::where('id_bid', $id)->first();
+        $query = Bid::where('id_bid', $id)->update(['add_kuota' => NULL]);
         // insert Log Aktivity
         $data = new LogAktivitySourching();
         $data->name_user    = Auth::guard('sourching')->user()->name;
@@ -1561,24 +1540,21 @@ class BidController extends Controller
     public function response($id)
     {
         $parameter = $id;
-        $cek_jumlahpengajuan = DB::table('approve_bid')
-            ->join('bid_user', 'bid_user.id_biduser', '=', 'approve_bid.bid_user_id')
+        $cek_jumlahpengajuan = ApproveBid::join('bid_user', 'bid_user.id_biduser', '=', 'approve_bid.bid_user_id')
             ->join('bid', 'bid.id_bid', '=', 'approve_bid.bid_id')
             ->where('approve_bid.bid_id', $id)
             ->where('bid_user.status_biduser', 1)
             ->sum('approve_bid.permintaan_kirim');
-        $cek_jumlahkebutuhan = DB::table('bid')->where('id_bid', $id)->first();
+        $cek_jumlahkebutuhan = Bid::where('id_bid', $id)->first();
         $kuota_sisa = ($cek_jumlahkebutuhan->jumlah + $cek_jumlahkebutuhan->add_kuota) - $cek_jumlahpengajuan * 8000;
-        $data_approve = DB::table('approve_bid')->where('bid_id', $id)->sum('permintaan_kirim');
+        $data_approve = ApproveBid::where('bid_id', $id)->sum('permintaan_kirim');
         $bid = Bid::where('id_bid', $id)->first();
-        $data_response =  DB::table('bid_user')
-            ->join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
+        $data_response =  BidUser::join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
             ->join('users', 'id', '=', 'bid_user.user_id')
             ->where('id_bid', $id)
             ->get();
         // dd($data_response);
-        $data_approved =  DB::table('bid_user')
-            ->join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
+        $data_approved =  BidUser::join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
             ->join('users', 'users.id', '=', 'bid_user.user_id')
             ->join('approve_bid', 'approve_bid.bid_user_id', '=', 'bid_user.id_biduser')
             ->where('bid.id_bid', $id)
@@ -1588,40 +1564,35 @@ class BidController extends Controller
             ->where('approve_bid.status_bid', 1)
             ->get();
         // dd($data_approved);
-        $data_return =  DB::table('bid_user')
-            ->join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
+        $data_return =  BidUser::join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
             ->join('users', 'users.id', '=', 'bid_user.user_id')
             ->join('approve_bid', 'approve_bid.bid_user_id', '=', 'bid_user.id_biduser')
             ->where('bid.id_bid', $id)
             ->where('bid_user.status_biduser', 1)
             ->where('approve_bid.status_bid', 1)
             ->get();
-        $data_disapproves =  DB::table('bid_user')
-            ->join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
+        $data_disapproves =  BidUser::join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
             ->join('users', 'id', '=', 'bid_user.user_id')
             ->where('id_bid', $id)
             ->where('status_biduser', 5)
             ->get();
-        $data_proses =  DB::table('bid_user')
-            ->join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
+        $data_proses =  BidUser::join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
             ->join('users', 'id', '=', 'bid_user.user_id')
             ->where('id_bid', $id)
             ->where('status_biduser', 0)
             ->get();
-        $data_count = DB::table('bid_user')
-            ->join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
+        $data_count = BidUser::join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
             ->join('users', 'id', '=', 'bid_user.user_id')
             ->where('id_bid', $id)
             ->where('status_biduser', 0)
             ->count();
-        $status = DB::table('approve_bid')->where('bid_id', $id)->first();
+        $status = ApproveBid::where('bid_id', $id)->first();
         return view('dashboard.superadmin.bid.dt_responbid', ['parameter' => $parameter, 'data_count' => $data_count, 'kuota_sisa' => $kuota_sisa, 'bid' => $bid, 'data_response' => $data_response, 'status' => $status, 'data_proses' => $data_proses, 'data_approved' => $data_approved, 'data_disapproves' => $data_disapproves, 'data_return' => $data_return, 'data_approve' => $data_approve]);
     }
 
     public function data_approve_index($id)
     {
-        return Datatables::of(DB::table('bid_user')
-            ->join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
+        return Datatables::of(BidUser::join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
             ->join('users', 'users.id', '=', 'bid_user.user_id')
             ->join('approve_bid', 'approve_bid.bid_user_id', '=', 'bid_user.id_biduser')
             ->where('bid.id_bid', $id)
@@ -1715,8 +1686,7 @@ class BidController extends Controller
 
     public function bid_user($id)
     {
-        $data = DB::table('bid_user')
-            ->join('users', 'users.id', '=', 'bid_user.user_id')
+        $data = BidUser::join('users', 'users.id', '=', 'bid_user.user_id')
             ->join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
             ->join('item', 'item.nama_item', '=', 'bid.name_bid')
             ->where('id_biduser', $id)->first();
@@ -1735,9 +1705,9 @@ class BidController extends Controller
     public function approve_bid(Request $request)
     {
         // dd($request->kode_item);
-        $get_partnum = DB::table('item')->where('kode_item', $request->kode_item)->first();
+        $get_partnum = Item::where('kode_item', $request->kode_item)->first();
         // dd($get_partnum->nama_item);
-        $get_user = DB::table('users')->where('id', $request->user_idbid)->first();
+        $get_user = User::where('id', $request->user_idbid)->first();
         //integrasi epicor
         //vendorvendorid = $request->user_idbid
         //partnum = $get_partnum->kode_item
@@ -1752,34 +1722,33 @@ class BidController extends Controller
 
 
 
-        $get_tanggal_po = DB::table('bid')->where('id_bid', $request->bid_id)->first();
+        $get_tanggal_po = Bid::where('id_bid', $request->bid_id)->first();
         // $kode_po_aol = 'PO.BP.' . date('m', strtotime($get_tanggal_po->open_po)) . '.' . Carbon::parse($get_tanggal_po->open_po)->format('y') . '.';
         // dd($kode_po_aol);
         $tanggal_po     = $request->tanggal_po;
-        $data = DB::table('bid_user')
-            ->where('bid_id', $request->bid_id)
+        $data = BidUser::where('bid_id', $request->bid_id)
             ->where('user_id', $request->user_idbid)
             ->where('id_biduser', $request->id_biduser)
             ->first();
 
         if ($data->status_biduser == 0) {
-            DB::table('bid_user')->where('id_biduser', $request->id_biduser)->update(['status_biduser' => $request->status_bid]);
+            BidUser::where('id_biduser', $request->id_biduser)->update(['status_biduser' => $request->status_bid]);
             $buat_po = $request->permintaan_diterima;
             // dd($buat_po);
-                        $curl = curl_init();
-                        curl_setopt_array($curl, array(
-                            CURLOPT_URL => 'https://api.fonnte.com/send',
-                            CURLOPT_RETURNTRANSFER => true,
-                            CURLOPT_ENCODING => '',
-                            CURLOPT_MAXREDIRS => 10,
-                            CURLOPT_TIMEOUT => 0,
-                            CURLOPT_FOLLOWLOCATION => true,
-                            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                            CURLOPT_CUSTOMREQUEST => 'POST',
-                            CURLOPT_POSTFIELDS => array(
-                                'target' => $get_user->nomer_hp,
-                                'message' =>
-"PEMBERITAHUAN!
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://api.fonnte.com/send',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => array(
+                    'target' => $get_user->nomer_hp,
+                    'message' =>
+                    "PEMBERITAHUAN!
 
 Hallo *$get_user->name*
 
@@ -1791,23 +1760,23 @@ Hallo *$get_user->name*
 
 Terima kasih
 _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
-'countryCode' => '62', //optional
-                            ),
-                            CURLOPT_HTTPHEADER => array(
-                                'Authorization: t37BRkrNu+4F!rUJXQdB' //change TOKEN to your actual token
-                            ),
-                        ));
+                    'countryCode' => '62', //optional
+                ),
+                CURLOPT_HTTPHEADER => array(
+                    'Authorization: t37BRkrNu+4F!rUJXQdB' //change TOKEN to your actual token
+                ),
+            ));
 
-                        $response = curl_exec($curl);
-                        if (curl_errno($curl)) {
-                            $error_msg = curl_error($curl);
-                        }
-                        curl_close($curl);
+            $response = curl_exec($curl);
+            if (curl_errno($curl)) {
+                $error_msg = curl_error($curl);
+            }
+            curl_close($curl);
 
-                        if (isset($error_msg)) {
-                            echo $error_msg;
-                        }
-                        echo $response;
+            if (isset($error_msg)) {
+                echo $error_msg;
+            }
+            echo $response;
             // Alert::success('Berhasil', 'Data anda berhasil di Simpan.', 1000);
             // return redirect()->back()->with('success', 'Data anda berhasil di Simpan.', 1000);
             if (
@@ -1829,8 +1798,8 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
 
                 for ($i = 0; $i < $buat_po; $i++) {
                     $hour = date('H');
-                    $last_id = DB::table('approve_bid')->orderBy('id_approvebid', 'DESC')->first();
-                    $antrian1 = DB::table('data_po')->where('tanggal_po', $request->tanggal_po)->count();
+                    $last_id = ApproveBid::orderBy('id_approvebid', 'DESC')->first();
+                    $antrian1 = DataPO::where('tanggal_po', $request->tanggal_po)->count();
                     $antrian1 = ($antrian1 + 1);
                     if (strlen((string) $antrian1) == 1) {
                         // dd('1');
@@ -2118,8 +2087,8 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
                 $pesan->save();
                 for ($i = 0; $i < $buat_po; $i++) {
                     $hour = date('H');
-                    $last_id = DB::table('approve_bid')->orderBy('id_approvebid', 'DESC')->first();
-                    $antrian1 = DB::table('data_po')->where('tanggal_po', $request->tanggal_po)->count();
+                    $last_id = ApproveBid::orderBy('id_approvebid', 'DESC')->first();
+                    $antrian1 = DataPO::where('tanggal_po', $request->tanggal_po)->count();
                     $antrian1 = ($antrian1 + 1);
                     if (strlen((string) $antrian1) == 1) {
                         $antrian1 = '00' . ($antrian1);
@@ -2342,7 +2311,7 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
             return redirect()->back()->with('success', 'Data anda berhasil di Simpan.', 1000);
             // die();
         } elseif ($data->status_biduser == 1) {
-            $a = DB::table('bid_user')->where('id_biduser', $request->id_biduser)->update(['status_biduser' => 3]);
+            $a = BidUser::where('id_biduser', $request->id_biduser)->update(['status_biduser' => 3]);
             $b = new Transaksi();
             $c = DB::table('transaksi')->orderBy('id_transaksi', 'DESC')->first();
             $kode = $c->id_transaksi + 1 . '-' . $request->kode_transaksi;
@@ -2370,13 +2339,11 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
             $data->status_approved = '1';
             $data->update();
 
-            $data1 = DB::table('data_po')
-                ->where('id_data_po', $request->id_datapo)
+            $data1 = DataPO::where('id_data_po', $request->id_datapo)
                 ->update([
                     'status_bid' => '7',
                 ]);
-            $data2 = DB::table('penerimaan_po')
-                ->where('penerimaan_id_data_po', $request->id_datapo)
+            $data2 = PenerimaanPO::where('penerimaan_id_data_po', $request->id_datapo)
                 ->update([
                     'status_penerimaan' => '7',
                 ]);
@@ -2409,13 +2376,11 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
             $data->status_approved = '0';
             $data->update();
 
-            $data1 = DB::table('data_po')
-                ->where('id_data_po', $request->id_datapo)
+            $data1 = DataPO::where('id_data_po', $request->id_datapo)
                 ->update([
                     'status_bid' => '5',
                 ]);
-            $data2 = DB::table('penerimaan_po')
-                ->where('penerimaan_id_data_po', $request->id_datapo)
+            $data2 = PenerimaanPO::where('penerimaan_id_data_po', $request->id_datapo)
                 ->update([
                     'status_penerimaan' => '5',
                 ]);
