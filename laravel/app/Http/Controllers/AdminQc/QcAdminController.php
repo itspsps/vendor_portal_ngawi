@@ -3559,15 +3559,24 @@ class QcAdminController extends Controller
     {
         //$data = HargaAtas::where('id_harga_atas', 'desc')->first();
         $data = PenerimaanPO::join('data_po', 'data_po.kode_po', '=', 'penerimaan_po.penerimaan_kode_po')
-            ->join('harga_atas_gabah_basah', 'harga_atas_gabah_basah.waktu_harga_atas_gb', '=', 'data_po.tanggal_po')
+            ->join('harga_atas_gabah_basah', 'harga_atas_gabah_basah.waktu_harga_atas_gb', '=', 'data_po.tanggal_bongkar')
             ->where('id_penerimaan_po', $id)
             ->first();
         return json_encode($data);
     }
+    public function check_input_lab1(Request $request)
+    {
+        $cek_data = Lab1GabahBasah::where('lab1_kode_po_gb', $request->kode_po)->select('lab1_kode_po_gb')->get();
+        if (count($cek_data) > 0) {
+            return response()->json('double');
+        } else {
+            return response()->json('success');
+        }
+    }
     public function get_buttom_price_gabah_basah($id)
     {
         $data = PenerimaanPO::join('data_po', 'data_po.kode_po', '=', 'penerimaan_po.penerimaan_kode_po')
-            ->join('harga_bawah_gabah_basah', 'harga_bawah_gabah_basah.waktu_harga_bawah_gb', '=', 'data_po.tanggal_po')
+            ->join('harga_bawah_gabah_basah', 'harga_bawah_gabah_basah.waktu_harga_bawah_gb', '=', 'data_po.tanggal_bongkar')
             ->where('id_penerimaan_po', $id)
             ->first();
         return json_encode($data);
@@ -5270,10 +5279,28 @@ class QcAdminController extends Controller
 
     public function get_notifikasilab()
     {
-        $data = NotifLab::leftJoin('penerimaan_po', 'penerimaan_po.id_penerimaan_po', 'notifikasi_lab.id_objek')->where('notifikasi_lab.status', 0)->select('notifikasi_lab.*', 'penerimaan_po.no_antrian', 'penerimaan_po.plat_kendaraan')->get();
+        $data = NotifLab::leftJoin('penerimaan_po', 'penerimaan_po.id_penerimaan_po', 'notifikasi_lab.id_objek')->where('notifikasi_lab.status', 0)->select('notifikasi_lab.*', 'penerimaan_po.no_antrian', 'penerimaan_po.plat_kendaraan')->orderBy('notifikasi_lab.id_notif','DESC')->limit(10)->get();
         return json_encode($data);
     }
-
+    public function get_notif_qc_all()
+    {
+        return view('dashboard.admin_qc.notifikasi.notifikasi');
+    }
+    public function get_notif_qc_all_index()
+    {
+        return Datatables::of(NotifLab::where('status', 0)->orderBy('id_notif', 'DESC')->get())
+            ->addColumn('keterangan', function ($list) {
+                $result = $list->keterangan;
+                return $result;
+            })
+            ->addColumn('created_at', function ($list) {
+                $result_date = \Carbon\Carbon::parse($list->created_at)->isoFormat('DD-MM-Y');
+                $result_time = \Carbon\Carbon::parse($list->created_at)->isoFormat('HH:mm:ss ');
+                $result = $result_date . '<br><span class="btn btn-sm btn-label-primary">' . $result_time . ' WIB</span>';
+                return $result;
+            })->rawColumns(['keterangan', 'created_at'])
+            ->make(true);
+    }
 
     public function set_notifikasilab(request $request)
     {
@@ -5297,10 +5324,10 @@ class QcAdminController extends Controller
     public function new_notifikasilab()
     {
         $data = NotifLab::where('notifbaru', 0)->first();
-        if($data==''||$data==NULL){
+        if ($data == '' || $data == NULL) {
             return 'kosong';
-        }else{
-            
+        } else {
+
             $title = $data->judul;
             $keterangan = $data->keterangan;
             NotifLab::where('notifbaru', 0)->update(['notifbaru' => 1]);

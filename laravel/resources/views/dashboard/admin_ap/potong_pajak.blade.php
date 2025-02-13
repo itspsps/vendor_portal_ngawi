@@ -98,7 +98,7 @@ SURYA PANGAN SEMESTA
                             <div class="form-group">
                                 <div class="">
                                     <label for="judul_potong_pajak">Judul </label>
-                                    <input type="text" name="judul_potong_pajak" id="judul_potong_pajak" class="form-control mb-3" value="">
+                                    <input type="text" name="judul_potong_pajak" id="judul_potong_pajak" class="form-control mb-3" value="BUKTI POTONG PPH 22">
                                     <label for="keterangan_potong_pajak">Keterangan</label>
                                     <input type="text" name="keterangan_potong_pajak" id="keterangan_potong_pajak" class="form-control mb-3" value="">
                                     <label>File </label>
@@ -130,7 +130,7 @@ SURYA PANGAN SEMESTA
                             <div class="form-group">
                                 <div class="">
                                     <label for="judul_potong_pajak_update">Judul </label>
-                                    <input type="text" name="judul_potong_pajak_update" id="judul_potong_pajak_update" class="form-control mb-3" value="">
+                                    <input type="text" name="judul_potong_pajak_update" id="judul_potong_pajak_update" class="form-control mb-3" value="BUKTI POTONG PPH 22">
                                     <label for="keterangan_potong_pajak_update">Keterangan</label>
                                     <input type="text" name="keterangan_potong_pajak_update" id="keterangan_potong_pajak_update" class="form-control mb-3" value="">
                                     <label>File</label>
@@ -237,9 +237,19 @@ SURYA PANGAN SEMESTA
 </script>
 <script type="text/javascript">
     $(function() {
+        const month_yesterday = '{{\Carbon\Carbon::now()->subMonthsNoOverflow()->isoFormat("MMMM");}}';
+        const month = '{{\Carbon\Carbon::now()->isoFormat("MMMM");}}'
+        const year_yesterday = '{{\Carbon\Carbon::now()->subMonthsNoOverflow()->isoFormat("YYYY");}}';
+        const year = '{{\Carbon\Carbon::now()->isoFormat("YYYY");}}'
+        // console.log(month_yesterday);
         $(document).on('click', '#btn_modal_upload', function() {
             var id = $(this).data('id');
             var bulan = $(this).data('bulan');
+            if (bulan == 'lalu') {
+                $('#keterangan_potong_pajak').val(month_yesterday.toUpperCase() + ' ' + year_yesterday);
+            } else {
+                $('#keterangan_potong_pajak').val(month + ' ' + year);
+            }
             $('#id_user').val(id);
             $('#bulan').val(bulan);
             $('#modal_upload').modal('show');

@@ -3,12 +3,191 @@
 SURYA PANGAN SEMESTA
 @endsection
 @section('content')
-@include('sweetalert::alert')
 <style type="text/css">
-    @media only screen and (min-width: 600px) {
+    @media only screen and (max-width: 2000px) {
         #sign {
             margin-top: 10%;
             border-radius: 20px;
+        }
+
+        #sign-logo {
+            width: 100%;
+        }
+
+        #input_username {
+            border-radius: 30px;
+        }
+
+        #sign-site {
+            position: absolute;
+            bottom: 6%;
+            left: 35%;
+            transform: translateY(-50%);
+            color: #ffffff;
+            font-size: 18pt;
+            font-weight: bold;
+        }
+    }
+
+    @media only screen and (max-width: 1300px) {
+        #sign {
+            margin-top: 10%;
+            border-radius: 20px;
+        }
+
+        #sign-logo {
+            width: 100%;
+        }
+
+        #input_username {
+            border-radius: 30px;
+        }
+
+        #sign-site {
+            position: absolute;
+            bottom: 8%;
+            left: 38%;
+            transform: translateY(-50%);
+            color: #ffffff;
+            font-size: 14pt;
+            font-weight: bold;
+        }
+    }
+
+    @media only screen and (max-width: 1100px) {
+        #sign {
+            margin-top: 10%;
+            border-radius: 20px;
+        }
+
+        #sign-logo {
+            width: 100%;
+        }
+
+        #input_username {
+            border-radius: 30px;
+        }
+
+        #sign-site {
+            position: absolute;
+            bottom: 8%;
+            left: 38%;
+            transform: translateY(-50%);
+            color: #ffffff;
+            font-size: 14pt;
+            font-weight: bold;
+        }
+    }
+
+    @media only screen and (max-width: 1023px) {
+        #sign {
+            margin-top: 10%;
+            border-radius: 20px;
+        }
+
+        #sign-logo {
+            width: 100%;
+        }
+
+        #input_username {
+            border-radius: 30px;
+        }
+
+        #sign-site {
+            position: absolute;
+            bottom: 5%;
+            left: 34%;
+            transform: translateY(-50%);
+            color: #ffffff;
+            font-size: 11pt;
+            font-weight: bold;
+        }
+    }
+
+    @media only screen and (max-width: 800px) {
+        #sign {
+            margin-top: 10%;
+            border-radius: 20px;
+        }
+
+        #sign-logo {
+            width: 80%;
+        }
+
+        #input_username {
+            border-radius: 30px;
+        }
+
+        #sign-site {
+            position: absolute;
+            bottom: 5%;
+            left: 34%;
+            transform: translateY(-50%);
+            color: #ffffff;
+            font-size: 11pt;
+            font-weight: bold;
+        }
+    }
+
+    @media only screen and (max-width: 767px) {
+        #sign {
+            margin-top: 20%;
+            border-radius: 20px;
+        }
+
+        #sign-logo {
+            width: 50%;
+        }
+
+        #input_username {
+            border-radius: 30px;
+        }
+
+        #sign-content {
+            margin-top: 10%;
+
+        }
+
+        #sign-site {
+            position: absolute;
+            bottom: 7%;
+            left: 44%;
+            transform: translateY(-50%);
+            color: #ffffff;
+            font-size: 11pt;
+            font-weight: bold;
+        }
+    }
+
+
+    @media only screen and (max-width: 600px) {
+        #sign {
+            margin-top: 20%;
+            border-radius: 20px;
+        }
+
+        #sign-logo {
+            width: 50%;
+        }
+
+        #sign-content {
+            margin-top: 14%;
+
+        }
+
+        #input_username {
+            border-radius: 30px;
+        }
+    }
+
+    @media only screen and (max-width: 400px) {
+        #sign {
+            margin-top: 30%;
+            border-radius: 20px;
+        }
+
+        #sign-logo {
+            width: 40%;
         }
 
         #input_username {
@@ -16,6 +195,7 @@ SURYA PANGAN SEMESTA
         }
     }
 </style>
+@include('sweetalert::alert')
 <section class="sign-in">
     <div class="container">
         <div class="row">
@@ -23,11 +203,11 @@ SURYA PANGAN SEMESTA
                 <div class="row p-2">
                     <div class="col-xs-12 col-md-6">
                         <div class="signin-image text-center" style="position: absolute; top: 50%; transform: translateY(-50%);">
-                            <h4 style="position: absolute; bottom: 12%; left: 40%; transform: translateY(-50%); color: #ffffff;">NGAWI</h4>
-                            <figure><img src="{{ asset('logo-login-sps.png') }}" width="100%" alt="sign up image"></figure>
+                            <p id="sign-site">NGAWI</p>
+                            <figure><img id="sign-logo" src="{{ asset('logo-login-sps.png') }}" alt="sign up image"></figure>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-6">
+                    <div id="sign-content" class="col-xs-12 col-md-6">
                         <h2 class="form-title" style="color:white;"><br><b>SIGN IN</b></h2>
                         <form class="register-form" id="login-form" action="{{route('master.check')}}" method="post">
                             @if (Session::get('fail'))

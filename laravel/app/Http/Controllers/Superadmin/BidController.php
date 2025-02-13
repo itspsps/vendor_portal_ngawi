@@ -19,6 +19,7 @@ use App\Models\Lab1GabahBasah;
 use App\Models\LogAktivitySourching;
 use App\Models\Notif;
 use App\Models\NotifSecurity;
+use App\Models\PenerimaanPO;
 use App\Models\PotonganBongkarGt04;
 use App\Models\trackerPO;
 use App\Models\User;
@@ -53,12 +54,14 @@ class BidController extends Controller
                         return $result;
                     })
                     ->addColumn('start_pengajuan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->date_bid)->isoFormat('DD-MM-Y hh:mm:ss');
-                        return $result;
+                        $result = \Carbon\Carbon::parse($list->date_bid)->isoFormat('DD-MM-Y');
+                        $result_time = \Carbon\Carbon::parse($list->date_bid)->isoFormat('hh:mm:ss');
+                        return $result . '<span class="btn btn-sm btn-label-success"><b>' . $result_time . '</b></span>';
                     })
                     ->addColumn('close_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->batas_bid)->isoFormat('DD-MM-Y HH:mm:ss');
-                        return $result;
+                        $result = \Carbon\Carbon::parse($list->batas_bid)->isoFormat('DD-MM-Y');
+                        $result_time = \Carbon\Carbon::parse($list->batas_bid)->isoFormat('HH:mm:ss');
+                        return $result . '<span class="btn btn-sm btn-label-danger"><b>' . $result_time . '</b></span>';
                     })
                     ->addColumn('kuota', function ($list) {
                         $result = $list->jumlah;
@@ -179,7 +182,7 @@ class BidController extends Controller
                     ->addColumn('ckelola', function ($list) {
                         if ($list->bid_status == 1) {
                             return '
-                            <a style="margin:2px;" name="toedit" id="toedit" data-bidid="' . $list->id_bid . '" data-image="' . $list->image_bid . '" data-jumlah="' . $list->jumlah . '" data-nama="' . $list->name_bid . '" data-description="' . $list->description_bid . '" data-harga="' . $list->harga . '" data-lokasi="' . $list->lokasi . '" data-datebid="' . \Carbon\Carbon::parse($list->date_bid)->format('Y-m-d') . '" data-lastbid="' . \Carbon\Carbon::parse($list->batas_bid)->format('Y-m-d') . '"  data-toggle="modal" data-target="#modal2" title="Edit Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <a style="margin:2px;" name="toedit" id="toedit" data-bidid="' . $list->id_bid . '" data-image="' . $list->image_bid . '" data-jumlah="' . $list->jumlah . '" data-nama="' . $list->name_bid . '" data-description="' . $list->description_bid . '" data-harga="' . $list->harga . '" data-lokasi="' . $list->lokasi . '" data-datebid="' . \Carbon\Carbon::parse($list->open_po)->format('d-m-Y') . '" data-lastbid="' . \Carbon\Carbon::parse($list->batas_bid)->format('d-m-Y') . '"  data-toggle="modal" data-target="#modal2" title="Edit Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-pen-alt" style="color:#00c5dc;"></i>
                             </a>
                             <a style="margin:2px;" id="btn_information"  title="Information" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
@@ -188,7 +191,7 @@ class BidController extends Controller
                             ';
                         } else {
                             return '
-                            <a style="margin:2px;" name="toedit" id="toedit" data-bidid="' . $list->id_bid . '" data-image="' . $list->image_bid . '" data-jumlah="' . $list->jumlah . '" data-nama="' . $list->name_bid . '" data-description="' . $list->description_bid . '" data-harga="' . $list->harga . '" data-lokasi="' . $list->lokasi . '" data-datebid="' . \Carbon\Carbon::parse($list->date_bid)->format('Y-m-d') . '" data-lastbid="' . \Carbon\Carbon::parse($list->batas_bid)->format('Y-m-d') . '"  data-toggle="modal" data-target="#modal2" title="Edit Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <a style="margin:2px;" name="toedit" id="toedit" data-bidid="' . $list->id_bid . '" data-image="' . $list->image_bid . '" data-jumlah="' . $list->jumlah . '" data-nama="' . $list->name_bid . '" data-description="' . $list->description_bid . '" data-harga="' . $list->harga . '" data-lokasi="' . $list->lokasi . '" data-datebid="' . \Carbon\Carbon::parse($list->open_po)->format('d-m-Y') . '" data-lastbid="' . \Carbon\Carbon::parse($list->batas_bid)->format('Y-m-d') . '"  data-toggle="modal" data-target="#modal2" title="Edit Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-pen-alt" style="color:#00c5dc;"></i>
                             </a>
                             <a style="margin:2px;" name="btn_delete" id="btn_delete" data-bidid="' . $list->id_bid . '"  title="Hapus Data" class="btn_delete btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
@@ -212,12 +215,14 @@ class BidController extends Controller
                         return $result;
                     })
                     ->addColumn('start_pengajuan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->date_bid)->isoFormat('DD-MM-Y hh:mm:ss');
-                        return $result;
+                        $result = \Carbon\Carbon::parse($list->date_bid)->isoFormat('DD-MM-Y');
+                        $result_time = \Carbon\Carbon::parse($list->date_bid)->isoFormat('hh:mm:ss');
+                        return $result . '<span class="btn btn-sm btn-label-success"><b>' . $result_time . '</b></span>';
                     })
                     ->addColumn('close_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->batas_bid)->isoFormat('DD-MM-Y HH:mm:ss');
-                        return $result;
+                        $result = \Carbon\Carbon::parse($list->batas_bid)->isoFormat('DD-MM-Y');
+                        $result_time = \Carbon\Carbon::parse($list->batas_bid)->isoFormat('HH:mm:ss');
+                        return $result . '<span class="btn btn-sm btn-label-danger"><b>' . $result_time . '</b></span>';
                     })
                     ->addColumn('kuota', function ($list) {
                         $result = $list->jumlah;
@@ -338,7 +343,7 @@ class BidController extends Controller
                     ->addColumn('ckelola', function ($list) {
                         if ($list->bid_status == 1) {
                             return '
-                            <a style="margin:2px;" name="toedit" id="toedit" data-bidid="' . $list->id_bid . '" data-image="' . $list->image_bid . '" data-jumlah="' . $list->jumlah . '" data-nama="' . $list->name_bid . '" data-description="' . $list->description_bid . '" data-harga="' . $list->harga . '" data-lokasi="' . $list->lokasi . '" data-datebid="' . \Carbon\Carbon::parse($list->date_bid)->format('Y-m-d') . '" data-lastbid="' . \Carbon\Carbon::parse($list->batas_bid)->format('Y-m-d') . '"  data-toggle="modal" data-target="#modal2" title="Edit Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <a style="margin:2px;" name="toedit" id="toedit" data-bidid="' . $list->id_bid . '" data-image="' . $list->image_bid . '" data-jumlah="' . $list->jumlah . '" data-nama="' . $list->name_bid . '" data-description="' . $list->description_bid . '" data-harga="' . $list->harga . '" data-lokasi="' . $list->lokasi . '" data-datebid="' . \Carbon\Carbon::parse($list->open_po)->format('d-m-Y') . '" data-lastbid="' . \Carbon\Carbon::parse($list->batas_bid)->format('Y-m-d') . '"  data-toggle="modal" data-target="#modal2" title="Edit Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-pen-alt" style="color:#00c5dc;"></i>
                             </a>
                             <a style="margin:2px;" id="btn_information"  title="Information" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
@@ -347,7 +352,7 @@ class BidController extends Controller
                             ';
                         } else {
                             return '
-                            <a style="margin:2px;" name="toedit" id="toedit" data-bidid="' . $list->id_bid . '" data-image="' . $list->image_bid . '" data-jumlah="' . $list->jumlah . '" data-nama="' . $list->name_bid . '" data-description="' . $list->description_bid . '" data-harga="' . $list->harga . '" data-lokasi="' . $list->lokasi . '" data-datebid="' . \Carbon\Carbon::parse($list->date_bid)->format('Y-m-d') . '" data-lastbid="' . \Carbon\Carbon::parse($list->batas_bid)->format('Y-m-d') . '"  data-toggle="modal" data-target="#modal2" title="Edit Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <a style="margin:2px;" name="toedit" id="toedit" data-bidid="' . $list->id_bid . '" data-image="' . $list->image_bid . '" data-jumlah="' . $list->jumlah . '" data-nama="' . $list->name_bid . '" data-description="' . $list->description_bid . '" data-harga="' . $list->harga . '" data-lokasi="' . $list->lokasi . '" data-datebid="' . \Carbon\Carbon::parse($list->open_po)->format('d-m-Y') . '" data-lastbid="' . \Carbon\Carbon::parse($list->batas_bid)->format('Y-m-d') . '"  data-toggle="modal" data-target="#modal2" title="Edit Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-pen-alt" style="color:#00c5dc;"></i>
                             </a>
                             <a style="margin:2px;" name="btn_delete" id="btn_delete" data-bidid="' . $list->id_bid . '"  title="Hapus Data" class="btn_delete btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
@@ -500,7 +505,7 @@ class BidController extends Controller
                     ->addColumn('ckelola', function ($list) {
                         if ($list->bid_status == 1) {
                             return '
-                            <a style="margin:2px;" name="toedit" id="toedit" data-bidid="' . $list->id_bid . '" data-image="' . $list->image_bid . '" data-jumlah="' . $list->jumlah . '" data-nama="' . $list->name_bid . '" data-description="' . $list->description_bid . '" data-harga="' . $list->harga . '" data-lokasi="' . $list->lokasi . '" data-datebid="' . \Carbon\Carbon::parse($list->date_bid)->format('Y-m-d') . '" data-lastbid="' . \Carbon\Carbon::parse($list->batas_bid)->format('Y-m-d') . '"  data-toggle="modal" data-target="#modal2" title="Edit Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <a style="margin:2px;" name="toedit" id="toedit" data-bidid="' . $list->id_bid . '" data-image="' . $list->image_bid . '" data-jumlah="' . $list->jumlah . '" data-nama="' . $list->name_bid . '" data-description="' . $list->description_bid . '" data-harga="' . $list->harga . '" data-lokasi="' . $list->lokasi . '" data-datebid="' . \Carbon\Carbon::parse($list->open_po)->format('d-m-Y') . '" data-lastbid="' . \Carbon\Carbon::parse($list->batas_bid)->format('Y-m-d') . '"  data-toggle="modal" data-target="#modal2" title="Edit Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-pen-alt" style="color:#00c5dc;"></i>
                             </a>
                             <a style="margin:2px;" id="btn_information"  title="Information" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
@@ -509,7 +514,7 @@ class BidController extends Controller
                             ';
                         } else {
                             return '
-                            <a style="margin:2px;" name="toedit" id="toedit" data-bidid="' . $list->id_bid . '" data-image="' . $list->image_bid . '" data-jumlah="' . $list->jumlah . '" data-nama="' . $list->name_bid . '" data-description="' . $list->description_bid . '" data-harga="' . $list->harga . '" data-lokasi="' . $list->lokasi . '" data-datebid="' . \Carbon\Carbon::parse($list->date_bid)->format('Y-m-d') . '" data-lastbid="' . \Carbon\Carbon::parse($list->batas_bid)->format('Y-m-d') . '"  data-toggle="modal" data-target="#modal2" title="Edit Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <a style="margin:2px;" name="toedit" id="toedit" data-bidid="' . $list->id_bid . '" data-image="' . $list->image_bid . '" data-jumlah="' . $list->jumlah . '" data-nama="' . $list->name_bid . '" data-description="' . $list->description_bid . '" data-harga="' . $list->harga . '" data-lokasi="' . $list->lokasi . '" data-datebid="' . \Carbon\Carbon::parse($list->open_po)->format('d-m-Y') . '" data-lastbid="' . \Carbon\Carbon::parse($list->batas_bid)->format('Y-m-d') . '"  data-toggle="modal" data-target="#modal2" title="Edit Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-pen-alt" style="color:#00c5dc;"></i>
                             </a>
                             <a style="margin:2px;" name="btn_delete" id="btn_delete" data-bidid="' . $list->id_bid . '"  title="Hapus Data" class="btn_delete btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
@@ -653,7 +658,7 @@ class BidController extends Controller
                     ->addColumn('ckelola', function ($list) {
                         if ($list->bid_status == 1) {
                             return '
-                            <a style="margin:2px;" name="toedit" id="toedit" data-bidid="' . $list->id_bid . '" data-image="' . $list->image_bid . '" data-jumlah="' . $list->jumlah . '" data-nama="' . $list->name_bid . '" data-description="' . $list->description_bid . '" data-harga="' . $list->harga . '" data-lokasi="' . $list->lokasi . '" data-datebid="' . \Carbon\Carbon::parse($list->date_bid)->format('Y-m-d') . '" data-lastbid="' . \Carbon\Carbon::parse($list->batas_bid)->format('Y-m-d') . '"  data-toggle="modal" data-target="#modal2" title="Edit Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <a style="margin:2px;" name="toedit" id="toedit" data-bidid="' . $list->id_bid . '" data-image="' . $list->image_bid . '" data-jumlah="' . $list->jumlah . '" data-nama="' . $list->name_bid . '" data-description="' . $list->description_bid . '" data-harga="' . $list->harga . '" data-lokasi="' . $list->lokasi . '" data-datebid="' . \Carbon\Carbon::parse($list->open_po)->format('d-m-Y') . '" data-lastbid="' . \Carbon\Carbon::parse($list->batas_bid)->format('Y-m-d') . '"  data-toggle="modal" data-target="#modal2" title="Edit Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-pen-alt" style="color:#00c5dc;"></i>
                             </a>
                             <a style="margin:2px;" id="btn_information"  title="Information" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
@@ -662,7 +667,7 @@ class BidController extends Controller
                             ';
                         } else {
                             return '
-                            <a style="margin:2px;" name="toedit" id="toedit" data-bidid="' . $list->id_bid . '" data-image="' . $list->image_bid . '" data-jumlah="' . $list->jumlah . '" data-nama="' . $list->name_bid . '" data-description="' . $list->description_bid . '" data-harga="' . $list->harga . '" data-lokasi="' . $list->lokasi . '" data-datebid="' . \Carbon\Carbon::parse($list->date_bid)->format('Y-m-d') . '" data-lastbid="' . \Carbon\Carbon::parse($list->batas_bid)->format('Y-m-d') . '"  data-toggle="modal" data-target="#modal2" title="Edit Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <a style="margin:2px;" name="toedit" id="toedit" data-bidid="' . $list->id_bid . '" data-image="' . $list->image_bid . '" data-jumlah="' . $list->jumlah . '" data-nama="' . $list->name_bid . '" data-description="' . $list->description_bid . '" data-harga="' . $list->harga . '" data-lokasi="' . $list->lokasi . '" data-datebid="' . \Carbon\Carbon::parse($list->open_po)->format('d-m-Y') . '" data-lastbid="' . \Carbon\Carbon::parse($list->batas_bid)->format('Y-m-d') . '"  data-toggle="modal" data-target="#modal2" title="Edit Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-pen-alt" style="color:#00c5dc;"></i>
                             </a>
                             <a style="margin:2px;" name="btn_delete" id="btn_delete" data-bidid="' . $list->id_bid . '"  title="Hapus Data" class="btn_delete btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
@@ -815,7 +820,7 @@ class BidController extends Controller
                     ->addColumn('ckelola', function ($list) {
                         if ($list->bid_status == 1) {
                             return '
-                            <a style="margin:2px;" name="toedit" id="toedit" data-bidid="' . $list->id_bid . '" data-image="' . $list->image_bid . '" data-jumlah="' . $list->jumlah . '" data-nama="' . $list->name_bid . '" data-description="' . $list->description_bid . '" data-harga="' . $list->harga . '" data-lokasi="' . $list->lokasi . '" data-datebid="' . \Carbon\Carbon::parse($list->date_bid)->format('Y-m-d') . '" data-lastbid="' . \Carbon\Carbon::parse($list->batas_bid)->format('Y-m-d') . '"  data-toggle="modal" data-target="#modal2" title="Edit Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <a style="margin:2px;" name="toedit" id="toedit" data-bidid="' . $list->id_bid . '" data-image="' . $list->image_bid . '" data-jumlah="' . $list->jumlah . '" data-nama="' . $list->name_bid . '" data-description="' . $list->description_bid . '" data-harga="' . $list->harga . '" data-lokasi="' . $list->lokasi . '" data-datebid="' . \Carbon\Carbon::parse($list->open_po)->format('d-m-Y') . '" data-lastbid="' . \Carbon\Carbon::parse($list->batas_bid)->format('Y-m-d') . '"  data-toggle="modal" data-target="#modal2" title="Edit Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-pen-alt" style="color:#00c5dc;"></i>
                             </a>
                             <a style="margin:2px;" id="btn_information"  title="Information" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
@@ -824,7 +829,7 @@ class BidController extends Controller
                             ';
                         } else {
                             return '
-                            <a style="margin:2px;" name="toedit" id="toedit" data-bidid="' . $list->id_bid . '" data-image="' . $list->image_bid . '" data-jumlah="' . $list->jumlah . '" data-nama="' . $list->name_bid . '" data-description="' . $list->description_bid . '" data-harga="' . $list->harga . '" data-lokasi="' . $list->lokasi . '" data-datebid="' . \Carbon\Carbon::parse($list->date_bid)->format('Y-m-d') . '" data-lastbid="' . \Carbon\Carbon::parse($list->batas_bid)->format('Y-m-d') . '"  data-toggle="modal" data-target="#modal2" title="Edit Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <a style="margin:2px;" name="toedit" id="toedit" data-bidid="' . $list->id_bid . '" data-image="' . $list->image_bid . '" data-jumlah="' . $list->jumlah . '" data-nama="' . $list->name_bid . '" data-description="' . $list->description_bid . '" data-harga="' . $list->harga . '" data-lokasi="' . $list->lokasi . '" data-datebid="' . \Carbon\Carbon::parse($list->open_po)->format('d-m-Y') . '" data-lastbid="' . \Carbon\Carbon::parse($list->batas_bid)->format('Y-m-d') . '"  data-toggle="modal" data-target="#modal2" title="Edit Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-pen-alt" style="color:#00c5dc;"></i>
                             </a>
                             <a style="margin:2px;" name="btn_delete" id="btn_delete" data-bidid="' . $list->id_bid . '"  title="Hapus Data" class="btn_delete btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
@@ -968,7 +973,7 @@ class BidController extends Controller
                     ->addColumn('ckelola', function ($list) {
                         if ($list->bid_status == 1) {
                             return '
-                            <a style="margin:2px;" name="toedit" id="toedit" data-bidid="' . $list->id_bid . '" data-image="' . $list->image_bid . '" data-jumlah="' . $list->jumlah . '" data-nama="' . $list->name_bid . '" data-description="' . $list->description_bid . '" data-harga="' . $list->harga . '" data-lokasi="' . $list->lokasi . '" data-datebid="' . \Carbon\Carbon::parse($list->date_bid)->format('Y-m-d') . '" data-lastbid="' . \Carbon\Carbon::parse($list->batas_bid)->format('Y-m-d') . '"  data-toggle="modal" data-target="#modal2" title="Edit Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <a style="margin:2px;" name="toedit" id="toedit" data-bidid="' . $list->id_bid . '" data-image="' . $list->image_bid . '" data-jumlah="' . $list->jumlah . '" data-nama="' . $list->name_bid . '" data-description="' . $list->description_bid . '" data-harga="' . $list->harga . '" data-lokasi="' . $list->lokasi . '" data-datebid="' . \Carbon\Carbon::parse($list->open_po)->format('d-m-Y') . '" data-lastbid="' . \Carbon\Carbon::parse($list->batas_bid)->format('Y-m-d') . '"  data-toggle="modal" data-target="#modal2" title="Edit Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-pen-alt" style="color:#00c5dc;"></i>
                             </a>
                             <a style="margin:2px;" id="btn_information"  title="Information" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
@@ -977,7 +982,7 @@ class BidController extends Controller
                             ';
                         } else {
                             return '
-                            <a style="margin:2px;" name="toedit" id="toedit" data-bidid="' . $list->id_bid . '" data-image="' . $list->image_bid . '" data-jumlah="' . $list->jumlah . '" data-nama="' . $list->name_bid . '" data-description="' . $list->description_bid . '" data-harga="' . $list->harga . '" data-lokasi="' . $list->lokasi . '" data-datebid="' . \Carbon\Carbon::parse($list->date_bid)->format('Y-m-d') . '" data-lastbid="' . \Carbon\Carbon::parse($list->batas_bid)->format('Y-m-d') . '"  data-toggle="modal" data-target="#modal2" title="Edit Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <a style="margin:2px;" name="toedit" id="toedit" data-bidid="' . $list->id_bid . '" data-image="' . $list->image_bid . '" data-jumlah="' . $list->jumlah . '" data-nama="' . $list->name_bid . '" data-description="' . $list->description_bid . '" data-harga="' . $list->harga . '" data-lokasi="' . $list->lokasi . '" data-datebid="' . \Carbon\Carbon::parse($list->open_po)->format('d-m-Y') . '" data-lastbid="' . \Carbon\Carbon::parse($list->batas_bid)->format('Y-m-d') . '"  data-toggle="modal" data-target="#modal2" title="Edit Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-pen-alt" style="color:#00c5dc;"></i>
                             </a>
                             <a style="margin:2px;" name="btn_delete" id="btn_delete" data-bidid="' . $list->id_bid . '"  title="Hapus Data" class="btn_delete btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
@@ -1005,6 +1010,10 @@ class BidController extends Controller
             })
             ->addColumn('tanggal_po', function ($list) {
                 $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                return $result;
+            })
+            ->addColumn('tanggal_bongkar', function ($list) {
+                $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                 return $result;
             })
             ->addColumn('nopol', function ($list) {
@@ -1066,7 +1075,7 @@ class BidController extends Controller
                 }
             })
 
-            ->rawColumns(['name_bid', 'nopol', 'tanggal_po', 'cetak', 'status'])
+            ->rawColumns(['name_bid', 'nopol', 'tanggal_po', 'tanggal_bongkar', 'cetak', 'status'])
             ->make(true);
     }
     public function data_list_pk_index($id_bid)
@@ -1275,6 +1284,7 @@ class BidController extends Controller
             $bid->jumlah                    = $jml_kuota;
             $bid->lokasi                    = $request->lokasi;
             $bid->open_po                   = $request->open_po;
+            $bid->unload_date               = $request->tgl_bongkaran;
             $bid->mulai_bid                 = \Carbon\Carbon::parse($request->date_bid)->isoFormat('Y-MM-DD 08:00:00');
             $bid->date_bid                  = \Carbon\Carbon::parse($request->date_bid)->isoFormat('Y-MM-DD hh:mm:ss');
             $bid->batas_bid                 = \Carbon\Carbon::parse($request->batas_bid)->isoFormat('Y-MM-DD 12:00:00');
@@ -1317,6 +1327,7 @@ class BidController extends Controller
             $bid->jumlah                    = $jml_kuota;
             $bid->lokasi                    = $request->lokasi;
             $bid->open_po                   = $open_po;
+            $bid->unload_date               = $request->tgl_bongkaran;
             $bid->date_bid                  = $date_bid;
             $bid->mulai_bid                 = $mulai_bid;
             $bid->batas_bid                 = $batas_bid;
@@ -1360,6 +1371,7 @@ class BidController extends Controller
             $bid->jumlah                    = $jml_kuota;
             $bid->lokasi                    = $request->lokasi;
             $bid->open_po                   = $request->open_po;
+            $bid->unload_date               = $request->tgl_bongkaran;
             $bid->mulai_bid                 = \Carbon\Carbon::parse($request->date_bid)->isoFormat('Y-MM-DD 08:00:00');
             $bid->date_bid                  = \Carbon\Carbon::parse($request->date_bid)->isoFormat('Y-MM-DD hh:mm:ss');
             $bid->batas_bid                 = \Carbon\Carbon::parse($request->batas_bid)->isoFormat('Y-MM-DD 12:00:00');
@@ -1438,6 +1450,7 @@ class BidController extends Controller
                 $bid->jumlah                    = $request->jumlah;
                 $bid->lokasi                    = $request->lokasi;
                 $bid->open_po                   = $open_po;
+                $bid->unload_date               = $request->tgl_bongkaran;
                 $bid->date_bid                  = $date_bid;
                 $bid->mulai_bid                 = $mulai_bid;
                 $bid->batas_bid                 = $batas_bid;
@@ -1470,51 +1483,21 @@ class BidController extends Controller
 
     public function update(Request $request)
     {
-        $waktu_awal = $request->date_bid;
-        $image = $request->file('gambar_bid');
         $jml_kuota = ($request->jumlah * 8000);
-        if (($image) == '' && ($image) == null) {
-            $bid = Bid::where('id_bid', $request->id_bid)->first();
-            $bid->name_bid  = $request->name_bid;
-            $bid->harga     = $request->harga;
-            $bid->jumlah    = $jml_kuota;
-            $bid->lokasi    = $request->lokasi;
-            $bid->description_bid = $request->description_bid;
-            $bid->update();
-            // insert Log Aktivity
-            $data = new LogAktivitySourching();
-            $data->name_user    = Auth::guard('sourching')->user()->name;
-            $data->id_objek_aktivitas_sourching  = $request->id_bid;
-            $data->aktivitas_sourching  =  'Update Lelang ' . $request->name_bid . ' PO ' . $request->date_bid;
-            $data->keterangan_aktivitas   = 'Selesai';
-            $data->created_at           = date('Y-m-d H:i:s');
-            $data->save();
-        } else {
-            $bid = Bid::where('id_bid', $request->id_bid)->first();
-            // if ($bid->image_bid != ''  && $bid->image_bid != null) {
-            //     $path = '/home/u1736638/public_html/ngawi.suryapangansemesta.store/public/img/bid/';
+        $bid = Bid::where('id_bid', $request->id_bid)->first();
+        $bid->name_bid  = $request->name_bid;
+        $bid->jumlah    = $jml_kuota;
+        $bid->description_bid = $request->description_bid;
+        $bid->update();
+        // insert Log Aktivity
+        $data = new LogAktivitySourching();
+        $data->name_user    = Auth::guard('sourching')->user()->name;
+        $data->id_objek_aktivitas_sourching  = $request->id_bid;
+        $data->aktivitas_sourching  =  'Update Lelang ' . $request->name_bid . ' Kuota Lelang ' . $jml_kuota;
+        $data->keterangan_aktivitas   = 'Selesai';
+        $data->created_at           = date('Y-m-d H:i:s');
+        $data->save();
 
-            //     $file_old = $path . $bid->image_bid;
-            //     unlink($file_old);
-            // }
-            // $namefile = time() . '.' . $image->extension();
-            // $save = $image->move('public/img/bid/', $namefile);
-            $bid->name_bid  = $request->name_bid;
-            $bid->harga     = $request->harga;
-            $bid->jumlah    = $jml_kuota;
-            $bid->lokasi    = $request->lokasi;
-            $bid->description_bid = $request->description_bid;
-            $bid->image_bid = null;
-            $bid->update();
-            // insert Log Aktivity
-            $data = new LogAktivitySourching();
-            $data->name_user    = Auth::guard('sourching')->user()->name;
-            $data->id_objek_aktivitas_sourching  = $request->id_bid;
-            $data->aktivitas_sourching  = 'Update Lelang ' . $request->name_bid . ' PO ' . $request->date_bid;
-            $data->keterangan_aktivitas   = 'Selesai';
-            $data->created_at           = date('Y-m-d H:i:s');
-            $data->save();
-        }
 
         return redirect()->back()->with('message', ['alert' => 'success', 'title' => 'Data Berhasil Diupdate']);
     }
@@ -1804,7 +1787,7 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
                     if (strlen((string) $antrian1) == 1) {
                         // dd('1');
                         $antrian1 = '00' . ($antrian1);
-                        $kode_po = 'PO.BP.BKS/' . date('Y', strtotime($get_tanggal_po->open_po)) . date('m', strtotime($get_tanggal_po->open_po)) . date('d', strtotime($get_tanggal_po->open_po)) . '/' . $antrian1;
+                        $kode_po = 'PO.NGW.BP.BKS/' . date('Y', strtotime($get_tanggal_po->open_po)) . date('m', strtotime($get_tanggal_po->open_po)) . date('d', strtotime($get_tanggal_po->open_po)) . '/' . $antrian1;
                         $kode_po_aol = 'PO.BP.' . date('m', strtotime($get_tanggal_po->open_po)) . '.' . Carbon::parse($get_tanggal_po->open_po)->format('y') . '.';
                         // Integrasi Epicor
                         $Data_po = new  DataPO();
@@ -1843,6 +1826,7 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
                                     $Data_po->kode_po                       = $kode_po;
                                     $Data_po->message_admin                 = $request->message_admin;
                                     $Data_po->tanggal_po                    = $request->tanggal_po;
+                                    $Data_po->tanggal_bongkar               = $request->tanggal_bongkar;
                                     $Data_po->PONum                         = $response;
                                     $Data_po->kode_po_aol                   = $kode_po_aol;
                                     $Data_po->kode_matauang_aol             = $request->kode_matauang_aol;
@@ -1894,7 +1878,7 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
                     } elseif (strlen((string) $antrian1) == 2) {
                         // dd('2');
                         $antrian1 = '0' . ($antrian1);
-                        $kode_po = 'PO.BP.BKS/' . date('Y', strtotime($get_tanggal_po->open_po)) . date('m', strtotime($get_tanggal_po->open_po)) . date('d', strtotime($get_tanggal_po->open_po)) . '/' . $antrian1;
+                        $kode_po = 'PO.NGW.BP.BKS/' . date('Y', strtotime($get_tanggal_po->open_po)) . date('m', strtotime($get_tanggal_po->open_po)) . date('d', strtotime($get_tanggal_po->open_po)) . '/' . $antrian1;
                         $kode_po_aol = 'PO.BP.' . date('m', strtotime($get_tanggal_po->open_po)) . '.' . Carbon::parse($get_tanggal_po->open_po)->format('y') . '.';
                         // Integrasi Epicor
                         $Data_po = new  \App\Models\DataPO;
@@ -1933,6 +1917,7 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
                                     $Data_po->kode_po                       = $kode_po;
                                     $Data_po->message_admin                 = $request->message_admin;
                                     $Data_po->tanggal_po                    = $request->tanggal_po;
+                                    $Data_po->tanggal_bongkar               = $request->tanggal_bongkar;
                                     $Data_po->PONum                         = $response;
                                     $Data_po->kode_po_aol                   = $kode_po_aol;
                                     $Data_po->kode_matauang_aol             = $request->kode_matauang_aol;
@@ -1984,7 +1969,7 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
                     } else {
                         // dd('3');
                         $antrian1 = ($antrian1);
-                        $kode_po = 'PO.BP.BKS/' . date('Y', strtotime($get_tanggal_po->open_po)) . date('m', strtotime($get_tanggal_po->open_po)) . date('d', strtotime($get_tanggal_po->open_po)) . '/' . $antrian1;
+                        $kode_po = 'PO.NGW.BP.BKS/' . date('Y', strtotime($get_tanggal_po->open_po)) . date('m', strtotime($get_tanggal_po->open_po)) . date('d', strtotime($get_tanggal_po->open_po)) . '/' . $antrian1;
                         $kode_po_aol = 'PO.BP.' . date('m', strtotime($get_tanggal_po->open_po)) . '.' . Carbon::parse($get_tanggal_po->open_po)->format('y') . '.';
                         // Integrasi Epicor
                         $Data_po = new  \App\Models\DataPO;
@@ -2023,6 +2008,7 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
                                     $Data_po->kode_po                       = $kode_po;
                                     $Data_po->message_admin                 = $request->message_admin;
                                     $Data_po->tanggal_po                    = $request->tanggal_po;
+                                    $Data_po->tanggal_bongkar               = $request->tanggal_bongkar;
                                     $Data_po->PONum                         = $response;
                                     $Data_po->kode_po_aol                   = $kode_po_aol;
                                     $Data_po->kode_matauang_aol             = $request->kode_matauang_aol;
@@ -2130,6 +2116,7 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
                                     $Data_po->kode_po         = $kode_po;
                                     $Data_po->message_admin   = $request->message_admin;
                                     $Data_po->tanggal_po      = $request->tanggal_po;
+                                    $Data_po->tanggal_bongkar               = $request->tanggal_bongkar;
                                     $Data_po->PONum      = $response;
                                     $Data_po->batas_penerimaan_po   = Carbon::parse($request->batas_penerimaan)->format('Y-m-d 12:00:00');
                                     $Data_po->save();
@@ -2198,6 +2185,7 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
                                     $Data_po->kode_po         = $kode_po;
                                     $Data_po->message_admin   = $request->message_admin;
                                     $Data_po->tanggal_po      = $request->tanggal_po;
+                                    $Data_po->tanggal_bongkar               = $request->tanggal_bongkar;
                                     $Data_po->PONum      = $response;
                                     $Data_po->batas_penerimaan_po   = Carbon::parse($request->batas_penerimaan)->format('Y-m-d 12:00:00');
                                     $Data_po->save();
@@ -2266,6 +2254,7 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
                                     $Data_po->kode_po         = $kode_po;
                                     $Data_po->message_admin   = $request->message_admin;
                                     $Data_po->tanggal_po      = $request->tanggal_po;
+                                    $Data_po->tanggal_bongkar               = $request->tanggal_bongkar;
                                     $Data_po->PONum      = $response;
                                     $Data_po->batas_penerimaan_po   = Carbon::parse($request->batas_penerimaan)->format('Y-m-d 12:00:00');
                                     $Data_po->save();
@@ -2358,17 +2347,15 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
             $log->save();
 
             $po = trackerPO::where('kode_po_tracker', $data->lab1_kode_po_gb)->first();
-            $po->nama_admin_tracker  = Auth::guard('sourching')->user()->name;
-            $po->proses_tracker  = 'KONFIRMASI Supplier, PO SETUJU DIBONGKAR';
-            $po->konfirmasi_pending_tracker  = date('Y-m-d H:i:s');
-            $po->update();
+            if ($po == NULL) {
+            } else {
+                $po->nama_admin_tracker  = Auth::guard('sourching')->user()->name;
+                $po->proses_tracker  = 'KONFIRMASI Supplier, PO SETUJU DIBONGKAR';
+                $po->konfirmasi_pending_tracker  = date('Y-m-d H:i:s');
+                $po->update();
+            }
         } elseif ($request->bongkar == 'tidak') {
-            //  Integrasi Epicor
-            // $client = new \GuzzleHttp\Client();
-            // $url = 'http://34.34.222.145:2022/api/PO/ClosePO?PONum=' . $request->PONum;
-            // $response = $client->get($url);
-            // $response = $response->getBody()->getContents();
-            // dd($response); 
+
             $data = Lab1GabahBasah::where('lab1_id_data_po_gb', $request->id_datapo)->first();
             $data->output_lab_gb = 'Reject';
             $data->status_pending = NULL;
@@ -2396,10 +2383,13 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
             // dd($data);
 
             $po = trackerPO::where('kode_po_tracker', $data->lab1_kode_po_gb)->first();
-            $po->nama_admin_tracker  = Auth::guard('sourching')->user()->name;
-            $po->proses_tracker  = 'KONFIRMASI SUPPLIER, PO DITOLAK';
-            $po->konfirmasi_pending_tracker  = date('Y-m-d H:i:s');
-            $po->update();
+            if ($po == NULL) {
+            } else {
+                $po->nama_admin_tracker  = Auth::guard('sourching')->user()->name;
+                $po->proses_tracker  = 'KONFIRMASI SUPPLIER, PO DITOLAK';
+                $po->konfirmasi_pending_tracker  = date('Y-m-d H:i:s');
+                $po->update();
+            }
         }
         Alert::success('Berhasil', 'Data anda berhasil di Simpan');
         return redirect()->back()->with('Berhasil', 'Data anda berhasil di Simpan');

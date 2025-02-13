@@ -29,6 +29,58 @@
 
     @include('dashboard.admin_spvap.layout.css')
     @yield('css')
+    <style>
+       @media only screen and (max-height: 1100px) {
+        #kt_aside_menu {
+                max-height: 700px !important;
+            }
+        }
+        @media only screen and (max-height: 1000px) {
+        #kt_aside_menu {
+                max-height: 600px !important;
+            }
+        }
+        @media only screen and (max-height: 950px) {
+        #kt_aside_menu {
+                max-height: 500px !important;
+            }
+        }
+        @media only screen and (max-height: 900px) {
+        #kt_aside_menu {
+                max-height: 450px !important;
+            }
+        }
+        @media only screen and (max-height: 800px) {
+        #kt_aside_menu {
+                max-height: 400px !important;
+            }
+        }
+        @media only screen and (max-height: 700px) {
+            #kt_aside_menu {
+                max-height: 230px !important;
+            }
+        }
+        @media only screen and (max-height: 600px) {
+            #kt_aside_menu {
+                max-height: 230px !important;
+            }
+        }
+        @media only screen and (max-height: 550px) {
+            #kt_aside_menu {
+                max-height: 150px !important;
+            }
+        }
+        @media only screen and (max-height: 500px) {
+            #kt_aside_menu {
+                max-height: 3px !important;
+            }
+        }
+        @media only screen and (max-height: 400px) {
+             #kt_aside_menu {
+                 max-height: 3px !important;
+             }
+         }
+    </style>
 </head>
 <style>
     .swal-wide {
@@ -44,7 +96,7 @@
     <div id="kt_header_mobile" class="kt-header-mobile  kt-header-mobile--fixed " style="background: #9F187C;">
         <div class="kt-header-mobile__logo">
             <a href="{{route('ap.spv.home')}}">
-                <h5 class="kt-font" style="color:white">PT. SURYA PANGAN SEMESTA</h5>
+            <img class="img-responsive" alt="iamgurdeeposahan" src="{{asset('logo_vp.png')}}" style="width: 13%;">
             </a>
         </div>
         <div class="kt-header-mobile__toolbar">
@@ -70,7 +122,7 @@
                         <div class="kt-header__brand " id="kt_header_brand">
                             <div class="kt-header__brand-logo">
                                 <a href="{{route('ap.spv.home')}}">
-                                    <h5 class="kt-font" style="color:white">PT. SURYA PANGAN SEMESTA</h5>
+                                <img class="img-responsive" alt="iamgurdeeposahan" src="{{asset('logo_vp.png')}}" style="width: 10%;">
                                 </a>
                             </div>
                         </div>
@@ -79,30 +131,32 @@
 
                         <!-- begin:: Header Topbar -->
                         <div class="kt-header__topbar">
+                       
                         <div class="kt-header__topbar-item dropdown">
-    <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="10px,0px" aria-expanded="true">
-        <span class="kt-header__topbar-icon"><i class="flaticon2-bell-alarm-symbol"></i></span>
-        <span id="count_notif" class="badge" style="position: absolute; top: 10px; right: -10px; padding: 5px 10px; border-radius: 50%; background: red; color: white;"></span>
-    </div>
-    <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-xl">
-        <form>
-            
-            <div class="tab-content">
-                <div class="tab-pane active show" id="topbar_notifications_notifications" role="tabpanel">
-                    <div id="daftarnotif" class="kt-notification kt-margin-t-10 kt-margin-b-10 kt-scroll ps ps--active-y" data-scroll="true" data-height="300" data-mobile-height="200" style="height: 300px; overflow: hidden;">
-
-                        <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
-                            <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
-                        </div>
-                        <div class="ps__rail-y" style="top: 0px; height: 300px; right: 0px;">
-                            <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 106px;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
+									<div id="count_notif" class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="10px,0px" aria-expanded="true">
+										<span class="kt-header__topbar-icon"><i class="flaticon2-bell-alarm-symbol"></i></span>
+									</div>
+									<div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-xl" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-333px, 70px, 0px);">
+										<form>
+											<div class="tab-content">
+												<div class="tab-pane active show" id="topbar_notifications_notifications" role="tabpanel">
+													<div id="daftarnotif" class="kt-notification kt-margin-t-10 kt-margin-b-10 kt-scroll ps ps--active-y" data-scroll="true" data-height="300" data-mobile-height="200" style="height: 300px; overflow: hidden;">
+													
+													<div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+                                                        <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                                                    </div>
+                                                    <div class="ps__rail-y" style="top: 0px; height: 300px; right: 0px;">
+                                                        <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 106px;"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="text-center">
+                                                    <a href="{{route('ap.spv.get_notif_spvap_all')}}"><b>Baca Selengkapnya</b> <i class="flaticon2-right-arrow"></i></a>
+                                                </div>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
 
                             <!--begin: User bar -->
                             <div class="kt-header__topbar-item kt-header__topbar-item--user">
@@ -166,17 +220,7 @@
                     </div>
                 </div>
 
-                <!-- begin:: Footer -->
-                <div class="kt-footer kt-grid__item" id="kt_footer">
-                    <div class="kt-container  kt-container--fluid ">
-                        <div class="kt-footer__wrapper">
-                            <div class="kt-footer__copyright">
-                                2023&nbsp;&copy;&nbsp;<a href="https://ngawi.suryapangansemesta.store" target="_blank" class="kt-link">PT. SURYA PANGAN SEMESTA</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+              
                 <!-- end:: Footer -->
             </div>
         </div>
@@ -232,20 +276,35 @@
             url: "{{route('ap.spv.get_notifikasispvap')}}",
             success: function(data) {
                 var notif = JSON.parse(data);
+                console.log(notif);
+                notif.sort();
+                notif.reverse();
                 var panjang = notif.length;
                 $("#daftarnotif").empty();
-                $("#count_notif").empty();
-                if (panjang > 0) {
-                    for (var a = 0; a < panjang; a++) {
+                if(panjang==10){
+                    $.each(notif, function(item) {
                         //desain notif
-                        var idnotif = notif[a].id_notif;
-                        var not = '<a href="{{route('ap.spv.set_notifikasispvap')}}?id=' + idnotif + '" class="kt-notification__item"><div class="kt-notification__item-details"><div class="kt-notification__item-title">' + notif[a].judul + ' <span class="btn btn-label-success btn-sm ">' + notif[a].created_at + '</span></div><div class="kt-notification__item-time">' + notif[a].keterangan + '<br><br></div></div></div></a>';
+                        var idnotif = notif[item].id_notif;
+                        var not = '<a href="{{route('ap.spv.set_notifikasispvap')}}?id=' + idnotif + '" class="kt-notification__item"><div class="kt-notification__item-details"><div class="kt-notification__item-title">' + notif[item].judul + ' <span class="btn btn-label-success btn-sm ">' + notif[item].created_at + '</span></div><div class="kt-notification__item-time">' + notif[item].keterangan + '<br><br></div></div></div></a>';
                         $("#daftarnotif").prepend(not);
-                        $("#count_notif").text(panjang);
-                    }
+                        var length ='<span class="badge rounded-pill bg-danger" style="position: absolute; top: 10px; right: -10px; padding: 5px 3px; border-radius: 50%; color: white;">10++</span>';
+                        $("#count_notif").prepend(length);
+                    });
+                }else if(panjang<10){
+                    $.each(notif, function(item) {
+                        //desain notif
+                        var idnotif = notif[item].id_notif;
+                        var not = '<a href="{{route('ap.spv.set_notifikasispvap')}}?id=' + idnotif + '" class="kt-notification__item"><div class="kt-notification__item-details"><div class="kt-notification__item-title">' + notif[item].judul + ' <span class="btn btn-label-success btn-sm ">' + notif[item].created_at + '</span></div><div class="kt-notification__item-time">' + notif[item].keterangan + '<br><br></div></div></div></a>';
+                        $("#daftarnotif").prepend(not);
+                        var length ='<span class="badge rounded-pill bg-danger" style="position: absolute; top: 10px; right: -10px; padding: 5px 3px; border-radius: 50%; color: white;">'+panjang+'</span>';
+                        $("#count_notif").prepend(length);
+                    });
+
                 }else{
                     var not = '<div class="kt-notification__item-details" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);padding: 10px;"><p>Tidak Ada Notifikasi</p></div>';
                     $("#daftarnotif").prepend(not);
+                    var length ='<span class="badge rounded-pill bg-danger" style="position: absolute; top: 10px; right: -10px; padding: 5px 3px; border-radius: 50%; color: white;">'+panjang+'</span>';
+                    $("#count_notif").prepend(length);
 
                 }
             }

@@ -64,6 +64,8 @@ Route::prefix('user')->name('user.')->group(function () {
     Route::get('/about_us', [UserController::class, 'about_us'])->name('about_us');
     Route::get('/pemberitahuan', [UserController::class, 'pemberitahuan'])->name('pemberitahuan');
 
+    // New User
+    Route::get('/new_user', [UserController::class, 'new_user_index'])->name('new_user');
     Route::middleware(['guest:web', 'PreventBackHistory'])->group(function () {
         Route::view('/login', 'dashboard.user.login')->name('login');
         Route::get('/formregister', [UserController::class, 'formregister'])->name('formregister');
@@ -76,6 +78,8 @@ Route::prefix('user')->name('user.')->group(function () {
         Route::get('/get_nik/{id?}', [UserController::class, 'get_nik'])->name('get_nik');
         Route::get('/get_verifyemail/{id?}', [UserController::class, 'get_verifyemail'])->name('get_verifyemail');
         Route::get('/daftar_berita', [UserController::class, 'daftar_berita'])->name('daftar_berita');
+        // new user
+        Route::post('/new_check', [UserController::class, 'new_check'])->name('new_check');
     });
     Route::get('/site_kediri', [UserController::class, 'site_kediri'])->name('site_kediri');
 
@@ -117,6 +121,25 @@ Route::prefix('user')->name('user.')->group(function () {
         Route::get('/about', [UserController::class, 'about'])->name('about');
         Route::get('/procedure', [UserController::class, 'procedure'])->name('procedure');
         Route::get('/status_pending/{id?}', [UserController::class, 'status_pending'])->name('status_pending');
+
+        // New User
+        // New User
+        Route::get('/new_home', [UserController::class, 'new_home'])->name('new_home');
+        Route::post('/new_akun_update', [UserController::class, 'new_update_akun'])->name('new_akun_update');
+        Route::get('/new_daftar_lelang', [UserController::class, 'new_daftar_lelang'])->name('new_daftar_lelang');
+        Route::get('/new_lelang_detail/{id?}', [UserController::class, 'new_lelang_detail'])->name('new_lelang_detail');
+        Route::post('/new_logout', [UserController::class, 'new_logout'])->name('new_logout');
+        Route::post('/new_lelang_storeuser', [UserController::class, 'new_lelang_storeuser'])->name('new_lelang_storeuser');
+        Route::get('/new_transaksi', [UserController::class, 'new_transaksi'])->name('new_transaksi');
+        Route::get('/new_history', [UserController::class, 'new_history'])->name('new_history');
+        Route::get('/new_data_list_po/{id?}', [UserController::class, 'new_data_list_po'])->name('new_data_list_po');
+        Route::get('/new_notif', [UserController::class, 'new_notif'])->name('new_notif');
+        Route::get('/new_potong_pajak', [UserController::class, 'new_potong_pajak'])->name('new_potong_pajak');
+        Route::get('/new_berita', [UserController::class, 'new_berita'])->name('new_berita');
+        Route::get('/new_account', [UserController::class, 'new_account'])->name('new_account');
+        Route::get('/new_about', [UserController::class, 'new_about'])->name('new_about');
+        Route::get('/new_video_panduan', [UserController::class, 'new_video_panduan'])->name('new_video_panduan');
+
         require('api_user.php');
     });
 });
@@ -126,7 +149,6 @@ Route::prefix('qc')->name('qc.')->group(function () {
     Route::middleware(['guest:lab', 'PreventBackHistory'])->group(function () {
         Route::get('/lab/login', [QcAdminController::class, 'login'])->name('lab.login');
         Route::post('/lab/check', [QcAdminController::class, 'check'])->name('lab.check');
-        Route::get('/lab/output_lab2_gb_longgrain_index', [QcAdminController::class, 'output_lab2_gb_longgrain_index'])->name('lab.output_lab2_gb_longgrain_index');
     });
 
     Route::middleware(['auth:lab', 'PreventBackHistory'])->group(function () {
@@ -497,6 +519,8 @@ Route::prefix('qc')->name('qc.')->group(function () {
         Route::get('/lab/get_notifikasilab', [QcAdminController::class, 'get_notifikasilab'])->name('lab.get_notifikasilab');
         Route::get('/lab/set_notifikasilab/', [QcAdminController::class, 'set_notifikasilab'])->name('lab.set_notifikasilab');
         Route::get('/lab/new_notifikasilab/', [QcAdminController::class, 'new_notifikasilab'])->name('lab.new_notifikasilab');
+        Route::get('/lab/get_notif_qc_all', [QcAdminController::class, 'get_notif_qc_all'])->name('lab.get_notif_qc_all');
+        Route::get('/lab/get_notif_qc_all_index', [QcAdminController::class, 'get_notif_qc_all_index'])->name('lab.get_notif_qc_all_index');
         require('api_qclab1.php');
         require('api_qclab2.php');
     });
@@ -849,6 +873,8 @@ Route::prefix('qc')->name('qc.')->group(function () {
         Route::get('/spv/get_countnotifikasispvqc', [SpvQcAdminController::class, 'get_countnotifikasispvqc'])->name('spv.get_countnotifikasispvqc');
         Route::get('/spv/set_notifikasispvqc/', [SpvQcAdminController::class, 'set_notifikasispvqc'])->name('spv.set_notifikasispvqc');
         Route::get('/spv/new_notifikasispvqc/', [SpvQcAdminController::class, 'new_notifikasispvqc'])->name('spv.new_notifikasispvqc');
+        Route::get('/spv/get_notif_spvqc_all', [SpvQcAdminController::class, 'get_notif_spvqc_all'])->name('spv.get_notif_spvqc_all');
+        Route::get('/spv/get_notif_spvqc_all_index', [SpvQcAdminController::class, 'get_notif_spvqc_all_index'])->name('spv.get_notif_spvqc_all_index');
     });
 
     //BONGKAR
@@ -866,6 +892,8 @@ Route::prefix('qc')->name('qc.')->group(function () {
         Route::get('/bongkar/getcountnotif_prosesbongkar', [QcAdminBongkarController::class, 'getcountnotif_prosesbongkar'])->name('bongkar.getcountnotif_prosesbongkar');
         Route::get('/bongkar/getcountnotif_databongkar', [QcAdminBongkarController::class, 'getcountnotif_databongkar'])->name('bongkar.getcountnotif_databongkar');
         Route::get('/bongkar/getcountnotif_revisibongkar', [QcAdminBongkarController::class, 'getcountnotif_revisibongkar'])->name('bongkar.getcountnotif_revisibongkar');
+
+        Route::get('/bongkar/check_input_bongkar', [QcAdminBongkarController::class, 'check_input_bongkar'])->name('bongkar.check_input_bongkar');
         // Data Antrian Bongkar
         Route::get('/bongkar/data_antrian_bongkar_pandan_wangi_index', [QcAdminBongkarController::class, 'data_antrian_bongkar_pandan_wangi_index'])->name('bongkar.data_antrian_bongkar_pandan_wangi_index');
         Route::get('/bongkar/data_antrian_bongkar_ketan_putih_index', [QcAdminBongkarController::class, 'data_antrian_bongkar_ketan_putih_index'])->name('bongkar.data_antrian_bongkar_ketan_putih_index');
@@ -904,6 +932,8 @@ Route::prefix('qc')->name('qc.')->group(function () {
         Route::get('/bongkar/show_qc_bongkar_pk_show/{id?}', [QcAdminBongkarController::class, 'show_qc_bongkar_pk_show'])->name('bongkar.show_qc_bongkar_pk_show');
         Route::post('/bongkar/update_qc_bongkar', [QcAdminBongkarController::class, 'update_qc_bongkar'])->name('bongkar.update_qc_bongkar');
         Route::get('/bongkar/getnotifikasibongkar', [QcAdminBongkarController::class, 'get_notifikasibongkar'])->name('bongkar.get_notifikasibongkar');
+        Route::get('/bongkar/get_notif_qc_bongkar_all', [QcAdminBongkarController::class, 'get_notif_qc_bongkar_all'])->name('bongkar.get_notif_qc_bongkar_all');
+        Route::get('/bongkar/get_notif_qc_bongkar_all_index', [QcAdminBongkarController::class, 'get_notif_qc_bongkar_all_index'])->name('bongkar.get_notif_qc_bongkar_all_index');
         Route::get('/bongkar/getcountnotifikasibongkar', [QcAdminBongkarController::class, 'get_countnotifikasibongkar'])->name('bongkar.get_countnotifikasibongkar');
         Route::get('/bongkar/setnotifikasibongkar/', [QcAdminBongkarController::class, 'set_notifikasibongkar'])->name('bongkar.set_notifikasibongkar');
         Route::get('/bongkar/newnotifikasibongkar/', [QcAdminBongkarController::class, 'new_notifikasibongkar'])->name('bongkar.new_notifikasibongkar');
@@ -959,6 +989,8 @@ Route::prefix('ap')->name('ap.')->group(function () {
         Route::get('/delete_potong_pajak/{id?}', [AdminAPController::class, 'delete_potong_pajak'])->name('delete_potong_pajak');
 
         Route::get('/getnotifikasiap', [AdminAPController::class, 'get_notifikasiap'])->name('get_notifikasiap');
+        Route::get('/get_notif_ap_all', [AdminAPController::class, 'get_notif_ap_all'])->name('get_notif_ap_all');
+        Route::get('/get_notif_ap_all_index', [AdminAPController::class, 'get_notif_ap_all_index'])->name('get_notif_ap_all_index');
         Route::get('/getcountnotifikasiap', [AdminAPController::class, 'get_countnotifikasiap'])->name('get_countnotifikasiap');
         Route::get('/setnotifikasiap', [AdminAPController::class, 'set_notifikasiap'])->name('set_notifikasiap');
         Route::get('/newnotifikasiap', [AdminAPController::class, 'new_notifikasiap'])->name('new_notifikasiap');
@@ -1000,6 +1032,8 @@ Route::prefix('ap')->name('ap.')->group(function () {
 
         Route::post('/download_data_faktur_pemebelian_aol', [AdminSpvApController::class, 'download_data_faktur_pemebelian_aol'])->name('spv.download_data_faktur_pemebelian_aol');
         Route::get('/getnotifikasispvap', [AdminSpvApController::class, 'get_notifikasispvap'])->name('spv.get_notifikasispvap');
+        Route::get('/spv/get_notif_spvap_all', [AdminSpvApController::class, 'get_notif_spvap_all'])->name('spv.get_notif_spvap_all');
+        Route::get('/spv/get_notif_spvap_all_index', [AdminSpvApController::class, 'get_notif_spvap_all_index'])->name('spv.get_notif_spvap_all_index');
         Route::get('/getcountnotifikasispvap', [AdminSpvApController::class, 'get_countnotifikasispvap'])->name('spv.get_countnotifikasispvap');
         Route::get('/setnotifikasispvap', [AdminSpvApController::class, 'set_notifikasispvap'])->name('spv.set_notifikasispvap');
         Route::get('/newnotifikasispvap', [AdminSpvApController::class, 'new_notifikasispvap'])->name('spv.new_notifikasispvap');
@@ -1072,6 +1106,8 @@ Route::prefix('timbangan')->name('timbangan.')->group(function () {
         Route::get('/get_all_notifikasi', [AdminTimbanganController::class, 'get_all_notifikasi'])->name('get_all_notifikasi');
         Route::get('/setnotifikasitimbangan', [AdminTimbanganController::class, 'set_notifikasitimbangan'])->name('set_notifikasitimbangan');
         Route::get('/newnotifikasitimbangan', [AdminTimbanganController::class, 'new_notifikasitimbangan'])->name('new_notifikasitimbangan');
+        Route::get('/get_notif_timbangan_all', [AdminTimbanganController::class, 'get_notif_timbangan_all'])->name('get_notif_timbangan_all');
+        Route::get('/get_notif_timbangan_all_index', [AdminTimbanganController::class, 'get_notif_timbangan_all_index'])->name('get_notif_timbangan_all_index');
         Route::get('/account_timbangan', [AdminTimbanganController::class, 'account_timbangan'])->name('account_timbangan');
         Route::post('/account_update', [AdminTimbanganController::class, 'account_update'])->name('account_update');
     });
@@ -1129,6 +1165,8 @@ Route::prefix('security')->name('security.')->group(function () {
         Route::get('/show/penerimaan_po/{id?}', [AdminController::class, 'show_penerimaan_po'])->name('show.penerimaan_po');
         Route::get('/to_satpam_for_bonkar/{id?}', [AdminController::class, 'to_satpam_for_bonkar'])->name('to_satpam_for_bonkar');
         Route::get('/getnotifikasisecurity', [AdminController::class, 'get_notifikasisecurity'])->name('get_notifikasisecurity');
+        Route::get('/get_notif_security_all', [AdminController::class, 'get_notif_security_all'])->name('get_notif_security_all');
+        Route::get('/get_notif_security_all_index', [AdminController::class, 'get_notif_security_all_index'])->name('get_notif_security_all_index');
         Route::get('/getcountnotifikasisecurity', [AdminController::class, 'get_countnotifikasisecurity'])->name('get_countnotifikasisecurity');
         Route::get('/setnotifikasisecurity', [AdminController::class, 'set_notifikasisecurity'])->name('set_notifikasisecurity');
         Route::get('/newnotifikasisecurity', [AdminController::class, 'new_notifikasisecurity'])->name('new_notifikasisecurity');
@@ -1270,6 +1308,9 @@ Route::prefix('master')->name('master.')->group(function () {
     Route::middleware(['auth:master', 'PreventBackHistory'])->group(function () {
         Route::post('/master_logout', [MasterController::class, 'master_logout'])->name('master_logout');
         Route::get('/home', [MasterController::class, 'home'])->name('home');
+        Route::get('/account_master', [MasterController::class, 'account_master'])->name('account_master');
+        Route::post('/account_update', [MasterController::class, 'account_update'])->name('account_update');
+        Route::get('/get_notifdataAll', [MasterController::class, 'get_notifdataAll'])->name('get_notifdataAll');
 
         // ADMIN AP
 

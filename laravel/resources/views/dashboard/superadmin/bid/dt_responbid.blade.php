@@ -453,16 +453,21 @@ SURYA PANGAN SEMESTA
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
                 <h3 class="kt-subheader__title">
-                    E-PROCUREMENT
+                    PT. SURYA PANGAN SEMESTA
                 </h3>
+                <span class="btn-outline btn-sm btn-info mr-3">NGAWI</span>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
-                    <a href="#" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="" class="kt-subheader__breadcrumbs-link">
-                        SURYA PANGAN SEMESTA
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        E-Procurement
                     </a>
-                    <span class="btn-outline btn-sm btn-info">Site Ngawi</span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        List Pengajuan PO
+                    </a>
                 </div>
             </div>
         </div>
@@ -474,7 +479,7 @@ SURYA PANGAN SEMESTA
                     <div class="kt-portlet__head kt-portlet__head--lg">
                         <div class="kt-portlet__head-label">
                             <span class="kt-portlet__head-icon">
-                                <i class="flaticon-user"></i>
+                                <i class="flaticon2-delivery-package"></i>
                             </span>
                             <h3 class="kt-portlet__head-title">
                                 DATA PENGAJUAN SUPPLIER
@@ -483,15 +488,15 @@ SURYA PANGAN SEMESTA
                         <div class="kt-portlet__head-label ">
                             <ul class="nav" role="tablist">
                                 <li>
-                                    <a data-toggle="tab" href="#kediri" role="tab" aria-controls="kediri" aria-selected="false" class="btn btn-info btn-outline-hover-info"><i class="fa fa-search"></i> Approved</a>
+                                    <a data-toggle="tab" href="#kediri" role="tab" aria-controls="kediri" aria-selected="true" class="btn btn-success btn-outline-hover-success"><i class="flaticon2-list-1"></i> DISETUJUI</a>
                                 </li>
                                 <li>
-                                    <a data-toggle="tab" href="#return" role="tab" aria-controls="kediri" aria-selected="false" class="btn btn-info btn-outline-hover-info"><i class="fa fa-search"></i> Disapproved</a>
+                                    <a data-toggle="tab" href="#return" role="tab" aria-controls="return" aria-selected="false" class="btn btn-danger btn-outline-hover-danger"><i class="flaticon2-list-1"></i> DITOLAK</a>
                                 </li>
                                 <li>
-                                    <a data-toggle="tab" href="#subang" role="tab" aria-controls="subang" aria-selected="false" class="btn btn-info btn-outline-hover-info"><i class="fa fa-search"></i> E-Procurement</a>
+                                    <a data-toggle="tab" href="#subang" role="tab" aria-controls="subang" aria-selected="false" class="btn btn-info btn-outline-hover-info"><i class="flaticon2-list-1"></i> DAFTAR&nbsp;PENGAJUAN</a>
                                     <div style="position:absolute;">
-                                        <span class="badge" style="margin-left:135px; margin-top:-50px; float:left; background: #9f187c; color: white;">{{$data_count}}</span>
+                                        <span class="badge" style="margin-left:170px; margin-top:-50px; float:left; background: #9f187c; color: white;">{{$data_count}}</span>
                                     </div>
                                 </li>
                             </ul>
@@ -502,9 +507,10 @@ SURYA PANGAN SEMESTA
                     <div class="kt-portlet__body">
                         <div class="tab-content">
 
-                            <span class="m-btn btn btn-info btn-sm">Kuota {{$kuota_sisa}} Kg setara {{$kuota_sisa/8000}} Truk </span> <br>
-                            <span class="m-btn btn btn-info btn-sm">Data Approve {{$data_approve}} Truk</span>
+                            <span class="btn btn-label-info"><b><i class="flaticon2-pie-chart-4"></i>Sisa Kuota {{tonase($kuota_sisa)}}, setara {{$kuota_sisa/8000}} Truk</b> </span> <br>
+                            <span class="btn btn-label-info"><b><i class="flaticon2-correct"></i>Data Disetujui : {{$data_approve}} Truk</b></span>
                             <div class="tab-pane fade show active" id="kediri" role="tabpanel" style="overflow-x:auto;">
+                                <h3 class="text-center">DAFTAR SUPPLIER PENGAJUAN PO DISETUJUI</h3>
                                 <table class="table table-bordered" id="data_approve">
                                     <thead>
                                         <tr>
@@ -593,6 +599,7 @@ SURYA PANGAN SEMESTA
                                 </table>
                             </div>
                             <div class="tab-pane fade" id="return" role="tabpanel" style="overflow-x:auto;">
+                            <h3 class="text-center">DAFTAR SUPPLIER PENGAJUAN PO DITOLAK</h3>
                                 <table class="table table-bordered datatable" id="data_disapproved">
                                     <thead>
                                         <tr>
@@ -601,7 +608,7 @@ SURYA PANGAN SEMESTA
                                             <th style="text-align: center;width:20%">Waktu&nbsp;Pengajuan</th>
                                             <th style="text-align: center;width:15%">Keterangan</th>
                                             <th style="text-align: center;width:15%">QTY</th>
-                                            <th style="text-align: center;width:12%">ACC&nbsp;Admin</th>
+                                            <th style="text-align: center;width:12%">Disetujui</th>
                                             <th style="text-align: center;;width:12%">Tidak&nbsp;Disetujui </th>
                                         </tr>
                                     </thead>
@@ -655,6 +662,7 @@ SURYA PANGAN SEMESTA
                                 </table>
                             </div>
                             <div class="tab-pane fade" id="subang" role="tabpanel" style="overflow-x:auto;">
+                            <h3 class="text-center">DAFTAR SUPPLIER PENGAJUAN PO </h3>
                                 <table class="table table-bordered" id="data_eprocurement">
                                     <thead>
                                         <tr>
@@ -664,7 +672,10 @@ SURYA PANGAN SEMESTA
                                             <th style="text-align: center;width:15%">Keterangan</th>
                                             <th style="text-align: center;width:12%">QTY</th>
                                             <th style="text-align: center">Gambar</th>
+                                            @if(Auth::guard('sourching')->user()->level=='MANAGER')
                                             <th style="text-align: center;width:17%">Action</th>
+                                            @else
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody style="text-align: center">
@@ -683,6 +694,7 @@ SURYA PANGAN SEMESTA
                                             @else
                                             <span>No Image </span>
                                             @endif
+                                            @if(Auth::guard('sourching')->user()->level=='MANAGER')
                                             <td>
                                                 @if ($item_response->status_biduser == 0)
                                                 <a style="margin:2px;" name="{{ $item_response->id_biduser }}" data-toggle="modal" data-target="#modal2" title="Approve/Disapprove" class="toapprove btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
@@ -703,6 +715,8 @@ SURYA PANGAN SEMESTA
                                                                 @endif
                                                             </a>
                                             </td>
+                                          @else
+                                            @endif
                                         </tr>
                                         <div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -825,6 +839,7 @@ SURYA PANGAN SEMESTA
                             <input type="hidden" name="user_idbid" id="user_id11">
                             <input type="hidden" name="bid_id" id="bid_id11">
                             <input type="hidden" name="tanggal_po" id="tanggal_po1">
+                            <input type="hidden" name="tanggal_bongkar" id="tanggal_bongkar1">
                             <input type="hidden" name="kode_item" id="kode_item1">
                             <input type="hidden" name="vendorid" id="vendorid1">
                             <input type="hidden" name="termcode" id="termcode1">
@@ -900,6 +915,7 @@ SURYA PANGAN SEMESTA
                             <input type="hidden" name="user_idbid" id="user_id2">
                             <input type="hidden" name="bid_id" id="bid_id2">
                             <input type="hidden" name="tanggal_po" id="tanggal_po2">
+                            <input type="hidden" name="tanggal_bongkar" id="tanggal_bongkar2">
                             <input type="hidden" name="kode_item" id="kode_item2">
                             <input type="hidden" name="vendorid" id="vendorid2">
                             <input type="hidden" name="termcode" id="termcode2">
@@ -979,6 +995,7 @@ SURYA PANGAN SEMESTA
                                 <input type="hidden" value="0" name="permintaan_diterima" />
                                 <input type="hidden" id="jumlah_kirim4" name="permintaan_ditolak" />
                                 <input type="hidden" name="tanggal_po" id="tanggal_po3">
+                                <input type="hidden" name="tanggal_bongkar" id="tanggal_bongkar3">
                                 <input type="hidden" name="kode_item" id="kode_item3">
                                 <input type="hidden" name="vendorid" id="vendorid3">
                                 <input type="hidden" name="termcode" id="termcode3">
@@ -1200,6 +1217,9 @@ SURYA PANGAN SEMESTA
                     $('#tanggal_po1').val(parsed.open_po);
                     $('#tanggal_po2').val(parsed.open_po);
                     $('#tanggal_po3').val(parsed.open_po);
+                    $('#tanggal_bongkar1').val(parsed.unload_date);
+                    $('#tanggal_bongkar2').val(parsed.unload_date);
+                    $('#tanggal_bongkar3').val(parsed.unload_date);
                 }
             });
         });

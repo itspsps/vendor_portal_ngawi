@@ -70,7 +70,23 @@ class QcLab1Controller extends Controller
     {
         return view('dashboard.admin_qc.proses_lab1_gabah_basah');
     }
-
+    public function check_input_lab1(Request $request)
+    {
+        $cek_data = Lab1GabahBasah::where('lab1_kode_po_gb', $request->kode_po)->select('lab1_kode_po_gb')->get();
+        if (count($cek_data) > 0) {
+            return response()->json('double');
+        } else {
+            return response()->json('success');
+        }
+    }
+    public function proses_add_lab1_gabah_basah($id)
+    {
+        $data = PenerimaanPO::join('data_po', 'data_po.kode_po', '=', 'penerimaan_po.penerimaan_kode_po')
+            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+            ->join('users', 'users.id', '=', 'data_po.user_idbid')
+            ->where('id_penerimaan_po', $id)->first();
+        return view('dashboard.admin_qc.proses_add_lab1_gabah_basah', compact('data'));
+    }
     public function proses_lab1_gabah_kering()
     {
         return view('dashboard.admin_qc.proses_lab1_gabah_kering');
@@ -89,7 +105,15 @@ class QcLab1Controller extends Controller
     {
         return view('dashboard.admin_qc.output_proses_lab1_gb');
     }
-
+    public function output_edit_proses_lab1_gb($id)
+    {
+        $data = Lab1GabahBasah::join('data_po', 'data_po.id_data_po', '=', 'lab1_gb.lab1_id_data_po_gb')
+            ->join('users', 'users.id', '=', 'data_po.user_idbid')
+            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+            ->where('id_lab1_gb', $id)->first();
+        // dd($id, $data);
+        return view('dashboard.admin_qc.output_edit_proses_lab1_gb', compact('data'));
+    }
     public function output_proses_lab1_pk()
     {
         return view('dashboard.admin_qc.output_proses_lab1_pk');
@@ -128,6 +152,10 @@ class QcLab1Controller extends Controller
                 $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
                 return $result;
             })
+            ->addColumn('tanggal_bongkar', function ($list) {
+                $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                return $result;
+            })
             ->addColumn('waktu_penerimaan', function ($list) {
                 $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
                 return $result;
@@ -151,7 +179,7 @@ class QcLab1Controller extends Controller
                         Lab&nbsp;Process
                     </button>';
             })
-            ->rawColumns(['kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'keterangan_penerimaan_po', 'ckelola'])
+            ->rawColumns(['kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'tanggal_bongkar', 'nama_penerima_po', 'plat_kendaraan', 'keterangan_penerimaan_po', 'ckelola'])
             ->make(true);
     }
     public function proses_lab1_gabah_basah_longgrain_index()
@@ -171,7 +199,7 @@ class QcLab1Controller extends Controller
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
             ->where('data_po.status_bid', 3)
             ->where('bid.name_bid', 'GABAH BASAH LONG GRAIN')
-            ->where('penerimaan_po.analisa',NULL)
+            ->where('penerimaan_po.analisa', NULL)
             ->orderBy('penerimaan_po.waktu_penerimaan', 'asc')
             ->get())
             ->addColumn('kode_po', function ($list) {
@@ -194,6 +222,10 @@ class QcLab1Controller extends Controller
                 $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
                 return $result;
             })
+            ->addColumn('tanggal_bongkar', function ($list) {
+                $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                return $result;
+            })
             ->addColumn('waktu_penerimaan', function ($list) {
                 $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
                 return $result;
@@ -203,7 +235,7 @@ class QcLab1Controller extends Controller
                 return $result;
             })
             ->addColumn('plat_kendaraan', function ($list) {
-                $nopol = '<span class="btn btn-label-info btn-sm " style="font-weight: bold;">'.$list->plat_kendaraan.'</span>';
+                $nopol = '<span class="btn btn-label-info btn-sm " style="font-weight: bold;">' . $list->plat_kendaraan . '</span>';
                 return $nopol;
             })
             ->addColumn('keterangan_penerimaan_po', function ($list) {
@@ -217,7 +249,7 @@ class QcLab1Controller extends Controller
                         Lab&nbsp;Process
                     </button>';
             })
-            ->rawColumns(['kode_po', 'antrian', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'keterangan_penerimaan_po', 'ckelola'])
+            ->rawColumns(['kode_po', 'antrian', 'nama_vendor', 'tanggal_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'keterangan_penerimaan_po', 'ckelola'])
             ->make(true);
     }
     public function proses_lab1_gabah_basah_pandan_wangi_index()
@@ -250,6 +282,10 @@ class QcLab1Controller extends Controller
                 $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
                 return $result;
             })
+            ->addColumn('tanggal_bongkar', function ($list) {
+                $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                return $result;
+            })
             ->addColumn('waktu_penerimaan', function ($list) {
                 $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
                 return $result;
@@ -273,7 +309,7 @@ class QcLab1Controller extends Controller
                         Lab&nbsp;Process
                     </button>';
             })
-            ->rawColumns(['kode_po', 'antrian', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'keterangan_penerimaan_po', 'ckelola'])
+            ->rawColumns(['kode_po', 'antrian', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'keterangan_penerimaan_po', 'ckelola'])
             ->make(true);
     }
     public function proses_lab1_gabah_basah_ketan_putih_index()
@@ -315,6 +351,10 @@ class QcLab1Controller extends Controller
                 $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
                 return $result;
             })
+            ->addColumn('tanggal_bongkar', function ($list) {
+                $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                return $result;
+            })
             ->addColumn('waktu_penerimaan', function ($list) {
                 $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
                 return $result;
@@ -338,7 +378,7 @@ class QcLab1Controller extends Controller
                         Lab&nbsp;Process
                     </button>';
             })
-            ->rawColumns(['kode_po', 'antrian', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'keterangan_penerimaan_po', 'ckelola'])
+            ->rawColumns(['kode_po', 'antrian', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'keterangan_penerimaan_po', 'ckelola'])
             ->make(true);
     }
 
@@ -364,6 +404,10 @@ class QcLab1Controller extends Controller
             })
             ->addColumn('tanggal_po', function ($list) {
                 $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                return $result;
+            })
+            ->addColumn('tanggal_bongkar', function ($list) {
+                $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                 return $result;
             })
             ->addColumn('waktu_penerimaan', function ($list) {
@@ -591,7 +635,7 @@ class QcLab1Controller extends Controller
                     ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
                     ->where('penerimaan_po.status_penerimaan', '>=', 5)
                     ->where('bid.name_bid', 'GABAH BASAH PANDAN WANGI')
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
+                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
                     ->orderBy('penerimaan_po.id_penerimaan_po', 'DESC')
                     ->get())
                     ->addColumn('waktu_penerimaan', function ($list) {
@@ -610,6 +654,10 @@ class QcLab1Controller extends Controller
                     })
                     ->addColumn('tanggal_po', function ($list) {
                         $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('antrian', function ($list) {
@@ -988,7 +1036,7 @@ class QcLab1Controller extends Controller
                         return $result . '/Kg';
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'antrian', 'kode_po', 'nama_vendor', 'lokasi_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'ckelola_manager', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'antrian', 'tanggal_bongkar', 'kode_po', 'nama_vendor', 'lokasi_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'ckelola_manager', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             } else {
                 return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
@@ -1016,6 +1064,10 @@ class QcLab1Controller extends Controller
                     })
                     ->addColumn('tanggal_po', function ($list) {
                         $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('antrian', function ($list) {
@@ -1394,7 +1446,7 @@ class QcLab1Controller extends Controller
                         return $result . '/Kg';
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'antrian', 'kode_po', 'nama_vendor', 'lokasi_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'ckelola_manager', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'antrian', 'kode_po', 'tanggal_bongkar', 'nama_vendor', 'lokasi_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'ckelola_manager', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             }
         }
@@ -1411,7 +1463,7 @@ class QcLab1Controller extends Controller
                     ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
                     ->where('penerimaan_po.status_penerimaan', '>=', 5)
                     ->where('bid.name_bid', 'GABAH BASAH LONG GRAIN')
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
+                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
                     ->orderBy('lab1_gb.created_at_gb', 'DESC')
                     ->get())
                     ->addColumn('waktu_penerimaan', function ($list) {
@@ -1430,6 +1482,10 @@ class QcLab1Controller extends Controller
                     })
                     ->addColumn('tanggal_po', function ($list) {
                         $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('antrian', function ($list) {
@@ -1576,7 +1632,7 @@ class QcLab1Controller extends Controller
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
                         <button class="dropdown-item" id="btn_approve_bongkar" data-id="' . $list->id_lab1_gb . '"><i class="fas fa-check"></i>Ajukan&nbsp;Approve&nbsp;Bongkar</button>
-                        <button id="to_edit" class="dropdown-item" name="' . $list->id_lab1_gb . '" data-id="' . $list->id_penerimaan_po . '" data-tanggal_po="' . $list->tanggal_po . '" data-item="' . $list->name_bid . '" data-hp="' . $list->nomer_hp . '" title="Edit Data"><i class="fas fa-edit"></i>Edit</button>
+                            <a href="' . route('qc.lab.output_edit_proses_lab1_gb', ['id' => $list->id_lab1_gb]) . '" id="to_edit" class="dropdown-item" name="' . $list->id_lab1_gb . '" title="Edit Data"><i class="fas fa-edit"></i>Edit</a>
                         </div>
                         </div>';
                             } else if ($list->status_approved == 0) {
@@ -1591,7 +1647,7 @@ class QcLab1Controller extends Controller
                             Tolak&nbsp;Approve <i class="fa fa-exclamation"></i> <br> (Cek&nbsp;Analisa&nbsp;Lab)
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                            <button id="to_edit" class="dropdown-item to_edit" name="' . $list->id_lab1_gb . '" data-id="' . $list->id_penerimaan_po . '" data-tanggal_po="' . $list->tanggal_po . '" data-item="' . $list->name_bid . '" data-hp="' . $list->nomer_hp . '"  title="Information"><i class="fas fa-edit"></i>Cek&nbsp;Analisa</button>
+                                <a href="' . route('qc.lab.output_edit_proses_lab1_gb', ['id' => $list->id_lab1_gb]) . '" id="to_edit" class="dropdown-item" name="' . $list->id_lab1_gb . '" title="Edit Data"><i class="fas fa-edit"></i>Cek&nbsp;Analisa</a>
                             </div>
                             </div>';
                             } else if ($list->status_approved == 1) {
@@ -1628,7 +1684,7 @@ class QcLab1Controller extends Controller
                         <i class="fa fa-question"></i> Cek&nbsp;Tolak
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                        <button id="to_edit" class="dropdown-item" name="' . $list->id_lab1_gb . '" data-id="' . $list->id_penerimaan_po . '" data-tanggal_po="' . $list->tanggal_po . '" data-item="' . $list->name_bid . '" data-hp="' . $list->nomer_hp . '" title="Edit Data"><i class="fas fa-edit"></i>Analisa&nbsp;Ulang</button>
+                           <a href="' . route('qc.lab.output_edit_proses_lab1_gb', ['id' => $list->id_lab1_gb]) . '" id="to_edit" class="dropdown-item" name="' . $list->id_lab1_gb . '" title="Edit Data"><i class="fas fa-edit"></i>Analisa&nbsp;Ulang</a>
                         </div>
                         </div>';
                             }
@@ -1645,7 +1701,7 @@ class QcLab1Controller extends Controller
                                     <i class="fa fa-question"></i> Cek&nbsp;Status
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                                    <button id="to_edit" class="dropdown-item to_edit" name="' . $list->id_lab1_gb . '" data-id="' . $list->id_penerimaan_po . '" data-tanggal_po="' . $list->tanggal_po . '" data-hp="' . $list->nomer_hp . '" title="Information"><i class="fas fa-edit"></i>Edit</button>
+                                      <a href="' . route('qc.lab.output_edit_proses_lab1_gb', ['id' => $list->id_lab1_gb]) . '" id="to_edit" class="dropdown-item" name="' . $list->id_lab1_gb . '" title="Edit Data"><i class="fas fa-edit"></i>Edit</a>
                                 </div>
                             </div>';
                             } elseif ($list->output_lab_gb == 'Unload') {
@@ -1680,7 +1736,7 @@ class QcLab1Controller extends Controller
                                 <i class="fa fa-exclamation"></i> Pending&nbsp;Harga <br> (Konfirmasi&nbsp;Supplier)
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                                <button id="to_edit" class="dropdown-item to_edit" name="' . $list->id_lab1_gb . '" data-id="' . $list->id_penerimaan_po . '" data-tanggal_po="' . $list->tanggal_po . '" data-item="' . $list->name_bid . '" data-hp="' . $list->nomer_hp . '"  title="Information"><i class="fas fa-edit"></i>Edit</button>
+                                    <a href="' . route('qc.lab.output_edit_proses_lab1_gb', ['id' => $list->id_lab1_gb]) . '" id="to_edit" class="dropdown-item" name="' . $list->id_lab1_gb . '" title="Edit Data"><i class="fas fa-edit"></i>Edit</a>
                             </div>
                         </div>';
                         } else {
@@ -1807,7 +1863,7 @@ class QcLab1Controller extends Controller
                         return $result . '/Kg';
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'antrian', 'kode_po', 'nama_vendor', 'lokasi_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'ckelola_manager', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'tanggal_bongkar', 'antrian', 'kode_po', 'nama_vendor', 'lokasi_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'ckelola_manager', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             } else {
                 return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
@@ -1835,6 +1891,10 @@ class QcLab1Controller extends Controller
                     })
                     ->addColumn('tanggal_po', function ($list) {
                         $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('antrian', function ($list) {
@@ -1926,7 +1986,7 @@ class QcLab1Controller extends Controller
                                     <i class="fa fa-question"></i> Cek&nbsp;Status
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                                    <button id="to_edit" class="dropdown-item to_edit" name="' . $list->id_lab1_gb . '" data-id="' . $list->id_penerimaan_po . '" data-tanggal_po="' . $list->tanggal_po . '" title="Information"><i class="fas fa-edit"></i>Edit</button>
+                                      <a href="' . route('qc.lab.output_edit_proses_lab1_gb', ['id' => $list->id_lab1_gb]) . '" id="to_edit" class="dropdown-item" name="' . $list->id_lab1_gb . '" title="Edit Data"><i class="fas fa-edit"></i>Edit</a>
                                 </div>
                             </div>';
                             } elseif ($list->output_lab_gb == 'Unload') {
@@ -1981,7 +2041,7 @@ class QcLab1Controller extends Controller
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
                         <button class="dropdown-item" id="btn_approve_bongkar" data-id="' . $list->id_lab1_gb . '"><i class="fas fa-check"></i>Ajukan&nbsp;Approve&nbsp;Bongkar</button>
-                        <button id="to_edit" class="dropdown-item" name="' . $list->id_lab1_gb . '" data-id="' . $list->id_penerimaan_po . '" data-tanggal_po="' . $list->tanggal_po . '" data-item="' . $list->name_bid . '" data-hp="' . $list->nomer_hp . '" title="Edit Data"><i class="fas fa-edit"></i>Edit</button>
+                       <a type="button" href="' . route('qc.lab.output_edit_proses_lab1_gb', ['id' => $list->id_lab1_gb]) . '" id="btn_edit" class="dropdown-item"  title="Information"><i class="fas fa-edit"></i>Edit</a>
                         </div>
                         </div>';
                             } else if ($list->status_approved == 0) {
@@ -1996,7 +2056,7 @@ class QcLab1Controller extends Controller
                             Tolak&nbsp;Approve <i class="fa fa-exclamation"></i> <br> (Cek&nbsp;Analisa&nbsp;Lab)
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                            <button id="to_edit" class="dropdown-item to_edit" name="' . $list->id_lab1_gb . '" data-id="' . $list->id_penerimaan_po . '" data-tanggal_po="' . $list->tanggal_po . '" data-item="' . $list->name_bid . '" data-hp="' . $list->nomer_hp . '"  title="Information"><i class="fas fa-edit"></i>Cek&nbsp;Analisa</button>
+                              <a href="' . route('qc.lab.output_edit_proses_lab1_gb', ['id' => $list->id_lab1_gb]) . '" id="to_edit" class="dropdown-item" name="' . $list->id_lab1_gb . '" title="Edit Data"><i class="fas fa-edit"></i>Cek&nbsp;Analisa</a>
                             </div>
                             </div>';
                             } else if ($list->status_approved == 1) {
@@ -2033,7 +2093,7 @@ class QcLab1Controller extends Controller
                         <i class="fa fa-question"></i> Cek&nbsp;Tolak
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                        <button id="to_edit" class="dropdown-item" name="' . $list->id_lab1_gb . '" data-id="' . $list->id_penerimaan_po . '" data-tanggal_po="' . $list->tanggal_po . '" data-item="' . $list->name_bid . '" data-hp="' . $list->nomer_hp . '" title="Edit Data"><i class="fas fa-edit"></i>Analisa&nbsp;Ulang</button>
+                           <a href="' . route('qc.lab.output_edit_proses_lab1_gb', ['id' => $list->id_lab1_gb]) . '" id="to_edit" class="dropdown-item" name="' . $list->id_lab1_gb . '" title="Edit Data"><i class="fas fa-edit"></i>Analisa&nbsp;Ulang</a>
                         </div>
                         </div>';
                             }
@@ -2050,7 +2110,7 @@ class QcLab1Controller extends Controller
                                     <i class="fa fa-question"></i> Cek&nbsp;Status
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                                    <button id="to_edit" class="dropdown-item to_edit" name="' . $list->id_lab1_gb . '" data-id="' . $list->id_penerimaan_po . '" data-tanggal_po="' . $list->tanggal_po . '" data-hp="' . $list->nomer_hp . '" title="Information"><i class="fas fa-edit"></i>Edit</button>
+                                     <a href="' . route('qc.lab.output_edit_proses_lab1_gb', ['id' => $list->id_lab1_gb]) . '" id="to_edit" class="dropdown-item" name="' . $list->id_lab1_gb . '" title="Edit Data"><i class="fas fa-edit"></i>Edit</a>
                                 </div>
                             </div>';
                             } elseif ($list->output_lab_gb == 'Unload') {
@@ -2085,7 +2145,7 @@ class QcLab1Controller extends Controller
                                 <i class="fa fa-exclamation"></i> Pending&nbsp;Harga <br> (Konfirmasi&nbsp;Supplier)
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                                <button id="to_edit" class="dropdown-item to_edit" name="' . $list->id_lab1_gb . '" data-id="' . $list->id_penerimaan_po . '" data-tanggal_po="' . $list->tanggal_po . '" data-item="' . $list->name_bid . '" data-hp="' . $list->nomer_hp . '"  title="Information"><i class="fas fa-edit"></i>Edit</button>
+                                <a href="' . route('qc.lab.output_edit_proses_lab1_gb', ['id' => $list->id_lab1_gb]) . '" id="to_edit" class="dropdown-item" name="' . $list->id_lab1_gb . '" title="Edit Data"><i class="fas fa-edit"></i>Edit</a>
                             </div>
                         </div>';
                         } else {
@@ -2212,7 +2272,7 @@ class QcLab1Controller extends Controller
                         return $result . '/Kg';
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'antrian', 'kode_po', 'nama_vendor', 'lokasi_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'ckelola_manager', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'antrian', 'tanggal_bongkar', 'kode_po', 'nama_vendor', 'lokasi_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'ckelola_manager', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             }
         }
@@ -2243,6 +2303,10 @@ class QcLab1Controller extends Controller
                         ';
             })
             ->addColumn('tanggal_po', function ($list) {
+                $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                return $result;
+            })
+            ->addColumn('tanggal_bongkar', function ($list) {
                 $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
                 return $result;
             })
@@ -2286,7 +2350,7 @@ class QcLab1Controller extends Controller
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
                         <button class="dropdown-item" id="btn_approve_bongkar" data-id="' . $list->id_lab1_gb . '"><i class="fas fa-check"></i>Bongkar</button>
-                        <button id="to_edit" class="dropdown-item" name="' . $list->id_lab1_gb . '" data-id="' . $list->id_penerimaan_po . '" data-tanggal_po="' . $list->tanggal_po . '" data-item="' . $list->name_bid . '" data-hp="' . $list->nomer_hp . '" title="Edit Data"><i class="fas fa-edit"></i>Edit</button>
+                        <a href="' . route('qc.lab.output_edit_proses_lab1_gb', ['id' => $list->id_lab1_gb]) . '" id="to_edit" class="dropdown-item" name="' . $list->id_lab1_gb . '" title="Edit Data"><i class="fas fa-edit"></i>Edit</a>
                         </div>
                         </div>';
                         // <button class="dropdown-item" id="btn_approve_bongkar" data-id="' . $list->id_lab1_gb . '"><i class="fas fa-check"></i>Ajukan&nbsp;Approve&nbsp;Bongkar</button>
@@ -2297,7 +2361,7 @@ class QcLab1Controller extends Controller
                         Tolak&nbsp;Approve <i class="fa fa-exclamation"></i> <br> (Cek&nbsp;Analisa&nbsp;Lab)
 						</button>
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                        <button id="to_edit" class="dropdown-item to_edit" name="' . $list->id_lab1_gb . '" data-id="' . $list->id_penerimaan_po . '" data-tanggal_po="' . $list->tanggal_po . '" data-item="' . $list->name_bid . '" data-hp="' . $list->nomer_hp . '"  title="Information"><i class="fas fa-edit"></i>Cek&nbsp;Analisa</button>
+                           <a href="' . route('qc.lab.output_edit_proses_lab1_gb', ['id' => $list->id_lab1_gb]) . '" id="to_edit" class="dropdown-item" name="' . $list->id_lab1_gb . '" title="Edit Data"><i class="fas fa-edit"></i>Cek&nbsp;Analisa</a>
 						</div>
                         </div>';
                     } else if ($list->status_approved == 1) {
@@ -2341,7 +2405,7 @@ class QcLab1Controller extends Controller
     						    <i class="fa fa-question"></i> Cek&nbsp;Status
     						</button>
     						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-    							<button id="to_edit" class="dropdown-item to_edit" name="' . $list->id_lab1_gb . '" data-id="' . $list->id_penerimaan_po . '" data-tanggal_po="' . $list->tanggal_po . '" title="Information"><i class="fas fa-edit"></i>Edit</button>
+    					    <a href="' . route('qc.lab.output_edit_proses_lab1_gb', ['id' => $list->id_lab1_gb]) . '" id="to_edit" class="dropdown-item" name="' . $list->id_lab1_gb . '" title="Edit Data"><i class="fas fa-edit"></i>Edit</a>
     						</div>
     					</div>';
                     } elseif ($list->output_lab_gb == 'Unload') {
@@ -2376,7 +2440,7 @@ class QcLab1Controller extends Controller
 						    <i class="fa fa-exclamation"></i> Pending&nbsp;Harga <br> (Konfirmasi&nbsp;Supplier)
 						</button>
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-							<button id="to_edit" class="dropdown-item to_edit" name="' . $list->id_lab1_gb . '" data-id="' . $list->id_penerimaan_po . '" data-tanggal_po="' . $list->tanggal_po . '" data-item="' . $list->name_bid . '" data-hp="' . $list->nomer_hp . '" data-hp="' . $list->nomer_hp . '"  title="Information"><i class="fas fa-edit"></i>Edit</button>
+							    <a href="' . route('qc.lab.output_edit_proses_lab1_gb', ['id' => $list->id_lab1_gb]) . '" id="to_edit" class="dropdown-item" name="' . $list->id_lab1_gb . '" title="Edit Data"><i class="fas fa-edit"></i>Edit</a>
 						</div>
 					</div>';
                 } else {
@@ -2503,7 +2567,7 @@ class QcLab1Controller extends Controller
                 return $result . '/Kg';
             })
 
-            ->rawColumns(['waktu_penerimaan', 'antrian', 'kode_po', 'nama_vendor', 'lokasi_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'ckelola_manager', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+            ->rawColumns(['waktu_penerimaan', 'antrian', 'tanggal_bongkar', 'kode_po', 'nama_vendor', 'lokasi_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'ckelola_manager', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
             ->make(true);
     }
     public function output_lab1_gb_ketan_putih_index(Request $request)
@@ -2518,7 +2582,7 @@ class QcLab1Controller extends Controller
                     ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
                     ->where('penerimaan_po.status_penerimaan', '>=', 5)
                     ->where('bid.name_bid', 'GABAH BASAH KETAN PUTIH')
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
+                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
                     ->orderBy('penerimaan_po.id_penerimaan_po', 'DESC')
                     ->get())
                     ->addColumn('waktu_penerimaan', function ($list) {
@@ -2537,6 +2601,10 @@ class QcLab1Controller extends Controller
                     })
                     ->addColumn('tanggal_po', function ($list) {
                         $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('antrian', function ($list) {
@@ -2914,7 +2982,7 @@ class QcLab1Controller extends Controller
                         return $result . '/Kg';
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'antrian', 'kode_po', 'nama_vendor', 'lokasi_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'ckelola_manager', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'antrian', 'kode_po', 'nama_vendor', 'tanggal_bongkar', 'lokasi_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'ckelola_manager', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             } else {
                 return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
@@ -2944,6 +3012,10 @@ class QcLab1Controller extends Controller
                         $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
                     ->addColumn('antrian', function ($list) {
                         $result = $list->no_antrian;
                         return '<a style="margin:2px;"  title="Informasi" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
@@ -3319,7 +3391,7 @@ class QcLab1Controller extends Controller
                         return $result . '/Kg';
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'antrian', 'kode_po', 'nama_vendor', 'lokasi_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'ckelola_manager', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'antrian', 'kode_po', 'tanggal_bongkar', 'nama_vendor', 'lokasi_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'ckelola_manager', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             }
         }
@@ -3699,7 +3771,6 @@ class QcLab1Controller extends Controller
         $data            = Lab1GabahBasah::where('id_lab1_gb', $id)->first();
         $data->status_approved = '1';
         $data->update();
-        $get_penerimaan_po  = PenerimaanPO::where('penerimaan_kode_po', $data->lab1_kode_po_gb)->first();
 
         $log                               = new LogAktivityLab();
         $log->nama_user                    = Auth::guard('lab')->user()->name_qc;
@@ -3708,12 +3779,6 @@ class QcLab1Controller extends Controller
         $log->keterangan_aktivitas         = 'Selesai';
         $log->created_at                   = date('Y-m-d H:i:s');
         $log->save();
-
-        $po = trackerPO::where('kode_po_tracker', $data->lab1_kode_po_gb)->first();
-        $po->nama_admin_tracker  = Auth::guard('lab')->user()->name_qc;
-        $po->proses_tracker  = 'PENGAJUAN APPROVE BONGKAR';
-        $po->pengajuan_approve_lab1_tracker  = date('Y-m-d H:i:s');
-        $po->update();
 
         //tambah notifikasi
         $notif   = new NotifSpvqc();
@@ -3725,6 +3790,19 @@ class QcLab1Controller extends Controller
         $notif->kategori        = 0;
         $notif->created_at      = date('Y-m-d H:i:s');
         $notif->save();
+        $po = trackerPO::where('kode_po_tracker', $data->lab1_kode_po_gb)->first();
+        if ($po == NULL) {
+            $insert_tracker = new trackerPO();
+            $insert_tracker->nama_admin_tracker  = Auth::guard('lab')->user()->name_qc;
+            $insert_tracker->proses_tracker  = 'PENGAJUAN APPROVE BONGKAR';
+            $insert_tracker->pengajuan_approve_lab1_tracker  = date('Y-m-d H:i:s');
+            $insert_tracker->save();
+        } else {
+            $po->nama_admin_tracker  = Auth::guard('lab')->user()->name_qc;
+            $po->proses_tracker  = 'PENGAJUAN APPROVE BONGKAR';
+            $po->pengajuan_approve_lab1_tracker  = date('Y-m-d H:i:s');
+            $po->update();
+        }
     }
 
     public function approve_lab1_pk($id)
@@ -3791,11 +3869,7 @@ class QcLab1Controller extends Controller
     }
     public function gabah_incoming_qc($id)
     {
-        $data = DB::table('penerimaan_po')
-            ->join('data_po', 'data_po.kode_po', '=', 'penerimaan_po.penerimaan_kode_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-            ->join('users', 'users.id', '=', 'data_po.user_idbid')
-            ->where('id_penerimaan_po', $id)->first();
+        $data = Lab1GabahBasah::where('lab1_id_penerimaan_po_gb', $id)->count();
         return json_encode($data);
     }
     public function save_proseslab1_gabah_basah(Request $request)
@@ -3858,7 +3932,7 @@ class QcLab1Controller extends Controller
             $data->tp_gb                                   = $request->tp_gb;
             $data->md_gb                                   = $request->md_gb;
             $data->lokasi_bongkar_gb                       = $request->lokasi_gt_gb;
-            $data->lokasi_gt_gb                             = $request->lokasi_gt_gb;
+            $data->lokasi_gt_gb                            = $request->lokasi_gt_gb;
             $data->status_lab1_gb                          = 6;
             $data->save();
 
@@ -3902,12 +3976,25 @@ class QcLab1Controller extends Controller
             $log->save();
 
             $po = trackerPO::where('kode_po_tracker', $request->lab1_kode_po_gb)->first();
-            $po->nama_admin_tracker  = Auth::guard('lab')->user()->name_qc;
-            $po->status_po_tracker  = '6';
-            $po->pengajuan_approve_lab1_tracker  = NULL;
-            $po->proses_tracker  = 'insert LAB 1';
-            $po->lab1_tracker  = date('Y-m-d H:i:s');
-            $po->update();
+            if ($po == NULL) {
+                $insert_tracker = new trackerPO();
+                $insert_tracker->nama_admin_tracker  = Auth::guard('lab')->user()->name_qc;
+                $insert_tracker->kode_po_tracker  = $request->lab1_kode_po_gb;
+                $insert_tracker->id_penerimaan_tracker  = $request->id_penerimaan_po_gb;
+                $insert_tracker->id_data_po_tracker  = $request->lab1_id_data_po_gb;
+                $insert_tracker->status_po_tracker  = '6';
+                $insert_tracker->pengajuan_approve_lab1_tracker  = NULL;
+                $insert_tracker->proses_tracker  = 'insert LAB 1';
+                $insert_tracker->lab1_tracker  = date('Y-m-d H:i:s');
+                $insert_tracker->save();
+            } else {
+                $po->nama_admin_tracker  = Auth::guard('lab')->user()->name_qc;
+                $po->status_po_tracker  = '6';
+                $po->pengajuan_approve_lab1_tracker  = NULL;
+                $po->proses_tracker  = 'insert LAB 1';
+                $po->lab1_tracker  = date('Y-m-d H:i:s');
+                $po->update();
+            }
         } elseif ($request->keterangan_lab_1_gb == 'Pending') {
             $data = PenerimaanPO::where('id_penerimaan_po', $request->id_penerimaan_po_gb)->first();
             $data->status_penerimaan = 16;
@@ -3917,13 +4004,13 @@ class QcLab1Controller extends Controller
             $data->status_bid = 16;
             $data->update();
 
-            $data                                        = new Lab1GabahBasah();
-            $data->lab1_id_penerimaan_po_gb        = $request->id_penerimaan_po_gb;
-            $data->lab1_id_data_po_gb              = $request->lab1_id_data_po_gb;
-            $data->lab1_id_bid_user_gb             = $request->lab1_id_bid_user_gb;
-            $data->lab1_kode_po_gb                 = $request->lab1_kode_po_gb;
-            $data->lab1_plat_gb                    = $request->lab1_plat_gb;
-            $data->lab1_token                                = Str::random(30);
+            $data                                          = new Lab1GabahBasah();
+            $data->lab1_id_penerimaan_po_gb                = $request->id_penerimaan_po_gb;
+            $data->lab1_id_data_po_gb                      = $request->lab1_id_data_po_gb;
+            $data->lab1_id_bid_user_gb                     = $request->lab1_id_bid_user_gb;
+            $data->lab1_kode_po_gb                         = $request->lab1_kode_po_gb;
+            $data->lab1_plat_gb                            = $request->lab1_plat_gb;
+            $data->lab1_token                              = Str::random(30);
             $data->hampa_gb                                = $request->hampa_gb;
             $data->broken_gb                               = $request->broken_gb;
             $data->randoman_gb                             = $request->randoman_gb;
@@ -3931,7 +4018,7 @@ class QcLab1Controller extends Controller
             $data->created_at_gb                           = date('Y-m-d H:i:s');
             $data->keterangan_lab_gb                       = $request->keterangan_lab_gb;
             $data->plan_harga_gb                           = $request->plan_harga_gb;
-            $data->status_lab1_gb               = 16;
+            $data->status_lab1_gb                          = 16;
             $data->output_lab_gb                           = $request->keterangan_lab_1_gb;
             $data->kg_after_adjust_hampa_gb                = $request->kg_after_adjust_hampa_gb;
             $data->prosentasi_kg_gb                        = $request->prosentasi_kg_gb;
@@ -4000,12 +4087,25 @@ class QcLab1Controller extends Controller
             $log->save();
 
             $po = trackerPO::where('kode_po_tracker', $request->lab1_kode_po_gb)->first();
-            $po->nama_admin_tracker  = Auth::guard('lab')->user()->name_qc;
-            $po->status_po_tracker  = '16';
-            $po->proses_tracker  = 'PO PENDING HARGA';
-            $po->pengajuan_approve_lab1_tracker  = 'KONFIRMASI PENDING ';
-            $po->lab1_tracker  = date('Y-m-d H:i:s');
-            $po->update();
+            if ($po == NULL) {
+                $insert_tracker = new trackerPO();
+                $insert_tracker->nama_admin_tracker  = Auth::guard('lab')->user()->name_qc;
+                $insert_tracker->kode_po_tracker  = $request->lab1_kode_po_gb;
+                $insert_tracker->id_penerimaan_tracker  = $request->id_penerimaan_po_gb;
+                $insert_tracker->id_data_po_tracker  = $request->lab1_id_data_po_gb;
+                $insert_tracker->status_po_tracker  = '16';
+                $insert_tracker->proses_tracker  = 'PO PENDING HARGA';
+                $insert_tracker->pengajuan_approve_lab1_tracker  = 'KONFIRMASI PENDING ';
+                $insert_tracker->lab1_tracker  = date('Y-m-d H:i:s');
+                $insert_tracker->save();
+            } else {
+                $po->nama_admin_tracker  = Auth::guard('lab')->user()->name_qc;
+                $po->status_po_tracker  = '16';
+                $po->proses_tracker  = 'PO PENDING HARGA';
+                $po->pengajuan_approve_lab1_tracker  = 'KONFIRMASI PENDING ';
+                $po->lab1_tracker  = date('Y-m-d H:i:s');
+                $po->update();
+            }
 
             //            $curl = curl_init();
             // curl_setopt_array($curl, array(
@@ -4139,12 +4239,25 @@ class QcLab1Controller extends Controller
             $log->save();
 
             $po = trackerPO::where('kode_po_tracker', $request->lab1_kode_po_gb)->first();
-            $po->nama_admin_tracker  = Auth::guard('lab')->user()->name_qc;
-            $po->status_po_tracker  = '5';
-            $po->proses_tracker  = 'PO TOLAK KUALITAS';
-            $po->pengajuan_approve_lab1_tracker  = NULL;
-            $po->lab1_tracker  = date('Y-m-d H:i:s');
-            $po->update();
+            if ($po == NULL) {
+                $insert_tracker = new trackerPO();
+                $insert_tracker->nama_admin_tracker  = Auth::guard('lab')->user()->name_qc;
+                $insert_tracker->kode_po_tracker  = $request->lab1_kode_po_gb;
+                $insert_tracker->id_penerimaan_tracker  = $request->id_penerimaan_po_gb;
+                $insert_tracker->id_data_po_tracker  = $request->lab1_id_data_po_gb;
+                $insert_tracker->status_po_tracker  = '5';
+                $po->proses_tracker  = 'PO TOLAK KUALITAS';
+                $po->pengajuan_approve_lab1_tracker  = NULL;
+                $insert_tracker->lab1_tracker  = date('Y-m-d H:i:s');
+                $insert_tracker->save();
+            } else {
+                $po->nama_admin_tracker  = Auth::guard('lab')->user()->name_qc;
+                $po->status_po_tracker  = '5';
+                $po->proses_tracker  = 'PO TOLAK KUALITAS';
+                $po->pengajuan_approve_lab1_tracker  = NULL;
+                $po->lab1_tracker  = date('Y-m-d H:i:s');
+                $po->update();
+            }
         }
 
         return response()->json($data);
@@ -4320,11 +4433,24 @@ class QcLab1Controller extends Controller
             $log->save();
 
             $po = trackerPO::where('kode_po_tracker', $data->lab1_kode_po_gb)->first();
-            $po->nama_admin_tracker  = Auth::guard('lab')->user()->name_qc;
-            $po->pengajuan_approve_lab1_tracker  = NULL;
-            $po->proses_tracker  = 'update LAB 1';
-            $po->lab1_tracker  = date('Y-m-d H:i:s');
-            $po->update();
+            if ($po == NULL) {
+                $insert_tracker = new trackerPO();
+                $insert_tracker->nama_admin_tracker  = Auth::guard('lab')->user()->name_qc;
+                $insert_tracker->kode_po_tracker  = $request->lab1_kode_po_gb;
+                $insert_tracker->id_penerimaan_tracker  = $request->id_penerimaan_po_gb;
+                $insert_tracker->id_data_po_tracker  = $request->lab1_id_data_po_gb;
+                $po->proses_tracker  = 'update LAB 1';
+                $po->pengajuan_approve_lab1_tracker  = NULL;
+                $insert_tracker->lab1_tracker  = date('Y-m-d H:i:s');
+                $insert_tracker->save();
+                $po->proses_tracker  = 'update LAB 1';
+            } else {
+                $po->nama_admin_tracker  = Auth::guard('lab')->user()->name_qc;
+                $po->pengajuan_approve_lab1_tracker  = NULL;
+                $po->proses_tracker  = 'update LAB 1';
+                $po->lab1_tracker  = date('Y-m-d H:i:s');
+                $po->update();
+            }
         } elseif ($request->keterangan_lab_1 == 'Pending') {
             $data = PenerimaanPO::where('id_penerimaan_po', $request->gabahincoming_id_penerimaan_po)->first();
             $data->status_penerimaan = 16;
@@ -4453,12 +4579,15 @@ class QcLab1Controller extends Controller
             //                          echo $response;
 
             $po = trackerPO::where('kode_po_tracker', $data->lab1_kode_po_gb)->first();
-            $po->nama_admin_tracker  = Auth::guard('lab')->user()->name_qc;
-            $po->status_po_tracker  = '16';
-            $po->proses_tracker  = 'PO PENDING HARGA';
-            $po->pengajuan_approve_lab1_tracker  = NULL;
-            $po->lab1_tracker  = date('Y-m-d H:i:s');
-            $po->update();
+            if ($po == NULL) {
+            } else {
+                $po->nama_admin_tracker  = Auth::guard('lab')->user()->name_qc;
+                $po->status_po_tracker  = '16';
+                $po->proses_tracker  = 'PO PENDING HARGA';
+                $po->pengajuan_approve_lab1_tracker  = NULL;
+                $po->lab1_tracker  = date('Y-m-d H:i:s');
+                $po->update();
+            }
         } else {
             $data = PenerimaanPO::where('id_penerimaan_po', $request->gabahincoming_id_penerimaan_po)->first();
             $data->status_penerimaan = 5;
@@ -4546,12 +4675,15 @@ class QcLab1Controller extends Controller
             $log->save();
 
             $po = trackerPO::where('kode_po_tracker', $data->lab1_kode_po_gb)->first();
-            $po->nama_admin_tracker  = Auth::guard('lab')->user()->name_qc;
-            $po->status_po_tracker  = '5';
-            $po->proses_tracker  = 'PO TOLAK KUALITAS';
-            $po->pengajuan_approve_lab1_tracker  = NULL;
-            $po->lab1_tracker  = date('Y-m-d H:i:s');
-            $po->update();
+            if ($po == NULL) {
+            } else {
+                $po->nama_admin_tracker  = Auth::guard('lab')->user()->name_qc;
+                $po->status_po_tracker  = '5';
+                $po->proses_tracker  = 'PO TOLAK KUALITAS';
+                $po->pengajuan_approve_lab1_tracker  = NULL;
+                $po->lab1_tracker  = date('Y-m-d H:i:s');
+                $po->update();
+            }
         }
         return response()->json($data);
     }
@@ -4639,7 +4771,7 @@ class QcLab1Controller extends Controller
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
                     ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
+                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
 
                     ->where('bid.name_bid', 'LIKE', '%GABAH BASAH%')
                     ->where('lab1_gb.output_lab_gb', '=', 'Unload')
@@ -4655,12 +4787,14 @@ class QcLab1Controller extends Controller
                     })
                     ->addColumn('nama_vendor', function ($list) {
                         $result = $list->nama_vendor;
-                        return '
-            <span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>
-            ';
+                        return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = $list->open_po;
+                        $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
@@ -4686,14 +4820,10 @@ class QcLab1Controller extends Controller
                     ->addColumn('ckelola', function ($list) {
                         if ($list->output_lab_gb == 'Unload') {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_bongkar btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
-                        Unload 
-                    </a>';
+                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_bongkar btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">BONGKAR</a>';
                         } else {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
-                        Pending 
-                    </a>';
+                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">Pending</a>';
                         }
                     })
                     //add
@@ -4808,7 +4938,7 @@ class QcLab1Controller extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             } else {
                 return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
@@ -4831,12 +4961,14 @@ class QcLab1Controller extends Controller
                     })
                     ->addColumn('nama_vendor', function ($list) {
                         $result = $list->nama_vendor;
-                        return '
-            <span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>
-            ';
+                        return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = $list->open_po;
+                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
@@ -4862,8 +4994,8 @@ class QcLab1Controller extends Controller
                     ->addColumn('ckelola', function ($list) {
                         if ($list->output_lab_gb == 'Unload') {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_bongkar btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
-                        Unload 
+                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_bongkar btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                        BONGKAR 
                     </a>';
                         } else {
                             return
@@ -4984,7 +5116,7 @@ class QcLab1Controller extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             }
         }
@@ -5002,7 +5134,7 @@ class QcLab1Controller extends Controller
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
                     ->join('lab1_pk', 'lab1_pk.lab1_id_data_po_pk', '=', 'data_po.id_data_po')
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
+                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
 
                     ->where('bid.name_bid', 'LIKE', '%BERAS PECAH KULIT%')
                     ->where('lab1_pk.output_lab_pk', '=', 'Unload')
@@ -5570,7 +5702,7 @@ class QcLab1Controller extends Controller
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
                     ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
+                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
 
                     ->where('bid.name_bid', '=', 'GABAH BASAH CIHERANG')
                     ->where('lab1_gb.output_lab_gb', '=', 'Pending')
@@ -5591,7 +5723,11 @@ class QcLab1Controller extends Controller
             ';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = $list->open_po;
+                        $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
@@ -5739,7 +5875,7 @@ class QcLab1Controller extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             } else {
                 $site_qc = QcAdmin::select('site_qc')->where('site_qc', Auth::user()->site_qc)->first();
@@ -5768,7 +5904,11 @@ class QcLab1Controller extends Controller
             ';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = $list->open_po;
+                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
@@ -5794,8 +5934,8 @@ class QcLab1Controller extends Controller
                     ->addColumn('ckelola', function ($list) {
                         if ($list->output_lab_gb == 'Unload') {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_bongkar btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
-                        Unload 
+                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_bongkar btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                        BONGKAR 
                     </a>';
                         } else {
                             return
@@ -5916,7 +6056,7 @@ class QcLab1Controller extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             }
         }
@@ -5930,7 +6070,7 @@ class QcLab1Controller extends Controller
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
                     ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
+                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
 
                     ->where('bid.name_bid', '=', 'GABAH BASAH LONG GRAIN')
                     ->where('lab1_gb.output_lab_gb', '=', 'Pending')
@@ -5951,7 +6091,11 @@ class QcLab1Controller extends Controller
                     ';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = $list->open_po;
+                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
@@ -5977,13 +6121,13 @@ class QcLab1Controller extends Controller
                     ->addColumn('ckelola', function ($list) {
                         if ($list->output_lab_gb == 'Unload') {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_bongkar btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
-                        Unload 
+                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_bongkar btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                        BONGKAR 
                     </a>';
                         } else {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
-                        Pending 
+                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-warning m-btn m-btn--icon btn-sm m-btn--icon-only">
+                        PENDING 
                     </a>';
                         }
                     })
@@ -6099,7 +6243,7 @@ class QcLab1Controller extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             } else {
                 $site_qc = QcAdmin::select('site_qc')->where('site_qc', Auth::user()->site_qc)->first();
@@ -6123,12 +6267,14 @@ class QcLab1Controller extends Controller
                     })
                     ->addColumn('nama_vendor', function ($list) {
                         $result = $list->nama_vendor;
-                        return '
-                        <span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>
-                        ';
+                        return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = $list->open_po;
+                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
@@ -6154,13 +6300,13 @@ class QcLab1Controller extends Controller
                     ->addColumn('ckelola', function ($list) {
                         if ($list->output_lab_gb == 'Unload') {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_bongkar btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
-                        Unload 
+                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_bongkar btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                        BONGKAR 
                     </a>';
                         } else {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
-                        Pending 
+                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-warning m-btn m-btn--icon btn-sm m-btn--icon-only">
+                        PENDING 
                     </a>';
                         }
                     })
@@ -6276,7 +6422,7 @@ class QcLab1Controller extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             }
         }
@@ -6311,7 +6457,11 @@ class QcLab1Controller extends Controller
             ';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = $list->open_po;
+                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
@@ -6337,13 +6487,13 @@ class QcLab1Controller extends Controller
                     ->addColumn('ckelola', function ($list) {
                         if ($list->output_lab_gb == 'Unload') {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_bongkar btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
-                        Unload 
+                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_bongkar btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                        BONGKAR 
                     </a>';
                         } else {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
-                        Pending 
+                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-warning m-btn m-btn--icon btn-sm m-btn--icon-only">
+                        PENDING 
                     </a>';
                         }
                     })
@@ -6459,7 +6609,7 @@ class QcLab1Controller extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             } else {
                 $site_qc = QcAdmin::select('site_qc')->where('site_qc', Auth::user()->site_qc)->first();
@@ -6488,7 +6638,11 @@ class QcLab1Controller extends Controller
             ';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = $list->open_po;
+                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
@@ -6514,13 +6668,13 @@ class QcLab1Controller extends Controller
                     ->addColumn('ckelola', function ($list) {
                         if ($list->output_lab_gb == 'Unload') {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_bongkar btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
-                        Unload 
+                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_bongkar btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                        BONGKAR 
                     </a>';
                         } else {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
-                        Pending 
+                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-warning m-btn m-btn--icon btn-sm m-btn--icon-only">
+                        PENDING 
                     </a>';
                         }
                     })
@@ -6636,7 +6790,7 @@ class QcLab1Controller extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             }
         }
@@ -6650,7 +6804,7 @@ class QcLab1Controller extends Controller
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
                     ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
+                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
 
                     ->where('bid.name_bid', '=', 'GABAH BASAH KETAN PUTIH')
                     ->where('lab1_gb.output_lab_gb', '=', 'Pending')
@@ -6671,7 +6825,11 @@ class QcLab1Controller extends Controller
             ';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = $list->open_po;
+                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
@@ -6698,12 +6856,12 @@ class QcLab1Controller extends Controller
                         if ($list->output_lab_gb == 'Unload') {
                             return
                                 '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_bongkar btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
-                        Unload 
+                        BONGKAR 
                     </a>';
                         } else {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
-                        Pending 
+                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-warning m-btn m-btn--icon btn-sm m-btn--icon-only">
+                        PENDING 
                     </a>';
                         }
                     })
@@ -6819,7 +6977,7 @@ class QcLab1Controller extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             } else {
                 $site_qc = QcAdmin::select('site_qc')->where('site_qc', Auth::user()->site_qc)->first();
@@ -6848,7 +7006,11 @@ class QcLab1Controller extends Controller
             ';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = $list->open_po;
+                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
@@ -6875,12 +7037,12 @@ class QcLab1Controller extends Controller
                         if ($list->output_lab_gb == 'Unload') {
                             return
                                 '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_bongkar btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
-                        Unload 
+                        BONGKAR 
                     </a>';
                         } else {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
-                        Pending 
+                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-warning m-btn m-btn--icon btn-sm m-btn--icon-only">
+                        PENDING 
                     </a>';
                         }
                     })
@@ -6996,7 +7158,7 @@ class QcLab1Controller extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             }
         }
@@ -7014,7 +7176,7 @@ class QcLab1Controller extends Controller
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
                     ->join('lab1_pk', 'lab1_pk.lab1_id_data_po_pk', '=', 'data_po.id_data_po')
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
+                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
 
                     ->where('bid.name_bid', 'LIKE', '%BERAS PECAH KULIT%')
                     ->where('lab1_pk.output_lab_pk', '=', 'Pending')
@@ -7464,7 +7626,7 @@ class QcLab1Controller extends Controller
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
                     ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
+                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
 
                     ->where('bid.name_bid', '=', 'GABAH BASAH LONG GRAIN')
                     ->where('lab1_gb.output_lab_gb', '=', 'Reject')
@@ -7485,7 +7647,11 @@ class QcLab1Controller extends Controller
                 ';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = $list->open_po;
+                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
@@ -7511,7 +7677,7 @@ class QcLab1Controller extends Controller
                     ->addColumn('ckelola', function ($list) {
                         return
                             '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
-                        Reject 
+                        TOLAK 
                     </a>';
                     })
                     //add
@@ -7626,7 +7792,7 @@ class QcLab1Controller extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             } else {
                 $site_qc = QcAdmin::select('site_qc')->where('site_qc', Auth::user()->site_qc)->first();
@@ -7655,7 +7821,11 @@ class QcLab1Controller extends Controller
             ';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = $list->open_po;
+                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
@@ -7681,7 +7851,7 @@ class QcLab1Controller extends Controller
                     ->addColumn('ckelola', function ($list) {
                         return
                             '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
-                        Reject 
+                        TOLAK 
                     </a>';
                     })
                     //add
@@ -7796,7 +7966,7 @@ class QcLab1Controller extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             }
         }
@@ -7810,7 +7980,7 @@ class QcLab1Controller extends Controller
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
                     ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
+                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
 
                     ->where('bid.name_bid', '=', 'GABAH BASAH PANDAN WANGI')
                     ->where('lab1_gb.output_lab_gb', '=', 'Reject')
@@ -7831,7 +8001,11 @@ class QcLab1Controller extends Controller
             ';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = $list->open_po;
+                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
@@ -7857,7 +8031,7 @@ class QcLab1Controller extends Controller
                     ->addColumn('ckelola', function ($list) {
                         return
                             '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
-                        Reject 
+                        TOLAK 
                     </a>';
                     })
                     //add
@@ -7972,7 +8146,7 @@ class QcLab1Controller extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             } else {
                 $site_qc = QcAdmin::select('site_qc')->where('site_qc', Auth::user()->site_qc)->first();
@@ -8000,7 +8174,11 @@ class QcLab1Controller extends Controller
             ';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = $list->open_po;
+                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
@@ -8026,7 +8204,7 @@ class QcLab1Controller extends Controller
                     ->addColumn('ckelola', function ($list) {
                         return
                             '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
-                        Reject 
+                        TOLAK 
                     </a>';
                     })
                     //add
@@ -8141,7 +8319,7 @@ class QcLab1Controller extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             }
         }
@@ -8155,7 +8333,7 @@ class QcLab1Controller extends Controller
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
                     ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
+                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
 
                     ->where('bid.name_bid', '=', 'GABAH BASAH KETAN PUTIH')
                     ->where('lab1_gb.output_lab_gb', '=', 'Reject')
@@ -8176,7 +8354,11 @@ class QcLab1Controller extends Controller
             ';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = $list->open_po;
+                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
@@ -8202,7 +8384,7 @@ class QcLab1Controller extends Controller
                     ->addColumn('ckelola', function ($list) {
                         return
                             '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
-                        Reject 
+                        TOLAK 
                     </a>';
                     })
                     //add
@@ -8317,7 +8499,7 @@ class QcLab1Controller extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             } else {
                 $site_qc = QcAdmin::select('site_qc')->where('site_qc', Auth::user()->site_qc)->first();
@@ -8345,7 +8527,11 @@ class QcLab1Controller extends Controller
             ';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = $list->open_po;
+                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
@@ -8371,7 +8557,7 @@ class QcLab1Controller extends Controller
                     ->addColumn('ckelola', function ($list) {
                         return
                             '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
-                        Reject 
+                        TOLAK 
                     </a>';
                     })
                     //add
@@ -8486,7 +8672,7 @@ class QcLab1Controller extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             }
         }

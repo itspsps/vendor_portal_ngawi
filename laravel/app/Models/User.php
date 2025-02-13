@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -44,7 +45,7 @@ class User extends Authenticatable
         'BankName',
         'BankBranchCode',
         'SPS_niksupplier_c',
-        
+
         'id_desaktp',
         'id_kecamatanktp',
         'id_kabupatenktp',

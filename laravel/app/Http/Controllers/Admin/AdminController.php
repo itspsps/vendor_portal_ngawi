@@ -46,11 +46,11 @@ class AdminController extends Controller
             return redirect()->route('security.login')->with('Gagal', 'Masukkan Email Atau Password Dengan Benar');
         }
     }
-
     function security_logout()
     {
         Auth::guard('security')->logout();
-        return redirect()->route('security.login');
+        Alert::success('Sukses', 'Anda Berhasil Logout');
+        return redirect()->route('security.login')->with('Sukses', 'Anda Berhasil Logout');
     }
 
     public function gabah_kering()
@@ -157,12 +157,23 @@ class AdminController extends Controller
             $data->save();
 
             $po = trackerPO::where('kode_po_tracker', $get->kode_po)->first();
-            $po->nama_admin_tracker  = Auth::guard('security')->user()->name;
-            $po->status_po_tracker  = '5';
-            $po->penerimaan_po_tracker  = NULL;
-            $po->po_terlambat_tracker  = date('Y-m-d H:i:s');
-            $po->proses_tracker  = 'PENERIMAAN PO TERLAMBAT';
-            $po->update();
+            if ($po == NULL) {
+                $insert_tracker = new trackerPO();
+                $insert_tracker->nama_admin_tracker  = Auth::guard('security')->user()->name;
+                $insert_tracker->kode_po_tracker  = $get->kode_po;
+                $insert_tracker->status_po_tracker  = '5';
+                $insert_tracker->penerimaan_po_tracker  = NULL;
+                $insert_tracker->po_terlambat_tracker  = date('Y-m-d H:i:s');
+                $insert_tracker->proses_tracker  = 'PENERIMAAN PO TERLAMBAT';
+                $insert_tracker->save();
+            } else {
+                $po->nama_admin_tracker  = Auth::guard('security')->user()->name;
+                $po->status_po_tracker  = '5';
+                $po->penerimaan_po_tracker  = NULL;
+                $po->po_terlambat_tracker  = date('Y-m-d H:i:s');
+                $po->proses_tracker  = 'PENERIMAAN PO TERLAMBAT';
+                $po->update();
+            }
         }
 
         return view('dashboard.admin.gabah_basah');
@@ -280,20 +291,24 @@ class AdminController extends Controller
             ->addColumn('nama_vendor', function ($list) {
                 $result = $list->nama_vendor;
                 return '
-            <span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>
+            <span class="btn btn-label-info btn-sm" style="font-weight: bold;">' . $result . '</span>
             ';
             })
             ->addColumn('tanggal_po', function ($list) {
                 $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
                 return $result;
             })
+            ->addColumn('tanggal_bongkar', function ($list) {
+                $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                return $result;
+            })
             ->addColumn('mulai_penerimaan', function ($list) {
                 $result = $list->date_bid;
-                return date('Y-m-d', strtotime($result)) . '<br><span class="btn-danger">Mulai 12.00</span>';
+                return date('d-m-Y', strtotime($result)) . '<br><span class="btn btn-label-danger btn-sm" style="font-weight: bold;">Mulai 12.00 WIB</span>';
             })
             ->addColumn('batas_bid', function ($list) {
                 $result = $list->batas_penerimaan_po;
-                return date('d-m-Y', strtotime($result)) . '<br><span class="btn-danger">Batas 12.00</span>';
+                return date('d-m-Y', strtotime($result)) . '<br><span class="btn btn-label-danger btn-sm" style="font-weight: bold;">Batas 12.00 WIB</span>';
                 // return $result;
             })
 
@@ -304,7 +319,7 @@ class AdminController extends Controller
                         <i class="fa fa-shipping-fast" >&nbsp;</i>PO&nbsp;CLOSE
                     </button>';
             })
-            ->rawColumns(['kode_po', 'nama_vendor', 'tanggal_po', 'mulai_penerimaan', 'batas_bid', 'ckelola'])
+            ->rawColumns(['kode_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'mulai_penerimaan', 'batas_bid', 'ckelola'])
             ->make(true);
     }
     public function gabahbasah_index_sekarang()
@@ -314,7 +329,7 @@ class AdminController extends Controller
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->where('data_po.status_bid', 1)
             ->where('bid.name_bid', 'like', '%GABAH BASAH%')
-            ->where('bid.open_po', date('Y-m-d'))
+            // ->where('bid.open_po', '>=', date('Y-m-d'))
             ->orderBy("id_data_po", "desc")
             ->get())
 
@@ -332,37 +347,41 @@ class AdminController extends Controller
                 $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
                 return $result;
             })
+            ->addColumn('tanggal_bongkar', function ($list) {
+                $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                return $result;
+            })
             ->addColumn('mulai_penerimaan', function ($list) {
                 $result = $list->date_bid;
-                if (date('H:i:s') >= date('12:00:00', strtotime($result))) {
-                    return date('Y-m-d', strtotime($result)) . '<br><span class="btn-danger">Mulai 12.00</span>';
+                if ($list->date_bid > date('Y-m-d H:i:s')) {
+                    return date('d-m-Y', strtotime($result)) . '<br><span class="btn btn-label-danger btn-sm" style="font-weight: bold;">Mulai 12.00 WIB</span>';
                 } else {
-                    return date('Y-m-d', strtotime($result)) . '<br><span class="btn-success">Mulai 12.00</span>';
+                    return date('d-m-Y', strtotime($result)) . '<br><span class="btn btn-label-success btn-sm" style="font-weight: bold;">Mulai 12.00 WIB</span>';
                 }
             })
             ->addColumn('batas_bid', function ($list) {
                 $result = $list->batas_penerimaan_po;
-                if (date('12:00:00', strtotime($result)) >= date('H:i:s')) {
-                    return date('d-m-Y', strtotime($result)) . '<br><span class="btn-success">Batas 12.00</span>';
+                if ($list->date_bid > date('Y-m-d H:i:s')) {
+                    return date('d-m-Y', strtotime($result)) . '<br><span class="btn btn-label-danger btn-sm" style="font-weight: bold;">Batas 12.00 WIB</span>';
                 } else {
-                    return date('d-m-Y', strtotime($result)) . '<br><span class="btn-danger">Batas 12.00</span>';
+                    return date('d-m-Y', strtotime($result)) . '<br><span class="btn btn-label-success btn-sm" style="font-weight: bold;">Batas 12.00 WIB</span>';
                 }
                 // return $result;
             })
 
             ->addColumn('ckelola', function ($list) {
-                if (date("Y-m-d") == $list->open_po) {
-                    if (date('H:i:s') <= date('12:00:00')) {
-                        return
-                            '<button style="margin:2px;" name="' . $list->id_data_po . '" data-toggle="modal" data-target="#modal2" title="Terima Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
-                        <i class="fa fa-shipping-fast" >&nbsp;</i>
-                        Proses&nbsp;Pengiriman
+                if ($list->status_bid == 1) {
+                    if (date('Y-m-d H:i:s') <= $list->date_bid) {
+                        return '<button style="margin:2px;" name="' . $list->id_data_po . '" class=" btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                        <i class="fa fa-shipping-fast">&nbsp;</i>
+                        Menunggu&nbsp;Waktu
                     </button>';
                     } else {
                         return
-                            '<button style="margin:2px;" name="' . $list->id_data_po . '" title="PO Close" class="totolak btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
-                            <i class="fa fa-shipping-fast" >&nbsp;</i>PO&nbsp;CLOSE
-                        </button>';
+                            '<button style="margin:2px;" name="' . $list->id_data_po . '" data-toggle="modal" data-target="#modal2" title="Terima Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                        <i class="fa fa-shipping-fast" >&nbsp;</i>
+                        Proses&nbsp;Kedatangan
+                    </button>';
                     }
                 } else {
                     return
@@ -371,7 +390,7 @@ class AdminController extends Controller
                     </button>';
                 }
             })
-            ->rawColumns(['kode_po', 'nama_vendor', 'tanggal_po', 'mulai_penerimaan', 'batas_bid', 'ckelola'])
+            ->rawColumns(['kode_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'mulai_penerimaan', 'batas_bid', 'ckelola'])
             ->make(true);
     }
     public function gabahbasah_index_besok()
@@ -399,20 +418,24 @@ class AdminController extends Controller
                 $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
                 return $result;
             })
+            ->addColumn('tanggal_bongkar', function ($list) {
+                $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                return $result;
+            })
             ->addColumn('mulai_penerimaan', function ($list) {
                 $result = $list->date_bid;
                 if (date('12:00:00') > date('H:i:s')) {
-                    return date('Y-m-d', strtotime($result)) . '<br><span class="btn-danger">Mulai 12.00</span>';
+                    return date('d-m-Y', strtotime($result)) . '<br><span class="btn btn-label-danger btn-sm" style="font-weight: bold;">Mulai 12.00 WIB</span>';
                 } else {
-                    return date('Y-m-d', strtotime($result)) . '<br><span class="btn-success">Mulai 12.00</span>';
+                    return date('d-m-Y', strtotime($result)) . '<br><span class="btn btn-label-success btn-sm" style="font-weight: bold;">Mulai 12.00 WIB</span>';
                 }
             })
             ->addColumn('batas_bid', function ($list) {
                 $result = $list->batas_penerimaan_po;
                 if (date('12:00:00') > date('H:i:s')) {
-                    return date('d-m-Y', strtotime($result)) . '<br><span class="btn-danger">Batas 12.00</span>';
+                    return date('d-m-Y', strtotime($result)) . '<br><span class="btn btn-label-danger btn-sm" style="font-weight: bold;">Batas 12.00 WIB</span>';
                 } else {
-                    return date('d-m-Y', strtotime($result)) . '<br><span class="btn-success">Batas 12.00</span>';
+                    return date('d-m-Y', strtotime($result)) . '<br><span class="btn btn-label-success btn-sm" style="font-weight: bold;">Batas 12.00 WIB</span>';
                 }
                 // return $result;
             })
@@ -426,11 +449,11 @@ class AdminController extends Controller
                 } else {
                     return '<button style="margin:2px;" name="' . $list->id_data_po . '" data-toggle="modal" data-target="#modal2" title="Terima Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                         <i class="fa fa-shipping-fast">&nbsp;</i>
-                        Proses&nbsp;Pengiriman
+                        Proses&nbsp;Kedatangan
                     </button>';
                 }
             })
-            ->rawColumns(['kode_po', 'nama_vendor', 'tanggal_po', 'mulai_penerimaan', 'batas_bid', 'ckelola'])
+            ->rawColumns(['kode_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'mulai_penerimaan', 'batas_bid', 'ckelola'])
             ->make(true);
     }
     public function gabahkering_index_sekarang()
@@ -482,7 +505,7 @@ class AdminController extends Controller
                         return
                             '<button style="margin:2px;" name="' . $list->id_data_po . '" data-toggle="modal" data-target="#modal2" title="Terima Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                         <i class="fa fa-shipping-fast" >&nbsp;</i>
-                        Proses&nbsp;Pengiriman
+                        Proses&nbsp;Kedatangan
                     </button>';
                     } else {
                         return
@@ -595,7 +618,7 @@ class AdminController extends Controller
                         return
                             '<button style="margin:2px;" name="' . $list->id_data_po . '" data-toggle="modal" data-target="#modal2" title="Terima Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                         <i class="fa fa-shipping-fast" >&nbsp;</i>
-                        Proses&nbsp;Pengiriman
+                        Proses&nbsp;Kedatangan
                     </button>';
                     } else {
                         return
@@ -667,7 +690,7 @@ class AdminController extends Controller
                 } else {
                     return '<button style="margin:2px;" name="' . $list->id_data_po . '" data-toggle="modal" data-target="#modal2" title="Terima Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                         <i class="fa fa-shipping-fast">&nbsp;</i>
-                        Proses&nbsp;Pengiriman
+                        Proses&nbsp;Kedatangan
                     </button>';
                 }
             })
@@ -728,7 +751,7 @@ class AdminController extends Controller
                     return
                         '<button style="margin:2px;" name="' . $list->id_data_po . '" data-toggle="modal" data-target="#modal_penerimaan" title="Terima Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                     <i class="fa fa-shipping-fast" >&nbsp;</i>
-                    Proses&nbsp;Pengiriman
+                    Proses&nbsp;Kedatangan
                 </button>';
                 }
             })
@@ -784,7 +807,7 @@ class AdminController extends Controller
                         return
                             '<button style="margin:2px;" name="' . $list->id_data_po . '" data-toggle="modal" data-target="#modal_penerimaan" title="Terima Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                         <i class="fa fa-shipping-fast" >&nbsp;</i>
-                        Proses&nbsp;Pengiriman
+                        Proses&nbsp;Kedatangan
                     </button>';
                     } else {
                         return
@@ -858,7 +881,7 @@ class AdminController extends Controller
                     return
                         '<button style="margin:2px;" name="' . $list->id_data_po . '" data-toggle="modal" data-target="#modal_penerimaan" title="Terima Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                     <i class="fa fa-shipping-fast" >&nbsp;</i>
-                    Proses&nbsp;Pengiriman
+                    Proses&nbsp;Kedatangan
                 </button>';
                 }
             })
@@ -914,7 +937,7 @@ class AdminController extends Controller
                     return
                         '<button style="margin:2px;" name="' . $list->id_data_po . '" data-toggle="modal" data-target="#modal2" title="Terima Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                         <i class="fa fa-shipping-fast" >&nbsp;</i>
-                        Proses&nbsp;Pengiriman
+                        Proses&nbsp;Kedatangan
                     </button>';
                 } else {
                     return
@@ -950,11 +973,8 @@ class AdminController extends Controller
             $data1 = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')->where('id_data_po', $id)->first();
             return json_encode($data1);
         } else {
-            $data2 = PenerimaanPO::join('data_po', 'data_po.id_data_po', '=', 'penerimaan_po.penerimaan_id_data_po')
-                ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                ->where('penerimaan_po.penerimaan_id_data_po', $id)
-                ->first();
-            return json_encode($data2);
+            $data1 = 'ada';
+            return json_encode($data1);
         }
     }
 
@@ -1031,7 +1051,7 @@ class AdminController extends Controller
             ->where('data_po.tanggal_po', $request->tanggal_po)
             ->where('bid.name_bid', $request->nama_item)
             ->count();
-            // dd($params_antrian);
+        // dd($params_antrian);
         $antrian = ($params_antrian + 1);
         if (strlen((string) $antrian) == 1) {
             $no_antrian = '00' . ($antrian);
@@ -1041,20 +1061,34 @@ class AdminController extends Controller
             $no_antrian = $antrian;
         }
         // dd(strlen((string) $antrian));
-        $data = new PenerimaanPO();
-        $data->penerimaan_id_bid_user      = $request->penerimaan_id_bid_user;
-        $data->penerimaan_id_data_po       = $request->penerimaan_id_data_po;
-        $data->penerimaan_kode_po          = $request->penerimaan_kode_po;
-        $data->penerima_po                 = $request->penerima_po;
-        $data->waktu_penerimaan            = date('Y-m-d H:i:s');
-        $data->no_antrian                  = $no_antrian;
-        $data->keterangan_penerimaan_po    = $request->keterangan_penerimaan_po;
-        $data->plat_kendaraan              = Str::upper($request->plat_kendaraan);
-        $data->status_penerimaan           = $request->status_penerimaan;
-        $data->penerimaan_po_num           = $request->ponum;
-        $data->save();
+        $cek_penerimaan = PenerimaanPO::where('penerimaan_kode_po', $request->penerimaan_kode_po)->first();
+        if ($cek_penerimaan == NULL) {
+            $data = new PenerimaanPO();
+            $data->penerimaan_id_bid_user      = $request->penerimaan_id_bid_user;
+            $data->penerimaan_id_data_po       = $request->penerimaan_id_data_po;
+            $data->penerimaan_kode_po          = $request->penerimaan_kode_po;
+            $data->penerima_po                 = $request->penerima_po;
+            $data->waktu_penerimaan            = date('Y-m-d H:i:s');
+            $data->no_antrian                  = $no_antrian;
+            $data->keterangan_penerimaan_po    = $request->keterangan_penerimaan_po;
+            $data->plat_kendaraan              = Str::upper($request->plat_kendaraan);
+            $data->status_penerimaan           = $request->status_penerimaan;
+            $data->penerimaan_po_num           = $request->ponum;
+            $data->save();
+        } else {
+            $cek_penerimaan->penerimaan_id_bid_user      = $request->penerimaan_id_bid_user;
+            $cek_penerimaan->penerimaan_id_data_po       = $request->penerimaan_id_data_po;
+            $cek_penerimaan->penerimaan_kode_po          = $request->penerimaan_kode_po;
+            $cek_penerimaan->penerima_po                 = $request->penerima_po;
+            $cek_penerimaan->waktu_penerimaan            = date('Y-m-d H:i:s');
+            $cek_penerimaan->no_antrian                  = $no_antrian;
+            $cek_penerimaan->keterangan_penerimaan_po    = $request->keterangan_penerimaan_po;
+            $cek_penerimaan->plat_kendaraan              = Str::upper($request->plat_kendaraan);
+            $cek_penerimaan->status_penerimaan           = $request->status_penerimaan;
+            $cek_penerimaan->penerimaan_po_num           = $request->ponum;
+            $cek_penerimaan->update();
+        }
 
-        $update_status_data_po_TabelPO      = DataPO::where('id_data_po', $request->penerimaan_id_data_po)->first();
 
         $log                               = new LogAktivitySecurity();
         $log->name_user                    = Auth::guard('security')->user()->name;
@@ -1066,14 +1100,27 @@ class AdminController extends Controller
 
 
         $po = trackerPO::where('kode_po_tracker', $request->penerimaan_kode_po)->first();
-        $po->nama_admin_tracker  = Auth::guard('security')->user()->name;
-        $po->id_penerimaan_tracker  = $data->id_penerimaan_po;
-        $po->status_po_tracker  = '3';
-        $po->penerimaan_po_tracker  = date('Y-m-d H:i:s');
-        $po->proses_tracker  = 'PENERIMAAN PO';
-        $po->po_terlambat_tracker  = NULL;
-        $po->update();
-
+        if ($po == NULL) {
+            $insert_tracker = new trackerPO();
+            $insert_tracker->nama_admin_tracker  = Auth::guard('security')->user()->name;
+            $insert_tracker->nama_supplier_tracker  = $data->user_idbid;
+            $insert_tracker->kode_po_tracker  = $request->penerimaan_kode_po;
+            $insert_tracker->id_penerimaan_tracker  = $data->id_penerimaan_po;
+            $insert_tracker->id_data_po_tracker  = $data->id_data_po;
+            $insert_tracker->status_po_tracker  = '3';
+            $insert_tracker->penerimaan_po_tracker  = date('Y-m-d H:i:s');
+            $insert_tracker->proses_tracker  = 'PENERIMAAN PO';
+            $insert_tracker->po_terlambat_tracker  = NULL;
+            $insert_tracker->save();
+        } else {
+            $po->nama_admin_tracker  = Auth::guard('security')->user()->name;
+            $po->id_penerimaan_tracker  = $data->id_penerimaan_po;
+            $po->status_po_tracker  = '3';
+            $po->penerimaan_po_tracker  = date('Y-m-d H:i:s');
+            $po->proses_tracker  = 'PENERIMAAN PO';
+            $po->po_terlambat_tracker  = NULL;
+            $po->update();
+        }
         $notif = new NotifLab();
         $notif->judul    = 'PO Datang';
         $notif->keterangan  = 'Ada PO Baru Datang, Kode PO : ' . $request->penerimaan_kode_po . ' , Nopol : ' . Str::upper($request->plat_kendaraan);
@@ -1084,10 +1131,13 @@ class AdminController extends Controller
         $notif->created_at = date('Y-m-d H:i:s');
         $notif->save();
 
+        $update_status_data_po_TabelPO      = DataPO::where('id_data_po', $request->penerimaan_id_data_po)->first();
         if ($update_status_data_po_TabelPO->status_bid == 1) {
-            $data = DataPO::where('id_data_po', $request->penerimaan_id_data_po)->update(['nopol' => Str::upper($request->plat_kendaraan), 'status_bid' => $request->status_penerimaan]);
+            $update_status_data_po_TabelPO->nopol = Str::upper($request->plat_kendaraan);
+            $update_status_data_po_TabelPO->status_bid = $request->status_penerimaan;
+            $update_status_data_po_TabelPO->update();
         }
-        return response()->json($data);
+        return response()->json(['code' => 200, 'message' => 'Data Berhasil Disimpan']);
     }
 
     public function terima_data_po_telat(Request $request)
@@ -1187,18 +1237,22 @@ class AdminController extends Controller
                 $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
                 return $result;
             })
+            ->addColumn('tanggal_bongkar', function ($list) {
+                $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                return $result;
+            })
             ->addColumn('batas_bid', function ($list) {
                 $result = $list->batas_bid;
                 return $result;
             })
             ->addColumn('waktu_penerimaan', function ($list) {
-                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
-                return $result;
+                $date = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y');
+                $time = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('hh:mm:ss');
+                return $date .  '<br><span class="btn btn-label-info btn-sm" style="font-weight: bold;">' . $time . '</span>';
             })
             ->addColumn('plat_kendaraan', function ($list) {
                 $result = $list->plat_kendaraan;
-                return '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#modal2" title="Edit Data" class="to_show_nopol btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
-            <i class="fa fa-pen-alt" style="color:#00c5dc;"> </i>' . $result . '
+                return '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '"  title="Edit Data" class="to_show_nopol btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">' . $result . '
             </a>';
             })
             ->addColumn('ckelola', function ($list) {
@@ -1238,7 +1292,7 @@ class AdminController extends Controller
                         '<button type="button" class="btn btn-outline-danger btn-sm"><i class="fa fa-truck"> </i>Pending</button>';
                 }
             })
-            ->rawColumns(['kode_po', 'nama_vendor', 'tanggal_po', 'batas_bid', 'waktu_penerimaan', 'plat_kendaraan', 'ckelola'])
+            ->rawColumns(['kode_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'batas_bid', 'waktu_penerimaan', 'plat_kendaraan', 'ckelola'])
             ->make(true);
     }
     public function data_revisi_index()
@@ -1266,13 +1320,18 @@ class AdminController extends Controller
                 $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
                 return $result;
             })
+            ->addColumn('tanggal_bongkar', function ($list) {
+                $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                return $result;
+            })
             ->addColumn('batas_bid', function ($list) {
                 $result = $list->batas_bid;
                 return $result;
             })
             ->addColumn('waktu_penerimaan', function ($list) {
-                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
-                return $result;
+                $date = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y');
+                $time = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('hh:mm:ss');
+                return $date .  '<br><span class="btn btn-label-info btn-sm" style="font-weight: bold;">' . $time . '</span>';
             })
             ->addColumn('plat_kendaraan', function ($list) {
                 $result = $list->plat_kendaraan;
@@ -1286,7 +1345,7 @@ class AdminController extends Controller
             </button>';
                 }
             })
-            ->rawColumns(['kode_po', 'nama_vendor', 'tanggal_po', 'batas_bid', 'waktu_penerimaan', 'plat_kendaraan', 'ckelola'])
+            ->rawColumns(['kode_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'batas_bid', 'waktu_penerimaan', 'plat_kendaraan', 'ckelola'])
             ->make(true);
     }
 
@@ -1339,15 +1398,18 @@ class AdminController extends Controller
         $log->save();
 
         $po = trackerPO::where('kode_po_tracker', $req->penerimaan_kode_po)->first();
-        $po->nama_admin_tracker  = Auth::guard('security')->user()->name;
-        $po->revisi_po_tracker  = date('Y-m-d H:i:s');
-        $po->proses_tracker  = 'REVISI NOPOL KENDARAAN';
-        $po->approve_revisi_spvap_tracker  = NULL;
-        $po->approve_tolak_revisi_spvap_tracker  = NULL;
-        $po->pengajuan_revisi_ap_tracker  = NULL;
-        $po->approve_spvap_tracker  = NULL;
-        $po->tolak_approve_spvap_tracker  = NULL;
-        $po->update();
+        if ($po == NULL) {
+        } else {
+            $po->nama_admin_tracker  = Auth::guard('security')->user()->name;
+            $po->revisi_po_tracker  = date('Y-m-d H:i:s');
+            $po->proses_tracker  = 'REVISI NOPOL KENDARAAN';
+            $po->approve_revisi_spvap_tracker  = NULL;
+            $po->approve_tolak_revisi_spvap_tracker  = NULL;
+            $po->pengajuan_revisi_ap_tracker  = NULL;
+            $po->approve_spvap_tracker  = NULL;
+            $po->tolak_approve_spvap_tracker  = NULL;
+            $po->update();
+        }
 
         return redirect()->back();
     }
@@ -1379,12 +1441,17 @@ class AdminController extends Controller
                 return $result;
             })
             ->addColumn('tanggal_po', function ($list) {
-                $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                return $result;
+            })
+            ->addColumn('tanggal_bongkar', function ($list) {
+                $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                 return $result;
             })
             ->addColumn('waktu_penerimaan', function ($list) {
-                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
-                return $result;
+                $date = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y');
+                $time = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('hh:mm:ss');
+                return $date .  '<br><span class="btn btn-label-info btn-sm" style="font-weight: bold;">' . $time . '</span>';
             })
             ->addColumn('plat_kendaraan', function ($list) {
                 $result = $list->plat_kendaraan;
@@ -1399,18 +1466,10 @@ class AdminController extends Controller
             </a>';
             })
             ->addColumn('antrian', function ($list) {
-                $result = $list->antrian1_gb;
-                if (($result) == '') {
-                    $result = $list->antrian2_gb;
-                    return '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" class="to_show_nopol btn btn-outline-primary m-btn m-btn--icon btn-sm m-btn--icon-only">
+                $result = $list->no_antrian;
+                return '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" class="to_show_nopol btn btn-outline-primary m-btn m-btn--icon btn-sm m-btn--icon-only">
            ' . $result . '
             </a>';
-                } else {
-                    $result = $list->antrian1_gb;
-                    return '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" class="to_show_nopol btn btn-outline-primary m-btn m-btn--icon btn-sm m-btn--icon-only">
-           ' . $result . '
-            </a>';
-                }
             })
             ->addColumn('ckelola', function ($list) {
                 if ($list->status_penerimaan == 3) {
@@ -1446,7 +1505,7 @@ class AdminController extends Controller
                         '<button type="button" class="btn btn-outline-warning btn-sm"><i class="">Proses Transaksi</i></button>';
                 }
             })
-            ->rawColumns(['kode_po', 'nama_vendor', 'tanggal_po', 'batas_bid', 'waktu_penerimaan', 'plat_kendaraan', 'lokasi_bongkar', 'antrian', 'asal_gabah', 'ckelola'])
+            ->rawColumns(['kode_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'batas_bid', 'waktu_penerimaan', 'plat_kendaraan', 'lokasi_bongkar', 'antrian', 'asal_gabah', 'ckelola'])
             ->make(true);
     }
 
@@ -1649,21 +1708,27 @@ class AdminController extends Controller
                 $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y ');
                 return $result;
             })
+            ->addColumn('tanggal_bongkar', function ($list) {
+                $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y ');
+                return $result;
+            })
             ->addColumn('batas_bid', function ($list) {
                 $result = \Carbon\Carbon::parse($list->batas_bid)->isoFormat('DD-MM-Y ');
                 return $result;
             })
             ->addColumn('batas_penerimaan_po', function ($list) {
-                $result = \Carbon\Carbon::parse($list->batas_penerimaan_po)->isoFormat('DD-MM-Y hh:mm:ss ');
-                return $result;
+                $date = \Carbon\Carbon::parse($list->batas_penerimaan_po)->isoFormat('DD-MM-Y');
+                $time = \Carbon\Carbon::parse($list->batas_penerimaan_po)->isoFormat('hh:mm:ss');
+                return $date .  '<br><span class="btn btn-label-danger btn-sm" style="font-weight: bold;">' . $time . '</span>';
             })
             ->addColumn('waktu_penerimaan', function ($list) {
-                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
-                return $result;
+                $date = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y');
+                $time = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('hh:mm:ss');
+                return $date .  '<br><span class="btn btn-label-info btn-sm" style="font-weight: bold;">' . $time . '</span>';
             })
             ->addColumn('plat_kendaraan', function ($list) {
                 $result = $list->plat_kendaraan;
-                return '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#modal2" title="Edit Data" class="to_show_nopol btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                return '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Edit Data" class="to_show_nopol btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
            ' . $result . '
             </a>';
             })
@@ -1705,7 +1770,7 @@ class AdminController extends Controller
                         '<button type="button" class="btn btn-outline-warning btn-sm"><i class="">Proses Transaksi</i></button>';
                 }
             })
-            ->rawColumns(['kode_po', 'batas_penerimaan_po', 'nama_vendor', 'tanggal_po', 'batas_bid', 'waktu_penerimaan', 'plat_kendaraan', 'asal_gabah', 'ckelola'])
+            ->rawColumns(['kode_po', 'batas_penerimaan_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'batas_bid', 'waktu_penerimaan', 'plat_kendaraan', 'asal_gabah', 'ckelola'])
             ->make(true);
     }
 
@@ -1736,7 +1801,11 @@ class AdminController extends Controller
             ';
             })
             ->addColumn('tanggal_po', function ($list) {
-                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y');
+                $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                return $result;
+            })
+            ->addColumn('tanggal_bongkar', function ($list) {
+                $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                 return $result;
             })
             ->addColumn('batas_bid', function ($list) {
@@ -1744,12 +1813,13 @@ class AdminController extends Controller
                 return $result;
             })
             ->addColumn('waktu_penerimaan', function ($list) {
-                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
-                return $result;
+                $date = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y');
+                $time = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('hh:mm:ss');
+                return $date .  '<br><span class="btn btn-label-info btn-sm" style="font-weight: bold;">' . $time . '</span>';
             })
             ->addColumn('plat_kendaraan', function ($list) {
                 $result = $list->plat_kendaraan;
-                return '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#modal2" title="Edit Data" class="to_show_nopol btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                return '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Edit Data" class="to_show_nopol btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
            ' . $result . '
             </a>';
             })
@@ -1791,7 +1861,7 @@ class AdminController extends Controller
                         '<button type="button" class="btn btn-outline-warning btn-sm"><i class="">Proses Transaksi</i></button>';
                 }
             })
-            ->rawColumns(['kode_po', 'nama_vendor', 'tanggal_po', 'batas_bid', 'waktu_penerimaan', 'plat_kendaraan', 'lokasi_bongkar', 'antrian', 'asal_gabah', 'ckelola'])
+            ->rawColumns(['kode_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'batas_bid', 'waktu_penerimaan', 'plat_kendaraan', 'lokasi_bongkar', 'antrian', 'asal_gabah', 'ckelola'])
             ->make(true);
     }
 
@@ -1819,11 +1889,16 @@ class AdminController extends Controller
                 return $result;
             })
             ->addColumn('waktu_penerimaan', function ($list) {
-                $result = $list->waktu_penerimaan;
-                return $result;
+                $date = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y');
+                $time = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('hh:mm:ss');
+                return $date .  '<br><span class="btn btn-label-info btn-sm" style="font-weight: bold;">' . $time . '</span>';
             })
             ->addColumn('tanggal_po', function ($list) {
-                $result = $list->tanggal_po;
+                $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                return $result;
+            })
+            ->addColumn('tanggal_bongkar', function ($list) {
+                $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                 return $result;
             })
             ->addColumn('batas_bid', function ($list) {
@@ -1844,7 +1919,7 @@ class AdminController extends Controller
                 <i class="fa fa-minus-circle"></i> Ditolak
                 </a>';
             })
-            ->rawColumns(['nama_vendor', 'kode_po', 'waktu_penerimaan', 'tanggal_po', 'batas_bid', 'plat_kendaraan', 'plat_kendaraan', 'asal_gabah', 'ckelola'])
+            ->rawColumns(['nama_vendor', 'kode_po', 'waktu_penerimaan', 'tanggal_po', 'tanggal_bongkar', 'batas_bid', 'plat_kendaraan', 'plat_kendaraan', 'asal_gabah', 'ckelola'])
             ->make(true);
     }
 
@@ -1870,11 +1945,16 @@ class AdminController extends Controller
                 return $result;
             })
             ->addColumn('waktu_penerimaan', function ($list) {
-                $result = $list->waktu_penerimaan;
-                return $result;
+                $date = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y');
+                $time = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('hh:mm:ss');
+                return $date .  '<br><span class="btn btn-label-info btn-sm" style="font-weight: bold;">' . $time . '</span>';
             })
             ->addColumn('tanggal_po', function ($list) {
-                $result = $list->tanggal_po;
+                $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                return $result;
+            })
+            ->addColumn('tanggal_bongkar', function ($list) {
+                $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                 return $result;
             })
             ->addColumn('batas_bid', function ($list) {
@@ -1895,7 +1975,7 @@ class AdminController extends Controller
                 <i class="fa fa-minus-circle"></i> Ditolak
                 </a>';
             })
-            ->rawColumns(['kode_po', 'nama_vendor', 'tanggal_po', 'batas_bid', 'nama_penerima_po', 'plat_kendaraan', 'ckelola'])
+            ->rawColumns(['kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'tanggal_bongkar', 'batas_bid', 'nama_penerima_po', 'plat_kendaraan', 'ckelola'])
             ->make(true);
     }
 
@@ -1981,8 +2061,27 @@ class AdminController extends Controller
     }
     public function get_notifikasisecurity()
     {
-        $data = NotifSecurity::where('status', 0)->get();
+        $data = NotifSecurity::where('status', 0)->orderBy('id_notif', 'DESC')->limit(10)->get();
         return json_encode($data);
+    }
+    public function get_notif_security_all()
+    {
+        return view('dashboard.admin.notifikasi.notifikasi');
+    }
+    public function get_notif_security_all_index()
+    {
+        return Datatables::of(NotifSecurity::where('status', 0)->orderBy('id_notif', 'DESC')->get())
+            ->addColumn('keterangan', function ($list) {
+                $result = $list->keterangan;
+                return $result;
+            })
+            ->addColumn('created_at', function ($list) {
+                $result_date = \Carbon\Carbon::parse($list->created_at)->isoFormat('DD-MM-Y');
+                $result_time = \Carbon\Carbon::parse($list->created_at)->isoFormat('HH:mm:ss ');
+                $result = $result_date . '<br><span class="btn btn-sm btn-label-primary">' . $result_time . ' WIB</span>';
+                return $result;
+            })->rawColumns(['keterangan', 'created_at'])
+            ->make(true);
     }
     public function get_countnotifikasisecurity()
     {

@@ -9,16 +9,26 @@ SURYA PANGAN SEMESTA
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
                 <h3 class="kt-subheader__title">
-                    E-PROCUREMENT
+                    PT. SURYA PANGAN SEMESTA
                 </h3>
+                <span class="btn-outline btn-sm btn-info mr-3">NGAWI</span>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
-                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
                     <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
-                       SURYA PANGAN SEMESTA
+                        Hasil Lab Bongkaran
                     </a>
-                    <span class="btn-outline btn-sm btn-info">Site Ngawi</span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Deal
+                    </a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Beras PK
+                    </a>
                 </div>
             </div>
         </div>
@@ -30,30 +40,30 @@ SURYA PANGAN SEMESTA
                 <div class="kt-portlet__head kt-portlet__head--lg">
                     <div class="kt-portlet__head-label">
                         <span class="kt-portlet__head-icon">
-                        <i class="kt-menu__link-icon flaticon2-analytics-2 kt-font-warning"></i>
+                            <i class="kt-menu__link-icon flaticon2-analytics-2 kt-font-warning"></i>
                         </span>
                         <h3 class="kt-portlet__head-title">
                             Output Deal Beras PK
                         </h3>
                     </div>
                 </div>
-                    <form class="" method="post" action="{{route('qc.lab.download_output_lab2_excel')}}" enctype="multipart/form-data">
-                <div style="margin-left: 10px; margin-top:10px;" class="row input-daterange">
-                {{ csrf_field() }}
-                {{ method_field('POST') }}
-                    <div class="col-md-4">
-                        <input type="text" name="from_date" id="from_date" class="form-control" placeholder="From Date" readonly />
+                <form class="" method="post" action="{{route('qc.lab.download_output_lab2_excel')}}" enctype="multipart/form-data">
+                    <div style="margin-left: 10px; margin-top:10px;" class="row input-daterange">
+                        {{ csrf_field() }}
+                        {{ method_field('POST') }}
+                        <div class="col-md-4">
+                            <input type="text" name="from_date" id="from_date" class="form-control" placeholder="From Date" readonly />
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" name="to_date" id="to_date" class="form-control" placeholder="To Date" readonly />
+                        </div>
+                        <div class="col-md-4">
+                            <button type="button" name="filter" id="filter" class="btn btn-primary">Filter</button>
+                            <button type="button" name="refresh" id="refresh" class="btn btn-default">Refresh</button>
+                            <button type="submit" name="btn_export" id="btn_export" class="btn btn-success"><i class="fa fa-file-excel"></i>Excel</button>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <input type="text" name="to_date" id="to_date" class="form-control" placeholder="To Date" readonly />
-                    </div>
-                    <div class="col-md-4">
-                        <button type="button" name="filter" id="filter" class="btn btn-primary">Filter</button>
-                        <button type="button" name="refresh" id="refresh" class="btn btn-default">Refresh</button>
-                        <button type="submit" name="btn_export" id="btn_export" class="btn btn-success"><i class="fa fa-file-excel"></i>Excel</button>
-                    </div>
-                </div>
-                    </form>
+                </form>
                 <div class="kt-portlet__body">
                     <table class="table table-bordered" id="datatable" style="table-layout: auto;">
                         <thead>
@@ -79,7 +89,7 @@ SURYA PANGAN SEMESTA
                                 <th style="text-align: center;width:auto" rowspan="2">Plan&nbsp;Harga&nbsp;Bongkaran&nbsp;(Rp.)</th>
                                 <th style="text-align: center;width:auto" rowspan="2">Harga&nbsp;Bongkaran&nbsp;(Rp.)</th>
                                 <th style="text-align: center;width:auto" rowspan="2">Jumlah&nbsp;Z&nbsp;Dibawa</th>
-                                
+
                                 <th style="text-align: center;width:auto" rowspan="2">Jumlah&nbsp;Z&nbsp;Ditolak</th>
                                 <th style="text-align: center;width:auto" rowspan="2">(%)&nbsp;Pass</th>
                                 <th style="text-align: center;width:auto" rowspan="2">(%)&nbsp;Reject</th>
@@ -96,7 +106,7 @@ SURYA PANGAN SEMESTA
                                 <th style="text-align: center;width:auto">&nbsp;Hampa&nbsp;</th>
                                 <th style="text-align: center;width:auto">&nbsp;Katul&nbsp;</th>
                                 <th style="text-align: center;width:auto">&nbsp;Reject&nbsp;</th>
-                                
+
                                 <th style="text-align: center;width:auto">&nbsp;Hampa&nbsp;</th>
                                 <th style="text-align: center;width:auto">&nbsp;PK&nbsp;Bersih&nbsp;</th>
                                 <th style="text-align: center;width:auto">&nbsp;Katul&nbsp;</th>
@@ -104,31 +114,31 @@ SURYA PANGAN SEMESTA
                                 <th style="text-align: center;width:auto">&nbsp;Butir&nbsp;Patah&nbsp;PK&nbsp;</th>
                                 <th style="text-align: center;width:auto">&nbsp;Butir&nbsp;Patah&nbsp;Beras&nbsp;PK&nbsp;</th>
                                 <th style="text-align: center;width:auto">&nbsp;Reject&nbsp;</th>
-                                
+
                                 <th style="text-align: center;width:auto">&nbsp;KA&nbsp;</th>
                                 <th style="text-align: center;width:auto">&nbsp;Hampa&nbsp;</th>
                                 <th style="text-align: center;width:auto">&nbsp;Katul&nbsp;</th>
                                 <th style="text-align: center;width:auto">&nbsp;TR&nbsp;</th>
                                 <th style="text-align: center;width:auto">&nbsp;Butir&nbsp;Patah&nbsp;</th>
-                                
+
                                 <th style="text-align: center;width:auto">&nbsp;Hampa&nbsp;</th>
                                 <th style="text-align: center;width:auto">&nbsp;Katul&nbsp;</th>
                                 <th style="text-align: center;width:auto">&nbsp;TR&nbsp;</th>
                                 <th style="text-align: center;width:auto">&nbsp;Butir&nbsp;Patah&nbsp;</th>
-                                
-                                <th style="text-align: center;width:auto" >&nbsp;KA&nbsp;</th>
-                                <th style="text-align: center;width:auto" >&nbsp;Hampa&nbsp;</th>
-                                <th style="text-align: center;width:auto" >&nbsp;Rendemen&nbsp;PK&nbsp;</th>
-                                <th style="text-align: center;width:auto" >&nbsp;Rendemen&nbsp;Beras&nbsp;</th>
+
+                                <th style="text-align: center;width:auto">&nbsp;KA&nbsp;</th>
+                                <th style="text-align: center;width:auto">&nbsp;Hampa&nbsp;</th>
+                                <th style="text-align: center;width:auto">&nbsp;Rendemen&nbsp;PK&nbsp;</th>
+                                <th style="text-align: center;width:auto">&nbsp;Rendemen&nbsp;Beras&nbsp;</th>
                                 <!--8-->
-                                <th style="text-align: center;width:auto" >&nbsp;Katul&nbsp;</th>
-                                <th style="text-align: center;width:auto" >&nbsp;Butir&nbsp;Patah&nbsp;</th>
-                                <th style="text-align: center;width:auto" >&nbsp;WH&nbsp;</th>
-                                <th style="text-align: center;width:auto" >&nbsp;TR&nbsp;</th>
-                                <th style="text-align: center;width:auto" >&nbsp;MD&nbsp;</th>
-                                <th style="text-align: center;width:auto" >&nbsp;Harga&nbsp;</th>
-                                <th style="text-align: center;width:auto" >&nbsp;Kualitas&nbsp;Incoming&nbsp;</th>
-                                <th style="text-align: center;width:auto" >&nbsp;Kualitas&nbsp;Bongkaran&nbsp;</th>
+                                <th style="text-align: center;width:auto">&nbsp;Katul&nbsp;</th>
+                                <th style="text-align: center;width:auto">&nbsp;Butir&nbsp;Patah&nbsp;</th>
+                                <th style="text-align: center;width:auto">&nbsp;WH&nbsp;</th>
+                                <th style="text-align: center;width:auto">&nbsp;TR&nbsp;</th>
+                                <th style="text-align: center;width:auto">&nbsp;MD&nbsp;</th>
+                                <th style="text-align: center;width:auto">&nbsp;Harga&nbsp;</th>
+                                <th style="text-align: center;width:auto">&nbsp;Kualitas&nbsp;Incoming&nbsp;</th>
+                                <th style="text-align: center;width:auto">&nbsp;Kualitas&nbsp;Bongkaran&nbsp;</th>
                             </tr>
                         </thead>
                         <tbody style="text-align: center">
@@ -366,15 +376,15 @@ SURYA PANGAN SEMESTA
                     title: 'Berhasil',
                     text: 'Sukses filter data',
                     icon: 'success',
-                    timer: 1500}
-                    )
+                    timer: 1500
+                })
             } else {
                 Swal.fire({
                     title: 'Infoo!!',
                     text: 'Mohon Isikan data',
                     icon: 'warning',
                     timer: 1500
-                    })
+                })
             }
 
         });
@@ -435,13 +445,13 @@ SURYA PANGAN SEMESTA
                 confirmButtonText: 'Yes',
             }).then(function(result) {
                 if (result.value) {
-                    if($('#kadar_air').val()=='' | $('#ka_kg').val()=='' | $('#berat_sample_awal_ks').val()=='' | $('#berat_sample_awal_kg').val()=='' | $('#berat_sample_akhir_kg').val()=='' | $('#berat_sample_pk').val()=='' | $('#randoman').val()=='' | $('#wh').val()=='' | $('#tp').val()=='' | $('#md').val()=='' | $('#keterangan_lab_1').val()=='' | $('#broken').val()=='' ){
-                    Swal.fire('Gagal!', 'Data Harus Diisi Semua.', 'error')
-                    } else if($('#plan_hargafin').val()=='' | $('#plan_hargafin').val()=='0'){
+                    if ($('#kadar_air').val() == '' | $('#ka_kg').val() == '' | $('#berat_sample_awal_ks').val() == '' | $('#berat_sample_awal_kg').val() == '' | $('#berat_sample_akhir_kg').val() == '' | $('#berat_sample_pk').val() == '' | $('#randoman').val() == '' | $('#wh').val() == '' | $('#tp').val() == '' | $('#md').val() == '' | $('#keterangan_lab_1').val() == '' | $('#broken').val() == '') {
+                        Swal.fire('Gagal!', 'Data Harus Diisi Semua.', 'error')
+                    } else if ($('#plan_hargafin').val() == '' | $('#plan_hargafin').val() == '0') {
                         Swal.fire('Mohon Dicek!', 'Top Price, Price GT/04 dan Plan Hpp harap disi sesuai tanggal PO', 'warning')
-                    } else{
-                    $('#formeditoutput').submit();
-                    Swal.fire('Sukses!', 'Data anda berhasil di Simpan.', 'success')
+                    } else {
+                        $('#formeditoutput').submit();
+                        Swal.fire('Sukses!', 'Data anda berhasil di Simpan.', 'success')
                     }
                 } else {
                     Swal.fire('Gagal!', 'Data anda Tidak di Simpan.', 'error')
@@ -454,22 +464,22 @@ SURYA PANGAN SEMESTA
             var tanggal_po = $(this).data('tanggalpo');
             var idtopprice = $(this).data('id');
             var url = "{{ route('qc.lab.edit_lab2_pk') }}" + "/" + id;
-            var url2 = "{{route('qc.lab.get_parameter_lab_pk_kadar_air') }}" + "/"+ tanggal_po;
-                var url3 = "{{route('qc.lab.get_parameter_lab_pk_hampa') }}" + "/"+ tanggal_po;
-                var url4 = "{{route('qc.lab.get_parameter_lab_pk_katul') }}" + "/"+ tanggal_po;
-                var url5 = "{{route('qc.lab.get_parameter_lab_pk_tr') }}" + "/"+ tanggal_po;
-                var url6 = "{{route('qc.lab.get_parameter_lab_pk_butiran_patah') }}" + "/"+ tanggal_po;
-                var url7 = "{{route('qc.lab.get_parameter_lab_pk_kualitas') }}" + "/"+ tanggal_po;
-                var url8 = "{{route('get_price_top_pecah_kulit') }}" + "/"+ idtopprice;
-                var url9 = "{{route('qc.lab.get_parameter_lab_pk_reward_hampa') }}" + "/"+ tanggal_po;
-                var url10 = "{{route('qc.lab.get_parameter_lab_pk_reward_tr') }}" + "/"+ tanggal_po;
-                var url11 = "{{route('qc.lab.get_parameter_lab_pk_reward_katul') }}" + "/"+ tanggal_po;
-                var url12 = "{{route('qc.lab.get_parameter_lab_pk_reward_butir_patah') }}" + "/"+ tanggal_po;
+            var url2 = "{{route('qc.lab.get_parameter_lab_pk_kadar_air') }}" + "/" + tanggal_po;
+            var url3 = "{{route('qc.lab.get_parameter_lab_pk_hampa') }}" + "/" + tanggal_po;
+            var url4 = "{{route('qc.lab.get_parameter_lab_pk_katul') }}" + "/" + tanggal_po;
+            var url5 = "{{route('qc.lab.get_parameter_lab_pk_tr') }}" + "/" + tanggal_po;
+            var url6 = "{{route('qc.lab.get_parameter_lab_pk_butiran_patah') }}" + "/" + tanggal_po;
+            var url7 = "{{route('qc.lab.get_parameter_lab_pk_kualitas') }}" + "/" + tanggal_po;
+            var url8 = "{{route('get_price_top_pecah_kulit') }}" + "/" + idtopprice;
+            var url9 = "{{route('qc.lab.get_parameter_lab_pk_reward_hampa') }}" + "/" + tanggal_po;
+            var url10 = "{{route('qc.lab.get_parameter_lab_pk_reward_tr') }}" + "/" + tanggal_po;
+            var url11 = "{{route('qc.lab.get_parameter_lab_pk_reward_katul') }}" + "/" + tanggal_po;
+            var url12 = "{{route('qc.lab.get_parameter_lab_pk_reward_butir_patah') }}" + "/" + tanggal_po;
             $('#formeditoutput').trigger('reset');
-               $('#to_edit').on('hidden.bs.modal', function (e) {   
-            location.reload();
-            $('#to_edit').show();
-        })
+            $('#to_edit').on('hidden.bs.modal', function(e) {
+                location.reload();
+                $('#to_edit').show();
+            })
             $('#to_edit').modal('show');
             $.ajax({
                 type: "GET",
@@ -478,8 +488,8 @@ SURYA PANGAN SEMESTA
                     // console.log(response);
                     var parsed = $.parseJSON(response);
 
-                   $('#lab2_token').val(parsed.lab2_token);
-                   $('#lab1_kode_po_pk').val(parsed.lab1_kode_po_pk);
+                    $('#lab2_token').val(parsed.lab2_token);
+                    $('#lab1_kode_po_pk').val(parsed.lab1_kode_po_pk);
                     $('#lab1_plat_pk').val(parsed.lab1_plat_pk);
                     $('#lab1_id_data_po_pk').val(parsed.lab1_id_data_po_pk);
                     $('#lab1_id_penerimaan_po_pk').val(parsed.lab1_id_penerimaan_po_pk);
@@ -505,7 +515,7 @@ SURYA PANGAN SEMESTA
                     $('#tr_pk').val(parsed.tr_pk2);
                     $('#md_pk').val(parsed.md_pk2);
                     $('#harga_bongkaran_pk').val(parsed.harga_bongkaran_pk);
-                    
+
                     // input lab1
                     $('#lab1_harga_awal_pk').val(parsed.harga_awal_pk);
                     $('#lab1_ka_pk').val(parsed.ka_pk);
@@ -523,133 +533,133 @@ SURYA PANGAN SEMESTA
                 }
             });
             $.ajax({
-                    type: "GET",
-                    url: url2,
-                    success: function(response) {
-                        var my_orders = $('#parameter_ka_pk')
-                        var parsed = JSON.parse(response);
-                        // console.log(parsed);
-                        $.each(parsed, function(item){
-                        my_orders.append("<input type="+'hidden'+" class="+'parameter_ka_pk'+" value=" + parsed[item].min_ka_parameter_lab_pk_ka +'#'+ parsed[item].max_ka_parameter_lab_pk_ka +'#'+ parsed[item].harga_parameter_lab_pk_ka+">" );
+                type: "GET",
+                url: url2,
+                success: function(response) {
+                    var my_orders = $('#parameter_ka_pk')
+                    var parsed = JSON.parse(response);
+                    // console.log(parsed);
+                    $.each(parsed, function(item) {
+                        my_orders.append("<input type=" + 'hidden' + " class=" + 'parameter_ka_pk' + " value=" + parsed[item].min_ka_parameter_lab_pk_ka + '#' + parsed[item].max_ka_parameter_lab_pk_ka + '#' + parsed[item].harga_parameter_lab_pk_ka + ">");
                     });
-                    }
-                });
-                $.ajax({
-                    type: "GET",
-                    url: url3,
-                    success: function(response) {
-                        var my_orders = $('#parameter_hampa_pk')
-                        var parsed = JSON.parse(response);
-                        // console.log(parsed);
-                        $.each(parsed, function(item){
-                        my_orders.append("<input type="+'hidden'+" class="+'parameter_hampa_pk'+" value=" + parsed[item].min_parameter_lab_pk_hampa +'#'+ parsed[item].max_parameter_lab_pk_hampa +'#'+ parsed[item].harga_parameter_lab_pk_hampa+">" );
+                }
+            });
+            $.ajax({
+                type: "GET",
+                url: url3,
+                success: function(response) {
+                    var my_orders = $('#parameter_hampa_pk')
+                    var parsed = JSON.parse(response);
+                    // console.log(parsed);
+                    $.each(parsed, function(item) {
+                        my_orders.append("<input type=" + 'hidden' + " class=" + 'parameter_hampa_pk' + " value=" + parsed[item].min_parameter_lab_pk_hampa + '#' + parsed[item].max_parameter_lab_pk_hampa + '#' + parsed[item].harga_parameter_lab_pk_hampa + ">");
                     });
-                    }
-                });
-                $.ajax({
-                    type: "GET",
-                    url: url4,
-                    success: function(response) {
-                        var my_orders = $('#parameter_katul_pk')
-                        var parsed = JSON.parse(response);
-                        // console.log(parsed);
-                        $.each(parsed, function(item){
-                        my_orders.append("<input type="+'hidden'+" class="+'parameter_katul_pk'+" value=" + parsed[item].min_parameter_lab_pk_katul +'#'+ parsed[item].max_parameter_lab_pk_katul +'#'+ parsed[item].harga_parameter_lab_pk_katul+">" );
+                }
+            });
+            $.ajax({
+                type: "GET",
+                url: url4,
+                success: function(response) {
+                    var my_orders = $('#parameter_katul_pk')
+                    var parsed = JSON.parse(response);
+                    // console.log(parsed);
+                    $.each(parsed, function(item) {
+                        my_orders.append("<input type=" + 'hidden' + " class=" + 'parameter_katul_pk' + " value=" + parsed[item].min_parameter_lab_pk_katul + '#' + parsed[item].max_parameter_lab_pk_katul + '#' + parsed[item].harga_parameter_lab_pk_katul + ">");
                     });
-                    }
-                });
-                $.ajax({
-                    type: "GET",
-                    url: url5,
-                    success: function(response) {
-                        var my_orders = $('#parameter_tr_pk')
-                        var parsed = JSON.parse(response);
-                        // console.log(parsed);
-                        $.each(parsed, function(item){
-                        my_orders.append("<input type="+'hidden'+" class="+'parameter_tr_pk'+" value=" + parsed[item].min_parameter_lab_pk_tr +'#'+ parsed[item].max_parameter_lab_pk_tr +'#'+ parsed[item].harga_parameter_lab_pk_tr+'#'+ parsed[item].kualitas_parameter_lab_pk_tr+">" );
+                }
+            });
+            $.ajax({
+                type: "GET",
+                url: url5,
+                success: function(response) {
+                    var my_orders = $('#parameter_tr_pk')
+                    var parsed = JSON.parse(response);
+                    // console.log(parsed);
+                    $.each(parsed, function(item) {
+                        my_orders.append("<input type=" + 'hidden' + " class=" + 'parameter_tr_pk' + " value=" + parsed[item].min_parameter_lab_pk_tr + '#' + parsed[item].max_parameter_lab_pk_tr + '#' + parsed[item].harga_parameter_lab_pk_tr + '#' + parsed[item].kualitas_parameter_lab_pk_tr + ">");
                     });
-                    }
-                });
-                $.ajax({
-                    type: "GET",
-                    url: url6,
-                    success: function(response) {
-                        var my_orders = $('#parameter_butir_patah_pk')
-                        var parsed = JSON.parse(response);
-                        // console.log(parsed);
-                        $.each(parsed, function(item){
-                        my_orders.append("<input type="+'hidden'+" class="+'parameter_butir_patah_pk'+" value=" + parsed[item].min_parameter_lab_pk_butiran_patah +'#'+ parsed[item].max_parameter_lab_pk_butiran_patah +'#'+ parsed[item].harga_parameter_lab_pk_butiran_patah+">" );
+                }
+            });
+            $.ajax({
+                type: "GET",
+                url: url6,
+                success: function(response) {
+                    var my_orders = $('#parameter_butir_patah_pk')
+                    var parsed = JSON.parse(response);
+                    // console.log(parsed);
+                    $.each(parsed, function(item) {
+                        my_orders.append("<input type=" + 'hidden' + " class=" + 'parameter_butir_patah_pk' + " value=" + parsed[item].min_parameter_lab_pk_butiran_patah + '#' + parsed[item].max_parameter_lab_pk_butiran_patah + '#' + parsed[item].harga_parameter_lab_pk_butiran_patah + ">");
                     });
-                    }
-                });
-                $.ajax({
-                    type: "GET",
-                    url: url7,
-                    success: function(response) {
-                        var my_orders = $('#parameter_butir_patah_pk_kualitas')
-                        var parsed = JSON.parse(response);
-                        console.log(parsed);
-                        $.each(parsed, function(item){
-                        my_orders.append("<input type="+'hidden'+" class="+'parameter_butir_patah_pk_kualitas'+" value=" + parsed[item].min_parameter_lab_pk_tr_kualitas +'#'+ parsed[item].max_parameter_lab_pk_tr_kualitas +'#'+parsed[item].min_parameter_lab_pk_butirpatah_kualitas +'#'+parsed[item].max_parameter_lab_pk_butirpatah_kualitas +'#'+ parsed[item].kualitas_parameter_lab_pk+">" );
+                }
+            });
+            $.ajax({
+                type: "GET",
+                url: url7,
+                success: function(response) {
+                    var my_orders = $('#parameter_butir_patah_pk_kualitas')
+                    var parsed = JSON.parse(response);
+                    console.log(parsed);
+                    $.each(parsed, function(item) {
+                        my_orders.append("<input type=" + 'hidden' + " class=" + 'parameter_butir_patah_pk_kualitas' + " value=" + parsed[item].min_parameter_lab_pk_tr_kualitas + '#' + parsed[item].max_parameter_lab_pk_tr_kualitas + '#' + parsed[item].min_parameter_lab_pk_butirpatah_kualitas + '#' + parsed[item].max_parameter_lab_pk_butirpatah_kualitas + '#' + parsed[item].kualitas_parameter_lab_pk + ">");
                     });
-                    }
-                });
-                $.ajax({
-                    type: "GET",
-                    url: url8,
-                    success: function(response) {
-                        var parsed = $.parseJSON(response);
-                        $('#harga_atas_pk').val(parsed.harga_atas_pk);
-                    }
-                });
-                $.ajax({
-                    type: "GET",
-                    url: url9,
-                    success: function(response) {
-                        var my_orders = $('#parameter_reward_hampa_pk')
-                        var parsed = JSON.parse(response);
-                        console.log(parsed);
-                        $.each(parsed, function(item){
-                        my_orders.append("<input type="+'hidden'+" class="+'parameter_reward_hampa_pk'+" value=" + parsed[item].value_parameter_lab_pk_reward_hampa +'#'+ parsed[item].reward_parameter_lab_pk_reward_hampa+">" );
-                        });
-                    }
-                });
-                $.ajax({
-                    type: "GET",
-                    url: url10,
-                    success: function(response) {
-                     var my_orders = $('#parameter_reward_tr_pk')
-                        var parsed = JSON.parse(response);
-                        console.log(parsed);
-                        $.each(parsed, function(item){
-                        my_orders.append("<input type="+'hidden'+" class="+'parameter_reward_tr_pk'+" value=" + parsed[item].value_parameter_lab_pk_reward_tr +'#'+ parsed[item].reward_parameter_lab_pk_reward_tr+">" );
-                        });
-                    }
-                });
-                $.ajax({
-                    type: "GET",
-                    url: url11,
-                    success: function(response) {
+                }
+            });
+            $.ajax({
+                type: "GET",
+                url: url8,
+                success: function(response) {
+                    var parsed = $.parseJSON(response);
+                    $('#harga_atas_pk').val(parsed.harga_atas_pk);
+                }
+            });
+            $.ajax({
+                type: "GET",
+                url: url9,
+                success: function(response) {
+                    var my_orders = $('#parameter_reward_hampa_pk')
+                    var parsed = JSON.parse(response);
+                    console.log(parsed);
+                    $.each(parsed, function(item) {
+                        my_orders.append("<input type=" + 'hidden' + " class=" + 'parameter_reward_hampa_pk' + " value=" + parsed[item].value_parameter_lab_pk_reward_hampa + '#' + parsed[item].reward_parameter_lab_pk_reward_hampa + ">");
+                    });
+                }
+            });
+            $.ajax({
+                type: "GET",
+                url: url10,
+                success: function(response) {
+                    var my_orders = $('#parameter_reward_tr_pk')
+                    var parsed = JSON.parse(response);
+                    console.log(parsed);
+                    $.each(parsed, function(item) {
+                        my_orders.append("<input type=" + 'hidden' + " class=" + 'parameter_reward_tr_pk' + " value=" + parsed[item].value_parameter_lab_pk_reward_tr + '#' + parsed[item].reward_parameter_lab_pk_reward_tr + ">");
+                    });
+                }
+            });
+            $.ajax({
+                type: "GET",
+                url: url11,
+                success: function(response) {
                     var my_orders = $('#parameter_reward_katul_pk')
-                        var parsed = JSON.parse(response);
-                        console.log(parsed);
-                        $.each(parsed, function(item){
-                        my_orders.append("<input type="+'hidden'+" class="+'parameter_reward_katul_pk'+" value=" + parsed[item].value_parameter_lab_pk_reward_katul +'#'+ parsed[item].reward_parameter_lab_pk_reward_katul+">" );
-                        });
-                    }
-                });
-                $.ajax({
-                    type: "GET",
-                    url: url12,
-                    success: function(response) {
+                    var parsed = JSON.parse(response);
+                    console.log(parsed);
+                    $.each(parsed, function(item) {
+                        my_orders.append("<input type=" + 'hidden' + " class=" + 'parameter_reward_katul_pk' + " value=" + parsed[item].value_parameter_lab_pk_reward_katul + '#' + parsed[item].reward_parameter_lab_pk_reward_katul + ">");
+                    });
+                }
+            });
+            $.ajax({
+                type: "GET",
+                url: url12,
+                success: function(response) {
                     var my_orders = $('#parameter_reward_butir_patah_pk')
-                        var parsed = JSON.parse(response);
-                        console.log(parsed);
-                        $.each(parsed, function(item){
-                        my_orders.append("<input type="+'hidden'+" class="+'parameter_reward_butir_patah_pk'+" value=" + parsed[item].value_parameter_lab_pk_reward_butir_patah +'#'+ parsed[item].reward_parameter_lab_pk_reward_butir_patah+">" );
-                        });
-                    }
-                });
+                    var parsed = JSON.parse(response);
+                    console.log(parsed);
+                    $.each(parsed, function(item) {
+                        my_orders.append("<input type=" + 'hidden' + " class=" + 'parameter_reward_butir_patah_pk' + " value=" + parsed[item].value_parameter_lab_pk_reward_butir_patah + '#' + parsed[item].reward_parameter_lab_pk_reward_butir_patah + ">");
+                    });
+                }
+            });
         });
     });
 </script>

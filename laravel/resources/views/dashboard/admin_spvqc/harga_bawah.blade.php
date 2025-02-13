@@ -9,16 +9,21 @@ SURYA PANGAN SEMESTA
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
                 <h3 class="kt-subheader__title">
-                    E-PROCUREMENT
+                    PT. SURYA PANGAN SEMESTA
                 </h3>
+                <span class="btn-outline btn-sm btn-info mr-3">NGAWI</span>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
-                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
                     <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
-                        SURYA PANGAN SEMESTA
+                        Harga Bawah
                     </a>
-                    <span class="btn-outline btn-sm btn-info">Site Ngawi</span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Gabah Basah
+                    </a>
                 </div>
             </div>
         </div>
@@ -67,7 +72,7 @@ SURYA PANGAN SEMESTA
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                    <label class="col-xl-3 col-lg-3 col-form-label">Tanggal PO</label>
+                                                                    <label class="col-xl-3 col-lg-3 col-form-label">Tanggal&nbsp;Bongkaran</label>
                                                                     <div class="col-lg-9 col-xl-9">
                                                                         <input type="date" class="form-control" required id="waktu_harga_bawah" name="waktu_harga_bawah" value="">
                                                                     </div>
@@ -111,7 +116,7 @@ SURYA PANGAN SEMESTA
                                 <th style="text-align: center;width:auto">Harga Bawah</th>
                                 <th style="text-align: center;width:auto">Min Tolerenasi Harga Bawah</th>
                                 <th style="text-align: center;width:auto">Max Tolerenasi Harga Bawah</th>
-                                <th style="text-align: center;width:auto">Tanggal PO </th>
+                                <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkaran </th>
                                 <th style="text-align: center;width:auto">Action</th>
                             </tr>
                         </thead>
@@ -158,7 +163,7 @@ SURYA PANGAN SEMESTA
                             </div>
                             <div class="form-group">
                                 <div class="">
-                                    <label>Tanggal PO</label>
+                                    <label>Tanggal&nbsp;Bongkaran</label>
                                     <input id="waktu_harga_bawah_update" required name="waktu_harga_bawah_update" placeholder="" type="date" class="form-control m-input" value="">
                                 </div>
                             </div>

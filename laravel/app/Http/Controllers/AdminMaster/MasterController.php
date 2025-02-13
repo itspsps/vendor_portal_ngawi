@@ -5,6 +5,7 @@ namespace App\Http\Controllers\AdminMaster;
 use App\Exports\DataPenerimaanBarangAOL;
 use App\Exports\DataTimbanganExportExcel;
 use App\Http\Controllers\Controller;
+use App\Models\AdminMaster;
 use App\Models\DataPO;
 use App\Models\DataQcBongkar;
 use App\Models\FinishingQCGb;
@@ -45,18 +46,55 @@ use App\Models\PlanHppGabahBasah;
 use App\Models\PlanHppGabahKering;
 use App\Models\PlanHppPecahKulit;
 use App\Models\ApproveBid;
+use App\Models\trackerPO;
 use Carbon\Carbon;
+use Dflydev\DotAccessData\Data;
 use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 use GuzzleHttp\Psr7\Response;
 
 class MasterController extends Controller
 {
-    function master_logout()
+    function master_logout(Request $request)
     {
-        Auth::guard('master')->logout();
-        Alert::success('Sukses', 'Anda Berhasil Logout');
-        return redirect()->route('master.login')->with('Sukses', 'Anda Berhasil Logout');
+        $cek_auth = Auth::guard('master')->check();
+        // dd(Auth::guard());
+        // dd('c');
+        if ($cek_auth == 'true') {
+            Auth::guard('master')->logout();
+            Auth::logout();
+
+            // Auth::session()->invalidate();
+
+            Alert::success('Sukses', 'Anda Berhasil Logout');
+            return redirect()->route('master.login')->with('Sukses', 'Anda Berhasil Logout');
+            // dd('b');
+        } else {
+            dd('a');
+            Alert::error('Error', 'Anda Gagal Logout');
+            return redirect()->route('master.home')->with('Error', 'Anda Gagal Logout');
+        }
+    }
+    public function account_master()
+    {
+        $id = Auth::guard('master')->user()->id;
+        $data = AdminMaster::where('id', $id)->first();
+        // dd($data);
+        return view('dashboard.admin_master.dt_account', ['data' => $data]);
+    }
+    public function account_update(Request $request)
+    {
+        dd($request->all());
+        $data = AdminMaster::where('id_admin_master', $request->id)->first();
+        $data->name_admin_master = $request->name_master;
+        $data->username = $request->username_master;
+        $data->email = $request->email_master;
+        $data->password_show = $request->password;
+        $data->password = Hash::make($request['password']);
+        $data->perusahaan = $request->company_master;
+        $data->updated_at = $request->updated_at;
+        $data->update();
+        return response()->json($data);
     }
     function check(Request $request)
     {
@@ -65,9 +103,9 @@ class MasterController extends Controller
         // $oke = json_encode($array);
         // dd($fieldType);
         if ($fieldType == "username") {
-            $data = DB::table('admin_master')->where('username', $array)->first();
+            $data = AdminMaster::where('username', $array)->first();
         } else {
-            $data = DB::table('admin_master')->where('email', $array)->first();
+            $data = AdminMaster::where('email', $array)->first();
         }
         if (Auth::guard('master')->attempt(array($fieldType => $request->username, 'password' => $request->password))) {
             Alert::success('Berhasil', 'Selamat Datang ' . $data->name_master);
@@ -83,15 +121,20 @@ class MasterController extends Controller
         return view('dashboard.admin_master.home');
     }
 
-
-    // ADMIN AP
-
-
-
-    // ADMIN SPV AP
-
-
-    // ADMIN TIMBANGAN
+    public function get_notifdataAll()
+    {
+        $data = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+            ->join('users', 'users.id', '=', 'data_po.user_idbid')
+            ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
+            ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
+            ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
+            ->where('data_po.status_bid', 13)
+            ->where('penerimaan_po.analisa', '=', 'revisi')
+            ->orWhere('penerimaan_po.status_analisa', '=', '0')
+            ->where('lab2_gb.aksi_harga_gb', 'DEAL')
+            ->orderby('id_penerimaan_po', 'desc')
+            ->count();
+    }
 
     public function tracker_po()
     {
@@ -100,14 +143,12 @@ class MasterController extends Controller
 
     public function tracker_po_index()
     {
-        return Datatables::of(DB::table('tracker_po')
-            ->orderby('id_tracker_po', 'DESC')
-            ->get())
+        return Datatables::of(trackerPO::orderby('id_tracker_po', 'DESC')->get())
             ->addColumn('proses_tracker', function ($list) {
                 if ($list->proses_tracker == '' || $list->proses_tracker == NULL) {
                     $result = '-';
                 } else {
-                    $result = '<span class="badge bg-success">' . $list->proses_tracker . '</span>';
+                    $result = '<span class="btn btn-label-success btn-sm " style="font-weight: bold;">' . $list->proses_tracker . '</span>';
                 }
                 return $result;
             })

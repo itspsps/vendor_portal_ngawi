@@ -9,6 +9,9 @@ Route::get('/lab/proses_lab1_gabah_kering', [QcLab1Controller::class, 'proses_la
 Route::get('/lab/proses_lab1_pecah_kulit', [QcLab1Controller::class, 'proses_lab1_pecah_kulit'])->name('lab.proses_lab1_pecah_kulit');
 Route::get('/lab/proses_lab1_beras_ds', [QcLab1Controller::class, 'proses_lab1_beras_ds'])->name('lab.proses_lab1_beras_ds');
 
+// ADD LAB 1
+Route::get('/lab/proses_add_lab1_gabah_basah/{id}', [QcLab1Controller::class, 'proses_add_lab1_gabah_basah'])->name('lab.proses_add_lab1_gabah_basah');
+Route::get('/lab/check_input_lab1', [QcLab1Controller::class, 'check_input_lab1'])->name('lab.check_input_lab1');
 //Proses Lab1 Index
 Route::get('/lab/proses_lab1_gabah_basah_ciherang_index', [QcLab1Controller::class, 'proses_lab1_gabah_basah_ciherang_index'])->name('lab.proses_lab1_gabah_basah_ciherang_index');
 Route::get('/lab/proses_lab1_gabah_basah_longgrain_index', [QcLab1Controller::class, 'proses_lab1_gabah_basah_longgrain_index'])->name('lab.proses_lab1_gabah_basah_longgrain_index');
@@ -22,6 +25,7 @@ Route::get('/lab/proses_lab1_beras_ds_index', [QcLab1Controller::class, 'proses_
 Route::get('/lab/output_proses_lab1_gb', [QcLab1Controller::class, 'output_proses_lab1_gb'])->name('lab.output_proses_lab1_gb');
 Route::get('/lab/output_proses_lab1_pk', [QcLab1Controller::class, 'output_proses_lab1_pk'])->name('lab.output_proses_lab1_pk');
 
+Route::get('/lab/output_edit_proses_lab1_gb/{id?}', [QcLab1Controller::class, 'output_edit_proses_lab1_gb'])->name('lab.output_edit_proses_lab1_gb');
 // Hasil Lab 1 Index
 Route::get('/lab/output_lab1_gb_ciherang_index', [QcLab1Controller::class, 'output_lab1_gb_ciherang_index'])->name('lab.output_lab1_gb_ciherang_index');
 Route::get('/lab/output_lab1_gb_longgrain_index', [QcLab1Controller::class, 'output_lab1_gb_longgrain_index'])->name('lab.output_lab1_gb_longgrain_index');

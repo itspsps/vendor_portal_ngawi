@@ -16,13 +16,12 @@ class AdminMaster extends Authenticatable
      *
      * @var array
      */
-    protected $table = 'admin_master';
-    protected $primaryKey = 'id_admin_master';
     protected $fillable = [
         'username',
         'email',
         'password',
-        'password_show'
+        'password_show',
+        'level'
     ];
 
     /**

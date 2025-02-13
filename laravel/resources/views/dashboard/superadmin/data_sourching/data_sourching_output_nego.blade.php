@@ -9,20 +9,26 @@ SURYA PANGAN SEMESTA
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
                 <h3 class="kt-subheader__title">
-                    E-PROCUREMENT
+                    PT. SURYA PANGAN SEMESTA
                 </h3>
+                <span class="btn-outline btn-sm btn-info mr-3">NGAWI</span>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
-                    <a href="#" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="" class="kt-subheader__breadcrumbs-link">
-                        SURYA PANGAN SEMESTA
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Data Sourching
                     </a>
-                    <span class="btn-outline btn-sm btn-info">Site Ngawi</span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        PO Output Nego
+                    </a>
                 </div>
             </div>
         </div>
     </div>
+
 
     <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
         <div class="col-xl-12 col-lg-12 col-md-12 order-lg-1 order-xl-1">
@@ -471,43 +477,43 @@ SURYA PANGAN SEMESTA
             });
         });
     });
-    
-    $('body').on('click', '#btn_nego_gb', function() {
-            var cek = $(this).data('id');
-            // console.log('cek negoooo');
-            Swal.fire({
-                title: 'Apakah kamu yakin?',
-                text: "Kamu Akan Nego Data Ini",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes!'
-            }).then((result) => {
-                if (result.value) {
-                    $.ajax({
-                        url: "{{route('sourching.status_nego_gb')}}/" + cek,
-                        type: "GET",
-                        error: function() {
-                            alert('Something is wrong');
-                        },
-                        success: function(data) {
-                            Swal.fire({
-                                title: 'Berhasil',
-                                text: 'Data Anda Berhasil Di Nego.',
-                                icon: 'success',
-                                timer: 1500
-                            })
-                            $('#datatable').DataTable().ajax.reload();
-                            $('#datatable1').DataTable().ajax.reload();
-                        }
-                    });
-                } else {
-                    Swal.fire("Cancelled", "Your data is safe :)", "error");
-                }
-            });
 
+    $('body').on('click', '#btn_nego_gb', function() {
+        var cek = $(this).data('id');
+        // console.log('cek negoooo');
+        Swal.fire({
+            title: 'Apakah kamu yakin?',
+            text: "Kamu Akan Nego Data Ini",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: "{{route('sourching.status_nego_gb')}}/" + cek,
+                    type: "GET",
+                    error: function() {
+                        alert('Something is wrong');
+                    },
+                    success: function(data) {
+                        Swal.fire({
+                            title: 'Berhasil',
+                            text: 'Data Anda Berhasil Di Nego.',
+                            icon: 'success',
+                            timer: 1500
+                        })
+                        $('#datatable').DataTable().ajax.reload();
+                        $('#datatable1').DataTable().ajax.reload();
+                    }
+                });
+            } else {
+                Swal.fire("Cancelled", "Your data is safe :)", "error");
+            }
         });
+
+    });
 </script>
 
 @endsection

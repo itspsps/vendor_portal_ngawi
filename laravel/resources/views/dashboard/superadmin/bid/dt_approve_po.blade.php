@@ -9,14 +9,20 @@ SURYA PANGAN SEMESTA
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
                 <h3 class="kt-subheader__title">
-                    E-PROCUREMENT
+                    PT. SURYA PANGAN SEMESTA
                 </h3>
+                <span class="btn-outline btn-sm btn-info mr-3">NGAWI</span>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
-                    <a href="#" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="" class="kt-subheader__breadcrumbs-link">
-                        SURYA PANGAN SEMESTA
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        E-Procurement
+                    </a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        List Data PO
                     </a>
                 </div>
             </div>
@@ -30,7 +36,7 @@ SURYA PANGAN SEMESTA
                 <div class="kt-portlet__head kt-portlet__head--lg">
                     <div class="kt-portlet__head-label">
                         <span class="kt-portlet__head-icon">
-                            <i class="flaticon-user"></i>
+                            <i class="flaticon2-list kt-font-primary"></i>
                         </span>
                         <h3 class="kt-portlet__head-title">
                             List Data PO
@@ -49,6 +55,7 @@ SURYA PANGAN SEMESTA
                                 <th style="text-align: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                 <th style="text-align: center;">&nbsp;Nama&nbsp;Supplier&nbsp;</th>
                                 <th style="text-align: center;">&nbsp;Tanggal&nbsp;PO&nbsp;</th>
+                                <th style="text-align: center;">&nbsp;Tanggal&nbsp;Bongkaran&nbsp;</th>
                                 <th style="text-align: center;">Kode&nbsp;PO</th>
                                 <th style="text-align: center;">Nopol&nbsp;Kendaraan</th>
                                 <th style="text-align: center;">&nbsp;&nbsp;Status&nbsp;PO&nbsp;&nbsp;</th>
@@ -142,6 +149,9 @@ SURYA PANGAN SEMESTA
                     },
                     {
                         data: 'tanggal_po'
+                    },
+                    {
+                        data: 'tanggal_bongkar'
                     },
                     {
                         data: 'kode_po'

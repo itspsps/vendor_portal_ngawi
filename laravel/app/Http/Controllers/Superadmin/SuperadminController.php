@@ -112,7 +112,8 @@ class SuperadminController extends Controller
     function logout()
     {
         Auth::guard('sourching')->logout();
-        return redirect()->route('sourching.login');
+        Alert::success('Sukses', 'Anda Berhasil Logout');
+        return redirect()->route('sourching.login')->with('Sukses', 'Anda Berhasil Logout');
     }
 
     function notifikasi_clear()
@@ -262,10 +263,90 @@ class SuperadminController extends Controller
     {
         return view('dashboard.superadmin.vendor.dt_vendor');
     }
+    public function add_vendor()
+    {
+        return view('dashboard.superadmin.vendor.dt_tambah_vendor');
+    }
 
     public function vendor_store(Request $request)
     {
+        if ($request->nama_bank == 'BB00100') {
+            $norek_length = '15';
+        } elseif ($request->nama_bank == 'BB00200') {
+            $norek_length = '13';
+        } else {
+            $norek_length = '10';
+        }
         // dd($request->all());
+        $rules = [
+            // 'vendorid'                      => 'required|max:255',
+            // 'name'                          => 'required|max:255',
+            // 'sps_alias_c'                   => 'nullable|max:255',
+            // 'address1'                      => 'required|max:255',
+            // 'address2'                      => 'required|max:255',
+            // 'address3'                      => 'required|max:255',
+            // 'city'                          => 'required|max:255',
+            // 'state'                         => 'required|max:255',
+            // 'zip'                           => 'required|max:255',
+            // 'taxpayerID'                    => 'required|max:255',
+            // 'SPS_NameNPWP_c'                => 'required|max:255',
+            // 'SPS_AlamatNPWP_c'              => 'required|max:255',
+            // 'SPS_ActiveDate_c'              => 'required|max:255',
+            // 'SPS_InactiveDate_c'            => 'required|max:255',
+            // 'faxnum'                        => 'required|max:255',
+            // 'SPS_phonenum_c'                => 'required|max:255',
+            // 'emailaddress'                  => 'required|max:255',
+            // 'shipviacode'                   => 'required|max:255',
+            // 'taxregioncode'                 => 'required|max:255',
+            // 'GroupCode'                     => 'required|max:255',
+            // 'BankAcctNumber'                => 'required|max:255',
+            // 'BankName'                      => 'required|max:255',
+            // 'BankBranchCode'                => 'required|max:255',
+            // 'SPS_niksupplier_c'             => 'required|max:255',
+
+            'nama_npwp'                     => 'required|max:255',
+            'npwp'                          => 'required|unique:users',
+            'id_provinsinpwp'               => 'required|max:255',
+            'id_kabupatennpwp'              => 'required|max:255',
+            'id_kecamatannpwp'              => 'required|max:255',
+            'id_desanpwp'                   => 'required|max:255',
+            'keterangan_alamat_npwp'        => 'nullable|max:255',
+            'rt_npwp'                       => 'required|max:255',
+            'rw_npwp'                       => 'required|max:255',
+            'nama_ktp'                      => 'required|max:255',
+            'ktp'                           => 'required|unique:users',
+            'id_provinsiktp'                => 'required|max:255',
+            'id_kabupatenktp'               => 'required|max:255',
+            'id_kecamatanktp'               => 'required|max:255',
+            'id_desaktp'                    => 'required|max:255',
+            'keterangan_alamat_ktp'         => 'nullable|max:255',
+            'rt_ktp'                        => 'required|max:255',
+            'rw_ktp'                        => 'required|max:255',
+            'nama_bank'                     => 'required|max:255',
+            'nomer_rekening'                => 'required|max:' . $norek_length . '|min:' . $norek_length,
+            'nama_penerima_bank'            => 'required|max:255',
+            'cabang_bank'                   => 'required|max:255',
+            'nama_vendor'                   => 'required|max:255',
+            'nomer_hp'                      => 'required|max:255',
+            'username'                      => 'required|unique:users|max:255',
+            'email'                         => 'nullable|max:255|unique:users',
+            'badan_usaha'                   => 'nullable|max:255',
+            'password'                      => 'required|max:255',
+            'gambar_npwp'                   => 'mimes:jpeg,png,jpg,gif|max:3000|required',
+            'gambar_ktp'                    => 'mimes:jpeg,png,jpg,gif|max:3000|required',
+            'pakta_integritas'              => 'max:3000|required',
+            'fis'                           => 'mimes:jpeg,png,jpg,gif|max:3000|required',
+        ];
+        $customMessages = [
+            'required' => ':attribute tidak boleh kosong.',
+            'unique' => ':attribute tidak boleh sama',
+            // 'email' => ':attribute format email salah',
+            'max' => ':attribute Kurang Dari Batas Minimal',
+            'min' => ':attribute Melebihi Batas Maksimal'
+        ];
+        // dd($request->all());
+        $validatedData = $request->validate($rules, $customMessages);
+        // dd($validatedData);
         $fileNPWP       = $request->file('gambar_npwp');
         $imageNameNPWP  = time() . '.' . $request->gambar_npwp->extension();
         $moveNPWP       = $fileNPWP->move('public/img/npwp/profile_user', $imageNameNPWP);
@@ -283,22 +364,13 @@ class SuperadminController extends Controller
         $moveFIS        = $fileFIS->move('public/img/fis/profile_user', $imageNameFIS);
 
 
-        $cek_email   = User::where('email', $request->email)->where('status_user', '1')->first();
-        $cek_username   = User::where('username', $request->username)->where('status_user', '1')->first();
-        $cek_npwp    = User::where('npwp', $request->npwp)->where('status_user', '1')->first();
-        $cek_ktp     = User::where('ktp', $request->ktp)->where('status_user', '1')->first();
-        $cek_address1 = DB::table('districts')->where('id', $request->id_kecamatannpwp)->first();
-        $cek_address2 = DB::table('regencies')->where('id', $request->id_kabupatennpwp)->first();
-        $cek_address3 = DB::table('provinces')->where('id', $request->id_provinsinpwp)->first();
-
-        $nomer_urut  = User::where('GroupCode', '1PBB')->count();
 
         //dd('VD150'.($nomer_urut + 2));
         //dd($cek_address1->name.', '.$cek_address2->name.', '.$cek_address3->name.' INDONESIA');
-        if ($request->nama_bank == 'BBRI') {
+        if ($validatedData['nama_bank'] == 'BB00100') {
             $bank_code = 'BBRI';
             $bank_name = 'PT BANK RAKYAT INDONESIA (PERSERO) Tbk';
-        } elseif ($request->nama_bank == 'BMRI') {
+        } else if ($validatedData['nama_bank'] == 'BB00200') {
             $bank_code = 'BMRI';
             $bank_name = 'PT BANK MANDIRI (PERSERO) Tbk';
         } else {
@@ -306,105 +378,108 @@ class SuperadminController extends Controller
             $bank_name = 'PT BANK CENTRAL ASIA Tbk';
         }
         // if ($cek_email == '' && $cek_npwp == '' && $cek_ktp == '') {
-        if ($cek_email == '' | $cek_username == '') {
-            $client = new \GuzzleHttp\Client();
-            // $url = 'https://sumberpangan.store/api/postman';
-            $url = 'http://34.34.222.145:2022/api/Vendor/InsertVendor';
-            $form_params = [
-                'name'           => $request->nama_vendor,
-                'password'           => $request->password,
-                'groupcode'         => '1PBB',
-                'nomer_hp'           => $request->nomer_hp,
-                'name'              => $request->nama_ktp,
-                'sps_alias_c'       => $request->badan_usaha,
-                'address1'          => $cek_address1->name,
-                'address2'          => $cek_address2->name,
-                'address3'          => $cek_address3->name,
-                'city'              => $cek_address2->name,
-                'state'             => $cek_address3->name,
-                'taxpayerid'        => $request->npwp,
-                'sps_namenpwp_c'    => $request->nama_npwp,
-                'sps_alamatnpwp_c'  => $cek_address1->name . ', ' . $cek_address2->name . ', ' . $cek_address3->name . ' INDONESIA',
-                'inactive'          => 'false',
-                'sps_phonenum_c'    => $request->nomer_hp,
-                'emailaddress'      => $request->email,
-                'termscode'         => 'PT01',
-                'bankacctnumber'    => $request->nomer_rekening,
-                'bankbranchcode'    => $bank_code,
-                'sps_niksupplier_c' => $request->ktp,
-                'bankAccountID' => 'BA101',
-                'BankName' => $bank_name
-            ];
-            $response = $client->post($url, ['form_params' => $form_params]);
-            $response = $response->getBody()->getContents();
-            $result     = preg_replace("/[^a-zA-Z0-9]/", "", $response);
-            $query = User::create([
-                // 'vendorid'           => Str::upper($request->vendor_id),
-                'vendorid'           => $result,
-                'name'               => $request->nama_vendor,
-                'sps_alias_c'        => $request->badan_usaha,
-                'address1'           => $cek_address1->name,
-                'address2'           => $cek_address2->name,
-                'address3'           => $cek_address3->name,
-                'city'               => $cek_address2->name,
-                'state'              => $cek_address3->name,
-                'zip'                => '-',
-                'taxpayerID'         => $request->npwp,
-                'SPS_NameNPWP_c'     => $request->nama_npwp,
-                'SPS_AlamatNPWP_c'   => $cek_address1->name . ', ' . $cek_address2->name . ', ' . $cek_address3->name . ' INDONESIA',
-                'SPS_ActiveDate_c'   => date('Y-m-d'),
-                'SPS_InactiveDate_c' => date('Y-m-d'),
-                'faxnum'             => '-',
-                'SPS_phonenum_c'     => $request->nomer_hp,
-                'emailaddress'       => $request->email,
-                'shipviacode'        => '-',
-                'taxregioncode'      => 'TX54',
-                'GroupCode'          => '1PBB',
-                'BankAcctNumber'     => $request->nomer_rekening,
-                'BankName'           => $bank_name,
-                'BankBranchCode'     => $bank_code,
-                'SPS_niksupplier_c'  => $request->ktp,
+        $cek_address1 = DB::table('districts')->where('id', $validatedData['id_kecamatannpwp'])->first();
+        $cek_address2 = DB::table('regencies')->where('id', $validatedData['id_kabupatennpwp'])->first();
+        $cek_address3 = DB::table('provinces')->where('id', $validatedData['id_provinsinpwp'])->first();
 
-                'nama_vendor'        => $request->nama_vendor,
-                'nama_npwp'          => $request->nama_npwp,
-                'email'              => $request->email,
-                'npwp'               => $request->npwp,
-                'rt_npwp'            => $request->rt_npwp,
-                'rw_npwp'            => $request->rw_npwp,
-                'id_provinsinpwp'    => $request->id_provinsinpwp,
-                'id_kabupatennpwp'   => $request->id_kabupatennpwp,
-                'id_kecamatannpwp'   => $request->id_kecamatannpwp,
-                'id_desanpwp'        => $request->id_desanpwp,
-                'keterangan_alamat_npwp'        => $request->keterangan_alamat_npwp,
-                'nama_bank'          => $bank_name,
-                'nomer_rekening'     => $request->nomer_rekening,
-                'nama_penerima_bank' => $request->nama_penerima_bank,
-                'cabang_bank'        => $request->cabang_bank,
-                'nama_ktp'           => $request->nama_ktp,
-                'ktp'                => $request->ktp,
-                'rt_ktp'             => $request->rt_ktp,
-                'rw_ktp'             => $request->rw_ktp,
-                'id_provinsiktp'     => $request->id_provinsiktp,
-                'id_kabupatenktp'    => $request->id_kabupatenktp,
-                'id_kecamatanktp'    => $request->id_kecamatanktp,
-                'id_desaktp'         => $request->id_desaktp,
-                'keterangan_alamat_ktp'         => $request->keterangan_alamat_ktp,
-                'nomer_hp'           => $request->nomer_hp,
-                'username'           => $request->username,
-                'password'           => Hash::make($request->password),
-                'password_show'      => $request->password,
-                'status_user'        => '1',
-                'gambar_npwp'        => $imageNameNPWP,
-                'gambar_ktp'        => $imageNameKTP,
-                'pakta_integritas'  => $imageNamePI,
-                'fis'  => $imageNameFIS
-            ]);
-            Alert::success('Berhasil', 'Data anda berhasil di Simpan.', 1500);
-            return redirect()->back()->with('success', 'Data anda berhasil di Simpan.');
-        } else {
-            Alert::success('error', 'Data email, Username, npwp, dan ktp anda masukan sudah ada', 1500);
-            return redirect()->back()->with('error', 'Data email, Username, npwp, dan ktp anda masukan sudah ada');
-        }
+        // NPWP
+        $npwp =  str_replace(' ', '', $validatedData['npwp']);
+        // dd($validatedData);
+        $client = new \GuzzleHttp\Client();
+        // $url = 'https://sumberpangan.store/api/postman';
+        $url = 'http://34.34.222.145:2022/api/Vendor/InsertVendor';
+        $form_params = [
+            'vendor_id'         => '',
+            'name'              => $validatedData['nama_vendor'],
+            'password'          => $validatedData['password'],
+            'groupcode'         => '1PBB',
+            'nomer_hp'          => $validatedData['nomer_hp'],
+            'name'              => $validatedData['nama_ktp'],
+            'sps_alias_c'       => $validatedData['badan_usaha'],
+            'address1'          => $cek_address1->name,
+            'address2'          => $cek_address2->name,
+            'address3'          => $cek_address3->name,
+            'city'              => $cek_address2->name,
+            'state'             => $cek_address3->name,
+            'taxpayerid'        => $npwp,
+            'sps_namenpwp_c'    => $validatedData['nama_npwp'],
+            'sps_alamatnpwp_c'  => $cek_address1->name . ', ' . $cek_address2->name . ', ' . $cek_address3->name . ' INDONESIA',
+            'inactive'          => 'false',
+            'sps_phonenum_c'    => $validatedData['nomer_hp'],
+            'emailaddress'      => $validatedData['email'],
+            'termscode'         => 'PT01',
+            'bankacctnumber'    => $validatedData['nomer_rekening'],
+            'bankbranchcode'    => $bank_code,
+            'sps_niksupplier_c' => $validatedData['ktp'],
+            'bankAccountID'     => 'BA101',
+            'BankName'          => $bank_name
+        ];
+        $response = $client->post($url, ['form_params' => $form_params]);
+        $response = $response->getBody()->getContents();
+        $result     = preg_replace("/[^a-zA-Z0-9]/", "", $response);
+        $query = User::create([
+            // 'vendorid'           => Str::upper($request->vendor_id),
+            'vendorid'           => $result,
+            'name'               => $validatedData['nama_vendor'],
+            'sps_alias_c'        => $validatedData['badan_usaha'],
+            'address1'           => $cek_address1->name,
+            'address2'           => $cek_address2->name,
+            'address3'           => $cek_address3->name,
+            'city'               => $cek_address2->name,
+            'state'              => $cek_address3->name,
+            'zip'                => '-',
+            'taxpayerID'         => $npwp,
+            'SPS_NameNPWP_c'     => $validatedData['nama_npwp'],
+            'SPS_AlamatNPWP_c'   => $cek_address1->name . ', ' . $cek_address2->name . ', ' . $cek_address3->name . ' INDONESIA',
+            'SPS_ActiveDate_c'   => date('Y-m-d'),
+            'SPS_InactiveDate_c' => date('Y-m-d'),
+            'faxnum'             => '-',
+            'SPS_phonenum_c'     => $validatedData['nomer_hp'],
+            'emailaddress'       => $validatedData['email'],
+            'shipviacode'        => '-',
+            'taxregioncode'      => 'TX54',
+            'GroupCode'          => '1PBB',
+            'BankAcctNumber'     => $validatedData['nomer_rekening'],
+            'BankName'           => $bank_name,
+            'BankBranchCode'     => $bank_code,
+            'SPS_niksupplier_c'  => $validatedData['ktp'],
+
+            'nama_vendor'                   => $validatedData['nama_vendor'],
+            'nama_npwp'                     => $validatedData['nama_npwp'],
+            'email'                         => $validatedData['email'],
+            'npwp'                          => $npwp,
+            'rt_npwp'                       => $validatedData['rt_npwp'],
+            'rw_npwp'                       => $validatedData['rw_npwp'],
+            'id_provinsinpwp'               => $validatedData['id_provinsinpwp'],
+            'id_kabupatennpwp'              => $validatedData['id_kabupatennpwp'],
+            'id_kecamatannpwp'              => $validatedData['id_kecamatannpwp'],
+            'id_desanpwp'                   => $validatedData['id_desanpwp'],
+            'keterangan_alamat_npwp'        => $validatedData['keterangan_alamat_npwp'],
+            'nama_bank'                     => $bank_name,
+            'nomer_rekening'                => $validatedData['nomer_rekening'],
+            'nama_penerima_bank'            => $validatedData['nama_penerima_bank'],
+            'cabang_bank'                   => $validatedData['cabang_bank'],
+            'nama_ktp'                      => $validatedData['nama_ktp'],
+            'ktp'                           => $validatedData['ktp'],
+            'rt_ktp'                        => $validatedData['rt_ktp'],
+            'rw_ktp'                        => $validatedData['rw_ktp'],
+            'id_provinsiktp'                => $validatedData['id_provinsiktp'],
+            'id_kabupatenktp'               => $validatedData['id_kabupatenktp'],
+            'id_kecamatanktp'               => $validatedData['id_kecamatanktp'],
+            'id_desaktp'                    => $validatedData['id_desaktp'],
+            'keterangan_alamat_ktp'         => $validatedData['keterangan_alamat_ktp'],
+            'nomer_hp'                      => $validatedData['nomer_hp'],
+            'username'                      => $validatedData['username'],
+            'password'                      => Hash::make($validatedData['password']),
+            'password_show'                 => $validatedData['password'],
+            'status_user'                   => '1',
+            'gambar_npwp'                   => $imageNameNPWP,
+            'gambar_ktp'                    => $imageNameKTP,
+            'pakta_integritas'              => $imageNamePI,
+            'fis'                           => $imageNameFIS
+        ]);
+        Alert::success('Berhasil', 'Data anda berhasil di Simpan.', 1500);
+        return redirect()->back()->with('success', 'Data anda berhasil di Simpan.');
     }
     public function get_verifyemail($id)
     {
@@ -674,7 +749,7 @@ class SuperadminController extends Controller
         $cek_address3 = DB::table('provinces')->where('id', $request->id_provinsinpwp)->first();
         $cek_address4 = DB::table('villages')->where('id', $request->id_desanpwp)->first();
         $data_users = User::where('id', $request->npwp_id_vendor)->first();
-        // dd($data);
+        // dd($data_users);
         if ($request->file_npwp == null) {
             // dd('a');
             $data = User::where('id', $request->npwp_id_vendor)->first();
@@ -1383,6 +1458,10 @@ class SuperadminController extends Controller
                         $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y ');
                         return $result;
                     })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y ');
+                        return $result;
+                    })
                     ->addColumn('plat_kendaraan', function ($list) {
                         $result = $list->plat_kendaraan;
                         return $result;
@@ -1461,7 +1540,7 @@ class SuperadminController extends Controller
                         $result = $list->z_yang_ditolak_gb;
                         return $result;
                     })
-                    ->rawColumns(['name_bid', 'nama_vendor', 'tanggal_po', 'date_bid', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
+                    ->rawColumns(['name_bid', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'tanggal_bongkar', 'date_bid', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
                     ->make(true);
             } else {
 
@@ -1493,6 +1572,10 @@ class SuperadminController extends Controller
                     })
                     ->addColumn('tanggal_po', function ($list) {
                         $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y ');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y ');
                         return $result;
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
@@ -1573,7 +1656,7 @@ class SuperadminController extends Controller
                         $result = $list->z_yang_ditolak_gb;
                         return $result;
                     })
-                    ->rawColumns(['name_bid', 'nama_vendor', 'tanggal_po', 'date_bid', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
+                    ->rawColumns(['name_bid', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'date_bid', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
                     ->make(true);
             }
         }
@@ -1624,6 +1707,10 @@ class SuperadminController extends Controller
                         $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y ');
                         return $result;
                     })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y ');
+                        return $result;
+                    })
                     ->addColumn('plat_kendaraan', function ($list) {
                         $result = $list->plat_kendaraan;
                         return $result;
@@ -1702,7 +1789,7 @@ class SuperadminController extends Controller
                         $result = $list->z_yang_ditolak_gb;
                         return $result;
                     })
-                    ->rawColumns(['name_bid', 'nama_vendor', 'tanggal_po', 'date_bid', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
+                    ->rawColumns(['name_bid', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'date_bid', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
                     ->make(true);
             } else {
 
@@ -1734,6 +1821,10 @@ class SuperadminController extends Controller
                     })
                     ->addColumn('tanggal_po', function ($list) {
                         $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y ');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y ');
                         return $result;
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
@@ -1814,7 +1905,7 @@ class SuperadminController extends Controller
                         $result = $list->z_yang_ditolak_gb;
                         return $result;
                     })
-                    ->rawColumns(['name_bid', 'nama_vendor', 'tanggal_po', 'date_bid', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
+                    ->rawColumns(['name_bid', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'date_bid', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
                     ->make(true);
             }
         }
@@ -1853,6 +1944,14 @@ class SuperadminController extends Controller
                         $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y ');
                         return $result;
                     })
+                    ->addColumn('tanggal_po', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y ');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y ');
+                        return $result;
+                    })
                     ->addColumn('plat_kendaraan', function ($list) {
                         $result = $list->plat_kendaraan;
                         return $result;
@@ -1931,7 +2030,7 @@ class SuperadminController extends Controller
                         $result = $list->z_yang_ditolak_gb;
                         return $result;
                     })
-                    ->rawColumns(['name_bid', 'nama_vendor', 'tanggal_po', 'date_bid', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
+                    ->rawColumns(['name_bid', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'date_bid', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
                     ->make(true);
             } else {
 
@@ -1962,6 +2061,10 @@ class SuperadminController extends Controller
                     })
                     ->addColumn('tanggal_po', function ($list) {
                         $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y ');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y ');
                         return $result;
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
@@ -2042,7 +2145,7 @@ class SuperadminController extends Controller
                         $result = $list->z_yang_ditolak_gb;
                         return $result;
                     })
-                    ->rawColumns(['name_bid', 'nama_vendor', 'tanggal_po', 'date_bid', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
+                    ->rawColumns(['name_bid', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'date_bid', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
                     ->make(true);
             }
         }
@@ -2081,6 +2184,10 @@ class SuperadminController extends Controller
                         $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y ');
                         return $result;
                     })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y ');
+                        return $result;
+                    })
                     ->addColumn('plat_kendaraan', function ($list) {
                         $result = $list->plat_kendaraan;
                         return $result;
@@ -2159,7 +2266,7 @@ class SuperadminController extends Controller
                         $result = $list->z_yang_ditolak_gb;
                         return $result;
                     })
-                    ->rawColumns(['name_bid', 'nama_vendor', 'tanggal_po', 'date_bid', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
+                    ->rawColumns(['name_bid', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'date_bid', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
                     ->make(true);
             } else {
 
@@ -2190,6 +2297,10 @@ class SuperadminController extends Controller
                     })
                     ->addColumn('tanggal_po', function ($list) {
                         $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y ');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y ');
                         return $result;
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
@@ -2270,7 +2381,7 @@ class SuperadminController extends Controller
                         $result = $list->z_yang_ditolak_gb;
                         return $result;
                     })
-                    ->rawColumns(['name_bid', 'nama_vendor', 'tanggal_po', 'date_bid', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
+                    ->rawColumns(['name_bid', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'date_bid', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
                     ->make(true);
             }
         }
@@ -2443,12 +2554,26 @@ class SuperadminController extends Controller
         $log->save();
 
         $po = trackerPO::where('kode_po_tracker', $data->penerimaan_kode_po)->first();
-        $po->nama_admin_tracker  = Auth::guard('sourching')->user()->name;
-        $po->deal_sourching_tracker  = date('Y-m-d H:i:s');
-        $po->nego_sourching_tracker  = NULL;
-        $po->proses_nego_spvqc_tracker  = NULL;
-        $po->proses_tracker  = 'STATUS DEAL PO';
-        $po->update();
+        if ($po == NULL) {
+
+            $insert_tracker = new trackerPO();
+            $insert_tracker->nama_supplier_tracker  = $data->user_idbid;
+            $insert_tracker->tanggal_po_tracker     = $data->tanggal_po;
+            $insert_tracker->id_penerimaan_tracker  = $data->id_penerimaan_po;
+            $insert_tracker->id_data_po_tracker     = $data->id_data_po;
+            $insert_tracker->nama_admin_tracker     =  Auth::guard('sourching')->user()->name;
+            $insert_tracker->proses_tracker         = 'STATUS DEAL PO';
+            $insert_tracker->deal_sourching_tracker  = date('Y-m-d H:i:s');
+            $insert_tracker->save();
+        } else {
+
+            $po->nama_admin_tracker  = Auth::guard('sourching')->user()->name;
+            $po->deal_sourching_tracker  = date('Y-m-d H:i:s');
+            $po->nego_sourching_tracker  = NULL;
+            $po->proses_nego_spvqc_tracker  = NULL;
+            $po->proses_tracker  = 'STATUS DEAL PO';
+            $po->update();
+        }
 
         //tambah notifikasi
         $notif                  = new NotifAp();
@@ -2628,11 +2753,14 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
         $log->save();
 
         $po = trackerPO::where('kode_po_tracker', $data->penerimaan_kode_po)->first();
-        $po->nama_admin_tracker  = Auth::guard('sourching')->user()->name;
-        $po->nego_sourching_tracker  = date('Y-m-d H:i:s');
-        $po->deal_sourching_tracker  = NULL;
-        $po->proses_tracker  = 'STATUS NEGO PO';
-        $po->update();
+        if ($po == NULL) {
+        } else {
+            $po->nama_admin_tracker  = Auth::guard('sourching')->user()->name;
+            $po->nego_sourching_tracker  = date('Y-m-d H:i:s');
+            $po->deal_sourching_tracker  = NULL;
+            $po->proses_tracker  = 'STATUS NEGO PO';
+            $po->update();
+        }
     }
     public function status_nego_pk($id)
     {
@@ -5628,8 +5756,27 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
     }
     public function get_notifikasisourching()
     {
-        $data = NotifSourching::where('status', 0)->get();
+        $data = NotifSourching::where('status', 0)->take(10)->orderBy('id_notif', 'DESC')->get();
         return json_encode($data);
+    }
+    public function get_notif_sourching_all()
+    {
+        return view('dashboard.superadmin.notifikasi.notifikasi');
+    }
+    public function get_notif_sourching_all_index()
+    {
+        return Datatables::of(NotifSourching::where('status', 0)->orderBy('id_notif', 'DESC')->get())
+            ->addColumn('keterangan', function ($list) {
+                $result = $list->keterangan;
+                return $result;
+            })
+            ->addColumn('created_at', function ($list) {
+                $result_date = \Carbon\Carbon::parse($list->created_at)->isoFormat('DD-MM-Y');
+                $result_time = \Carbon\Carbon::parse($list->created_at)->isoFormat('H:m:s ');
+                $result = $result_date . '<br><span class="btn btn-sm btn-label-primary">' . $result_time . ' WIB</span>';
+                return $result;
+            })->rawColumns(['keterangan', 'created_at'])
+            ->make(true);
     }
     public function get_countnotifikasisourching()
     {
@@ -5644,7 +5791,7 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
         $data->status       = '1';
         $data->update();
         if ($data->kategori == 0) {
-            return redirect()->route('sourching.list_approve_po', $data->id_objek);
+            return redirect()->route('sourching.bid_response', $data->id_objek);
         } elseif ($data->kategori == 1) {
             return redirect()->route('sourching.data_sourching_onprocess');
         }

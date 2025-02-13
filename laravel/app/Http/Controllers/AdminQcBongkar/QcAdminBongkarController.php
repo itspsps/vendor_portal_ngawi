@@ -21,6 +21,7 @@ use App\Models\trackerPO;
 use Illuminate\Support\Facades\Auth;
 use DB;
 use Carbon\Carbon;
+use Dflydev\DotAccessData\Data;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class QcAdminBongkarController extends Controller
@@ -46,7 +47,15 @@ class QcAdminBongkarController extends Controller
         }
     }
 
-
+    public function check_input_bongkar(Request $request)
+    {
+        $cek_data = DataQcBongkar::where('kode_po_bongkar', $request->kode_po)->select('kode_po_bongkar')->get();
+        if (count($cek_data) > 0) {
+            return response()->json('double');
+        } else {
+            return response()->json('success');
+        }
+    }
     public function home()
     {
         return view('dashboard.admin_qc_bongkar.home');
@@ -633,7 +642,7 @@ class QcAdminBongkarController extends Controller
         $panggil1 = Lab1GabahBasah::where('status_lab1_gb', "7")->where('lokasi_bongkar_gb', 'SELATAN')->orderBy('id_lab1_gb', 'asc')->first();
         $panggil_pk = Lab1Pecahkulit::where('status_lab1_pk', "7")->orderBy('created_at_pk', 'asc')->first();
         // dd($panggil);
-        $data_utara =DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $data_utara = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('lab1_gb', 'lab1_gb.lab1_kode_po_gb', '=', 'data_po.kode_po')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
@@ -645,7 +654,7 @@ class QcAdminBongkarController extends Controller
             ->get();
 
         // dd($data_utara);
-        $data_selatan =DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $data_selatan = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('lab1_gb', 'lab1_gb.lab1_kode_po_gb', '=', 'data_po.kode_po')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
@@ -655,7 +664,7 @@ class QcAdminBongkarController extends Controller
             ->where('lab1_gb.output_lab_gb', 'Unload')
             ->orderBy('lab1_gb.id_lab1_gb', 'asc')
             ->get();
-        $data_pk =DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $data_pk = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('lab1_pk', 'lab1_pk.lab1_kode_po_pk', '=', 'data_po.kode_po')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
@@ -665,7 +674,7 @@ class QcAdminBongkarController extends Controller
             ->orderBy('lab1_pk.id_lab1_pk', 'asc')
             ->get();
         // dd($data_pk);
-        $data_pending =DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $data_pending = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('lab1_gb', 'lab1_gb.lab1_kode_po_gb', '=', 'data_po.kode_po')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
@@ -744,9 +753,10 @@ class QcAdminBongkarController extends Controller
     public function data_antrian_bongkar_panggil_gb($id)
     {
         $data = PenerimaanPO::where('id_penerimaan_po', $id)->first();
+        // dd($data);
         if ($data->status_penerimaan == 7) {
             $data1 = PenerimaanPO::where('id_penerimaan_po', $id)->update(['status_penerimaan' => 8]);
-            $data2 =DataPO::where('kode_po', $data->penerimaan_kode_po)->update(['status_bid' => 8]);
+            $data2 = DataPO::where('kode_po', $data->penerimaan_kode_po)->update(['status_bid' => 8]);
             $data3 = Lab1GabahBasah::where('lab1_kode_po_gb', $data->penerimaan_kode_po)->update(['status_lab1_gb' => 8]);
             // return redirect()->back();
             $log                                = new LogAktivityQc();
@@ -758,11 +768,14 @@ class QcAdminBongkarController extends Controller
             $log->save();
 
             $po = trackerPO::where('kode_po_tracker', $data->penerimaan_kode_po)->first();
-            $po->nama_admin_tracker  =  Auth::guard('bongkar')->user()->name_qc_bongkar;
-            $po->status_po_tracker  = '8';
-            $po->proses_tracker  = 'PANGGIL TRUK';
-            $po->panggil_truk_tracker  = date('Y-m-d H:i:s');
-            $po->update();
+            if ($po == NULL) {
+            } else {
+                $po->nama_admin_tracker  =  Auth::guard('bongkar')->user()->name_qc_bongkar;
+                $po->status_po_tracker  = '8';
+                $po->proses_tracker  = 'PANGGIL TRUK';
+                $po->panggil_truk_tracker  = date('Y-m-d H:i:s');
+                $po->update();
+            }
 
             //tambah notifikasi
             $notif                  = new NotifTimbangan();
@@ -774,6 +787,9 @@ class QcAdminBongkarController extends Controller
             $notif->kategori        = 0;
             $notif->created_at      = date('Y-m-d H:i:s');
             $notif->save();
+            return response()->json('berhasil');
+        } else {
+            return response()->json('gagal');
         }
     }
     public function data_antrian_bongkar_panggil_pk($id)
@@ -782,7 +798,7 @@ class QcAdminBongkarController extends Controller
         // dd($data);
         if ($data->status_penerimaan == 7) {
             $data1 = PenerimaanPO::where('id_penerimaan_po', $id)->update(['status_penerimaan' => 8]);
-            $data2 =DataPO::where('kode_po', $data->penerimaan_kode_po)->update(['status_bid' => 8]);
+            $data2 = DataPO::where('kode_po', $data->penerimaan_kode_po)->update(['status_bid' => 8]);
             $data3 = Lab1Pecahkulit::where('lab1_kode_po_pk', $data->penerimaan_kode_po)->update(['status_lab1_pk' => 8]);
             // return redirect()->back();
             $log                                = new LogAktivityQc();
@@ -797,7 +813,7 @@ class QcAdminBongkarController extends Controller
 
     public function show_qc_bongkar_gb_show($id)
     {
-        $show_data =DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $show_data = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->where('data_po.status_bid', 9)
@@ -808,7 +824,7 @@ class QcAdminBongkarController extends Controller
     }
     public function show_qc_bongkar_pk_show($id)
     {
-        $show_data =DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $show_data = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->where('data_po.status_bid', 9)
@@ -822,6 +838,7 @@ class QcAdminBongkarController extends Controller
     public function update_qc_bongkar(Request $req)
     {
         // dd($req->all());
+        // dd(Auth::guard('bongkar')->user()->name_qc_bongkar);
         if (
             $req->name_bid == 'GABAH BASAH CIHERANG' || $req->name_bid == 'GABAH BASAH LONG GRAIN' || $req->name_bid == 'GABAH BASAH LONG GRAIN 50 KG' || $req->name_bid == 'GABAH BASAH LONG GRAIN JUMBO BAG' || $req->name_bid == 'GABAH BASAH PANDAN WANGI' || $req->name_bid == 'GABAH BASAH PANDAN WANGI 50 KG'
             || $req->name_bid == 'GABAH BASAH PANDAN WANGI JUMBO BAG' || $req->name_bid == 'GABAH BASAH PERA' || $req->name_bid == 'GABAH BASAH PERA 50 KG' || $req->name_bid == 'GABAH BASAH PERA JUMBO BAG' || $req->name_bid == 'GABAH BASAH KETAN PUTIH'
@@ -837,15 +854,45 @@ class QcAdminBongkarController extends Controller
             $data->z_yang_dibawa        = $req->z_yang_dibawa;
             $data->z_yang_ditolak       = $req->z_yang_ditolak;
             $data->created_at_bongkar   = date('Y-m-d H:i:s');
-            $data->tanggal_bongkar       = now();
+            $data->tanggal_bongkar      = now();
             $data->status_bongkar       = 'FINISH';
             $data->save();
 
-
-
-            $data_penerimaan = PenerimaanPO::where('penerimaan_kode_po', $req->penerimaan_kode_po)->first();
+            $data_penerimaan                    = PenerimaanPO::where('penerimaan_kode_po', $req->penerimaan_kode_po)->first();
             $data_penerimaan->status_penerimaan = 10;
             $data_penerimaan->update();
+
+
+            $po                 = trackerPO::where('kode_po_tracker', $req->penerimaan_kode_po)->first();
+            $data_po            = DataPO::where('kode_po', $req->penerimaan_kode_po)->first();
+            $data_po->status_bid   = 10;
+            $data_po->gudang_aol   = 'Driying Unit Area';
+            $data_po->update();
+
+            $lab1gb                       = Lab1GabahBasah::where('lab1_kode_po_gb', $req->penerimaan_kode_po)->first();
+            $lab1gb->status_lab1_gb       = 10;
+            $lab1gb->lokasi_bongkar_gb    = $req->tempat_bongkar;
+            $lab1gb->lokasi_gt_gb         = $req->tempat_bongkar;
+            $lab1gb->update();
+            // dd($po);
+            if ($po == NULL) {
+                $insert_tracker = new trackerPO();
+                $insert_tracker->nama_supplier_tracker  = $data_po->user_idbid;
+                $insert_tracker->tanggal_po_tracker     = $data_po->tanggal_po;
+                $insert_tracker->id_penerimaan_tracker  = $data_penerimaan->id_penerimaan_po;
+                $insert_tracker->id_data_po_tracker     = $data_po->id_data_po;
+                $insert_tracker->nama_admin_tracker     =  Auth::guard('bongkar')->user()->name_qc_bongkar;
+                $insert_tracker->status_po_tracker      = 10;
+                $insert_tracker->proses_tracker         = 'insert BONGKAR';
+                $insert_tracker->input_bongkar_tracker  = date('Y-m-d H:i:s');
+                $insert_tracker->save();
+            } else {
+                $po->nama_admin_tracker     =  Auth::guard('bongkar')->user()->name_qc_bongkar;
+                $po->status_po_tracker      = 10;
+                $po->proses_tracker         = 'insert BONGKAR';
+                $po->input_bongkar_tracker  = date('Y-m-d H:i:s');
+                $po->update();
+            }
 
             $log                                = new LogAktivityQc();
             $log->nama_user                     = Auth::guard('bongkar')->user()->name_qc_bongkar;
@@ -854,24 +901,6 @@ class QcAdminBongkarController extends Controller
             $log->keterangan_aktivitas          = 'Selesai';
             $log->created_at                    = date('Y-m-d H:i:s');
             $log->save();
-
-            $po = trackerPO::where('kode_po_tracker', $req->penerimaan_kode_po)->first();
-            $po->nama_admin_tracker  =  Auth::guard('bongkar')->user()->name_qc_bongkar;
-            $po->status_po_tracker  = '10';
-            $po->proses_tracker  = 'insert BONGKAR';
-            $po->input_bongkar_tracker  = date('Y-m-d H:i:s');
-            $po->update();
-
-            $data = DataPO::where('kode_po', $req->penerimaan_kode_po)->first();
-            $data->status_bid = 10;
-            $data->gudang_aol = 'Driying Unit Area';
-            $data->update();
-
-            $data = Lab1GabahBasah::where('lab1_kode_po_gb', $req->penerimaan_kode_po)->first();
-            $data->status_lab1_gb = 10;
-            $data->lokasi_bongkar_gb = $req->tempat_bongkar;
-            $data->lokasi_gt_gb = $req->tempat_bongkar;
-            $data->update();
             //tambah notifikasi
             $notif   = new NotifTimbangan();
             $notif->judul           = "Timbangan Keluar";
@@ -1016,6 +1045,14 @@ class QcAdminBongkarController extends Controller
                         $result = $list->nama_vendor;
                         return $result;
                     })
+                    ->addColumn('tanggal_po', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
                     ->addColumn('surveyor_bongkar', function ($list) {
                         $result = $list->surveyor_bongkar;
                         return $result;
@@ -1040,7 +1077,7 @@ class QcAdminBongkarController extends Controller
                         $result = $list->z_yang_ditolak;
                         return $result;
                     })
-                    ->rawColumns(['kode_po_bongkar', 'nama_vendor', 'surveyor_bongkar', 'keterangan_bongkar', 'waktu_bongkar', 'tempat_bongkar', 'z_yang_dibawa', 'z_yang_ditolak'])
+                    ->rawColumns(['kode_po_bongkar', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'surveyor_bongkar', 'keterangan_bongkar', 'waktu_bongkar', 'tempat_bongkar', 'z_yang_dibawa', 'z_yang_ditolak'])
                     ->make(true);
             } else {
                 $data = DataQcBongkar::join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')->join('users', 'users.id', '=', 'data_po.user_idbid')->orderBy('id_data_qc_bongkar', 'desc')->get();
@@ -1054,6 +1091,14 @@ class QcAdminBongkarController extends Controller
                     ->get())
                     ->addColumn('kode_po_bongkar', function ($list) {
                         $result = $list->kode_po_bongkar;
+                        return $result;
+                    })
+                    ->addColumn('tanggal_po', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
@@ -1084,7 +1129,7 @@ class QcAdminBongkarController extends Controller
                         $result = $list->z_yang_ditolak;
                         return $result;
                     })
-                    ->rawColumns(['kode_po_bongkar', 'nama_vendor', 'surveyor_bongkar', 'keterangan_bongkar', 'waktu_bongkar', 'tempat_bongkar', 'z_yang_dibawa', 'z_yang_ditolak'])
+                    ->rawColumns(['kode_po_bongkar', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'surveyor_bongkar', 'keterangan_bongkar', 'waktu_bongkar', 'tempat_bongkar', 'z_yang_dibawa', 'z_yang_ditolak'])
                     ->make(true);
             }
         }
@@ -1111,6 +1156,14 @@ class QcAdminBongkarController extends Controller
                         $result = $list->nama_vendor;
                         return $result;
                     })
+                    ->addColumn('tanggal_po', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
                     ->addColumn('surveyor_bongkar', function ($list) {
                         $result = $list->surveyor_bongkar;
                         return $result;
@@ -1135,7 +1188,7 @@ class QcAdminBongkarController extends Controller
                         $result = $list->z_yang_ditolak;
                         return $result;
                     })
-                    ->rawColumns(['kode_po_bongkar', 'nama_vendor', 'surveyor_bongkar', 'keterangan_bongkar', 'waktu_bongkar', 'tempat_bongkar', 'z_yang_dibawa', 'z_yang_ditolak'])
+                    ->rawColumns(['kode_po_bongkar', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'surveyor_bongkar', 'keterangan_bongkar', 'waktu_bongkar', 'tempat_bongkar', 'z_yang_dibawa', 'z_yang_ditolak'])
                     ->make(true);
             } else {
                 $data = DataQcBongkar::join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')->join('users', 'users.id', '=', 'data_po.user_idbid')->orderBy('id_data_qc_bongkar', 'desc')->get();
@@ -1163,6 +1216,14 @@ class QcAdminBongkarController extends Controller
                         $result = $list->keterangan_bongkar;
                         return $result;
                     })
+                    ->addColumn('tanggal_po', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
                     ->addColumn('waktu_bongkar', function ($list) {
                         $result = $list->waktu_bongkar;
                         return $result;
@@ -1179,7 +1240,7 @@ class QcAdminBongkarController extends Controller
                         $result = $list->z_yang_ditolak;
                         return $result;
                     })
-                    ->rawColumns(['kode_po_bongkar', 'nama_vendor', 'surveyor_bongkar', 'keterangan_bongkar', 'waktu_bongkar', 'tempat_bongkar', 'z_yang_dibawa', 'z_yang_ditolak'])
+                    ->rawColumns(['kode_po_bongkar', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'surveyor_bongkar', 'keterangan_bongkar', 'waktu_bongkar', 'tempat_bongkar', 'z_yang_dibawa', 'z_yang_ditolak'])
                     ->make(true);
             }
         }
@@ -1287,7 +1348,7 @@ class QcAdminBongkarController extends Controller
             ->update([
                 'no_dtm' => $request->dtm_gb,
             ]);
-        $data =Lab2GabahBasah::where('lab2_kode_po_gb', $request->penerimaan_kode_po)
+        $data = Lab2GabahBasah::where('lab2_kode_po_gb', $request->penerimaan_kode_po)
             ->update([
                 'dtm_gb' => $request->dtm_gb,
             ]);
@@ -1305,15 +1366,18 @@ class QcAdminBongkarController extends Controller
         $log->save();
 
         $po = trackerPO::where('kode_po_tracker', $request->penerimaan_kode_po)->first();
-        $po->nama_admin_tracker  = Auth::guard('bongkar')->user()->name_qc_bongkar;
-        $po->revisi_po_tracker  = date('Y-m-d H:i:s');
-        $po->proses_tracker  = 'REVISI UPDATE BKS';
-        $po->approve_revisi_spvap_tracker  = NULL;
-        $po->approve_tolak_revisi_spvap_tracker  = NULL;
-        $po->pengajuan_revisi_ap_tracker  = NULL;
-        $po->approve_spvap_tracker  = NULL;
-        $po->tolak_approve_spvap_tracker  = NULL;
-        $po->update();
+        if ($po == NULL) {
+        } else {
+            $po->nama_admin_tracker  = Auth::guard('bongkar')->user()->name_qc_bongkar;
+            $po->revisi_po_tracker  = date('Y-m-d H:i:s');
+            $po->proses_tracker  = 'REVISI UPDATE BKS';
+            $po->approve_revisi_spvap_tracker  = NULL;
+            $po->approve_tolak_revisi_spvap_tracker  = NULL;
+            $po->pengajuan_revisi_ap_tracker  = NULL;
+            $po->approve_spvap_tracker  = NULL;
+            $po->tolak_approve_spvap_tracker  = NULL;
+            $po->update();
+        }
         return json_encode($data);
     }
     public function show_revisi_gb($id)
@@ -1404,7 +1468,11 @@ class QcAdminBongkarController extends Controller
             ';
             })
             ->addColumn('tanggal_po', function ($list) {
-                $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                return $result;
+            })
+            ->addColumn('tanggal_bongkar', function ($list) {
+                $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                 return $result;
             })
             ->addColumn('waktu_penerimaan', function ($list) {
@@ -1433,7 +1501,7 @@ class QcAdminBongkarController extends Controller
                         Revisi&nbsp;Data
                     </button>';
             })
-            ->rawColumns(['kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'antrian', 'lokasi_bongkar', 'ckelola'])
+            ->rawColumns(['kode_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'antrian', 'lokasi_bongkar', 'ckelola'])
             ->make(true);
     }
     public function data_revisi_gb_pandan_wangi_index()
@@ -1462,7 +1530,11 @@ class QcAdminBongkarController extends Controller
             ';
             })
             ->addColumn('tanggal_po', function ($list) {
-                $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                return $result;
+            })
+            ->addColumn('tanggal_bongkar', function ($list) {
+                $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                 return $result;
             })
             ->addColumn('waktu_penerimaan', function ($list) {
@@ -1491,7 +1563,7 @@ class QcAdminBongkarController extends Controller
                         Revisi&nbsp;Data
                     </button>';
             })
-            ->rawColumns(['kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'antrian', 'lokasi_bongkar', 'ckelola'])
+            ->rawColumns(['kode_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'antrian', 'lokasi_bongkar', 'ckelola'])
             ->make(true);
     }
     public function data_revisi_gb_ketan_putih_index()
@@ -1520,7 +1592,11 @@ class QcAdminBongkarController extends Controller
             ';
             })
             ->addColumn('tanggal_po', function ($list) {
-                $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                return $result;
+            })
+            ->addColumn('tanggal_bongkar', function ($list) {
+                $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                 return $result;
             })
             ->addColumn('waktu_penerimaan', function ($list) {
@@ -1549,7 +1625,7 @@ class QcAdminBongkarController extends Controller
                         Revisi&nbsp;Data
                     </button>';
             })
-            ->rawColumns(['kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'antrian', 'lokasi_bongkar', 'ckelola'])
+            ->rawColumns(['kode_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'antrian', 'lokasi_bongkar', 'ckelola'])
             ->make(true);
     }
     public function get_notifikasibongkar()
@@ -1558,6 +1634,8 @@ class QcAdminBongkarController extends Controller
             ->where('notifikasi_qcbongkar.status', 0)
             ->where('notifikasi_qcbongkar.kategori', '1')
             ->select('notifikasi_qcbongkar.*', 'penerimaan_po.id_penerimaan_po', 'penerimaan_po.no_antrian')
+            ->orderBy('id_notif', 'DESC')
+            ->limit(10)
             ->get();
 
         $getcountnotif_antrianbongkar = DataPO::join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
@@ -1569,7 +1647,7 @@ class QcAdminBongkarController extends Controller
             ->where('lab1_pk.status_lab1_pk', '=', '7')
             ->count();
         $total_antrianbongkar = ($getcountnotif_antrianbongkar + $getcountnotif_antrianbongkar1);
-        $getcountnotif_prosesbongkar =DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $getcountnotif_prosesbongkar = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
             ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -1590,7 +1668,7 @@ class QcAdminBongkarController extends Controller
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->where('bid.name_bid', 'LIKE', '%GABAH BASAH%')
             ->count();
-        $getcountnotif_revisibongkar =DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        $getcountnotif_revisibongkar = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
             ->join('data_qc_bongkar', 'data_qc_bongkar.kode_po_bongkar', '=', 'data_po.kode_po')
@@ -1604,7 +1682,25 @@ class QcAdminBongkarController extends Controller
         return response()->json($result);
     }
 
-
+    public function get_notif_qc_bongkar_all()
+    {
+        return view('dashboard.admin_qc_bongkar.notifikasi.notifikasi');
+    }
+    public function get_notif_qc_bongkar_all_index()
+    {
+        return Datatables::of(NotifBongkar::where('status', 0)->orderBy('id_notif', 'DESC')->get())
+            ->addColumn('keterangan', function ($list) {
+                $result = $list->keterangan;
+                return $result;
+            })
+            ->addColumn('created_at', function ($list) {
+                $result_date = \Carbon\Carbon::parse($list->created_at)->isoFormat('DD-MM-Y');
+                $result_time = \Carbon\Carbon::parse($list->created_at)->isoFormat('HH:mm:ss ');
+                $result = $result_date . '<br><span class="btn btn-sm btn-label-primary">' . $result_time . ' WIB</span>';
+                return $result;
+            })->rawColumns(['keterangan', 'created_at'])
+            ->make(true);
+    }
     public function set_notifikasibongkar(request $request)
     {
         $id = $request->id;
@@ -1622,9 +1718,9 @@ class QcAdminBongkarController extends Controller
     public function new_notifikasibongkar()
     {
         $data = NotifBongkar::where('notifbaru', 0)->first();
-        if($data==''||$data==NULL){
+        if ($data == '' || $data == NULL) {
             return 'kosong';
-        }else{
+        } else {
 
             $title = $data->judul;
             $keterangan = $data->keterangan;
@@ -1642,6 +1738,7 @@ class QcAdminBongkarController extends Controller
     function bongkar_logout()
     {
         Auth::guard('bongkar')->logout();
-        return redirect()->route('qc.bongkar.login');
+        Alert::success('Sukses', 'Anda Berhasil Logout');
+        return redirect()->route('qc.bongkar.login')->with('Sukses', 'Anda Berhasil Logout');
     }
 }

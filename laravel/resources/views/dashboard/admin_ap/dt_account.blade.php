@@ -9,16 +9,16 @@ SURYA PANGAN SEMESTA
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
                 <h3 class="kt-subheader__title">
-                    E-PROCUREMENT
+                    PT. SURYA PANGAN SEMESTA
                 </h3>
+                <span class="btn-outline btn-sm btn-info mr-3">NGAWI</span>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
-                    <a href="#" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter kt-font-info"></i></a>
+                    <a href="{{route('ap.account_ap')}}" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{route('ap.home')}}" class="kt-subheader__breadcrumbs-link">
-                        SURYA PANGAN SEMESTA
+                    <a href="{{route('ap.account_ap')}}" class="kt-subheader__breadcrumbs-link">
+                        AKUN
                     </a>
-                    <span class="btn-outline btn-sm btn-info">Site Ngawi</span>
                 </div>
             </div>
         </div>

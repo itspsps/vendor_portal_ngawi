@@ -19,7 +19,11 @@ use GuzzleHttp\Psr7\Response;
 use App\Models\AdminAP;
 use App\Models\AdminSpvAp;
 use App\Models\LogAktivitySpvAp;
+use App\Models\NotifBongkar;
+use App\Models\NotifSecurity;
 use App\Models\NotifSpvap;
+use App\Models\NotifSpvqc;
+use App\Models\NotifTimbangan;
 use App\Models\trackerPO;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
@@ -153,16 +157,19 @@ class AdminSpvApController extends Controller
         $log->save();
 
         $po = trackerPO::where('kode_po_tracker', $data->penerimaan_kode_po)->first();
-        $po->nama_admin_tracker  = Auth::guard('spvap')->user()->name_spv_ap;
-        $po->approve_spvap_tracker  = date('Y-m-d H:i:s');
-        $po->po_num_tracker  = $get->PONum;
-        $po->tolak_approve_spvap_tracker  = NULL;
-        $po->approve_revisi_spvap_tracker  = NULL;
-        $po->approve_tolak_revisi_spvap_tracker  = NULL;
-        $po->revisi_po_tracker  = NULL;
-        $po->pengajuan_revisi_ap_tracker  = NULL;
-        $po->proses_tracker  = 'APPROVE RECEIPT SPV AP';
-        $po->update();
+        if ($po == NULL) {
+        } else {
+            $po->nama_admin_tracker  = Auth::guard('spvap')->user()->name_spv_ap;
+            $po->approve_spvap_tracker  = date('Y-m-d H:i:s');
+            $po->po_num_tracker  = $get->PONum;
+            $po->tolak_approve_spvap_tracker  = NULL;
+            $po->approve_revisi_spvap_tracker  = NULL;
+            $po->approve_tolak_revisi_spvap_tracker  = NULL;
+            $po->revisi_po_tracker  = NULL;
+            $po->pengajuan_revisi_ap_tracker  = NULL;
+            $po->proses_tracker  = 'APPROVE RECEIPT SPV AP';
+            $po->update();
+        }
     }
     public function approve_receipt_pk($id)
     {
@@ -226,20 +233,24 @@ class AdminSpvApController extends Controller
         $log->save();
 
         $po = trackerPO::where('kode_po_tracker', $data->penerimaan_kode_po)->first();
-        $po->nama_admin_tracker  = Auth::guard('spvap')->user()->name_spv_ap;
-        $po->tolak_approve_spvap_tracker  = date('Y-m-d H:i:s');
-        $po->approve_spvap_tracker  = NULL;
-        $po->approve_revisi_spvap_tracker  = NULL;
-        $po->approve_tolak_revisi_spvap_tracker  = NULL;
-        $po->revisi_po_tracker  = NULL;
-        $po->pengajuan_revisi_ap_tracker  = NULL;
-        $po->proses_tracker  = 'TOLAK APPROVE RECEIPT SPV AP';
-        $po->update();
+        if ($po == NULL) {
+        } else {
+            $po->nama_admin_tracker  = Auth::guard('spvap')->user()->name_spv_ap;
+            $po->tolak_approve_spvap_tracker  = date('Y-m-d H:i:s');
+            $po->approve_spvap_tracker  = NULL;
+            $po->approve_revisi_spvap_tracker  = NULL;
+            $po->approve_tolak_revisi_spvap_tracker  = NULL;
+            $po->revisi_po_tracker  = NULL;
+            $po->pengajuan_revisi_ap_tracker  = NULL;
+            $po->proses_tracker  = 'TOLAK APPROVE RECEIPT SPV AP';
+            $po->update();
+        }
     }
     function logout()
     {
         Auth::guard('spvap')->logout();
-        return redirect()->route('ap.spv.login');
+        Alert::success('Sukses', 'Anda Berhasil Logout');
+        return redirect()->route('ap.spv.login')->with('Sukses', 'Anda Berhasil Logout');
     }
 
     public function data_pembelian_gb()
@@ -411,20 +422,44 @@ class AdminSpvApController extends Controller
         $namaadmin = $request->namaadmin;
         if ($namaadmin == 1) {
             //tambah notifikasi
-            $notif   = new Notif();
+            $notif   = new NotifSecurity();
             $notif->judul       = "Ada Data Revisi";
-            $notif->keterangan  = "Ada Revisi Kode PO " . $kodepo . " : " . $keteranganrevisi;
+            $notif->keterangan  = "Ada Revisi NOPOL, Kode PO " . $kodepo . " : " . $keteranganrevisi;
             $notif->status      = 0;
+            $notif->id_objek        = $request->id_penerimaan_po;
             $notif->notifbaru   = 0;
-            $notif->kategori   = 2;
+            $notif->kategori   = 0;
+            $notif->created_at      = date('Y-m-d H:i:s');
             $notif->save();
         } else if ($namaadmin == 2) {
-            $notif   = new Notif();
+            $notif   = new NotifTimbangan();
             $notif->judul       = "Ada Data Revisi";
-            $notif->keterangan  = "Ada Revisi Kode PO " . $kodepo . " : " . $keteranganrevisi;
+            $notif->keterangan  = "Ada Revisi Tonase, Kode PO " . $kodepo . " : " . $keteranganrevisi;
             $notif->status      = 0;
             $notif->notifbaru   = 0;
-            $notif->kategori   = 3;
+            $notif->id_objek        = $request->id_penerimaan_po;
+            $notif->kategori   = 0;
+            $notif->created_at      = date('Y-m-d H:i:s');
+            $notif->save();
+        } else if ($namaadmin == 3) {
+            $notif   = new NotifBongkar();
+            $notif->judul       = "Ada Data Revisi";
+            $notif->keterangan  = "Ada Revisi No DTM, Kode PO " . $kodepo . " : " . $keteranganrevisi;
+            $notif->status      = 0;
+            $notif->notifbaru   = 0;
+            $notif->id_objek        = $request->id_penerimaan_po;
+            $notif->kategori   = 0;
+            $notif->created_at      = date('Y-m-d H:i:s');
+            $notif->save();
+        } else {
+            $notif   = new NotifSpvqc();
+            $notif->judul       = "Ada Data Revisi";
+            $notif->keterangan  = "Ada Revisi Harga, Kode PO " . $kodepo . " : " . $keteranganrevisi;
+            $notif->status      = 0;
+            $notif->notifbaru   = 0;
+            $notif->id_objek        = $request->id_penerimaan_po;
+            $notif->kategori   = 0;
+            $notif->created_at      = date('Y-m-d H:i:s');
             $notif->save();
         }
         return redirect()->back();
@@ -644,7 +679,7 @@ class AdminSpvApController extends Controller
                     })
                     ->addColumn('tanggal_po', function ($list) {
                         $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
-                        return $result;
+                        return '<span class="btn btn-label-primary btn-sm"><b>' . $result . '</b></span>';
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
                         $result = $list->plat_kendaraan;
@@ -661,6 +696,14 @@ class AdminSpvApController extends Controller
                     ->addColumn('hasil_akhir_tonase', function ($list) {
                         $result = tonase($list->hasil_akhir_tonase);
                         return $result;
+                    })
+                    ->addColumn('tanggal_receipt', function ($list) {
+                        if ($list->tanggal_bongkar == NULL) {
+                            return '<span class="btn btn-label-primary btn-sm"><b>-</b></span>';
+                        } else {
+                            $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                            return '<span class="btn btn-label-primary btn-sm"><b>' . $result . '</b></span>';
+                        }
                     })
                     ->addColumn('harga_akhir', function ($list) {
                         $result = $list->harga_akhir_permintaan_gb;
@@ -693,7 +736,7 @@ class AdminSpvApController extends Controller
                         } else if ($list->status_epicor == null || $list->status_epicor == '') {
                             if ($list->status_approved_receipt == 1) {
                                 return
-                                    '<a id="btn_kirimepicor_gb" style="margin:2px;" data-id="' . $list->id_penerimaan_po . '"  title="Kirim Data" class=" btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a id="btn_kirimepicor_gb" style="margin:2px;" data-id="' . $list->id_data_po . '"  title="Kirim Data" class=" btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                             Kirim Epicor
                         </a>';
                             } else {
@@ -716,7 +759,7 @@ class AdminSpvApController extends Controller
                         }
                         return $result;
                     })
-                    ->rawColumns(['site', 'kode_po', 'approved', 'nama_vendor', 'tanggal_po', 'selected', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'harga_akhir', 'ckelola'])
+                    ->rawColumns(['site', 'kode_po', 'tanggal_receipt', 'approved', 'nama_vendor', 'tanggal_po', 'selected', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'harga_akhir', 'ckelola'])
                     ->make(true);
             } else {
                 return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
@@ -744,7 +787,7 @@ class AdminSpvApController extends Controller
                     })
                     ->addColumn('tanggal_po', function ($list) {
                         $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
-                        return $result;
+                        return '<span class="btn btn-label-primary btn-sm"><b>' . $result . '</b></span>';
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
                         $result = $list->plat_kendaraan;
@@ -771,6 +814,14 @@ class AdminSpvApController extends Controller
                         }
                         return $result;
                     })
+                    ->addColumn('tanggal_receipt', function ($list) {
+                        if ($list->tanggal_bongkar == NULL) {
+                            return '<span class="btn btn-label-primary btn-sm"><b>-</b></span>';
+                        } else {
+                            $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                            return '<span class="btn btn-label-primary btn-sm"><b>' . $result . '</b></span>';
+                        }
+                    })
                     ->addColumn('approved', function ($list) {
                         if ($list->status_approved_receipt == 1) {
                             return
@@ -793,7 +844,7 @@ class AdminSpvApController extends Controller
                         } else if ($list->status_epicor == null || $list->status_epicor == '') {
                             if ($list->status_approved_receipt == 1) {
                                 return
-                                    '<a id="btn_kirimepicor_gb" style="margin:2px;" data-id="' . $list->id_penerimaan_po . '"  title="Kirim Data" class=" btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a id="btn_kirimepicor_gb" style="margin:2px;" data-id="' . $list->id_data_po . '"  title="Kirim Data" class=" btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                             Kirim Epicor
                         </a>';
                             } else {
@@ -816,7 +867,7 @@ class AdminSpvApController extends Controller
                         }
                         return $result;
                     })
-                    ->rawColumns(['site', 'kode_po', 'approved', 'nama_vendor', 'tanggal_po', 'selected', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'harga_akhir', 'ckelola'])
+                    ->rawColumns(['site', 'kode_po', 'approved', 'tanggal_receipt', 'nama_vendor', 'tanggal_po', 'selected', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'harga_akhir', 'ckelola'])
                     ->make(true);
             }
         }
@@ -851,7 +902,7 @@ class AdminSpvApController extends Controller
                     })
                     ->addColumn('tanggal_po', function ($list) {
                         $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
-                        return $result;
+                        return '<span class="btn btn-label-primary btn-sm"><b>' . $result . '</b></span>';
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
                         $result = $list->plat_kendaraan;
@@ -868,6 +919,14 @@ class AdminSpvApController extends Controller
                     ->addColumn('hasil_akhir_tonase', function ($list) {
                         $result = tonase($list->hasil_akhir_tonase);
                         return $result;
+                    })
+                    ->addColumn('tanggal_receipt', function ($list) {
+                        if ($list->tanggal_bongkar == NULL) {
+                            return '<span class="btn btn-label-primary btn-sm"><b>-</b></span>';
+                        } else {
+                            $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                            return '<span class="btn btn-label-primary btn-sm"><b>' . $result . '</b></span>';
+                        }
                     })
                     ->addColumn('harga_akhir', function ($list) {
                         $result = $list->harga_akhir_permintaan_gb;
@@ -900,7 +959,7 @@ class AdminSpvApController extends Controller
                         } else if ($list->status_epicor == null || $list->status_epicor == '') {
                             if ($list->status_approved_receipt == 1) {
                                 return
-                                    '<a id="btn_kirimepicor_gb" style="margin:2px;" data-id="' . $list->id_penerimaan_po . '"  title="Kirim Data" class=" btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a id="btn_kirimepicor_gb" style="margin:2px;" data-id="' . $list->id_data_po . '"  title="Kirim Data" class=" btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                             Kirim Epicor
                         </a>';
                             } else {
@@ -919,7 +978,7 @@ class AdminSpvApController extends Controller
                         }
                         return $result;
                     })
-                    ->rawColumns(['site', 'kode_po', 'approved', 'nama_vendor', 'tanggal_po', 'selected', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'harga_akhir', 'ckelola'])
+                    ->rawColumns(['site', 'kode_po', 'approved', 'tanggal_receipt', 'nama_vendor', 'tanggal_po', 'selected', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'harga_akhir', 'ckelola'])
                     ->make(true);
             } else {
                 return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
@@ -947,7 +1006,7 @@ class AdminSpvApController extends Controller
                     })
                     ->addColumn('tanggal_po', function ($list) {
                         $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
-                        return $result;
+                        return '<span class="btn btn-label-primary btn-sm"><b>' . $result . '</b></span>';
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
                         $result = $list->plat_kendaraan;
@@ -964,6 +1023,14 @@ class AdminSpvApController extends Controller
                     ->addColumn('hasil_akhir_tonase', function ($list) {
                         $result = tonase($list->hasil_akhir_tonase);
                         return $result;
+                    })
+                    ->addColumn('tanggal_receipt', function ($list) {
+                        if ($list->tanggal_bongkar == NULL) {
+                            return '<span class="btn btn-label-primary btn-sm"><b>-</b></span>';
+                        } else {
+                            $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                            return '<span class="btn btn-label-primary btn-sm"><b>' . $result . '</b></span>';
+                        }
                     })
                     ->addColumn('harga_akhir', function ($list) {
                         $result = $list->harga_akhir_permintaan_gb;
@@ -996,7 +1063,7 @@ class AdminSpvApController extends Controller
                         } else if ($list->status_epicor == null || $list->status_epicor == '') {
                             if ($list->status_approved_receipt == 1) {
                                 return
-                                    '<a id="btn_kirimepicor_gb" style="margin:2px;" data-id="' . $list->id_penerimaan_po . '"  title="Kirim Data" class=" btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a id="btn_kirimepicor_gb" style="margin:2px;" data-id="' . $list->id_data_po . '"  title="Kirim Data" class=" btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                             Kirim Epicor
                         </a>';
                             } else {
@@ -1015,7 +1082,7 @@ class AdminSpvApController extends Controller
                         }
                         return $result;
                     })
-                    ->rawColumns(['site', 'kode_po', 'approved', 'nama_vendor', 'tanggal_po', 'selected', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'harga_akhir', 'ckelola'])
+                    ->rawColumns(['site', 'kode_po', 'approved', 'tanggal_receipt', 'nama_vendor', 'tanggal_po', 'selected', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'harga_akhir', 'ckelola'])
                     ->make(true);
             }
         }
@@ -1100,7 +1167,7 @@ class AdminSpvApController extends Controller
                         } else if ($list->status_epicor == null || $list->status_epicor == '') {
                             if ($list->status_approved_receipt == 1) {
                                 return
-                                    '<a id="btn_kirimepicor_gb" style="margin:2px;" data-id="' . $list->id_penerimaan_po . '"  title="Kirim Data" class=" btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a id="btn_kirimepicor_gb" style="margin:2px;" data-id="' . $list->id_data_po . '"  title="Kirim Data" class=" btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                             Kirim Epicor
                         </a>';
                             } else {
@@ -1196,7 +1263,7 @@ class AdminSpvApController extends Controller
                         } else if ($list->status_epicor == null || $list->status_epicor == '') {
                             if ($list->status_approved_receipt == 1) {
                                 return
-                                    '<a id="btn_kirimepicor_gb" style="margin:2px;" data-id="' . $list->id_penerimaan_po . '"  title="Kirim Data" class=" btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a id="btn_kirimepicor_gb" style="margin:2px;" data-id="' . $list->id_data_po . '"  title="Kirim Data" class=" btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                             Kirim Epicor
                         </a>';
                             } else {
@@ -1299,7 +1366,7 @@ class AdminSpvApController extends Controller
                         } else if ($list->status_epicor == null || $list->status_epicor == '') {
                             if ($list->status_approved_receipt == 1) {
                                 return
-                                    '<a id="btn_kirimepicor_gb" style="margin:2px;" data-id="' . $list->id_penerimaan_po . '"  title="Kirim Data" class=" btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a id="btn_kirimepicor_gb" style="margin:2px;" data-id="' . $list->id_data_po . '"  title="Kirim Data" class=" btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                             Kirim Epicor
                         </a>';
                             } else {
@@ -1373,6 +1440,14 @@ class AdminSpvApController extends Controller
 
                         return $result;
                     })
+                    ->addColumn('tanggal_receipt', function ($list) {
+                        if ($list->tanggal_bongkar == NULL) {
+                            return '<span class="btn btn-label-primary btn-sm"><b>-</b></span>';
+                        } else {
+                            $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                            return '<span class="btn btn-label-primary btn-sm"><b>' . $result . '</b></span>';
+                        }
+                    })
                     ->addColumn('approved', function ($list) {
                         if ($list->status_approved_receipt == 1) {
                             return
@@ -1395,7 +1470,7 @@ class AdminSpvApController extends Controller
                         } else if ($list->status_epicor == null || $list->status_epicor == '') {
                             if ($list->status_approved_receipt == 1) {
                                 return
-                                    '<a id="btn_kirimepicor_gb" style="margin:2px;" data-id="' . $list->id_penerimaan_po . '"  title="Kirim Data" class=" btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a id="btn_kirimepicor_gb" style="margin:2px;" data-id="' . $list->id_data_po . '"  title="Kirim Data" class=" btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                             Kirim Epicor
                         </a>';
                             } else {
@@ -1418,52 +1493,62 @@ class AdminSpvApController extends Controller
                         }
                         return $result;
                     })
-                    ->rawColumns(['site', 'kode_po', 'approved', 'nama_vendor', 'tanggal_po', 'selected', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'harga_akhir', 'ckelola'])
+                    ->rawColumns(['site', 'kode_po', 'tanggal_receipt', 'approved', 'nama_vendor', 'tanggal_po', 'selected', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'harga_akhir', 'ckelola'])
                     ->make(true);
             }
         }
     }
     public function kirim_epicor_gb($id)
     {
-        $get_id = PenerimaanPO::where('id_penerimaan_po', $id)
+        $get_id = DataPO::where('id_data_po', $id)
             ->first();
-        // dd($get_id->PONum);
-        //  Integrasi Epicor
-        // dd($response); 
-        // return json_encode($update_status_penerimaan_po);
-        $data = PenerimaanPO::where('id_penerimaan_po', $id)->first();
-        $data->status_epicor = '1';
-        $data->update();
+
+        if ($get_id->tanggal_bongkar == '' || $get_id->tanggal_bongkar == NULL) {
+            $tanggal_receipt = date('Y-m-d');
+        } else {
+
+            $tanggal_receipt = $get_id->tanggal_bongkar;
+        }
+        // dd();
+        $update_status_penerimaan_po = PenerimaanPO::where('penerimaan_po_num', $get_id->PONum)->first();
+        $update_status_penerimaan_po->status_epicor = '1';
+        $update_status_penerimaan_po->update();
+        // $receipt_date = Carbon::parse('')->format('d/m/y');
+        // dd($receipt_date);
         $client = new \GuzzleHttp\Client();
-        $url = 'http://34.34.222.145:2022/api/PO/ApprovalPO?PONum=' . $data->penerimaan_po_num;
+        $url = 'http://34.34.222.145:2022/api/PO/ApprovalPO?PONum=' . $get_id->PONum . '&ReceiptDate=' . $tanggal_receipt;
         $response = $client->get($url);
         $response = $response->getBody()->getContents();
 
         $log                               = new LogAktivitySpvAp();
         $log->nama_user                    = Auth::guard('spvap')->user()->name_spv_ap;
-        $log->id_objek_aktivitas_spvap       = $id;
-        $log->aktivitas_spvap                = 'Kirim Epicor Berhasil dengan Kode PO:' . $get_id->penerimaan_kode_po;
+        $log->id_objek_aktivitas_spvap     = $id;
+        $log->aktivitas_spvap              = 'Kirim Epicor Berhasil dengan Kode PO:' . $get_id->kode_po;
         $log->keterangan_aktivitas         = 'Selesai';
         $log->created_at                   = date('Y-m-d H:i:s');
         $log->save();
 
-        $po = trackerPO::where('kode_po_tracker', $get_id->penerimaan_kode_po)->first();
-        $po->nama_admin_tracker  = Auth::guard('spvap')->user()->name_spv_ap;
-        $po->kirim_epicor_spvap_tracker  = date('Y-m-d H:i:s');
-        $po->approve_tolak_revisi_spvap_tracker  = NULL;
-        $po->proses_tracker  = 'PO BERHASIL DITERIMA EPICOR';
-        $po->update();
+        $po = trackerPO::where('kode_po_tracker', $get_id->kode_po)->first();
+        if ($po == NULL) {
+        } else {
+            $po->nama_admin_tracker  = Auth::guard('spvap')->user()->name_spv_ap;
+            $po->kirim_epicor_spvap_tracker  = date('Y-m-d H:i:s');
+            $po->approve_tolak_revisi_spvap_tracker  = NULL;
+            $po->proses_tracker  = 'PO BERHASIL DITERIMA EPICOR';
+            $po->update();
+        }
     }
     public function kirim_epicor_pk($id)
     {
         $get_id = PenerimaanPO::where('id_penerimaan_po', $id)
             ->first();
+        $receipt_date = Carbon::parse('')->format('d/m/y');
         // dd($get_id->PONum);
         //  Integrasi Epicor
         $update_status_penerimaan_po = PenerimaanPO::where('id_penerimaan_po', $id)
             ->update(['status_epicor' => '1']);
         $client = new \GuzzleHttp\Client();
-        $url = 'http://34.34.222.145:2022/api/PO/ApprovalPO?PONum=' . $get_id->penerimaan_po_num;
+        $url = 'http://34.34.222.145:2022/api/PO/ApprovalPO?PONum=' . $get_id->penerimaan_po_num . '&ReceiptDate=' . $get_id->created_at_tonase_akhir;
         $response = $client->get($url);
         $response = $response->getBody()->getContents();
         // dd($response); 
@@ -1477,11 +1562,14 @@ class AdminSpvApController extends Controller
         $log->save();
 
         $po = trackerPO::where('kode_po_tracker', $get_id->penerimaan_kode_po)->first();
-        $po->nama_admin_tracker  = Auth::guard('spvap')->user()->name_spv_ap;
-        $po->kirim_epicor_spvap_tracker  = date('Y-m-d H:i:s');
-        $po->approve_tolak_revisi_spvap_tracker  = NULL;
-        $po->proses_tracker  = 'PO BERHASIL DITERIMA EPICOR';
-        $po->update();
+        if ($po == NULL) {
+        } else {
+            $po->nama_admin_tracker  = Auth::guard('spvap')->user()->name_spv_ap;
+            $po->kirim_epicor_spvap_tracker  = date('Y-m-d H:i:s');
+            $po->approve_tolak_revisi_spvap_tracker  = NULL;
+            $po->proses_tracker  = 'PO BERHASIL DITERIMA EPICOR';
+            $po->update();
+        }
     }
 
     public function approve_revisi($id)
@@ -1501,11 +1589,14 @@ class AdminSpvApController extends Controller
         $log->save();
 
         $po = trackerPO::where('kode_po_tracker', $data->penerimaan_kode_po)->first();
-        $po->nama_admin_tracker  = Auth::guard('spvap')->user()->name_spv_ap;
-        $po->approve_revisi_spvap_tracker  = date('Y-m-d H:i:s');
-        $po->approve_tolak_revisi_spvap_tracker  = NULL;
-        $po->proses_tracker  = 'Approve Revisi PO';
-        $po->update();
+        if ($po == NULL) {
+        } else {
+            $po->nama_admin_tracker  = Auth::guard('spvap')->user()->name_spv_ap;
+            $po->approve_revisi_spvap_tracker  = date('Y-m-d H:i:s');
+            $po->approve_tolak_revisi_spvap_tracker  = NULL;
+            $po->proses_tracker  = 'Approve Revisi PO';
+            $po->update();
+        }
     }
     public function notapprove_revisi($id)
     {
@@ -1524,12 +1615,15 @@ class AdminSpvApController extends Controller
         $log->save();
 
         $po = trackerPO::where('kode_po_tracker', $data->penerimaan_kode_po)->first();
-        $po->nama_admin_tracker  = Auth::guard('spvap')->user()->name_spv_ap;
-        $po->approve_tolak_revisi_spvap_tracker  = date('Y-m-d H:i:s');
-        $po->approve_revisi_spvap_tracker = NULL;
-        $po->proses_tracker  = 'Tolak Approve Revisi PO';
-        $po->update();
-        // return response()->json(["sukses"]);
+        if ($po == NULL) {
+        } else {
+            $po->nama_admin_tracker  = Auth::guard('spvap')->user()->name_spv_ap;
+            $po->approve_tolak_revisi_spvap_tracker  = date('Y-m-d H:i:s');
+            $po->approve_revisi_spvap_tracker = NULL;
+            $po->proses_tracker  = 'Tolak Approve Revisi PO';
+            $po->update();
+            // return response()->json(["sukses"]);
+        }
     }
     public function kirim_postman(Request $request)
     {
@@ -1550,16 +1644,20 @@ class AdminSpvApController extends Controller
         $PONum = $request->id_penerimaan_po;
         // dd($PONum);
         // dd($get_id);
-        // $get_id = PenerimaanPO::whereIn('id_penerimaan_po', $PONum)
-        //     ->join('data_po', 'data_po.id_data_po', 'penerimaan_po.penerimaan_id_data_po')
-        //     ->get();
         foreach ($PONum as $get) {
             // dd($get_id->PONum);
+            $receipt_date = DataPO::where('PONum', $get)->first();
+            if ($receipt_date->tanggal_bongkar == '' || $receipt_date->tanggal_bongkar == NULL) {
+                $tanggal_receipt = date('Y-m-d');
+            } else {
+
+                $tanggal_receipt = $receipt_date->tanggal_bongkar;
+            }
             $client = new \GuzzleHttp\Client();
 
             // dd($response); 
             // Integrasi Epicor
-            $promise = $client->getAsync('http://34.34.222.145:2022/api/PO/ApprovalPO?PONum=' . $get);
+            $promise = $client->getAsync('http://34.34.222.145:2022/api/PO/ApprovalPO?PONum=' . $get . '&ReceiptDate=' . $tanggal_receipt);
             $promise->then(
                 function (Response $response) use ($get) {
                     echo $response = $response->getBody()->getContents();
@@ -1576,11 +1674,14 @@ class AdminSpvApController extends Controller
                     $log->save();
 
                     $po = trackerPO::where('po_num_tracker', $get)->first();
-                    $po->nama_admin_tracker  = Auth::guard('spvap')->user()->name_spv_ap;
-                    $po->kirim_epicor_spvap_tracker  = date('Y-m-d H:i:s');
-                    $po->approve_tolak_revisi_spvap_tracker  = NULL;
-                    $po->proses_tracker  = 'PO SELCET ALL BERHASIL DITERIMA EPICOR';
-                    $po->update();
+                    if ($po == NULL) {
+                    } else {
+                        $po->nama_admin_tracker  = Auth::guard('spvap')->user()->name_spv_ap;
+                        $po->kirim_epicor_spvap_tracker  = date('Y-m-d H:i:s');
+                        $po->approve_tolak_revisi_spvap_tracker  = NULL;
+                        $po->proses_tracker  = 'PO SELCET ALL BERHASIL DITERIMA EPICOR';
+                        $po->update();
+                    }
                 }
 
             );
@@ -1617,11 +1718,14 @@ class AdminSpvApController extends Controller
                     $log->save();
 
                     $po = trackerPO::where('po_num_tracker', $get)->first();
-                    $po->nama_admin_tracker  = Auth::guard('spvap')->user()->name_spv_ap;
-                    $po->kirim_epicor_spvap_tracker  = date('Y-m-d H:i:s');
-                    $po->approve_tolak_revisi_spvap_tracker  = NULL;
-                    $po->proses_tracker  = 'PO BERHASIL DITERIMA EPICOR';
-                    $po->update();
+                    if ($po == NULL) {
+                    } else {
+                        $po->nama_admin_tracker  = Auth::guard('spvap')->user()->name_spv_ap;
+                        $po->kirim_epicor_spvap_tracker  = date('Y-m-d H:i:s');
+                        $po->approve_tolak_revisi_spvap_tracker  = NULL;
+                        $po->proses_tracker  = 'PO BERHASIL DITERIMA EPICOR';
+                        $po->update();
+                    }
                 }
 
             );
@@ -1638,8 +1742,27 @@ class AdminSpvApController extends Controller
     }
     public function get_notifikasispvap()
     {
-        $data = NotifSpvap::where('status', 0)->get();
+        $data = NotifSpvap::where('status', 0)->orderBy('id_notif', 'DESC')->limit('10')->get();
         return json_encode($data);
+    }
+    public function get_notif_spvap_all()
+    {
+        return view('dashboard.admin_spvap.notifikasi.notifikasi');
+    }
+    public function get_notif_spvap_all_index()
+    {
+        return Datatables::of(NotifSpvap::where('status', 0)->orderBy('id_notif', 'DESC')->get())
+            ->addColumn('keterangan', function ($list) {
+                $result = $list->keterangan;
+                return $result;
+            })
+            ->addColumn('created_at', function ($list) {
+                $result_date = \Carbon\Carbon::parse($list->created_at)->isoFormat('DD-MM-Y');
+                $result_time = \Carbon\Carbon::parse($list->created_at)->isoFormat('HH:mm:ss ');
+                $result = $result_date . '<br><span class="btn btn-sm btn-label-primary">' . $result_time . ' WIB</span>';
+                return $result;
+            })->rawColumns(['keterangan', 'created_at'])
+            ->make(true);
     }
     public function get_countnotifikasispvap()
     {

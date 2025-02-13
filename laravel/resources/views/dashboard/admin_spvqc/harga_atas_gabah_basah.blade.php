@@ -10,16 +10,21 @@ SURYA PANGAN SEMESTA
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
                 <h3 class="kt-subheader__title">
-                    E-PROCUREMENT
+                    PT. SURYA PANGAN SEMESTA
                 </h3>
+                <span class="btn-outline btn-sm btn-info mr-3">NGAWI</span>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
-                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
                     <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
-                        SURYA PANGAN SEMESTA
+                        Harga Atas
                     </a>
-                    <span class="btn-outline btn-sm btn-info">Site Ngawi</span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Gabah Basah
+                    </a>
                 </div>
             </div>
         </div>
@@ -56,7 +61,7 @@ SURYA PANGAN SEMESTA
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                    <label class="col-xl-3 col-lg-3 col-form-label">Waktu</label>
+                                                                    <label class="col-xl-3 col-lg-3 col-form-label">Tanggal&nbsp;Bongkaran</label>
                                                                     <div class="col-lg-9 col-xl-9">
                                                                         <input type="date" id="waktu_harga_atas" class="form-control" required name="waktu_harga_atas" value="">
                                                                     </div>
@@ -98,7 +103,7 @@ SURYA PANGAN SEMESTA
                             <tr>
                                 <th style="text-align: center;width:2%">No</th>
                                 <th style="text-align: center;width:auto">Harga Atas</th>
-                                <th style="text-align: center;width:auto">Waktu Harga Atas </th>
+                                <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkaran </th>
                                 <th style="text-align: center;width:auto">Action</th>
                             </tr>
                         </thead>
@@ -118,7 +123,7 @@ SURYA PANGAN SEMESTA
                     <form id="formupdatehargaatas" class="m-form m-form--fit m-form--label-align-right" method="post" action="javascript:void(0);" enctype="multipart/form-data">
                         @csrf
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">Update Top Price</h5>
+                            <h5 class="modal-title" id="exampleModalLongTitle">Update Harga Atas</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             </button>
                         </div>
@@ -127,13 +132,13 @@ SURYA PANGAN SEMESTA
                             <input type="hidden" name="id_harga_atas_update" id="id_harga_atas_update" value="">
                             <div class="form-group">
                                 <div class="">
-                                    <label>Top Price</label>
+                                    <label>Harga Atas</label>
                                     <input id="harga_atas_update" required name="harga_atas_update" placeholder="" type="text" class="form-control m-input">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="">
-                                    <label>Date</label>
+                                    <label>Tanggal&nbsp;Bongkaran</label>
                                     <input id="waktu_harga_atas_update" required name="waktu_harga_atas_update" placeholder="" type="date" class="form-control m-input">
                                 </div>
                             </div>

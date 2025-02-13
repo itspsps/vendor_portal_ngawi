@@ -12,322 +12,23 @@ SURYA PANGAN SEMESTA
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
                 <h3 class="kt-subheader__title">
-                    E-PROCUREMENT
+                    PT. SURYA PANGAN SEMESTA
                 </h3>
+                <span class="btn-outline btn-sm btn-info mr-3">NGAWI</span>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
-                    <a href="#" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="" class="kt-subheader__breadcrumbs-link">
-                        SURYA PANGAN SEMESTA
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Data Vendor
                     </a>
-                    <span class="btn-outline btn-sm btn-info">Site Ngawi</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
-        <div class="col-lg-12">
-            <!--begin::Portlet-->
-            <div class="kt-portlet ">
-                <div class="">
-                    <!--begin::Accordion-->
-                    <div class="accordion  accordion-toggle-arrow" id="accordionExample4">
-                        <div class="card">
-                            <div class="card-header" id="headingOne4">
-                                <div class="card-title" data-toggle="collapse" data-target="#collapseOne4" aria-expanded="false" aria-controls="collapseOne4">
-                                    <i class="flaticon2-add kt-font-primary"></i> Tambah Vendor
-                                </div>
-                            </div>
-                            <div id="collapseOne4" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample4">
-                                <div class="card-body">
-                                    <form class="m-form m-form--fit m-form--label-align-right" role="form" id="form_adduser" name="validasi" action="{{ route('sourching.vendor_store') }}" method="POST" enctype="multipart/form-data" id="msform">
-                                        {{ csrf_field() }}
-                                        @csrf
-                                        @if (Session::get('success'))
-                                        <div class="alert alert-success">
-                                            {{ Session::get('success') }}
-                                        </div>
-                                        @endif
-                                        @if (Session::get('fail'))
-                                        <div class="alert alert-danger">
-                                            {{ Session::get('fail') }}
-                                        </div>
-                                        @endif
-                                        <div class="m-portlet__body">
-                                            <ul class="nav nav-tabs" role="tablist">
-                                                <li class="nav-item">
-                                                    <a class="nav-link active show" data-toggle="tab" href="#m_tabs_1_1">
-                                                        <i class="la la-credit-card"></i> IDENTITAS NPWP
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" data-toggle="tab" href="#m_tabs_1_2">
-                                                        <i class="la la-cc-discover"></i> IDENTITAS KTP
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" data-toggle="tab" href="#m_tabs_1_3">
-                                                        <i class="la la-money"></i> IDENTITAS PEMBAYARAN
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" data-toggle="tab" href="#m_tabs_1_4">
-                                                        <i class="la la-user"></i> IDENTITAS PROFIL
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                            <div class="tab-content">
-                                                <div class="tab-pane active" id="m_tabs_1_1" role="tabpanel">
-                                                    <div class="m-portlet__body">
-                                                        <div class="form-group m-form__group row">
-                                                            <label for="example-text-input" class="col-12 col-form-label">Nama NPWP</label>
-                                                            <div class="col-10">
-                                                                <input class="form-control m-input" type="text" required="required" id="nama_npwp" name="nama_npwp" placeholder="Nama NPWP" value="">
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group m-form__group row " style="margin-top: -1%;">
-                                                            <label for="example-search-input" class="col-12 col-form-label">Nomer NPWP</label>
-                                                            <div class="col-10">
-                                                                <input class="form-control m-input" type="text" required="required" id="jumlah_npwp" onkeyup="angka(this);" name="npwp" placeholder="123*************" value="">
-                                                                <div class="error_message">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group m-form__group row" style="margin-top: -1%;">
-                                                            <div class="col-lg-6">
-                                                                <label for="id_provinsinpwp" class="form-label">Alamat NPWP</label>
-                                                                <select class="form-control " name="id_provinsinpwp" required="required" id="provinsi_npwp">
-                                                                    <option value="">Pilih Provinsi...</option>
-                                                                    <?php
-                                                                    $prov = App\Models\Province::all();
-                                                                    ?>
-                                                                    @foreach ($prov as $provinsi)
-                                                                    <option value="{{$provinsi->id}}">{{$provinsi->name}}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                                <br>
-                                                                <select class="form-control" required="required" name="id_kabupatennpwp" id="kabupaten_npwp">
-                                                                    <option>Pilih Kabupaten...</option>
-                                                                </select>
-                                                                <br>
-                                                                <select class="form-control select123 " required="required" name="id_kecamatannpwp" id="kecamatan_npwp">
-                                                                    <option>Pilih Kecamatan...</option>
-                                                                </select>
-                                                                <br>
-                                                                <select class="form-control select123" required="required" name="id_desanpwp" id="desa_npwp">
-                                                                    <option>Pilih Desa...</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="col-lg-6">
-                                                                <label for="example-email-input" class="form-label col-12">Keterangan NPWP</label>
-                                                                <textarea name="keterangan_alamat_npwp" class="form-control col-lg-12"></textarea>
-                                                                <span style="font-size: 10px; margin-top:-30; color:blue;float:left">*Diisi jika nama desa tidak tercantumkan</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group m-form__group row" style="margin-top: -1%;">
-                                                            <label for="example-search-input" class="col-12 col-form-label">RT/RW</label>
-                                                            <div class="col-5">
-                                                                <input class="form-control m-input" type="text" id="rt_npwp" name="rt_npwp" onkeyup="angka(this);" required="required" placeholder="01" value="">
-                                                            </div>
-                                                            <div class="col-5">
-                                                                <input class="form-control m-input" type="text" id="rw_npwp" name="rw_npwp" onkeyup="angka(this);" required="required" placeholder="01" value="">
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group m-form__group row" style="margin-top: -1%;">
-                                                            <label for="example-password-input" class="col-12 col-form-label">Upload NPWP</label>
-                                                            <div class="col-10">
-                                                                <input class="form-control" type="file" id="gambar_npwp" name="gambar_npwp" accept="image/*" required>
-                                                                <span style="font-size: 10px; margin-top:-30; color:blue;float:left">*Pastikan npwp terlihat jelas di foto</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="tab-pane" id="m_tabs_1_2" role="tabpanel">
-                                                    <div class="m-portlet__body">
-                                                        <div class="form-group m-form__group row">
-                                                            <label for="example-text-input" class="col-12 col-form-label">Nama KTP</label>
-                                                            <div class="col-10">
-                                                                <input class="form-control m-input" type="text" required="required" id="nama_ktp" name="nama_ktp" placeholder="Nama KTP" value="">
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group m-form__group row" style="margin-top: -1%;">
-                                                            <label for="example-search-input" class="col-12 col-form-label">Nomer KTP</label>
-                                                            <div class="col-10">
-                                                                <input class="form-control m-input" type="number" id="jumlah_ktp" onkeyup="angka(this);" required="required" name="ktp" placeholder="35*************" value="">
-                                                                <div class="error_message_ktp">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group m-form__group row" style="margin-top: -1%;">
-                                                            <div class="col-lg-6">
-                                                                <label for="example-email-input" class="col-12 col-form-label">Alamat KTP</label>
-                                                                <select class="form-control select123" name="id_provinsiktp" required="required" id="provinsi_ktp">
-                                                                    <option value="">Pilih Provinsi...</option>
-                                                                    <?php
-                                                                    $prov = App\Models\Province::all();
-                                                                    ?>
-                                                                    @foreach ($prov as $provinsi)
-                                                                    <option value="{{$provinsi->id}}">{{$provinsi->name}}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                                <br>
-                                                                <select class="form-control select123 " required="required" name="id_kabupatenktp" id="kabupaten_ktp">
-                                                                    <option>Pilih Kabupaten...</option>
-                                                                </select>
-                                                                <br>
-                                                                <select class="form-control select123 " required="required" name="id_kecamatanktp" id="kecamatan_ktp">
-                                                                    <option>Pilih Kecamatan...</option>
-                                                                </select>
-                                                                <br>
-                                                                <select class="form-control select123" required="required" name="id_desaktp" id="desa_ktp">
-                                                                    <option>Pilih Desa...</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="col-lg-6" style="margin-top: 2%;">
-                                                                <label for="example-email-input" class="form-label col-12">Keterangan KTP</label>
-                                                                <textarea name="keterangan_alamat_ktp" class="form-control col-lg-12"></textarea>
-                                                                <span style="font-size: 10px; margin-top:-30; color:blue;float:left">*Diisi jika nama desa tidak tercantumkan</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group m-form__group row" style="margin-top: -1%;">
-                                                            <label for="example-search-input" class="col-12 col-form-label">RT/RW</label>
-                                                            <div class="col-5">
-                                                                <input class="form-control m-input" type="text" id="rt_ktp" name="rt_ktp" onkeyup="angka(this);" required="required" placeholder="01" value="">
-                                                            </div>
-                                                            <div class="col-5">
-                                                                <input class="form-control m-input" type="text" id="rw_ktp" name="rw_ktp" onkeyup="angka(this);" required="required" placeholder="01" value="">
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group m-form__group row" style="margin-top: -1%;">
-                                                            <label for="example-password-input" class="col-12 col-form-label">Upload KTP</label>
-                                                            <div class="col-10">
-                                                                <input class="form-control m-input" type="file" id="gambar_ktp" name="gambar_ktp" accept="image/*" required>
-                                                                <span style="font-size: 10px; color:blue;float:left">*Pastikan KTP tierlihat jelas di foto</span>
-                                                            </div>
-                                                        </div>
 
-                                                    </div>
-                                                </div>
-                                                <div class="tab-pane" id="m_tabs_1_3" role="tabpanel">
-                                                    <div class="m-portlet__body">
-                                                        <div class="form-group m-form__group row">
-                                                            <label for="example-text-input" class="col-12 col-form-label">Nama Bank</label>
-                                                            <div class="col-10">
-                                                                <select class="form-control  m-input select123" onchange="bankCheck(this);" name="nama_bank" id="nama_bank" required="required">
-                                                                    <option disabled selected>Pilih BANK</option>
-                                                                    <option value="BB00100">BANK BRI</option>
-                                                                    <option value="BB00200">BANK MANDIRI</option>
-                                                                    <option value="BB00700">BANK BCA</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group m-form__group row" style="margin-top: -1%;">
-                                                            <label for="example-search-input" class="col-12 col-form-label">Nomer Rekening</label>
-                                                            <div class="col-10">
-                                                                <input class="form-control m-input" type="text" name="nomer_rekening" onkeyup="angka(this);" id="nomor_rekening" required="required" placeholder="123********" value="">
-                                                            </div>
-                                                            <div id="errorrekening_message">
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group m-form__group row" style="margin-top: -1%;">
-                                                            <label for="example-search-input" class="col-12 col-form-label">Nama Penerima</label>
-                                                            <div class="col-10">
-                                                                <input class="form-control m-input" type="text" id="nama_penerima_bank" name="nama_penerima_bank" required="required" placeholder="Nama Penerima" value="">
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group m-form__group row" style="margin-top: -1%;">
-                                                            <label for="example-search-input" class="col-12 col-form-label">Cabang Bank</label>
-                                                            <div class="col-10">
-                                                                <input class="form-control m-input" type="text" id="cabang_bank" name="cabang_bank" required="required" placeholder="Cabang BANK" value="">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="tab-pane" id="m_tabs_1_4" role="tabpanel">
-                                                    <div class="m-portlet__body">
-                                                        <!-- <div class="form-group m-form__group row">
-                                                            <label for="example-text-input" class="col-12 col-form-label">ID VENDOR (EPICOR)</label>
-                                                            <div class="col-10">
-                                                                <input class="form-control m-input" type="text" id="vendor_id" onkeyup="angka(this);" name="vendor_id" required="required" placeholder="ID Vendor" value="">
-                                                            </div>
-                                                        </div> -->
-                                                        <div class="form-group m-form__group row">
-                                                            <label for="example-text-input" class="col-12 col-form-label">Nama Vendor</label>
-                                                            <div class="col-10">
-                                                                <input class="form-control m-input" type="text" id="nama_vendor" name="nama_vendor" required="required" placeholder="Nama Vendor" value="">
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group m-form__group row" style="margin-top: -1%;">
-                                                            <label for="example-search-input" class="col-12 col-form-label">No. Telp</label>
-                                                            <div class="col-10">
-                                                                <input class="form-control m-input" type="text" id="nomer_hp" onkeyup="angka(this);" name="nomer_hp" placeholder="+62***********" value="">
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group m-form__group row" style="margin-top: -1%;">
-                                                            <label for="example-search-input" class="col-12 col-form-label">Username</label>
-                                                            <div class="col-10">
-                                                                <input class="form-control m-input" type="text" id="username" name="username" onkeyup="nospaces(this)" required="required" placeholder="Username" value="">
-                                                                <div class="error_message_username">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group m-form__group row" style="margin-top: -1%;">
-                                                            <label for="example-search-input" class="col-12 col-form-label">Email Vendor</label>
-                                                            <div class="col-10">
-                                                                <input class="form-control m-input" type="email" id="email" name="email" onkeyup="nospacesemail(this)" required="required" placeholder="example@gmail.com" value="">
-                                                                <div class="error_message_email">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group m-form__group row" style="margin-top: -1%;">
-                                                            <label for="example-search-input" class="col-12 col-form-label">Badan usaha</label>
-                                                            <div class="col-10">
-                                                                <input class="form-control m-input" type="text" id="badan_usaha" name="badan_usaha" required="required" placeholder="UD." value="">
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group m-form__group row" style="margin-top: -1%;">
-                                                            <label for="example-search-input" class="col-12 col-form-label">Password</label>
-                                                            <div class="col-10">
-                                                                <input class="form-control m-input" type="password" id="password" name="password" required="required" placeholder="********" value="">
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group m-form__group row" style="margin-top: -1%;">
-                                                            <label for="example-search-input" class="col-12 col-form-label">Password</label>
-                                                            <div class="col-10">
-                                                                <input class="form-control m-input" type="password" id="confirm_password" name="password" required="required" placeholder="********" value="">
-                                                                <span id='message' style="font-size: 10px; margin-top:-30; float:left"></span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group m-form__group row" style="margin-top: -1%;">
-                                                            <label for="example-password-input" class="col-12 col-form-label">Pakta Integritas <span style="">(Format : PDF)</span></label>
-                                                            <div class="col-10">
-                                                                <input class="form-control md-input" type="file" accept="application/pdf" id="pakta_integritas" name="pakta_integritas" required="required">
-                                                                <span style="font-size: 10px; color:blue;float:left">*Pastikan Pakta Integritas tierlihat jelas di foto</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group m-form__group row" style="margin-top: -1%;">
-                                                            <label for="example-password-input" class="col-12 col-form-label">Pakta Integritas <span style="">(Format : jpeg,png,jpg,gif,svg|max:2048)</span></label>
-                                                            <div class="col-10">
-                                                                <input class="form-control md-input" type="file" accept="image/*" id="fis" name="fis" required="required">
-                                                                <span style="font-size: 10px; color:blue;float:left">*Pastikan FIS tierlihat jelas di foto</span>
-                                                            </div>
-                                                        </div>
-                                                        <button type="submit" id="btn_save" class="btn btn-success m-btn mb-3 pull-right">Submit</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--end::Accordion-->
-                </div>
-            </div>
-        </div>
+    <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
 
         <div class="col-xl-12 col-lg-12 col-md-12 order-lg-1 order-xl-1">
             <div class="kt-portlet kt-portlet--mobile">
@@ -350,6 +51,9 @@ SURYA PANGAN SEMESTA
                 </div>
 
                 <div class="kt-portlet__body">
+                    <div class="mb-2">
+                        <a href="{{route('sourching.add_vendor')}}" class="btn btn-sm btn-primary"> <i class="flaticon2-add "></i> Tambah Vendor</a>
+                    </div>
                     <table class="table table-bordered" id="datatable">
                         <thead>
                             <tr>

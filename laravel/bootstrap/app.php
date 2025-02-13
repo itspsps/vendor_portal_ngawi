@@ -41,7 +41,7 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
-$app->register(AzisHapidin\IndoRegion\IndoRegionServiceProvider::class);
+// $app->register(AzisHapidin\IndoRegion\IndoRegionServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

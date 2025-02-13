@@ -9,21 +9,30 @@ SURYA PANGAN SEMESTA
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
                 <h3 class="kt-subheader__title">
-                    E-PROCUREMENT
+                    PT. SURYA PANGAN SEMESTA
                 </h3>
+                <span class="btn-outline btn-sm btn-info mr-3">NGAWI</span>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
-                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
                     <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
-                        SURYA PANGAN SEMESTA
+                        Hasil Lab Bongkaran
                     </a>
-                    <span class="btn-outline btn-sm btn-info">Site Ngawi</span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Deal
+                    </a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Gabah Basah
+                    </a>
                 </div>
             </div>
         </div>
     </div>
-
     <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
         <div class="col-xl-12 col-lg-12 col-md-12 order-lg-1 order-xl-1">
             <div class="kt-portlet kt-portlet--mobile">
@@ -78,6 +87,8 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;Nama&nbsp;item&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Nama&nbsp;Supplier</th>
                                         <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
+                                        <th style="text-align: center;width:auto">Tanggal&nbsp;PO</th>
+                                        <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkaran</th>
                                         <th style="text-align: center;width:auto">&nbsp;Nopol&nbsp;</th>
                                         <th style="text-align: center;width:auto">Bruto</th>
                                         <th style="text-align: center;width:auto">Tara</th>
@@ -88,7 +99,7 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">&nbsp;Harga&nbsp;Awal&nbsp;</th>
                                         <th style="text-align: center;width:auto">Aksi&nbsp;Harga</th>
                                         <th style="text-align: center;width:auto">Reaksi&nbsp;Harga</th>
-                                        <th style="text-align: center;width:auto">&nbsp;Harga&nbsp;Akhir&nbsp;-&nbsp;Rp.&nbsp;13</th>
+                                        <th style="text-align: center;width:auto">&nbsp;Harga&nbsp;Akhir&nbsp;-&nbsp;Rp.&nbsp;14</th>
                                         <th style="text-align: center;width:auto">Keterangan&nbsp;Harga</th>
                                         <th style="text-align: center;width:auto">&nbsp;Surveyor&nbsp;</th>
                                         <th style="text-align: center;width:auto">Keterangan</th>
@@ -110,6 +121,8 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;Nama&nbsp;item&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Nama&nbsp;Supplier</th>
                                         <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
+                                        <th style="text-align: center;width:auto">Tanggal&nbsp;PO</th>
+                                        <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkaran</th>
                                         <th style="text-align: center;width:auto">&nbsp;Nopol&nbsp;</th>
                                         <th style="text-align: center;width:auto">Bruto</th>
                                         <th style="text-align: center;width:auto">Tara</th>
@@ -142,6 +155,8 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;Nama&nbsp;item&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Nama&nbsp;Supplier</th>
                                         <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
+                                        <th style="text-align: center;width:auto">Tanggal&nbsp;PO</th>
+                                        <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkaran</th>
                                         <th style="text-align: center;width:auto">&nbsp;Nopol&nbsp;</th>
                                         <th style="text-align: center;width:auto">Bruto</th>
                                         <th style="text-align: center;width:auto">Tara</th>
@@ -230,6 +245,12 @@ SURYA PANGAN SEMESTA
                     },
                     {
                         data: 'kode_po'
+                    },
+                    {
+                        data: 'tanggal_po'
+                    },
+                    {
+                        data: 'tanggal_bongkar'
                     },
                     {
                         data: 'plat_kendaraan'
@@ -337,6 +358,12 @@ SURYA PANGAN SEMESTA
                         data: 'kode_po'
                     },
                     {
+                        data: 'tanggal_po'
+                    },
+                    {
+                        data: 'tanggal_bongkar'
+                    },
+                    {
                         data: 'plat_kendaraan'
                     },
                     {
@@ -440,6 +467,12 @@ SURYA PANGAN SEMESTA
                     },
                     {
                         data: 'kode_po'
+                    },
+                    {
+                        data: 'tanggal_po'
+                    },
+                    {
+                        data: 'tanggal_bongkar'
                     },
                     {
                         data: 'plat_kendaraan'

@@ -148,9 +148,9 @@ SURYA PANGAN SEMESTA
                                             @endif
                                         </tr>
                                         <tr>
-                                            <td class="first_child">Batas PO </td>
+                                            <td class="first_child">Batas Kedatangan </td>
                                             <td class="first_child">:</td>
-                                            <td>{{Carbon\Carbon::parse($data->tanggal_po)->format('d-m-Y')}}<br><span class="btn-warning">12:00 WIB</span></td>
+                                            <td>{{Carbon\Carbon::parse($data->batas_bid)->format('d-m-Y')}}<br><span class="btn-warning">12:00 WIB</span></td>
                                         </tr>
                                         <tr>
                                             <td class="first_child">Asal Gabah </td>

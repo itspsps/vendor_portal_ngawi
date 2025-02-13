@@ -103,7 +103,8 @@ class SpvQcAdminController extends Controller
     public function spv_logout()
     {
         Auth::guard('spv')->logout();
-        return redirect()->route('qc.spv.login');
+        Alert::success('Sukses', 'Anda Berhasil Logout');
+        return redirect()->route('qc.spv.login')->with('Sukses', 'Anda Berhasil Logout');
     }
 
     public function output_lab1_gb()
@@ -536,15 +537,18 @@ class SpvQcAdminController extends Controller
         $log->save();
 
         $po = trackerPO::where('kode_po_tracker', $request->gabahincoming_kode_po)->first();
-        $po->nama_admin_tracker  = Auth::guard('spv')->user()->name_spv_qc;
-        $po->revisi_po_tracker  = date('Y-m-d H:i:s');
-        $po->proses_tracker  = 'REVISI HARGA AKHIR';
-        $po->approve_revisi_spvap_tracker  = NULL;
-        $po->approve_tolak_revisi_spvap_tracker  = NULL;
-        $po->pengajuan_revisi_ap_tracker  = NULL;
-        $po->approve_spvap_tracker  = NULL;
-        $po->tolak_approve_spvap_tracker  = NULL;
-        $po->update();
+        if ($po == NULL) {
+        } else {
+            $po->nama_admin_tracker  = Auth::guard('spv')->user()->name_spv_qc;
+            $po->revisi_po_tracker  = date('Y-m-d H:i:s');
+            $po->proses_tracker  = 'REVISI HARGA AKHIR';
+            $po->approve_revisi_spvap_tracker  = NULL;
+            $po->approve_tolak_revisi_spvap_tracker  = NULL;
+            $po->pengajuan_revisi_ap_tracker  = NULL;
+            $po->approve_spvap_tracker  = NULL;
+            $po->tolak_approve_spvap_tracker  = NULL;
+            $po->update();
+        }
         return redirect()->back();
     }
 
@@ -578,10 +582,13 @@ class SpvQcAdminController extends Controller
             $log->save();
 
             $po = trackerPO::where('kode_po_tracker', $data->lab2_kode_po_gb)->first();
-            $po->nama_admin_tracker  = Auth::guard('spv')->user()->name_spv_qc;
-            $po->proses_nego_spvqc_tracker  = date('Y-m-d H:i:s');
-            $po->proses_tracker  = 'PROSES NEGO';
-            $po->update();
+            if ($po == NULL) {
+            } else {
+                $po->nama_admin_tracker  = Auth::guard('spv')->user()->name_spv_qc;
+                $po->proses_nego_spvqc_tracker  = date('Y-m-d H:i:s');
+                $po->proses_tracker  = 'PROSES NEGO';
+                $po->update();
+            }
 
             return response()->json($data);
         } else {
@@ -647,7 +654,7 @@ class SpvQcAdminController extends Controller
 
                     ->where('penerimaan_po.status_penerimaan', '>', 5, 'AND', 'penerimaan_po.status_penerimaan', '!=', 16)
                     // ->orWhere('penerimaan_po.status_penerimaan', '!=', 16)
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
+                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
                     ->where('bid.name_bid', '=', 'GABAH BASAH CIHERANG')
                     ->orderBy('id_lab1_gb', 'desc')
                     ->get())
@@ -671,6 +678,10 @@ class SpvQcAdminController extends Controller
                     })
                     ->addColumn('tanggal_po', function ($list) {
                         $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
@@ -855,7 +866,7 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             } else {
 
@@ -883,6 +894,10 @@ class SpvQcAdminController extends Controller
                     })
                     ->addColumn('tanggal_po', function ($list) {
                         $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
@@ -1067,7 +1082,7 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['name_bid', 'waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['name_bid', 'waktu_penerimaan', 'tanggal_bongkar', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             }
         }
@@ -1086,7 +1101,7 @@ class SpvQcAdminController extends Controller
 
                     ->where('penerimaan_po.status_penerimaan', '>', 5, 'AND', 'penerimaan_po.status_penerimaan', '!=', 16)
                     // ->orWhere('penerimaan_po.status_penerimaan', '!=', 16)
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
+                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
                     ->where('bid.name_bid', '=', 'GABAH BASAH LONG GRAIN')
                     ->orderBy('id_lab1_gb', 'desc')
                     ->get())
@@ -1110,6 +1125,10 @@ class SpvQcAdminController extends Controller
                     })
                     ->addColumn('tanggal_po', function ($list) {
                         $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
@@ -1301,7 +1320,7 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             } else {
 
@@ -1329,6 +1348,10 @@ class SpvQcAdminController extends Controller
                     })
                     ->addColumn('tanggal_po', function ($list) {
                         $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
@@ -1523,7 +1546,7 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['name_bid', 'waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['name_bid', 'waktu_penerimaan', 'tanggal_bongkar', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             }
         }
@@ -1542,7 +1565,7 @@ class SpvQcAdminController extends Controller
 
                     ->where('penerimaan_po.status_penerimaan', '>', 5, 'AND', 'penerimaan_po.status_penerimaan', '!=', 16)
                     // ->orWhere('penerimaan_po.status_penerimaan', '!=', 16)
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
+                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
                     ->where('bid.name_bid', '=', 'GABAH BASAH PANDAN WANGI')
                     ->orderBy('id_lab1_gb', 'desc')
                     ->get())
@@ -1566,6 +1589,10 @@ class SpvQcAdminController extends Controller
                     })
                     ->addColumn('tanggal_po', function ($list) {
                         $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
@@ -1757,7 +1784,7 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'tanggal_bongkar', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             } else {
 
@@ -1785,6 +1812,10 @@ class SpvQcAdminController extends Controller
                     })
                     ->addColumn('tanggal_po', function ($list) {
                         $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
@@ -1976,7 +2007,7 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['name_bid', 'waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['name_bid', 'waktu_penerimaan', 'tanggal_bongkar', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             }
         }
@@ -1995,7 +2026,7 @@ class SpvQcAdminController extends Controller
 
                     ->where('penerimaan_po.status_penerimaan', '>', 5, 'AND', 'penerimaan_po.status_penerimaan', '!=', 16)
                     // ->orWhere('penerimaan_po.status_penerimaan', '!=', 16)
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
+                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
                     ->where('bid.name_bid', '=', 'GABAH BASAH KETAN PUTIH')
                     ->orderBy('id_lab1_gb', 'desc')
                     ->get())
@@ -2019,6 +2050,10 @@ class SpvQcAdminController extends Controller
                     })
                     ->addColumn('tanggal_po', function ($list) {
                         $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
@@ -2210,7 +2245,7 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'tanggal_bongkar', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             } else {
 
@@ -2240,6 +2275,10 @@ class SpvQcAdminController extends Controller
                         $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
                     ->addColumn('waktu_penerimaan', function ($list) {
                         $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
                         return $result;
@@ -2429,7 +2468,7 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['name_bid', 'waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['name_bid', 'waktu_penerimaan', 'kode_po', 'tanggal_bongkar', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             }
         }
@@ -2448,7 +2487,7 @@ class SpvQcAdminController extends Controller
 
                     ->where('penerimaan_po.status_penerimaan', '>', 5, 'AND', 'penerimaan_po.status_penerimaan', '!=', 16)
                     // ->orWhere('penerimaan_po.status_penerimaan', '!=', 16)
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
+                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
                     ->where('bid.name_bid', 'LIKE', '%BERAS PECAH KULIT%')
                     ->orderBy('id_lab1_pk', 'desc')
                     ->get())
@@ -3071,12 +3110,15 @@ class SpvQcAdminController extends Controller
         $log->save();
 
         $po = trackerPO::where('kode_po_tracker', $get_kode_po->lab1_kode_po_gb)->first();
-        $po->nama_admin_tracker  =  Auth::guard('spv')->user()->name_spv_qc;
-        $po->status_po_tracker  = '7';
-        $po->approve_bongkar_tracker  = date('Y-m-d H:i:s');
-        $po->tolak_approve_bongkar_tracker  = NULL;
-        $po->proses_tracker  = 'APPROVE LAB 1';
-        $po->update();
+        if ($po == NULL) {
+        } else {
+            $po->nama_admin_tracker  =  Auth::guard('spv')->user()->name_spv_qc;
+            $po->status_po_tracker  = '7';
+            $po->approve_bongkar_tracker  = date('Y-m-d H:i:s');
+            $po->tolak_approve_bongkar_tracker  = NULL;
+            $po->proses_tracker  = 'APPROVE LAB 1';
+            $po->update();
+        }
 
         //tambah notifikasi
         $notif   = new NotifBongkar();
@@ -3117,13 +3159,15 @@ class SpvQcAdminController extends Controller
         $log->save();
 
         $po = trackerPO::where('kode_po_tracker', $get_kode_po->lab1_kode_po_gb)->first();
-        $po->nama_admin_tracker  =  Auth::guard('spv')->user()->name_spv_qc;
-        $po->status_po_tracker  = '6';
-        $po->tolak_approve_bongkar_tracker  = date('Y-m-d H:i:s');
-        $po->approve_bongkar_tracker  = NULL;
-        $po->proses_tracker  = 'TOLAK APPROVE LAB 1';
-        $po->update();
-
+        if ($po == NULL) {
+        } else {
+            $po->nama_admin_tracker  =  Auth::guard('spv')->user()->name_spv_qc;
+            $po->status_po_tracker  = '6';
+            $po->tolak_approve_bongkar_tracker  = date('Y-m-d H:i:s');
+            $po->approve_bongkar_tracker  = NULL;
+            $po->proses_tracker  = 'TOLAK APPROVE LAB 1';
+            $po->update();
+        }
         //tambah notifikasi
         $notif   = new NotifLab();
         $notif->judul           = "PO Not Approve";
@@ -3184,13 +3228,16 @@ class SpvQcAdminController extends Controller
         $log->save();
 
         $po = trackerPO::where('kode_po_tracker', $get_kode_po->lab1_kode_po_gb)->first();
-        $po->nama_admin_tracker  =  Auth::guard('spv')->user()->name_spv_qc;
-        $po->status_po_tracker  = '5';
-        $po->approve_tolak_lab1_tracker  = date('Y-m-d H:i:s');
-        $po->tolak_approve_bongkar_tracker  = NULL;
-        $po->approve_bongkar_tracker  = NULL;
-        $po->proses_tracker  = 'APPROVE PO TOLAK LAB 1';
-        $po->update();
+        if ($po == NULL) {
+        } else {
+            $po->nama_admin_tracker  =  Auth::guard('spv')->user()->name_spv_qc;
+            $po->status_po_tracker  = '5';
+            $po->approve_tolak_lab1_tracker  = date('Y-m-d H:i:s');
+            $po->tolak_approve_bongkar_tracker  = NULL;
+            $po->approve_bongkar_tracker  = NULL;
+            $po->proses_tracker  = 'APPROVE PO TOLAK LAB 1';
+            $po->update();
+        }
 
         //tambah notifikasi
         $notif   = new NotifLab();
@@ -3213,7 +3260,7 @@ class SpvQcAdminController extends Controller
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
                     ->join('data_qc_bongkar', 'data_qc_bongkar.kode_po_bongkar', '=', 'data_po.kode_po')
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
+                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
                     ->where('bid.name_bid', '=', 'GABAH BASAH CIHERANG')
                     ->where('data_po.status_bid', '>', 11)
                     ->where('penerimaan_po.status_penerimaan', '>', 11)
@@ -3254,6 +3301,10 @@ class SpvQcAdminController extends Controller
                     })
                     ->addColumn('tanggal_po', function ($list) {
                         $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('keterangan_penerimaan_po', function ($list) {
@@ -3428,7 +3479,7 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['name_bid', 'kode_po', 'nama_vendor', 'status_lab2_gb', 'tanggal_po', 'keterangan_penerimaan_po', 'no_dtm', 'plat_kendaraan', 'hasil_akhir_tonase', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken_setelah_bongkar', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'plan_berat_kg_pertruk', 'plan_berat_pk_pertruk', 'plan_berat_beras_pertruk', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'reaksi_harga', 'harga_akhir'])
+                    ->rawColumns(['name_bid', 'kode_po', 'nama_vendor', 'status_lab2_gb', 'tanggal_po', 'tanggal_bongkar', 'keterangan_penerimaan_po', 'no_dtm', 'plat_kendaraan', 'hasil_akhir_tonase', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken_setelah_bongkar', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'plan_berat_kg_pertruk', 'plan_berat_pk_pertruk', 'plan_berat_beras_pertruk', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'reaksi_harga', 'harga_akhir'])
                     ->make(true);
             } else {
                 return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
@@ -3478,6 +3529,10 @@ class SpvQcAdminController extends Controller
                         $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
                     ->addColumn('keterangan_penerimaan_po', function ($list) {
                         $result = $list->keterangan_penerimaan_po;
                         return $result;
@@ -3650,7 +3705,7 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['name_bid', 'kode_po', 'nama_vendor', 'status_lab2_gb', 'tanggal_po', 'keterangan_penerimaan_po', 'no_dtm', 'plat_kendaraan', 'hasil_akhir_tonase', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken_setelah_bongkar', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'plan_berat_kg_pertruk', 'plan_berat_pk_pertruk', 'plan_berat_beras_pertruk', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'reaksi_harga', 'harga_akhir'])
+                    ->rawColumns(['name_bid', 'kode_po', 'nama_vendor', 'status_lab2_gb', 'tanggal_po', 'tanggal_bongkar', 'keterangan_penerimaan_po', 'no_dtm', 'plat_kendaraan', 'hasil_akhir_tonase', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken_setelah_bongkar', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'plan_berat_kg_pertruk', 'plan_berat_pk_pertruk', 'plan_berat_beras_pertruk', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'reaksi_harga', 'harga_akhir'])
                     ->make(true);
             }
         }
@@ -3664,7 +3719,7 @@ class SpvQcAdminController extends Controller
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
+                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
                     ->where('bid.name_bid', '=', 'GABAH BASAH LONG GRAIN')
                     ->where('data_po.status_bid', '>', 11)
                     ->where('penerimaan_po.status_penerimaan', '>', 11)
@@ -3681,6 +3736,17 @@ class SpvQcAdminController extends Controller
                     })
                     ->addColumn('nama_vendor', function ($list) {
                         $result = $list->nama_vendor;
+                        return $result;
+                    })
+                    ->addColumn('lokasi_bongkar', function ($list) {
+                        $lokasi = $list->lokasi_bongkar_gb;
+                        if ($lokasi == 'UTARA') {
+                            $result = ' <span class="btn btn-label-primary">UTARA</span>';
+                        } else if ($lokasi == 'SELATAN') {
+                            $result = ' <span class="btn btn-label-info">SELATAN</span>';
+                        } else {
+                            $result = ' <span class="btn btn-label-info">' . $lokasi . '</span>';
+                        }
                         return $result;
                     })
                     ->addColumn('status_lab2_gb', function ($list) {
@@ -3705,6 +3771,10 @@ class SpvQcAdminController extends Controller
                     })
                     ->addColumn('tanggal_po', function ($list) {
                         $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('keterangan_penerimaan_po', function ($list) {
@@ -3879,7 +3949,7 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['name_bid', 'kode_po', 'nama_vendor', 'status_lab2_gb', 'tanggal_po', 'keterangan_penerimaan_po', 'no_dtm', 'plat_kendaraan', 'hasil_akhir_tonase', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken_setelah_bongkar', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'plan_berat_kg_pertruk', 'plan_berat_pk_pertruk', 'plan_berat_beras_pertruk', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'reaksi_harga', 'harga_akhir'])
+                    ->rawColumns(['name_bid', 'kode_po', 'lokasi_bongkar', 'nama_vendor', 'status_lab2_gb', 'tanggal_po', 'tanggal_bongkar', 'keterangan_penerimaan_po', 'no_dtm', 'plat_kendaraan', 'hasil_akhir_tonase', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken_setelah_bongkar', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'plan_berat_kg_pertruk', 'plan_berat_pk_pertruk', 'plan_berat_beras_pertruk', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'reaksi_harga', 'harga_akhir'])
                     ->make(true);
             } else {
                 return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
@@ -3891,6 +3961,7 @@ class SpvQcAdminController extends Controller
                     ->where('penerimaan_po.status_penerimaan', '>', 11)
                     ->where('lab2_gb.status_lab2_gb', '>', 11)
                     ->orderBy('id_lab2_gb', 'desc')
+                    // ->limit(56)
                     ->get())
                     ->addColumn('name_bid', function ($list) {
                         $result = $list->name_bid;
@@ -3902,6 +3973,17 @@ class SpvQcAdminController extends Controller
                     })
                     ->addColumn('nama_vendor', function ($list) {
                         $result = $list->nama_vendor;
+                        return $result;
+                    })
+                    ->addColumn('lokasi_bongkar', function ($list) {
+                        $lokasi = $list->lokasi_bongkar_gb;
+                        if ($lokasi == 'UTARA') {
+                            $result = ' <span class="btn btn-label-primary"><b>UTARA</b></span>';
+                        } else if ($lokasi == 'SELATAN') {
+                            $result = ' <span class="btn btn-label-success"><b>SELATAN</b></span>';
+                        } else {
+                            $result = ' <span class="btn btn-label-info">' . $lokasi . '</span>';
+                        }
                         return $result;
                     })
                     ->addColumn('status_lab2_gb', function ($list) {
@@ -3928,6 +4010,10 @@ class SpvQcAdminController extends Controller
                         $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
                     ->addColumn('keterangan_penerimaan_po', function ($list) {
                         $result = $list->keterangan_penerimaan_po;
                         return $result;
@@ -4100,7 +4186,7 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['name_bid', 'kode_po', 'nama_vendor', 'status_lab2_gb', 'tanggal_po', 'keterangan_penerimaan_po', 'no_dtm', 'plat_kendaraan', 'hasil_akhir_tonase', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken_setelah_bongkar', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'plan_berat_kg_pertruk', 'plan_berat_pk_pertruk', 'plan_berat_beras_pertruk', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'reaksi_harga', 'harga_akhir'])
+                    ->rawColumns(['name_bid', 'lokasi_bongkar', 'kode_po', 'nama_vendor', 'status_lab2_gb', 'tanggal_po', 'tanggal_bongkar', 'keterangan_penerimaan_po', 'no_dtm', 'plat_kendaraan', 'hasil_akhir_tonase', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken_setelah_bongkar', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'plan_berat_kg_pertruk', 'plan_berat_pk_pertruk', 'plan_berat_beras_pertruk', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'reaksi_harga', 'harga_akhir'])
                     ->make(true);
             }
         }
@@ -4114,7 +4200,7 @@ class SpvQcAdminController extends Controller
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
+                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
                     ->where('bid.name_bid', '=', 'GABAH BASAH PANDAN WANGI')
                     ->where('data_po.status_bid', '>', 11)
                     ->where('penerimaan_po.status_penerimaan', '>', 11)
@@ -4155,6 +4241,10 @@ class SpvQcAdminController extends Controller
                     })
                     ->addColumn('tanggal_po', function ($list) {
                         $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('keterangan_penerimaan_po', function ($list) {
@@ -4329,7 +4419,7 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['name_bid', 'kode_po', 'nama_vendor', 'status_lab2_gb', 'tanggal_po', 'keterangan_penerimaan_po', 'no_dtm', 'plat_kendaraan', 'hasil_akhir_tonase', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken_setelah_bongkar', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'plan_berat_kg_pertruk', 'plan_berat_pk_pertruk', 'plan_berat_beras_pertruk', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'reaksi_harga', 'harga_akhir'])
+                    ->rawColumns(['name_bid', 'kode_po', 'nama_vendor', 'status_lab2_gb', 'tanggal_po', 'tanggal_bongkar', 'keterangan_penerimaan_po', 'no_dtm', 'plat_kendaraan', 'hasil_akhir_tonase', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken_setelah_bongkar', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'plan_berat_kg_pertruk', 'plan_berat_pk_pertruk', 'plan_berat_beras_pertruk', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'reaksi_harga', 'harga_akhir'])
                     ->make(true);
             } else {
                 return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
@@ -4376,6 +4466,10 @@ class SpvQcAdminController extends Controller
                     })
                     ->addColumn('tanggal_po', function ($list) {
                         $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('keterangan_penerimaan_po', function ($list) {
@@ -4550,7 +4644,7 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['name_bid', 'kode_po', 'nama_vendor', 'status_lab2_gb', 'tanggal_po', 'keterangan_penerimaan_po', 'no_dtm', 'plat_kendaraan', 'hasil_akhir_tonase', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken_setelah_bongkar', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'plan_berat_kg_pertruk', 'plan_berat_pk_pertruk', 'plan_berat_beras_pertruk', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'reaksi_harga', 'harga_akhir'])
+                    ->rawColumns(['name_bid', 'kode_po', 'nama_vendor', 'status_lab2_gb', 'tanggal_po', 'tanggal_bongkar', 'keterangan_penerimaan_po', 'no_dtm', 'plat_kendaraan', 'hasil_akhir_tonase', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken_setelah_bongkar', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'plan_berat_kg_pertruk', 'plan_berat_pk_pertruk', 'plan_berat_beras_pertruk', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'reaksi_harga', 'harga_akhir'])
                     ->make(true);
             }
         }
@@ -4563,7 +4657,7 @@ class SpvQcAdminController extends Controller
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
+                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
                     ->where('bid.name_bid', '=', 'GABAH BASAH KETAN PUTIH')
                     ->where('data_po.status_bid', '>', 11)
                     ->where('penerimaan_po.status_penerimaan', '>', 11)
@@ -4604,6 +4698,10 @@ class SpvQcAdminController extends Controller
                     })
                     ->addColumn('tanggal_po', function ($list) {
                         $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('keterangan_penerimaan_po', function ($list) {
@@ -4778,7 +4876,7 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['name_bid', 'kode_po', 'nama_vendor', 'status_lab2_gb', 'tanggal_po', 'keterangan_penerimaan_po', 'no_dtm', 'plat_kendaraan', 'hasil_akhir_tonase', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken_setelah_bongkar', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'plan_berat_kg_pertruk', 'plan_berat_pk_pertruk', 'plan_berat_beras_pertruk', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'reaksi_harga', 'harga_akhir'])
+                    ->rawColumns(['name_bid', 'kode_po', 'nama_vendor', 'status_lab2_gb', 'tanggal_po', 'tanggal_bongkar', 'keterangan_penerimaan_po', 'no_dtm', 'plat_kendaraan', 'hasil_akhir_tonase', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken_setelah_bongkar', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'plan_berat_kg_pertruk', 'plan_berat_pk_pertruk', 'plan_berat_beras_pertruk', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'reaksi_harga', 'harga_akhir'])
                     ->make(true);
             } else {
                 return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
@@ -4825,6 +4923,10 @@ class SpvQcAdminController extends Controller
                     })
                     ->addColumn('tanggal_po', function ($list) {
                         $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('keterangan_penerimaan_po', function ($list) {
@@ -4999,7 +5101,7 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['name_bid', 'kode_po', 'nama_vendor', 'status_lab2_gb', 'tanggal_po', 'keterangan_penerimaan_po', 'no_dtm', 'plat_kendaraan', 'hasil_akhir_tonase', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken_setelah_bongkar', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'plan_berat_kg_pertruk', 'plan_berat_pk_pertruk', 'plan_berat_beras_pertruk', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'reaksi_harga', 'harga_akhir'])
+                    ->rawColumns(['name_bid', 'kode_po', 'nama_vendor', 'status_lab2_gb', 'tanggal_po', 'tanggal_bongkar', 'keterangan_penerimaan_po', 'no_dtm', 'plat_kendaraan', 'hasil_akhir_tonase', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken_setelah_bongkar', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'plan_berat_kg_pertruk', 'plan_berat_pk_pertruk', 'plan_berat_beras_pertruk', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'reaksi_harga', 'harga_akhir'])
                     ->make(true);
             }
         }
@@ -5033,12 +5135,15 @@ class SpvQcAdminController extends Controller
         $log->save();
 
         $po = trackerPO::where('kode_po_tracker', $get_kode_po->lab2_kode_po_gb)->first();
-        $po->nama_admin_tracker  =  Auth::guard('spv')->user()->name_spv_qc;
-        $po->status_po_tracker  = '13';
-        $po->approve_lab2_tracker  = date('Y-m-d H:i:s');
-        $po->tolak_approve_lab2_tracker  = NULL;
-        $po->proses_tracker  = 'APPROVE LAB 2';
-        $po->update();
+        if ($po == NULL) {
+        } else {
+            $po->nama_admin_tracker  =  Auth::guard('spv')->user()->name_spv_qc;
+            $po->status_po_tracker  = '13';
+            $po->approve_lab2_tracker  = date('Y-m-d H:i:s');
+            $po->tolak_approve_lab2_tracker  = NULL;
+            $po->proses_tracker  = 'APPROVE LAB 2';
+            $po->update();
+        }
         //tambah notifikasi
         $notif   = new NotifSourching();
         $notif->judul           = "PO On Proses";
@@ -5062,7 +5167,7 @@ class SpvQcAdminController extends Controller
                     ->join('lab2_pk', 'lab2_pk.lab2_kode_po_pk', '=', 'data_po.kode_po')
                     ->where('bid.name_bid', 'LIKE', '%BERAS PECAH KULIT%')
                     ->where('lab2_pk.status_lab2_pk', '>', 11)
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
+                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
                     ->orderBy('lab2_pk.id_lab2_pk', 'desc')
                     ->get())
                     ->addColumn('name_bid', function ($list) {
@@ -5502,11 +5607,14 @@ class SpvQcAdminController extends Controller
         $log->save();
 
         $po = trackerPO::where('kode_po_tracker', $get->lab2_kode_po_gb)->first();
-        $po->nama_admin_tracker  =  Auth::guard('spv')->user()->name_spv_qc;
-        $po->approve_lab2_tracker  = NULL;
-        $po->tolak_approve_lab2_tracker  = date('Y-m-d H:i:s');
-        $po->proses_tracker  = 'TOLAK APPROVE LAB 2';
-        $po->update();
+        if ($po == NULL) {
+        } else {
+            $po->nama_admin_tracker  =  Auth::guard('spv')->user()->name_spv_qc;
+            $po->approve_lab2_tracker  = NULL;
+            $po->tolak_approve_lab2_tracker  = date('Y-m-d H:i:s');
+            $po->proses_tracker  = 'TOLAK APPROVE LAB 2';
+            $po->update();
+        }
         //tambah notifikasi
         $notif   = new NotifLab();
         $notif->judul           = "Tolak Approve Lab 2";
@@ -8110,7 +8218,25 @@ class SpvQcAdminController extends Controller
         $total_data = ($data1 + $data2);
         return json_encode($total_data);
     }
-
+    public function get_notif_spvqc_all()
+    {
+        return view('dashboard.admin_spvqc.notifikasi.notifikasi');
+    }
+    public function get_notif_spvqc_all_index()
+    {
+        return Datatables::of(NotifSpvqc::where('status', 0)->orderBy('id_notif', 'DESC')->get())
+            ->addColumn('keterangan', function ($list) {
+                $result = $list->keterangan;
+                return $result;
+            })
+            ->addColumn('created_at', function ($list) {
+                $result_date = \Carbon\Carbon::parse($list->created_at)->isoFormat('DD-MM-Y');
+                $result_time = \Carbon\Carbon::parse($list->created_at)->isoFormat('HH:mm:ss ');
+                $result = $result_date . '<br><span class="btn btn-sm btn-label-primary">' . $result_time . ' WIB</span>';
+                return $result;
+            })->rawColumns(['keterangan', 'created_at'])
+            ->make(true);
+    }
     public function getcountnotif_prosesbongkar()
     {
         $data1 = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
@@ -8211,8 +8337,31 @@ class SpvQcAdminController extends Controller
     }
     public function get_notifikasispvqc()
     {
-        $data = NotifSpvqc::where('status', 0)->get();
-        return json_encode($data);
+        $data = NotifSpvqc::where('status', 0)->orderBy('id_notif', 'DESC')->limit(10)->get();
+        $get_nego = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+            ->join('bid_user', 'bid_user.id_biduser', '=', 'data_po.bid_user_id')
+            ->join('users', 'users.id', '=', 'data_po.user_idbid')
+            ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
+            ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
+            // ->where('bid.name_bid', '=', 'GABAH BASAH LONG GRAIN')
+            ->where('lab2_gb.aksi_harga_gb', 'NEGO')
+            ->count();
+        $get_revisiharga = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+            ->join('bid_user', 'bid_user.id_biduser', '=', 'data_po.bid_user_id')
+            ->join('users', 'users.id', '=', 'data_po.user_idbid')
+            ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
+            ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
+            ->where('penerimaan_po.id_adminanalisa', '4')
+            ->where('penerimaan_po.status_analisa', '2')
+            ->where('penerimaan_po.status_revisi', '0')
+            // ->where('bid.name_bid', '=', 'GABAH BASAH LONG GRAIN')
+            ->count();
+        $result = [
+            'data' => $data,
+            'get_nego' => $get_nego,
+            'get_revisiharga' => $get_revisiharga,
+        ];
+        return response()->json($result);
     }
     public function get_countnotifikasispvqc()
     {
@@ -8236,10 +8385,10 @@ class SpvQcAdminController extends Controller
     public function new_notifikasispvqc()
     {
         $data = NotifSpvqc::where('notifbaru', 0)->first();
-        if($data==''||$data==NULL){
+        if ($data == '' || $data == NULL) {
             return 'kosong';
-        }else{
-            
+        } else {
+
             $title = $data->judul;
             $keterangan = $data->keterangan;
             NotifSpvqc::where('notifbaru', 0)->update(['notifbaru' => 1]);

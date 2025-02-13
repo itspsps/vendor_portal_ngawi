@@ -10,16 +10,21 @@ SURYA PANGAN SEMESTA
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
                 <h3 class="kt-subheader__title">
-                    E-PROCUREMENT
+                    PT. SURYA PANGAN SEMESTA
                 </h3>
+                <span class="btn-outline btn-sm btn-info mr-3">NGAWI</span>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
-                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
                     <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
-                        SURYA PANGAN SEMESTA
+                        Data Antrian
                     </a>
-                    <span class="btn-outline btn-sm btn-info">Site Ngawi</span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Gabah Basah
+                    </a>
                 </div>
             </div>
         </div>
@@ -417,7 +422,7 @@ SURYA PANGAN SEMESTA
     $(function() {
         $('body').on('click', '#btn_panggil_gb', function() {
             var cek = $(this).data('id');
-            console.log(cek);
+            // console.log(cek);
             Swal.fire({
                 title: 'Apakah kamu yakin?',
                 text: "Anda Akan Memanggil Truk Tersebut",
@@ -435,18 +440,29 @@ SURYA PANGAN SEMESTA
                             alert('Something is wrong');
                         },
                         success: function(data) {
-                            Swal.fire({
-                                title: 'success',
-                                text: 'Truk Berhasil Dipanggil',
-                                icon: 'success',
-                                timer: 1500
-                            })
-                            $('#count_antrian').load('#count_antrian')
-                            $('#data_ciherang').DataTable().ajax.reload();
-                            $('#data_pw').DataTable().ajax.reload();
-                            $('#data_kp').DataTable().ajax.reload();
-                            $('#data_pk').DataTable().ajax.reload();
-                            $('#data_longgrain').DataTable().ajax.reload();
+                            // console.log(data);
+                            if (data == 'gagal') {
+                                Swal.fire({
+                                    title: 'Gagal',
+                                    text: 'Truk Gagal Dipanggil',
+                                    icon: 'error',
+                                    timer: 1500
+                                })
+
+                            } else {
+                                Swal.fire({
+                                    title: 'success',
+                                    text: 'Truk Berhasil Dipanggil',
+                                    icon: 'success',
+                                    timer: 1500
+                                })
+                                $('#count_antrian').load('#count_antrian')
+                                $('#data_ciherang').DataTable().ajax.reload();
+                                $('#data_pw').DataTable().ajax.reload();
+                                $('#data_kp').DataTable().ajax.reload();
+                                $('#data_pk').DataTable().ajax.reload();
+                                $('#data_longgrain').DataTable().ajax.reload();
+                            }
                         }
                     });
                 } else {

@@ -1,4 +1,12 @@
 <div class="kt-aside-menu-wrmasterper kt-grid__item kt-grid__item--fluid" id="kt_aside_menu_wrmasterper">
+  <div class="text-center">
+    <a href="{{route('master.home')}}">
+      <img class="img-responsive" alt="iamgurdeeposahan" src="{{asset('logo_sps_ngawi.png')}}" style="width: 150px;">
+    </a>
+  </div>
+  <div class="btn btn-label-primary col-lg-12">
+    <span><b>MENU</b></span>
+  </div>
   <div id="kt_aside_menu" class="kt-aside-menu " data-ktmenu-vertical="1" data-ktmenu-scroll="1">
     <ul class="kt-menu__nav ">
       <li class="kt-menu__item  kt-menu__item--{{ set_active('master/home') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
@@ -8,10 +16,17 @@
         </a>
       </li>
       <li class="kt-menu__section kt-menu__section--first">
-        <h4 class="kt-menu__section-text">MENU USER</h4>
+        <h4 class="kt-menu__section-text">List User</h4>
         <i class="kt-menu__section-icon flaticon-more-v2"></i>
       </li>
-      <li class="kt-menu__item kt-menu__item--submenu kt-menu__item" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+      <li class="kt-menu__item kt-menu__item--submenu {{ Request::is('master/bid*') ? 'kt-menu__item--open' : '' }}
+      {{ Request::is('master/bid*') ? 'kt-menu__item--open' : '' }}
+       {{ Request::is('master/data_sourching_onprocess*') ? 'kt-menu__item--open' : '' }}
+        {{ Request::is('master/data_sourching_deal*') ? 'kt-menu__item--open' : '' }}
+         {{ Request::is('master/data_sourching_nego*') ? 'kt-menu__item--open' : '' }}
+         {{ Request::is('master/data_sourching_output_nego*') ? 'kt-menu__item--open' : '' }}
+          {{ Request::is('master/broadcast*') ? 'kt-menu__item--open' : '' }}
+           {{ Request::is('master/vendor*') ? 'kt-menu__item--open' : '' }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
         <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
           <span class="kt-menu__link-icon">
             <i class="flaticon2-user kt-font-dark"></i>
@@ -28,7 +43,11 @@
                 <span class="kt-menu__link-text">E-Procurement</span>
               </a>
             </li>
-            <li class="kt-menu__item kt-menu__item--submenu kt-menu__item" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+            <li class="kt-menu__item kt-menu__item--submenu 
+            {{ Request::is('master/data_sourching_onprocess*') ? 'kt-menu__item--open' : '' }}
+        {{ Request::is('master/data_sourching_deal*') ? 'kt-menu__item--open' : '' }}
+         {{ Request::is('master/data_sourching_nego*') ? 'kt-menu__item--open' : '' }}
+         {{ Request::is('master/data_sourching_output_nego*') ? 'kt-menu__item--open' : '' }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
               <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
                 <span class="kt-menu__link-icon">
                   <i class="flaticon2-box-1"></i>
@@ -1200,6 +1219,8 @@
           </ul>
         </div>
       </li>
+      @if(Auth::guard('master')->user()->level=='owner')
+      @else
       <li class="kt-menu__section kt-menu__section--first">
         <h4 class="kt-menu__section-text">LOG ACTIVITY</h4>
         <i class="kt-menu__section-icon flaticon-more-v2"></i>
@@ -1268,6 +1289,7 @@
           <span class="kt-menu__link-text">TRACKER PO</span>
         </a>
       </li>
+      @endif
       <li class="kt-menu__section kt-menu__section--first">
         <h4 class="kt-menu__section-text">Akun</h4>
         <i class="kt-menu__section-icon flaticon-more-v2"></i>
@@ -1278,9 +1300,16 @@
           <span class="kt-menu__link-text">Sign Out</span>
         </a>
       </li>
-      <form id="logout-form" action="" method="POST" style="display: none;">
+      <form id="logout-form" action="{{route('master.master_logout')}}" method="POST" style="display: none;">
         {{ csrf_field() }}
       </form>
+      <li class="kt-menu__item text-center" aria-haspopup="true" data-ktmenu-submenu-toggle="hover" style="bottom: 2%; position: fixed; margin-left: -4px; text-align: center;">
+        <div class="kt-menu__link kt-menu__toggle">
+          <span class="kt-menu__link-text">
+            2023&nbsp;&copy;&nbsp;<a href="https://ngawi.suryapangansemesta.store/master/home" target="_blank" class="kt-link">VENDOR PORTAL-NGAWI</a>
+          </span>
+        </div>
+      </li>
     </ul>
   </div>
 </div>

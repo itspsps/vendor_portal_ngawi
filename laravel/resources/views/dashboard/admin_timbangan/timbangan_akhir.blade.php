@@ -9,17 +9,16 @@ SURYA PANGAN SEMESTA
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
                 <h3 class="kt-subheader__title">
-                    E-PROCUREMENT
+                    PT. SURYA PANGAN SEMESTA
                 </h3>
+                <span class="btn-outline btn-sm btn-info mr-3">NGAWI</span>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
-                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
                     <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
-                        SURYA PANGAN SEMESTA
+                        Timbangan Keluar
                     </a>
-                    <span class="btn-outline btn-sm btn-info">Site Ngawi</span>
-
                 </div>
             </div>
         </div>
@@ -203,7 +202,8 @@ SURYA PANGAN SEMESTA
                     <div class="form-group">
                         <div class="">
                             <label>Tonase Awal (Kg)</label>
-                            <input name="tonase_awal" id="tonase_awal" readonly required type="number" class="form-control m-input">
+                            <input name="tonase_awal" id="tonase_awal" required type="text" class="form-control m-input">
+                            <span class="btn btn-label-info btn-sm "><i class="flaticon2-information"></i> Edit Tonase Awal Jika Ada Yang Salah</span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -521,6 +521,7 @@ SURYA PANGAN SEMESTA
         $(document).on('click', '#btn_save', function(e) {
             e.preventDefault();
             var tonase_akhir = replace_titik($('#tonase_akhir').val());
+            var tonase_awal = replace_titik($('#tonase_awal').val());
             var id_penerimaan_po = $('#id_penerimaan_po').val();
             var penerimaan_kode_po = $('#penerimaan_kode_po').val();
             var penerima_tonase_akhir = $('#penerima_tonase_akhir').val();
@@ -568,6 +569,7 @@ SURYA PANGAN SEMESTA
                                 $.ajax({
                                     data: {
                                         "_token": "{{ csrf_token() }}",
+                                        tonase_awal: tonase_awal,
                                         tonase_akhir: tonase_akhir,
                                         id_penerimaan_po: id_penerimaan_po,
                                         id_lab2: id_lab2,
@@ -679,6 +681,11 @@ SURYA PANGAN SEMESTA
                 }
             });
         });
+        $(document).on('keyup', '#tonase_awal', function(e) {
+            var data = $(this).val();
+            var hasil = formatRupiah(data, "Rp. ");
+            $(this).val(hasil);
+        });
         $(document).on('keyup', '#tonase_akhir', function(e) {
             var data = $(this).val();
             var hasil = formatRupiah(data, "Rp. ");
@@ -770,11 +777,11 @@ SURYA PANGAN SEMESTA
             tp.value == '' || tp.value == 'NULL' ||
             md.value == '' || md.value == 'NULL' ||
             broken_setelah_bongkar.value == '' || broken_setelah_bongkar.value == 'NULL') {
-            var perhitungan_hasil_akhir_tonase = tonase_awal.value - replace_titik(tonase_akhir.value);
+            var perhitungan_hasil_akhir_tonase = replace_titik(tonase_awal.value) - replace_titik(tonase_akhir.value);
             hasil_akhir_tonase.value = round(perhitungan_hasil_akhir_tonase);
         } else {
             var hasil = "0";
-            var perhitungan_hasil_akhir_tonase = tonase_awal.value - replace_titik(tonase_akhir.value);
+            var perhitungan_hasil_akhir_tonase = replace_titik(tonase_awal.value) - replace_titik(tonase_akhir.value);
             hasil_akhir_tonase.value = round(perhitungan_hasil_akhir_tonase);
             var berat_tonase = hasil_akhir_tonase.value;
             var id_penerimaan = id_penerimaan_po.value;
@@ -986,7 +993,11 @@ SURYA PANGAN SEMESTA
         }
     }
     var typingTimer; //timer identifier
-    var doneTypingInterval = 1000;
+    var doneTypingInterval = 2000;
+    tonase_awal.addEventListener('keyup', function(e) {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(rumus, doneTypingInterval);
+    });
     tonase_akhir.addEventListener('keyup', function(e) {
         clearTimeout(typingTimer);
         typingTimer = setTimeout(rumus, doneTypingInterval);

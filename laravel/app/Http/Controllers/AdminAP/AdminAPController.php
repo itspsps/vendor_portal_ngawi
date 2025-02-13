@@ -352,6 +352,14 @@ class AdminAPController extends Controller
                 $result = tonase($list->tonase_akhir);
                 return $result;
             })
+            ->addColumn('tanggal_receipt', function ($list) {
+                if ($list->tanggal_bongkar == NULL) {
+                    return '<span class="btn btn-label-primary btn-sm"><b>-</b></span>';
+                } else {
+                    $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                    return '<span class="btn btn-label-primary btn-sm"><b>' . $result . '</b></span>';
+                }
+            })
             ->addColumn('hasil_akhir_tonase', function ($list) {
                 $result = tonase($list->hasil_akhir_tonase);
                 return $result;
@@ -366,9 +374,14 @@ class AdminAPController extends Controller
                 return $data;
             })
             ->addColumn('ckelola', function ($list) {
+                if ($list->tanggal_bongkar == NULL) {
+                    $tanggal_bongkar = '-';
+                } else {
+                    $tanggal_bongkar = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                }
                 if ($list->analisa == NULL) {
                     return
-                        '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#modal2" title="Verifikasi Data" class="to_show btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                        '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-tgl_po="' . \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y') . '" data-kode_po="' . $list->penerimaan_kode_po . '" data-tgl_receipt="' . $tanggal_bongkar . '" data-toggle="modal" data-target="#modal2" title="Verifikasi Data" class="to_show btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                     <i class="fa fa-spinner"></i>Verifikasi
                     </a>';
                 } else if ($list->analisa == 'verified') {
@@ -399,7 +412,7 @@ class AdminAPController extends Controller
                     </span>';
                 }
             })
-            ->rawColumns(['site', 'kode_po', 'antrian', 'keterangan_analisa', 'nama_vendor', 'tanggal_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'harga_akhir', 'ckelola'])
+            ->rawColumns(['site', 'kode_po', 'antrian', 'tanggal_receipt', 'keterangan_analisa', 'nama_vendor', 'tanggal_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'harga_akhir', 'ckelola'])
             ->make(true);
     }
     public function data_pembelian_gb_longgrain_index()
@@ -435,7 +448,7 @@ class AdminAPController extends Controller
             })
             ->addColumn('tanggal_po', function ($list) {
                 $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
-                return $result;
+                return '<span class="btn btn-label-primary btn-sm"><b>' . $result . '</b></span>';
             })
             ->addColumn('plat_kendaraan', function ($list) {
                 $result = $list->plat_kendaraan;
@@ -453,6 +466,14 @@ class AdminAPController extends Controller
                 $result = tonase($list->hasil_akhir_tonase);
                 return $result;
             })
+            ->addColumn('tanggal_receipt', function ($list) {
+                if ($list->tanggal_bongkar == NULL) {
+                    return '<span class="btn btn-label-primary btn-sm"><b>-</b></span>';
+                } else {
+                    $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                    return '<span class="btn btn-label-primary btn-sm"><b>' . $result . '</b></span>';
+                }
+            })
             ->addColumn('harga_akhir', function ($list) {
                 $result = $list->harga_akhir_permintaan_gb;
                 if ($result == '' || $result == null) {
@@ -463,9 +484,14 @@ class AdminAPController extends Controller
                 return $data;
             })
             ->addColumn('ckelola', function ($list) {
+                if ($list->tanggal_bongkar == NULL) {
+                    $tanggal_bongkar = '-';
+                } else {
+                    $tanggal_bongkar = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                }
                 if ($list->analisa == NULL) {
                     return
-                        '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#modal_verifikasi" title="Verifikasi Data" class="to_show btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                        '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-tgl_po="' . \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y') . '" data-kode_po="' . $list->penerimaan_kode_po . '" data-tgl_receipt="' . $tanggal_bongkar . '" data-toggle="modal" data-target="#modal_verifikasi" title="Verifikasi Data" class="to_show btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                     <i class="fa fa-spinner"></i>Verifikasi
                     </a>';
                 } else if ($list->analisa == 'verified') {
@@ -496,7 +522,7 @@ class AdminAPController extends Controller
                     </span>';
                 }
             })
-            ->rawColumns(['site', 'kode_po', 'antrian', 'keterangan_analisa', 'nama_vendor', 'tanggal_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'harga_akhir', 'ckelola'])
+            ->rawColumns(['site', 'kode_po', 'tanggal_receipt', 'antrian', 'keterangan_analisa', 'nama_vendor', 'tanggal_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'harga_akhir', 'ckelola'])
             ->make(true);
     }
     public function data_pembelian_gb_longgrain1_index()
@@ -545,7 +571,7 @@ class AdminAPController extends Controller
             })
             ->addColumn('tanggal_po', function ($list) {
                 $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
-                return $result;
+                return '<span class="btn btn-label-primary btn-sm"><b>' . $result . '</b></span>';
             })
             ->addColumn('plat_kendaraan', function ($list) {
                 $result = $list->plat_kendaraan;
@@ -563,6 +589,14 @@ class AdminAPController extends Controller
                 $result = tonase($list->hasil_akhir_tonase);
                 return $result;
             })
+            ->addColumn('tanggal_receipt', function ($list) {
+                if ($list->tanggal_bongkar == NULL) {
+                    return '<span class="btn btn-label-primary btn-sm"><b>-</b></span>';
+                } else {
+                    $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                    return '<span class="btn btn-label-primary btn-sm"><b>' . $result . '</b></span>';
+                }
+            })
             ->addColumn('harga_akhir', function ($list) {
                 $result = $list->harga_akhir_permintaan_gb;
                 if ($result == '' || $result == null) {
@@ -573,14 +607,19 @@ class AdminAPController extends Controller
                 return $data;
             })
             ->addColumn('ckelola', function ($list) {
+                if ($list->tanggal_bongkar == NULL) {
+                    $tanggal_bongkar = '-';
+                } else {
+                    $tanggal_bongkar = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                }
                 if ($list->analisa == NULL) {
                     return
-                        '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#modal_verifikasi" title="Verifikasi Data" class="to_show btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                        '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-tgl_po="' . \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y') . '" data-kode_po="' . $list->penerimaan_kode_po . '" data-tgl_receipt="' . $tanggal_bongkar . '" data-toggle="modal" data-target="#modal_verifikasi" title="Verifikasi Data" class="to_show btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                         <i class="fa fa-spinner">&nbsp;Verifikasi</i>
                     </a>';
                 } else if ($list->analisa == 'verified') {
                     return
-                        '<a style="margin:2px;" title="Data Verified" class="btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                        '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-tgl_po="' . \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y') . '" data-kode_po="' . $list->penerimaan_kode_po . '" data-tgl_receipt="' . $tanggal_bongkar . '"  title="Data Verified" data-toggle="modal" data-target="#modal_verifikasi" class="to_show btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                     <i class="fa fa-check">&nbsp;Verified</i>
                     </a>';
                 } else if ($list->analisa == 'revisi') {
@@ -606,7 +645,7 @@ class AdminAPController extends Controller
                     </span>';
                 }
             })
-            ->rawColumns(['site', 'kode_po', 'antrian', 'keterangan_analisa', 'nama_vendor', 'tanggal_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'harga_akhir', 'ckelola'])
+            ->rawColumns(['site', 'kode_po', 'antrian', 'tanggal_receipt', 'keterangan_analisa', 'nama_vendor', 'tanggal_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'harga_akhir', 'ckelola'])
             ->make(true);
     }
     public function getcount_verifikasi()
@@ -622,18 +661,18 @@ class AdminAPController extends Controller
             ->where('penerimaan_po.analisa', NULL)
             ->orderby('id_penerimaan_po', 'desc')
             ->count();
-            $data_verified = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
-                ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
-                ->where('bid.name_bid', '=', 'GABAH BASAH LONG GRAIN')
-                ->where('data_po.status_bid', '=', 13)
-                ->where('lab2_gb.aksi_harga_gb', '=', 'DEAL')
-                ->where('penerimaan_po.analisa', 'verified')
-                ->orderby('id_penerimaan_po', 'desc')
-                ->count();
-        return json_encode(['data_verifikasi'=>$data_verifikasi,'data_verified'=>$data_verified]);
+        $data_verified = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+            ->join('users', 'users.id', '=', 'data_po.user_idbid')
+            ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
+            ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
+            ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
+            ->where('bid.name_bid', '=', 'GABAH BASAH LONG GRAIN')
+            ->where('data_po.status_bid', '=', 13)
+            ->where('lab2_gb.aksi_harga_gb', '=', 'DEAL')
+            ->where('penerimaan_po.analisa', 'verified')
+            ->orderby('id_penerimaan_po', 'desc')
+            ->count();
+        return json_encode(['data_verifikasi' => $data_verifikasi, 'data_verified' => $data_verified]);
     }
 
     public function data_pembelian_gb_ketan_putih_index()
@@ -668,7 +707,7 @@ class AdminAPController extends Controller
             })
             ->addColumn('tanggal_po', function ($list) {
                 $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
-                return $result;
+                return '<span class="btn btn-label-primary btn-sm"><b>' . $result . '</b></span>';
             })
             ->addColumn('plat_kendaraan', function ($list) {
                 $result = $list->plat_kendaraan;
@@ -681,6 +720,14 @@ class AdminAPController extends Controller
             ->addColumn('tonase_akhir', function ($list) {
                 $result = tonase($list->tonase_akhir);
                 return $result;
+            })
+            ->addColumn('tanggal_receipt', function ($list) {
+                if ($list->tanggal_bongkar == NULL) {
+                    return '<span class="btn btn-label-primary btn-sm"><b>-</b></span>';
+                } else {
+                    $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                    return '<span class="btn btn-label-primary btn-sm"><b>' . $result . '</b></span>';
+                }
             })
             ->addColumn('hasil_akhir_tonase', function ($list) {
                 $result = tonase($list->hasil_akhir_tonase);
@@ -696,9 +743,14 @@ class AdminAPController extends Controller
                 return $data;
             })
             ->addColumn('ckelola', function ($list) {
+                if ($list->tanggal_bongkar == NULL) {
+                    $tanggal_bongkar = '-';
+                } else {
+                    $tanggal_bongkar = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                }
                 if ($list->analisa == NULL) {
                     return
-                        '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#modal_verifikasi" title="Verifikasi Data" class="to_show btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                        '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-tgl_po="' . \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y') . '" data-kode_po="' . $list->penerimaan_kode_po . '" data-tgl_receipt="' . $tanggal_bongkar . '" data-toggle="modal" data-target="#modal_verifikasi" title="Verifikasi Data" class="to_show btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                         <i class="fa fa-spinner">&nbsp;Verifikasi</i>
                     </a>';
                 } else if ($list->analisa == 'verified') {
@@ -729,7 +781,7 @@ class AdminAPController extends Controller
                     </span>';
                 }
             })
-            ->rawColumns(['site', 'kode_po', 'antrian', 'keterangan_analisa', 'nama_vendor', 'tanggal_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'harga_akhir', 'ckelola'])
+            ->rawColumns(['site', 'kode_po', 'tanggal_receipt', 'antrian', 'keterangan_analisa', 'nama_vendor', 'tanggal_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'harga_akhir', 'ckelola'])
             ->make(true);
     }
     public function data_pembelian_pk_index()
@@ -799,9 +851,14 @@ class AdminAPController extends Controller
                 return $result;
             })
             ->addColumn('ckelola', function ($list) {
+                if ($list->tanggal_bongkar == NULL) {
+                    $tanggal_bongkar = '-';
+                } else {
+                    $tanggal_bongkar = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                }
                 if ($list->status_penerimaan == 13) {
                     return
-                        '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#modal2" title="Edit Data" class="to_show btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                        '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-tgl_po="' . \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y') . '" data-kode_po="' . $list->penerimaan_kode_po . '" data-tgl_receipt="' . $tanggal_bongkar . '" data-toggle="modal" data-target="#modal2" title="Edit Data" class="to_show btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                             Verifikasi
                         </a>';
                 }
@@ -812,7 +869,10 @@ class AdminAPController extends Controller
 
     public function data_pembelian_show($id)
     {
-        $data = PenerimaanPO::where('id_penerimaan_po', $id)->first();
+        $data = PenerimaanPO::join('data_po', 'data_po.id_data_po', 'penerimaan_po.penerimaan_id_data_po')
+            ->where('penerimaan_po.id_penerimaan_po', $id)
+            ->select('penerimaan_po.*', 'data_po.tanggal_po')
+            ->first();
         return json_encode($data);
     }
 
@@ -837,15 +897,18 @@ class AdminAPController extends Controller
             $log->save();
 
             $po = trackerPO::where('kode_po_tracker', $data->penerimaan_kode_po)->first();
-            $po->nama_admin_tracker  = Auth::guard('ap')->user()->name_ap;
-            $po->pengajuan_revisi_ap_tracker  = date('Y-m-d H:i:s');
-            $po->verifikasi_ap_tracker  = NULL;
-            $po->approve_revisi_spvap_tracker  = NULL;
-            $po->approve_tolak_revisi_spvap_tracker  = NULL;
-            $po->revisi_po_tracker  = NULL;
-            $po->tolak_approve_spvap_tracker  = NULL;
-            $po->proses_tracker  = 'PENGAJUAN REVISI PO';
-            $po->update();
+            if ($po == NULL) {
+            } else {
+                $po->nama_admin_tracker  = Auth::guard('ap')->user()->name_ap;
+                $po->pengajuan_revisi_ap_tracker  = date('Y-m-d H:i:s');
+                $po->verifikasi_ap_tracker  = NULL;
+                $po->approve_revisi_spvap_tracker  = NULL;
+                $po->approve_tolak_revisi_spvap_tracker  = NULL;
+                $po->revisi_po_tracker  = NULL;
+                $po->tolak_approve_spvap_tracker  = NULL;
+                $po->proses_tracker  = 'PENGAJUAN REVISI PO';
+                $po->update();
+            }
 
             //tambah notifikasi
             $notif                  = new NotifSpvap();
@@ -873,15 +936,18 @@ class AdminAPController extends Controller
             $log->save();
 
             $po = trackerPO::where('kode_po_tracker', $data->penerimaan_kode_po)->first();
-            $po->nama_admin_tracker  = Auth::guard('ap')->user()->name_ap;
-            $po->verifikasi_ap_tracker  = date('Y-m-d H:i:s');
-            $po->proses_tracker  = 'VERIFIKASI PO';
-            $po->approve_revisi_spvap_tracker  = NULL;
-            $po->pengajuan_revisi_ap_tracker  = NULL;
-            $po->approve_tolak_revisi_spvap_tracker  = NULL;
-            $po->revisi_po_tracker  = NULL;
-            $po->tolak_approve_spvap_tracker  = NULL;
-            $po->update();
+            if ($po == NULL) {
+            } else {
+                $po->nama_admin_tracker  = Auth::guard('ap')->user()->name_ap;
+                $po->verifikasi_ap_tracker  = date('Y-m-d H:i:s');
+                $po->proses_tracker  = 'VERIFIKASI PO';
+                $po->approve_revisi_spvap_tracker  = NULL;
+                $po->pengajuan_revisi_ap_tracker  = NULL;
+                $po->approve_tolak_revisi_spvap_tracker  = NULL;
+                $po->revisi_po_tracker  = NULL;
+                $po->tolak_approve_spvap_tracker  = NULL;
+                $po->update();
+            }
             //tambah notifikasi
             $notif                  = new NotifSpvap();
             $notif->judul           = "Ada PO Verified";
@@ -988,7 +1054,7 @@ class AdminAPController extends Controller
             ->addColumn('pengerjaan', function ($list) {
                 if ($list->status_revisi == '1') {
                     return
-                        '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#modal_verifikasi" title="Verifikasi Data" class="to_show btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                        '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-tgl_po="' . \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y') . '" data-kode_po="' . $list->penerimaan_kode_po . '" data-tgl_receipt="' . \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y') . '" data-toggle="modal" data-target="#modal_verifikasi" title="Verifikasi Data" class="to_show btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-check">&nbsp;Sudah&nbsp;Direvisi</i>
                         </a>';
                 } else if ($list->status_revisi == '0') {
@@ -1060,12 +1126,12 @@ class AdminAPController extends Controller
             ->addColumn('ckelola', function ($list) {
                 if ($list->status_analisa == 1) {
                     return
-                        '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#modal2" title="Edit Data" class="to_show btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                        '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-tgl_po="' . \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y') . '" data-kode_po="' . $list->penerimaan_kode_po . '" data-tgl_receipt="' . \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y') . '" data-toggle="modal" data-target="#modal2" title="Edit Data" class="to_show btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                             Sudah&nbsp;Direvisi
                         </a>';
                 } else {
                     return
-                        '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#modal2" title="Edit Data" class="to_show btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                        '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-tgl_po="' . \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y') . '" data-kode_po="' . $list->penerimaan_kode_po . '" data-tgl_receipt="' . \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y') . '" data-toggle="modal" data-target="#modal2" title="Edit Data" class="to_show btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                             Proses&nbsp;Revisi
                         </a>';
                 }
@@ -1207,7 +1273,7 @@ class AdminAPController extends Controller
                         </a>';
                 } else {
                     return
-                        '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '"  title="Terima Data" class="to_show btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                        '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-tgl_po="' . \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y') . '" data-kode_po="' . $list->penerimaan_kode_po . '" data-tgl_receipt="' . \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y') . '" title="Terima Data" class="to_show btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                             Diterima Epicor
                         </a>';
                 }
@@ -1247,8 +1313,27 @@ class AdminAPController extends Controller
     }
     public function get_notifikasiap()
     {
-        $data = NotifAp::where('status', 0)->get();
+        $data = NotifAp::where('status', 0)->orderBy('id_notif', 'DESC')->limit(10)->get();
         return json_encode($data);
+    }
+    public function get_notif_ap_all()
+    {
+        return view('dashboard.admin_ap.notifikasi.notifikasi');
+    }
+    public function get_notif_ap_all_index()
+    {
+        return Datatables::of(NotifAp::where('status', 0)->orderBy('id_notif', 'DESC')->get())
+            ->addColumn('keterangan', function ($list) {
+                $result = $list->keterangan;
+                return $result;
+            })
+            ->addColumn('created_at', function ($list) {
+                $result_date = \Carbon\Carbon::parse($list->created_at)->isoFormat('DD-MM-Y');
+                $result_time = \Carbon\Carbon::parse($list->created_at)->isoFormat('HH:mm:ss ');
+                $result = $result_date . '<br><span class="btn btn-sm btn-label-primary">' . $result_time . ' WIB</span>';
+                return $result;
+            })->rawColumns(['keterangan', 'created_at'])
+            ->make(true);
     }
     public function get_countnotifikasiap()
     {
@@ -1271,7 +1356,15 @@ class AdminAPController extends Controller
     public function new_notifikasiap()
     {
         $data = NotifAp::where('notifbaru', 0)->get();
-        NotifAp::where('notifbaru', 0)->update(['notifbaru' => 1]);
-        return json_encode($data);
+        if ($data == '' || $data == NULL) {
+            return 'kosong';
+        } else {
+
+            $title = $data->judul;
+            $keterangan = $data->keterangan;
+            NotifAp::where('notifbaru', 0)->update(['notifbaru' => 1]);
+            $result = ['data' => $data, 'title' => $title, 'keterangan' => $keterangan];
+            return response()->json($result);
+        }
     }
 }

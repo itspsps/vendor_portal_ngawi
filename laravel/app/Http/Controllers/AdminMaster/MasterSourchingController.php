@@ -47,12 +47,14 @@ class MasterSourchingController extends Controller
                         return $result;
                     })
                     ->addColumn('start_pengajuan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->date_bid)->isoFormat('DD-MM-Y hh:mm:ss');
-                        return $result;
+                        $result = \Carbon\Carbon::parse($list->date_bid)->isoFormat('DD-MM-Y');
+                        $result_time = \Carbon\Carbon::parse($list->date_bid)->isoFormat('hh:mm:ss');
+                        return $result . '<span class="btn btn-sm btn-label-success"><b>' . $result_time . '</b></span>';
                     })
                     ->addColumn('close_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->batas_bid)->isoFormat('DD-MM-Y HH:mm:ss');
-                        return $result;
+                        $result = \Carbon\Carbon::parse($list->batas_bid)->isoFormat('DD-MM-Y');
+                        $result_time = \Carbon\Carbon::parse($list->batas_bid)->isoFormat('HH:mm:ss');
+                        return $result . '<span class="btn btn-sm btn-label-danger"><b>' . $result_time . '</b></span>';
                     })
                     ->addColumn('kuota', function ($list) {
                         $result = $list->jumlah;
@@ -199,12 +201,14 @@ class MasterSourchingController extends Controller
                         return $result;
                     })
                     ->addColumn('start_pengajuan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->date_bid)->isoFormat('DD-MM-Y hh:mm:ss');
-                        return $result;
+                        $result = \Carbon\Carbon::parse($list->date_bid)->isoFormat('DD-MM-Y');
+                        $result_time = \Carbon\Carbon::parse($list->date_bid)->isoFormat('hh:mm:ss');
+                        return $result . '<span class="btn btn-sm btn-label-success"><b>' . $result_time . '</b></span>';
                     })
                     ->addColumn('close_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->batas_bid)->isoFormat('DD-MM-Y HH:mm:ss');
-                        return $result;
+                        $result = \Carbon\Carbon::parse($list->batas_bid)->isoFormat('DD-MM-Y');
+                        $result_time = \Carbon\Carbon::parse($list->batas_bid)->isoFormat('HH:mm:ss');
+                        return $result . '<span class="btn btn-sm btn-label-danger"><b>' . $result_time . '</b></span>';
                     })
                     ->addColumn('kuota', function ($list) {
                         $result = $list->jumlah;

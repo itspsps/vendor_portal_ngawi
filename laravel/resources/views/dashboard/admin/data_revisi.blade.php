@@ -9,16 +9,16 @@ SURYA PANGAN SEMESTA
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
                 <h3 class="kt-subheader__title">
-                    E-PROCUREMENT
+                    PT. SURYA PANGAN SEMESTA
                 </h3>
+                <span class="btn-outline btn-sm btn-info mr-3">NGAWI</span>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
-                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
                     <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
-                        SURYA PANGAN SEMESTA
+                        Data Revisi
                     </a>
-                    <span class="btn-outline btn-sm btn-info">Site Ngawi</span>
                 </div>
             </div>
         </div>
@@ -44,8 +44,10 @@ SURYA PANGAN SEMESTA
                                 <th style="text-align: center">No</th>
                                 <!--<th style="text-align: center;width:auto">Supplier</th>-->
                                 <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
+                                <th style="text-align: center;width:auto">Nama&nbsp;Vendor</th>
                                 <th style="text-align: center;width:auto">Jam&nbsp;Kedatangan</th>
                                 <th style="text-align: center;width:auto">Tanggal&nbsp;PO </th>
+                                <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkar </th>
                                 <th style="text-align: center;width:auto">Keterangan&nbsp;Revisi</th>
                                 <th style="text-align: center;width:auto">Nopol</th>
                             </tr>
@@ -122,10 +124,16 @@ SURYA PANGAN SEMESTA
                     data: 'kode_po'
                 },
                 {
+                    data: 'nama_vendor'
+                },
+                {
                     data: 'waktu_penerimaan'
                 },
                 {
                     data: 'tanggal_po'
+                },
+                {
+                    data: 'tanggal_bongkar'
                 },
                 {
                     data: 'keterangan_analisa'

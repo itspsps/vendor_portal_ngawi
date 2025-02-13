@@ -9,16 +9,26 @@ SURYA PANGAN SEMESTA
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
                 <h3 class="kt-subheader__title">
-                    E-PROCUREMENT
+                    PT. SURYA PANGAN SEMESTA
                 </h3>
+                <span class="btn-outline btn-sm btn-info mr-3">NGAWI</span>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
-                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
                     <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
-                        SURYA PANGAN SEMESTA
+                        Hasil Lab(Incoming)
                     </a>
-                    <span class="btn-outline btn-sm btn-info">Site Ngawi</span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Reject
+                    </a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Gabah Basah
+                    </a>
                 </div>
             </div>
         </div>
@@ -76,6 +86,7 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
                                         <th style="text-align: center;width:auto">Tanggal&nbsp;PO</th>
+                                        <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkaran</th>
                                         <th style="text-align: center;width:auto">Sampai&nbsp;Disatpam</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Asal</th>
@@ -126,6 +137,7 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
                                         <th style="text-align: center;width:auto">Tanggal&nbsp;PO</th>
+                                        <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkaran</th>
                                         <th style="text-align: center;width:auto">Sampai&nbsp;Disatpam</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Asal</th>
@@ -176,6 +188,7 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
                                         <th style="text-align: center;width:auto">Tanggal&nbsp;PO</th>
+                                        <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkaran</th>
                                         <th style="text-align: center;width:auto">Sampai&nbsp;Disatpam</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Asal</th>
@@ -330,10 +343,13 @@ SURYA PANGAN SEMESTA
                         data: 'kode_po'
                     },
                     {
-                        data: 'waktu_penerimaan'
+                        data: 'tanggal_po'
                     },
                     {
-                        data: 'tanggal_po'
+                        data: 'tanggal_bongkar'
+                    },
+                    {
+                        data: 'waktu_penerimaan'
                     },
                     {
                         data: 'plat_kendaraan'
@@ -483,10 +499,13 @@ SURYA PANGAN SEMESTA
                         data: 'kode_po'
                     },
                     {
-                        data: 'waktu_penerimaan'
+                        data: 'tanggal_po'
                     },
                     {
-                        data: 'tanggal_po'
+                        data: 'tanggal_bongkar'
+                    },
+                    {
+                        data: 'waktu_penerimaan'
                     },
                     {
                         data: 'plat_kendaraan'
@@ -636,10 +655,13 @@ SURYA PANGAN SEMESTA
                         data: 'kode_po'
                     },
                     {
-                        data: 'waktu_penerimaan'
+                        data: 'tanggal_po'
                     },
                     {
-                        data: 'tanggal_po'
+                        data: 'tanggal_bongkar'
+                    },
+                    {
+                        data: 'waktu_penerimaan'
                     },
                     {
                         data: 'plat_kendaraan'

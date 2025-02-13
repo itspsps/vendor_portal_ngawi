@@ -1,10 +1,14 @@
 <div class="kt-aside-menu-wrapper kt-grid__item kt-grid__item--fluid" id="kt_aside_menu_wrapper">
+	<div class="text-center">
+		<a href="{{route('sourching.home')}}">
+			<img class="img-responsive" alt="iamgurdeeposahan" src="{{asset('logo_sps_ngawi.png')}}" style="width: 150px;">
+		</a>
+	</div>
+	<div class="btn btn-label-primary col-lg-12">
+		<span><b>MENU</b></span>
+	</div>
 	<div id="kt_aside_menu" class="kt-aside-menu " data-ktmenu-vertical="1" data-ktmenu-scroll="1">
 		<ul class="kt-menu__nav ">
-			<li class="kt-menu__section kt-menu__section--first">
-				<h4 class="kt-menu__section-text">Master</h4>
-				<i class="kt-menu__section-icon flaticon-more-v2"></i>
-			</li>
 			<li class="kt-menu__item  kt-menu__item--{{set_active('sourching/home')}}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
 				<a href="{{route('sourching.home')}}" class="kt-menu__link kt-menu__toggle">
 					<i class="kt-menu__link-icon fa fa-home"></i>
@@ -12,7 +16,7 @@
 				</a>
 			</li>
 			@if(Auth::guard('sourching')->user()->level=='ADMIN')
-			<li class="kt-menu__item  kt-menu__item--{{set_active('sourching/bid')}}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+			<li class="kt-menu__item  kt-menu__item--{{set_active('sourching/bid')}} kt-menu__item--{{set_active('sourching/list_approve_po/*')}}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
 				<a href="{{ url('sourching/bid') }}" class="kt-menu__link kt-menu__toggle">
 					<i class="kt-menu__link-icon   flaticon2-list kt-font-primary"></i>
 					<span class="kt-menu__link-text">E-Procurement</span>
@@ -38,10 +42,6 @@
 					</ul>
 				</div>
 			</li>
-			<li class="kt-menu__section kt-menu__section--first">
-				<h4 class="kt-menu__section-text">Breaking News</h4>
-				<i class="kt-menu__section-icon flaticon-more-v2"></i>
-			</li>
 			<li class="kt-menu__item  kt-menu__item--{{set_active('sourching/news')}}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
 				<a href="{{route('sourching.news')}}" class="kt-menu__link kt-menu__toggle">
 					<i class="kt-menu__link-icon flaticon2-paper kt-font-info"></i>
@@ -53,10 +53,6 @@
 					<i class="kt-menu__link-icon flaticon2-analytics-2 kt-font-success"></i>
 					<span class="kt-menu__link-text">Populer</span>
 				</a>
-			</li>
-			<li class="kt-menu__section kt-menu__section--first">
-				<h4 class="kt-menu__section-text">Config</h4>
-				<i class="kt-menu__section-icon flaticon-more-v2"></i>
 			</li>
 			<li class="kt-menu__item  kt-menu__item--{{set_active('sourching/broadcast')}}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
 				<a href="{{route('sourching.broadcast')}}" class="kt-menu__link kt-menu__toggle">
@@ -131,7 +127,7 @@
 			@endif
 
 
-			<li class="kt-menu__item  kt-menu__item--{{set_active('sourching/vendor')}}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+			<li class="kt-menu__item  kt-menu__item--{{set_active('sourching/vendor')}} kt-menu__item--{{set_active('sourching/vendor/detail*')}}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
 				<a href="{{ route('sourching.vendor') }}" class="kt-menu__link kt-menu__toggle">
 					<i class="kt-menu__link-icon flaticon2-group kt-font-info"></i>
 					<span class="kt-menu__link-text">Data Vendor</span>
@@ -152,6 +148,14 @@
 			<form id="logout-form" action="" method="POST" style="display: none;">
 				{{ csrf_field() }}
 			</form>
+			<li class="kt-menu__item text-center" aria-haspopup="true" data-ktmenu-submenu-toggle="hover" style="bottom: 2%; position: fixed; margin-left: -5px; text-align: center;">
+				<div class="kt-menu__link kt-menu__toggle">
+					<span class="kt-menu__link-text">
+						2023&nbsp;&copy;&nbsp;<a href="https://ngawi.suryapangansemesta.store/sourching/home" target="_blank" class="kt-link">VENDOR PORTAL-NGAWI</a>
+					</span>
+				</div>
+			</li>
 		</ul>
+
 	</div>
 </div>

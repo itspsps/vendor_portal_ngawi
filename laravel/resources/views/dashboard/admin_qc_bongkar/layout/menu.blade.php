@@ -1,10 +1,14 @@
 <div class="kt-aside-menu-wrapper kt-grid__item kt-grid__item--fluid" id="kt_aside_menu_wrapper">
+    <div class="text-center">
+        <a href="{{route('qc.bongkar.home')}}">
+            <img class="img-responsive" alt="iamgurdeeposahan" src="{{asset('logo_sps_ngawi.png')}}" style="width: 150px;">
+        </a>
+    </div>
+    <div class="btn btn-label-primary col-lg-12">
+        <span><b>MENU</b></span>
+    </div>
     <div id="kt_aside_menu" class="kt-aside-menu " data-ktmenu-vertical="1" data-ktmenu-scroll="1">
         <ul class="kt-menu__nav ">
-            <li class="kt-menu__section kt-menu__section--first">
-                <h4 class="kt-menu__section-text">Administrator</h4>
-                <i class="kt-menu__section-icon flaticon-more-v2"></i>
-            </li>
             <li class="kt-menu__item  kt-menu__item--{{ set_active('qc/bongkar/home') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                 <a href="{{ route('qc.bongkar.home') }}" class="kt-menu__link kt-menu__toggle">
                     <i class="kt-menu__link-icon fa fa-home"></i>
@@ -49,13 +53,20 @@
             </li>
             <li class="kt-menu__item " aria-haspopup="true">
                 <a href="" onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="kt-menu__link ">
-                    <i class="kt-menu__link-icon fa flaticon-logout"></i>
+                    <i class="kt-menu__link-icon fa flaticon-logout kt-font-danger"></i>
                     <span class="kt-menu__link-text">Sign Out</span>
                 </a>
             </li>
             <form id="logout-form" action="" method="POST" style="display: none;">
                 {{ csrf_field() }}
             </form>
+            <li class="kt-menu__item text-center" aria-haspopup="true" data-ktmenu-submenu-toggle="hover" style="bottom: 2%; position: fixed; margin-left: -5px; text-align: center;">
+                <div class="kt-menu__link kt-menu__toggle">
+                    <span class="kt-menu__link-text">
+                        2023&nbsp;&copy;&nbsp;<a href="https://ngawi.suryapangansemesta.store/qc/bongkar/home" target="_blank" class="kt-link">VENDOR PORTAL-NGAWI</a>
+                    </span>
+                </div>
+            </li>
         </ul>
     </div>
 </div>

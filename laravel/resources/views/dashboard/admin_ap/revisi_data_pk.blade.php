@@ -9,16 +9,21 @@ SURYA PANGAN SEMESTA
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
                 <h3 class="kt-subheader__title">
-                    E-PROCUREMENT
+                    PT. SURYA PANGAN SEMESTA
                 </h3>
+                <span class="btn-outline btn-sm btn-info mr-3">NGAWI</span>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
-                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                    <a href="{{route('ap.revisi_data_pk')}}" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
-                        SURYA PANGAN SEMESTA
+                    <a href="{{route('ap.revisi_data_pk')}}" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Data Revisi
                     </a>
-                            <span class="btn-outline btn-sm btn-info">Site Ngawi</span>
+                    <a href="{{route('ap.revisi_data_pk')}}" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="{{route('ap.revisi_data_pk')}}" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Beras PK
+                    </a>
                 </div>
             </div>
         </div>
@@ -30,7 +35,7 @@ SURYA PANGAN SEMESTA
                 <div class="kt-portlet__head kt-portlet__head--lg">
                     <div class="kt-portlet__head-label">
                         <span class="kt-portlet__head-icon">
-                        <i class="kt-menu__link-icon  flaticon2-writing kt-font-warning"></i>
+                            <i class="kt-menu__link-icon  flaticon2-writing kt-font-warning"></i>
                         </span>
                         <h3 class="kt-portlet__head-title">
                             Revisi Data
@@ -86,37 +91,37 @@ SURYA PANGAN SEMESTA
                             <div class="form-group">
                                 <div class="">
                                     <label>Analisa</label>
-									<div class="kt-radio-inline">
-										<label class="kt-radio">
-											<input type="radio" value="verified" id="verified" onchange="cekAnalisa(this);" class="form-control m-input" name="analisa"> Verifikasi
-											<span></span>
-										</label>
-										<label class="kt-radio">
-											<input type="radio" value="revisi" id="revisi" onchange="cekAnalisa(this);" class="form-control m-input" name="analisa"> Revisi
-											<span></span>
-										</label>
-									</div>
+                                    <div class="kt-radio-inline">
+                                        <label class="kt-radio">
+                                            <input type="radio" value="verified" id="verified" onchange="cekAnalisa(this);" class="form-control m-input" name="analisa"> Verifikasi
+                                            <span></span>
+                                        </label>
+                                        <label class="kt-radio">
+                                            <input type="radio" value="revisi" id="revisi" onchange="cekAnalisa(this);" class="form-control m-input" name="analisa"> Revisi
+                                            <span></span>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group" id="idAdmin" style="display: none;">
                                 <div class="">
                                     <label>Nama Admin</label>
-									<div class="kt-radio-inline">
-										<label class="kt-radio">
-											<input type="radio" value="1" id="satpam" onchange="cekAdmin(this);" class="form-control m-input" name="namaadmin"> Admin Satpam
-											<span></span>
-										</label></br>
-										<label class="kt-radio">
-											<input type="radio" value="2" id="timbangan" onchange="cekAdmin(this);" class="form-control m-input" name="namaadmin"> Admin Timbangan
-											<span></span>
-										</label>
-									</div>
+                                    <div class="kt-radio-inline">
+                                        <label class="kt-radio">
+                                            <input type="radio" value="1" id="satpam" onchange="cekAdmin(this);" class="form-control m-input" name="namaadmin"> Admin Satpam
+                                            <span></span>
+                                        </label></br>
+                                        <label class="kt-radio">
+                                            <input type="radio" value="2" id="timbangan" onchange="cekAdmin(this);" class="form-control m-input" name="namaadmin"> Admin Timbangan
+                                            <span></span>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group" id="form_keterangan" style="display: none;">
                                 <div class="">
                                     <label>Keterangan</label>
-                                    <textarea  class="form-control" id="keterangan_analisa" name="keterangan_analisa"></textarea>
+                                    <textarea class="form-control" id="keterangan_analisa" name="keterangan_analisa"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -155,18 +160,42 @@ SURYA PANGAN SEMESTA
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }
                 },
-                {data: 'site_admin'},
-                {data: 'kode_po'},
-                {data: 'nama_vendor'},
-                {data: 'tanggal_po'},
-                {data: 'plat_kendaraan'},
-                {data: 'tonase_awal'},
-                {data: 'tonase_akhir'},
-                {data: 'hasil_akhir_tonase'},
-                {data: 'harga_akhir'},
-                {data: 'nama_admin'},
-                {data: 'keterangan_analisa'},
-                {data: 'ckelola'},
+                {
+                    data: 'site_admin'
+                },
+                {
+                    data: 'kode_po'
+                },
+                {
+                    data: 'nama_vendor'
+                },
+                {
+                    data: 'tanggal_po'
+                },
+                {
+                    data: 'plat_kendaraan'
+                },
+                {
+                    data: 'tonase_awal'
+                },
+                {
+                    data: 'tonase_akhir'
+                },
+                {
+                    data: 'hasil_akhir_tonase'
+                },
+                {
+                    data: 'harga_akhir'
+                },
+                {
+                    data: 'nama_admin'
+                },
+                {
+                    data: 'keterangan_analisa'
+                },
+                {
+                    data: 'ckelola'
+                },
 
             ],
             "order": []
@@ -174,24 +203,24 @@ SURYA PANGAN SEMESTA
     });
 </script>
 <script type="text/javascript">
-        function cekAnalisa(that) {
-            if (that.value == "revisi") {
-                document.getElementById("form_keterangan").style.display = "block";  
-                document.getElementById("idAdmin").style.display = "block";
-            } else {
-                document.getElementById("idAdmin").style.display = "none";
-                document.getElementById("form_keterangan").style.display = "none";
-            }
+    function cekAnalisa(that) {
+        if (that.value == "revisi") {
+            document.getElementById("form_keterangan").style.display = "block";
+            document.getElementById("idAdmin").style.display = "block";
+        } else {
+            document.getElementById("idAdmin").style.display = "none";
+            document.getElementById("form_keterangan").style.display = "none";
         }
-        
-        function cekAdmin(that) {
-            if (that.value == "1") {
-                $('textarea[id=keterangan_analisa]').val('Nopol Tidak Sesuai'); 
-            } else  {
-               $('textarea[id=keterangan_analisa]').val(''); 
-            }
+    }
+
+    function cekAdmin(that) {
+        if (that.value == "1") {
+            $('textarea[id=keterangan_analisa]').val('Nopol Tidak Sesuai');
+        } else {
+            $('textarea[id=keterangan_analisa]').val('');
         }
-    </script>
+    }
+</script>
 <script type="text/javascript">
     $(function() {
         $(document).on('click', '#btn_save', function(e) {

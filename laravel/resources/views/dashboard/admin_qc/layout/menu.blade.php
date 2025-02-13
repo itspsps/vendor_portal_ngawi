@@ -1,5 +1,13 @@
 <div class="kt-aside-menu-wrapper kt-grid__item kt-grid__item--fluid" id="kt_aside_menu_wrapper">
-    <div id="kt_aside_menu" class="kt-aside-menu " data-ktmenu-vertical="1" data-ktmenu-scroll="1">
+    <div class="text-center">
+        <a href="{{route('master.home')}}">
+            <img class="img-responsive" alt="iamgurdeeposahan" src="{{asset('logo_sps_ngawi.png')}}" style="width: 150px;">
+        </a>
+    </div>
+    <div class="btn btn-label-primary col-lg-12">
+        <span><b>MENU</b></span>
+    </div>
+    <div id="kt_aside_menu" class="kt-aside-menu" data-ktmenu-vertical="1" data-ktmenu-scroll="1">
         <ul class="kt-menu__nav ">
             <li class="kt-menu__item  kt-menu__item--{{set_active('qc/lab/home') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                 <a href="{{ route('qc.lab.home') }}" class="kt-menu__link kt-menu__toggle">
@@ -9,12 +17,8 @@
             </li>
 
             @if(Auth::guard('lab')->user()->level=='QC')
-            
-            <li class="kt-menu__section kt-menu__section--first">
-                <h4 class="kt-menu__section-text">Data Lab</h4>
-                <i class="kt-menu__section-icon flaticon-more-v2"></i>
-            </li>
-            <li class="kt-menu__item kt-menu__item--submenu {{ Request::is('qc/lab/proses_lab1_gabah_basah*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/proses_lab1_gabah_kering*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/proses_lab1_pecah_kulit*') ? 'kt-menu__item--open' : '' }}{{ Request::is('qc/lab/proses_lab1_beras_ds*') ? 'kt-menu__item--open' : '' }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+
+            <li class="kt-menu__item kt-menu__item--submenu {{ Request::is('qc/lab/proses_lab1_gabah_basah*') ? 'kt-menu__item--open' : '' }}{{ Request::is('qc/lab/proses_add_lab1_gabah_basah*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/proses_lab1_gabah_kering*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/proses_lab1_pecah_kulit*') ? 'kt-menu__item--open' : '' }}{{ Request::is('qc/lab/proses_lab1_beras_ds*') ? 'kt-menu__item--open' : '' }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                 <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
                     <span class="kt-menu__link-icon">
                         <i class="flaticon2-hourglass kt-font-primary"></i>
@@ -25,7 +29,7 @@
                 <div class="kt-menu__submenu " kt-hidden-height="200" style="">
                     <span class="kt-menu__arrow"></span>
                     <ul class="kt-menu__subnav">
-                        <li class="kt-menu__item  kt-menu__item--{{ set_active('qc/lab/proses_lab1_gabah_basah') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                        <li class="kt-menu__item  kt-menu__item--{{ set_active('qc/lab/proses_lab1_gabah_basah') }} kt-menu__item--{{ set_active('qc/lab/proses_add_lab1_gabah_basah*') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                             <a href="{{ route('qc.lab.proses_lab1_gabah_basah') }}" class="kt-menu__link kt-menu__toggle">
                                 <i class="kt-menu__link-icon   flaticon2-laptop kt-font-success"></i>
                                 <span class="kt-menu__link-text">Gabah Basah</span>
@@ -53,7 +57,7 @@
                 </div>
             </li>
 
-            <li class="kt-menu__item kt-menu__item {{ Request::is('qc/lab/reject_lab1_gabah_basah*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/reject_lab1_pecah_kulit*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/pending_lab1_gabah_basah*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/pending_lab1_pecah_kulit*') ? 'kt-menu__item--open' : '' }}{{ Request::is('qc/lab/unload_lab1_gabah_basah*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/unload_lab1_pecah_kulit*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/output_proses_lab1_gb*') ? 'kt-menu__item--open' : '' }}{{ Request::is('qc/lab/output_proses_lab1_pk*') ? 'kt-menu__item--open' : '' }} " aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+            <li class="kt-menu__item kt-menu__item {{ Request::is('qc/lab/reject_lab1_gabah_basah*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/output_edit_proses_lab1_gb*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/reject_lab1_pecah_kulit*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/pending_lab1_gabah_basah*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/pending_lab1_pecah_kulit*') ? 'kt-menu__item--open' : '' }}{{ Request::is('qc/lab/unload_lab1_gabah_basah*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/unload_lab1_pecah_kulit*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/output_proses_lab1_gb*') ? 'kt-menu__item--open' : '' }}{{ Request::is('qc/lab/output_proses_lab1_pk*') ? 'kt-menu__item--open' : '' }} " aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                 <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
                     <span class="kt-menu__link-icon">
                         <i class="flaticon2-checking kt-font-success"></i>
@@ -64,7 +68,7 @@
                 <div class="kt-menu__submenu " kt-hidden-height="200" style="">
                     <span class="kt-menu__arrow"></span>
                     <ul class="kt-menu__subnav">
-                        <li class="kt-menu__item kt-menu__item {{ Request::is('qc/lab/output_proses_lab1_gb*') ? 'kt-menu__item--open' : '' }}{{ Request::is('qc/lab/output_proses_lab1_pk*') ? 'kt-menu__item--open' : '' }} " aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                        <li class="kt-menu__item kt-menu__item {{ Request::is('qc/lab/output_proses_lab1_gb*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/output_edit_proses_lab1_gb*') ? 'kt-menu__item--open' : '' }}{{ Request::is('qc/lab/output_proses_lab1_pk*') ? 'kt-menu__item--open' : '' }} " aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                             <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
                                 <span class="kt-menu__link-icon">
                                     <i class="flaticon2-checking kt-font-success"></i>
@@ -75,7 +79,7 @@
                             <div class="kt-menu__submenu " kt-hidden-height="200" style="">
                                 <span class="kt-menu__arrow"></span>
                                 <ul class="kt-menu__subnav">
-                                    <li class="kt-menu__item  kt-menu__item--{{ set_active('qc/lab/output_proses_lab1_gb') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                                    <li class="kt-menu__item  kt-menu__item--{{ set_active('qc/lab/output_proses_lab1_gb') }} kt-menu__item--{{ set_active('qc/lab/output_edit_proses_lab1_gb*') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                                         <a href="{{ route('qc.lab.output_proses_lab1_gb') }}" class="kt-menu__link kt-menu__toggle">
                                             <i class="kt-menu__link-icon flaticon2-box-1 kt-font-success"></i>
                                             <span class="kt-menu__link-text">gabah Basah</span>
@@ -172,7 +176,7 @@
                 </div>
             </li>
 
-            <li class="kt-menu__item kt-menu__item--submenu {{ Request::is('qc/lab/proses_lab2_beras_ds*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/proses_lab2_pecah_kulit*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/proses_lab2_gabah_basah*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/proses_lab2_gabah_kering*') ? 'kt-menu__item--open' : '' }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+            <li class="kt-menu__item kt-menu__item--submenu {{ Request::is('qc/lab/proses_add_lab2_gabah_basah*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/proses_lab2_beras_ds*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/proses_lab2_pecah_kulit*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/proses_lab2_gabah_basah*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/proses_lab2_gabah_kering*') ? 'kt-menu__item--open' : '' }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                 <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
                     <span class="kt-menu__link-icon">
                         <i class="flaticon2-hourglass kt-font-primary"></i>
@@ -183,7 +187,7 @@
                 <div class="kt-menu__submenu " kt-hidden-height="200" style="">
                     <span class="kt-menu__arrow"></span>
                     <ul class="kt-menu__subnav">
-                        <li class="kt-menu__item  kt-menu__item--{{ set_active('qc/lab/proses_lab2_gabah_basah') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                        <li class="kt-menu__item  kt-menu__item--{{ set_active('qc/lab/proses_lab2_gabah_basah') }} kt-menu__item--{{ set_active('qc/lab/proses_add_lab2_gabah_basah*') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                             <a href="{{ route('qc.lab.proses_lab2_gabah_basah') }}" class="kt-menu__link kt-menu__toggle">
                                 <i class="kt-menu__link-icon flaticon2-analytics-2 kt-font-success"></i>
                                 <span class="kt-menu__link-text">Gabah Basah</span>
@@ -211,7 +215,7 @@
                 </div>
             </li>
 
-            <li class="kt-menu__item kt-menu__item {{ Request::is('qc/lab/output_nego_lab2_gb*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/output_deal_lab2_gb*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/output_deal_lab2_pk*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/output_proses_lab2_gb*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/output_proses_lab2_pk*') ? 'kt-menu__item--open' : '' }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+            <li class="kt-menu__item kt-menu__item {{ Request::is('qc/lab/output_nego_lab2_gb*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/output_edit_proses_lab2_gb*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/output_deal_lab2_gb*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/output_deal_lab2_pk*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/output_proses_lab2_gb*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/output_proses_lab2_pk*') ? 'kt-menu__item--open' : '' }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                 <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
                     <span class="kt-menu__link-icon">
                         <i class="flaticon2-checking kt-font-success"></i>
@@ -222,7 +226,7 @@
                 <div class="kt-menu__submenu " kt-hidden-height="200" style="">
                     <span class="kt-menu__arrow"></span>
                     <ul class="kt-menu__subnav">
-                        <li class="kt-menu__item kt-menu__item {{ Request::is('qc/lab/output_proses_lab2_gb*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/output_proses_lab2_pk*') ? 'kt-menu__item--open' : '' }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                        <li class="kt-menu__item kt-menu__item {{ Request::is('qc/lab/output_proses_lab2_gb*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/output_edit_proses_lab2_gb*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/output_proses_lab2_pk*') ? 'kt-menu__item--open' : '' }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                             <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
                                 <span class="kt-menu__link-icon">
                                     <i class="flaticon2-checking kt-font-success"></i>
@@ -233,7 +237,7 @@
                             <div class="kt-menu__submenu " kt-hidden-height="200" style="">
                                 <span class="kt-menu__arrow"></span>
                                 <ul class="kt-menu__subnav">
-                                    <li class="kt-menu__item  kt-menu__item--{{ set_active('qc/lab/output_proses_lab2_gb') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                                    <li class="kt-menu__item  kt-menu__item--{{ set_active('qc/lab/output_proses_lab2_gb') }} kt-menu__item--{{ set_active('qc/lab/output_edit_proses_lab2_gb') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                                         <a href="{{ route('qc.lab.output_proses_lab2_gb') }}" class="kt-menu__link kt-menu__toggle">
                                             <i class="kt-menu__link-icon flaticon2-box-1 kt-font-success"></i>
                                             <span class="kt-menu__link-text">Gabah Basah</span>
@@ -305,12 +309,8 @@
                     </ul>
                 </div>
             </li>
-            
+
             @elseif(Auth::guard('lab')->user()->level=='MANAGER')
-            <li class="kt-menu__section kt-menu__section--first">
-                <h4 class="kt-menu__section-text">PARAMETER</h4>
-                <i class="kt-menu__section-icon flaticon-more-v2"></i>
-            </li>
             <li class="kt-menu__item kt-menu__item--submenu {{ Request::is('qc/lab/parameter_beras_ds*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/parameter_pk_refraksi*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/parameter_lab_pk_reward*') ? 'kt-menu__item--open' : '' }}{{ Request::is('qc/lab/parameter_lab_pk_kualitas*') ? 'kt-menu__item--open' : '' }}  {{ Request::is('qc/lab/parameter_gb*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/parameter_gk*') ? 'kt-menu__item--open' : '' }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                 <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
                     <span class="kt-menu__link-icon">
@@ -552,10 +552,6 @@
                     </ul>
                 </div>
             </li>
-            <li class="kt-menu__section kt-menu__section--first">
-                <h4 class="kt-menu__section-text">Data Lab</h4>
-                <i class="kt-menu__section-icon flaticon-more-v2"></i>
-            </li>
             <li class="kt-menu__item kt-menu__item {{ Request::is('qc/lab/pending_lab1_gabah_basah*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/pending_lab1_pecah_kulit*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/unload_lab1_gabah_basah*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/unload_lab1_pecah_kulit*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/output_proses_lab1_gb*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/output_proses_lab1_pk*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/reject_lab1_gabah_basah*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/reject_lab1_pecah_kulit*') ? 'kt-menu__item--open' : '' }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                 <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
                     <span class="kt-menu__link-icon">
@@ -567,7 +563,7 @@
                 <div class="kt-menu__submenu " kt-hidden-height="200" style="">
                     <span class="kt-menu__arrow"></span>
                     <ul class="kt-menu__subnav">
-                        <li class="kt-menu__item kt-menu__item {{ Request::is('qc/lab/output_proses_lab1_gb*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/output_proses_lab1_pk*') ? 'kt-menu__item--open' : '' }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                        <li class="kt-menu__item kt-menu__item {{ Request::is('qc/lab/output_edit_proses_lab1_gb*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/output_proses_lab1_gb*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/lab/output_proses_lab1_pk*') ? 'kt-menu__item--open' : '' }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                             <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
                                 <span class="kt-menu__link-icon">
                                     <i class="flaticon2-checking kt-font-success"></i>
@@ -578,7 +574,7 @@
                             <div class="kt-menu__submenu " kt-hidden-height="200" style="">
                                 <span class="kt-menu__arrow"></span>
                                 <ul class="kt-menu__subnav">
-                                    <li class="kt-menu__item  kt-menu__item--{{ set_active('qc/lab/output_proses_lab1_gb') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                                    <li class="kt-menu__item  kt-menu__item--{{ set_active('qc/lab/output_proses_lab1_gb') }} kt-menu__item--{{ set_active('qc/lab/output_edit_proses_lab1_gb*') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                                         <a href="{{ route('qc.lab.output_proses_lab1_gb') }}" class="kt-menu__link kt-menu__toggle">
                                             <i class="kt-menu__link-icon flaticon2-box-1 kt-font-success"></i>
                                             <span class="kt-menu__link-text">gabah Basah</span>
@@ -768,10 +764,6 @@
                     </ul>
                 </div>
             </li>
-            <li class="kt-menu__section kt-menu__section--first">
-                <h4 class="kt-menu__section-text">DATA BONGKAR</h4>
-                <i class="kt-menu__section-icon flaticon-more-v2"></i>
-            </li>
             <li class="kt-menu__item  kt-menu__item--{{ set_active('qc/lab/data_bongkar') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                 <a href="{{ route('qc.lab.data_bongkar') }}" class="kt-menu__link kt-menu__toggle">
                     <i class="kt-menu__link-icon flaticon2-open-box kt-font-success"></i>
@@ -779,10 +771,6 @@
                     <span id="data_bongkar" class="badge badge badge-info" style="position:absolute; margin-left:75%; width: 100%; text-align: left; background-color: #9f187c;">
                     </span>
                 </a>
-            </li>
-            <li class="kt-menu__section kt-menu__section--first">
-                <h4 class="kt-menu__section-text">DATA SOURCHING</h4>
-                <i class="kt-menu__section-icon flaticon-more-v2"></i>
             </li>
             <li class="kt-menu__item  kt-menu__item--{{ set_active('qc/lab/data_po') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                 <a href="{{ route('qc.lab.data_po') }}" class="kt-menu__link kt-menu__toggle">
@@ -800,10 +788,6 @@
                 </a>
             </li>
             @endif
-            <li class="kt-menu__section kt-menu__section--first">
-                <h4 class="kt-menu__section-text">AKUN</h4>
-                <i class="kt-menu__section-icon flaticon-more-v2"></i>
-            </li>
             <li class="kt-menu__item  kt-menu__item--{{ set_active('qc/lab/account_lab') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                 <a href="{{ route('qc.lab.account_lab') }}" class="kt-menu__link kt-menu__toggle">
                     <i class="kt-menu__link-icon flaticon2-user-1 kt-font-info"></i>
@@ -819,6 +803,13 @@
             <form id="logout-form" action="" method="POST" style="display: none;">
                 {{ csrf_field() }}
             </form>
+            <li class="kt-menu__item text-center" aria-haspopup="true" data-ktmenu-submenu-toggle="hover" style="bottom: 2%; position: fixed; margin-left: -5px; text-align: center;">
+                <div class="kt-menu__link kt-menu__toggle">
+                    <span class="kt-menu__link-text">
+                        2023&nbsp;&copy;&nbsp;<a href="https://ngawi.suryapangansemesta.store/qc/lab/home" target="_blank" class="kt-link">VENDOR PORTAL-NGAWI</a>
+                    </span>
+                </div>
+            </li>
         </ul>
     </div>
 </div>

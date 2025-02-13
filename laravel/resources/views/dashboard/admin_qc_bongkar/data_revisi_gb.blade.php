@@ -9,16 +9,21 @@ SURYA PANGAN SEMESTA
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
                 <h3 class="kt-subheader__title">
-                    E-PROCUREMENT
+                    PT. SURYA PANGAN SEMESTA
                 </h3>
+                <span class="btn-outline btn-sm btn-info mr-3">NGAWI</span>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
-                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
                     <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
-                        SURYA PANGAN SEMESTA
+                        Data Revisi
                     </a>
-                    <span class="btn-outline btn-sm btn-info">Site Ngawi</span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Gabah Basah
+                    </a>
                 </div>
             </div>
         </div>
@@ -60,8 +65,9 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">Nama&nbsp;Supplier</th>
                                         <th style="text-align: center;width:auto">Surveyor</th>
                                         <th style="text-align: center;width:auto">No.&nbsp;DTM</th>
+                                        <th style="text-align: center;width:auto">Tanggal&nbsp;PO</th>
+                                        <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkaran</th>
                                         <th style="text-align: center;width:auto">Keterangan&nbsp;Bongkar</th>
-                                        <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkar</th>
                                         <th style="text-align: center;width:auto">Waktu&nbsp;Bongkar</th>
                                         <th style="text-align: center;width:auto">Tempat&nbsp;Bongkar</th>
                                         <th style="text-align: center;width:auto">Karung&nbsp;Dibawa</th>
@@ -73,7 +79,7 @@ SURYA PANGAN SEMESTA
                                 </tbody>
                             </table>
                         </div>
-                        
+
                         <div class="tab-pane" id="m_tabs_3_3" role="tabpanel">
                             <table class="table table-bordered" id="data_pw">
                                 <thead>
@@ -84,8 +90,9 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">Nama&nbsp;Supplier</th>
                                         <th style="text-align: center;width:auto">Surveyor</th>
                                         <th style="text-align: center;width:auto">No.&nbsp;DTM</th>
+                                        <th style="text-align: center;width:auto">Tanggal&nbsp;PO</th>
+                                        <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkaran</th>
                                         <th style="text-align: center;width:auto">Keterangan&nbsp;Bongkar</th>
-                                        <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkar</th>
                                         <th style="text-align: center;width:auto">Waktu&nbsp;Bongkar</th>
                                         <th style="text-align: center;width:auto">Tempat&nbsp;Bongkar</th>
                                         <th style="text-align: center;width:auto">Karung&nbsp;Dibawa</th>
@@ -107,8 +114,9 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">Nama&nbsp;Supplier</th>
                                         <th style="text-align: center;width:auto">Surveyor</th>
                                         <th style="text-align: center;width:auto">No.&nbsp;DTM</th>
+                                        <th style="text-align: center;width:auto">Tanggal&nbsp;PO</th>
+                                        <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkaran</th>
                                         <th style="text-align: center;width:auto">Keterangan&nbsp;Bongkar</th>
-                                        <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkar</th>
                                         <th style="text-align: center;width:auto">Waktu&nbsp;Bongkar</th>
                                         <th style="text-align: center;width:auto">Tempat&nbsp;Bongkar</th>
                                         <th style="text-align: center;width:auto">Karung&nbsp;Dibawa</th>
@@ -216,10 +224,13 @@ SURYA PANGAN SEMESTA
                         data: 'dtm_gb'
                     },
                     {
-                        data: 'keterangan_bongkar'
+                        data: 'tanggal_po'
                     },
                     {
                         data: 'tanggal_bongkar'
+                    },
+                    {
+                        data: 'keterangan_bongkar'
                     },
                     {
                         data: 'waktu_bongkar'
@@ -297,10 +308,13 @@ SURYA PANGAN SEMESTA
                         data: 'dtm_gb'
                     },
                     {
-                        data: 'keterangan_bongkar'
+                        data: 'tanggal_po'
                     },
                     {
                         data: 'tanggal_bongkar'
+                    },
+                    {
+                        data: 'keterangan_bongkar'
                     },
                     {
                         data: 'waktu_bongkar'
@@ -376,10 +390,13 @@ SURYA PANGAN SEMESTA
                         data: 'dtm_gb'
                     },
                     {
-                        data: 'keterangan_bongkar'
+                        data: 'tanggal_po'
                     },
                     {
                         data: 'tanggal_bongkar'
+                    },
+                    {
+                        data: 'keterangan_bongkar'
                     },
                     {
                         data: 'waktu_bongkar'

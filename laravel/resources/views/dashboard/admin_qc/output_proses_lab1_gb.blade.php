@@ -10,16 +10,26 @@ SURYA PANGAN SEMESTA
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
                 <h3 class="kt-subheader__title">
-                    E-PROCUREMENT
+                    PT. SURYA PANGAN SEMESTA
                 </h3>
+                <span class="btn-outline btn-sm btn-info mr-3">NGAWI</span>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
-                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
                     <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
-                        SURYA PANGAN SEMESTA
+                        Hasil Lab(Incoming)
                     </a>
-                    <span class="btn-outline btn-sm btn-info">Site Ngawi</span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Hasil Lab
+                    </a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Gabah Basah
+                    </a>
                 </div>
             </div>
         </div>
@@ -84,6 +94,7 @@ SURYA PANGAN SEMESTA
                                             <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                             <th style="text-align: center;width:auto">Sampai&nbsp;Disatpam</th>
                                             <th style="text-align: center;width:auto">Tanggal&nbsp;PO </th>
+                                            <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkaran </th>
                                             <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                             <th style="text-align: center;width:auto">Asal</th>
                                             <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
@@ -117,6 +128,7 @@ SURYA PANGAN SEMESTA
                                             <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                             <th style="text-align: center;width:auto">Sampai&nbsp;Disatpam</th>
                                             <th style="text-align: center;width:auto">Tanggal&nbsp;PO </th>
+                                            <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkaran </th>
                                             <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                             <th style="text-align: center;width:auto">Asal</th>
                                             <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Plan&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
@@ -169,6 +181,7 @@ SURYA PANGAN SEMESTA
                                             <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                             <th style="text-align: center;width:auto">Sampai&nbsp;Disatpam</th>
                                             <th style="text-align: center;width:auto">Tanggal&nbsp;PO </th>
+                                            <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkaran </th>
                                             <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                             <th style="text-align: center;width:auto">Asal</th>
                                             <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
@@ -202,6 +215,7 @@ SURYA PANGAN SEMESTA
                                             <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                             <th style="text-align: center;width:auto">Sampai&nbsp;Disatpam</th>
                                             <th style="text-align: center;width:auto">Tanggal&nbsp;PO </th>
+                                            <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkaran </th>
                                             <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                             <th style="text-align: center;width:auto">Asal</th>
                                             <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Plan&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
@@ -254,6 +268,7 @@ SURYA PANGAN SEMESTA
                                             <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                             <th style="text-align: center;width:auto">Sampai&nbsp;Disatpam</th>
                                             <th style="text-align: center;width:auto">Tanggal&nbsp;PO </th>
+                                            <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkaran </th>
                                             <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                             <th style="text-align: center;width:auto">Asal</th>
                                             <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
@@ -287,6 +302,7 @@ SURYA PANGAN SEMESTA
                                             <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                             <th style="text-align: center;width:auto">Sampai&nbsp;Disatpam</th>
                                             <th style="text-align: center;width:auto">Tanggal&nbsp;PO </th>
+                                            <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkaran </th>
                                             <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                             <th style="text-align: center;width:auto">Asal</th>
                                             <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Plan&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
@@ -686,6 +702,9 @@ SURYA PANGAN SEMESTA
                             data: 'tanggal_po'
                         },
                         {
+                            data: 'tanggal_bongkar'
+                        },
+                        {
                             data: 'plat_kendaraan'
                         },
                         {
@@ -797,6 +816,9 @@ SURYA PANGAN SEMESTA
                         },
                         {
                             data: 'tanggal_po'
+                        },
+                        {
+                            data: 'tanggal_bongkar'
                         },
                         {
                             data: 'plat_kendaraan'
@@ -960,6 +982,9 @@ SURYA PANGAN SEMESTA
                             data: 'tanggal_po'
                         },
                         {
+                            data: 'tanggal_bongkar'
+                        },
+                        {
                             data: 'plat_kendaraan'
                         },
                         {
@@ -1070,6 +1095,9 @@ SURYA PANGAN SEMESTA
                         },
                         {
                             data: 'tanggal_po'
+                        },
+                        {
+                            data: 'tanggal_bongkar'
                         },
                         {
                             data: 'plat_kendaraan'
@@ -1232,6 +1260,9 @@ SURYA PANGAN SEMESTA
                             data: 'tanggal_po'
                         },
                         {
+                            data: 'tanggal_bongkar'
+                        },
+                        {
                             data: 'plat_kendaraan'
                         },
                         {
@@ -1343,6 +1374,9 @@ SURYA PANGAN SEMESTA
                         },
                         {
                             data: 'tanggal_po'
+                        },
+                        {
+                            data: 'tanggal_bongkar'
                         },
                         {
                             data: 'plat_kendaraan'
@@ -1559,189 +1593,6 @@ SURYA PANGAN SEMESTA
                     position: top
                 })
             });
-            $(document).on('click', '#to_edit', function() {
-                var id = $(this).attr("name");
-                var item = $(this).data('item');
-                var tanggal_po = $(this).data('tanggal_po');
-                var id_penerimaan = $(this).data('id');
-                var no_hp = $(this).data('hp');
-                var url = "{{ route('qc.lab.edit_lab1_gb') }}" + "/" + id;
-                var url2 = "{{route('qc.lab.get_plan_hpp_gabah_basah') }}" + "/" + tanggal_po + "/" + item;
-                var url3 = "{{route('get_price_top_gabah_basah') }}" + "/" + id_penerimaan;
-                var url4 = "{{route('get_buttom_price_gabah_basah') }}" + "/" + id_penerimaan;
-                // console.log(no_hp);
-                $('#form_updateproseslab1').trigger('reset');
-                //   $('#modal2').removeData();
-                //   location.reload();
-                $('#modal_outputlab1').on('hidden.bs.modal', function(e) {
-                    $('#input_hpp').remove();
-                    // $('#min_tp').remove();
-                    // $('#operation').remove();
-                    // $('#max_tp').remove();
-                    // $('#harga_hpp').remove();
-                    $('#input_plan').empty();
-                    $('#input_hargaatas').empty();
-                    $('#input_hargabawah').empty();
-
-                    // $('#planhpp_success').remove();
-
-                    // $('#modal_outputlab1').show();
-                })
-                $('#modal_outputlab1').modal('show');
-                $.ajax({
-                    type: "GET",
-                    url: url,
-                    success: function(response) {
-                        // console.log(response);
-                        var parsed = $.parseJSON(response);
-
-                        $('#gabahincoming_id_penerimaan_po').val(parsed.lab1_id_penerimaan_po_gb);
-                        $('#gabahincoming_id_data_po').val(parsed.lab1_id_data_po_gb);
-                        $('#nama_supplier').val(parsed.name);
-                        $('#no_supplier').val(parsed.nomer_hp);
-                        $('#id_gabahincoming_qc').val(parsed.id_lab1_gb);
-                        $('#gabahincoming_kode_po').val(parsed.lab1_kode_po_gb);
-                        $('#gabahincoming_plat').val(parsed.lab1_plat_gb);
-                        $('#kadar_air').val(parsed.kadar_air_gb);
-                        $('#ka_kg').val(parsed.ka_kg_gb);
-                        $('#berat_sample_awal_ks').val(parsed.berat_sample_awal_ks_gb);
-                        $('#berat_sample_awal_kg').val(parsed.berat_sample_awal_kg_gb);
-                        $('#berat_sample_akhir_kg').val(parsed.berat_sample_akhir_kg_gb);
-                        $('#berat_sample_pk').val(parsed.berat_sample_pk_gb);
-                        $('#randoman').val(parsed.randoman_gb);
-                        $('#wh').val(parsed.wh_gb);
-                        $('#tp').val(parsed.tp_gb);
-                        $('#md').val(parsed.md_gb);
-                        $('#broken').val(parsed.broken_gb);
-                        $('#keterangan_lab1').val(parsed.keterangan_lab_gb);
-                        $('#keterangan_lab_1').val(parsed.output_lab_gb);
-                        // console.log(parsed.output_lab_gb);
-                        $('#lokasibongkar').val(parsed.lokasi_bongkar_gb);
-                        $('#date_bid').val(parsed.date_bid);
-                        $('#plan_harga').val(parsed.plan_harga_gb);
-                        $('#tanggal_po').val(parsed.tanggal_po);
-                        $('.lokasi_gt').val(parsed.lokasi_bongkar_gb);
-                        // hidden
-                        $('#PONum').val(parsed.PONum);
-                        $('#hampa').val(parsed.hampa_gb);
-                        $('#kg_after_adjust_hampa').val(parsed.kg_after_adjust_hampa_gb);
-                        $('#prosentasi_kg').val(parsed.prosentasi_kg_gb);
-                        $('#susut').val(parsed.susut_gb);
-                        $('#adjust_susut').val(parsed.adjust_susut_gb);
-                        $('#prsentase_ks_kg_after_adjust_susut').val(parsed.prsentase_ks_kg_after_adjust_susut_gb);
-                        $('#prsentase_kg_pk').val(parsed.prsentase_kg_pk_gb);
-                        $('#adjust_prosentase_kg_pk').val(parsed.adjust_prosentase_kg_pk_gb);
-                        $('#presentase_ks_pk').val(parsed.presentase_ks_pk_gb);
-                        $('#presentase_putih').val(parsed.presentase_putih_gb);
-                        $('#adjust_prosentase_kg_ke_putih').val(parsed.adjust_prosentase_kg_ke_putih_gb);
-                        $('#plan_rend_dari_ks_beras').val(parsed.plan_rend_dari_ks_beras_gb);
-                        $('#plan_rend_dari_ks_beras').val(parsed.plan_rend_dari_ks_beras_gb);
-                        $('#katul').val(parsed.katul_gb);
-                        $('#item').val(item);
-                        $('#refraksi_broken').val(parsed.refraksi_broken_gb);
-                        $('#plan_harga_gabah').val(parsed.plan_harga_gabah_gb);
-                        $('#lokasibongkar').val(parsed.lokasi_bongkar_gb);
-                        $('#keteranganlab1').val(parsed.output_lab_gb);
-                        $('#no_hp').val(no_hp);
-                        // if(parsed.output_lab_gb=='Pending'){
-                        //     $('#keterangan_lab_1 > option[value="Unload"]').attr('disabled',true);
-                        //     $('#keterangan_lab_1 > option[value="Reject"]').attr('disabled',true);
-                        // } else{
-                        //     $('#keterangan_lab_1 > option[value="Unload"]').attr('disabled',false);
-                        //     $('#keterangan_lab_1 > option[value="Reject"]').attr('disabled',false);
-
-                        // }
-                    }
-                });
-                $.ajax({
-                    type: "GET",
-                    url: url2,
-                    success: function(response) {
-                        var my_orders = $('#planhpp')
-                        var my_plan = $('#input_plan')
-                        var parsed = JSON.parse(response);
-                        if (parsed == null || parsed == '') {
-                            document.getElementById('planhpp_success').style.display = 'none';
-                            document.getElementById('planhpp_error').style.display = 'block';
-                            document.getElementById('status_plan_hpp').value = '0';
-                            Swal.fire({
-                                title: 'Maaf, Anda Tidak Bisa Input',
-                                text: 'SPV belum input PLAN HPP Sesuai Tanggal PO',
-                                icon: 'warning',
-                                allowOutsideClick: false,
-                                showCancelButton: false,
-                                showConfirmButton: false
-                            })
-                        } else {
-                            document.getElementById('planhpp_success').style.display = 'block';
-                            document.getElementById('planhpp_error').style.display = 'none';
-                            document.getElementById('status_plan_hpp').value = '1';
-                            $.each(parsed, function(item) {
-                                my_orders.append("<input id=" + 'input_hpp' + " type=" + 'hidden' + " class=" + 'hpp' + " value=" + parsed[item].min_tp_gb + '#' + parsed[item].max_tp_gb + '#' + parsed[item].harga_gb + ">");
-                                my_plan.append("<dd id=" + 'min_tp' + " class=" + 'col-sm-3 col-xs-12' + ">" + parsed[item].min_tp_gb + "</dd><dd id=" + 'operation' + " class=" + 'col-sm-3 col-xs-12' + "><=<</dd><dd id=" + 'max_tp' + "  class=" + 'col-sm-3 col-xs-12' + ">" + parsed[item].max_tp_gb + "</dd><dd id=" + 'harga_hpp' + "  class=" + 'col-sm-3 col-xs-12' + ">Rp. " + formatRupiah(parsed[item].harga_gb) + "</dd>");
-                            });
-                        }
-                    }
-                });
-                $.ajax({
-                    type: "GET",
-                    url: url3,
-                    success: function(response) {
-                        var my_topprice = $('#input_hargaatas')
-                        var parsed = JSON.parse(response);
-                        if (parsed == null || parsed == '') {
-                            document.getElementById('hargaatas_success').style.display = 'none';
-                            document.getElementById('hargaatas_error').style.display = 'block';
-                            document.getElementById('status_harga_atas').value = '0';
-                            Swal.fire({
-                                title: 'Maaf, Anda Tidak Bisa Input',
-                                text: 'SPV belum input HARGA ATAS Sesuai Tanggal PO',
-                                icon: 'warning',
-                                allowOutsideClick: false,
-                                showCancelButton: false,
-                                showConfirmButton: false
-                            })
-                        } else {
-                            document.getElementById('hargaatas_success').style.display = 'block';
-                            document.getElementById('hargaatas_error').style.display = 'none';
-                            document.getElementById('status_harga_atas').value = '1';
-                            // console.log(parsed);
-                            my_topprice.append("<dd class=" + 'col-sm-3 col-xs-12' + ">" + 'Harga Atas' + "</dd><dd class=" + 'col-sm-1 col-xs-12' + ">:</dd><dd id=" + 'maxtp' + "  class=" + 'col-sm-3 col-xs-12' + ">Rp. " + formatRupiah(parsed.harga_atas_gb) + "</dd>");
-
-                        }
-                    }
-                });
-                $.ajax({
-                    type: "GET",
-                    url: url4,
-                    success: function(response) {
-                        var my_buttomprice = $('#input_hargabawah')
-                        var parsed = JSON.parse(response);
-                        // console.log(parsed);
-                        if (parsed == null || parsed == '') {
-                            document.getElementById('hargabawah_success').style.display = 'none';
-                            document.getElementById('hargabawah_error').style.display = 'block';
-                            document.getElementById('status_harga_bawah').value = '0';
-                            Swal.fire({
-                                title: 'Maaf, Anda Tidak Bisa Input',
-                                text: 'SPV belum input HARGA BAWAH Sesuai Tanggal PO',
-                                icon: 'warning',
-                                allowOutsideClick: false,
-                                showCancelButton: false,
-                                showConfirmButton: false
-                            })
-                        } else {
-                            document.getElementById('hargabawah_success').style.display = 'block';
-                            document.getElementById('hargabawah_error').style.display = 'none';
-                            document.getElementById('status_harga_bawah').value = '1';
-                            my_buttomprice.append("<dd class=" + 'col-sm-3 col-xs-12' + ">" + 'Harga&nbsp;Bawah' + "</dd><dd class=" + 'col-sm-1 col-xs-12' + ">:</dd><dd id=" + 'maxtp' + "  class=" + 'col-sm-3 col-xs-12' + ">Rp. " + formatRupiah(parsed.harga_bawah_gb) + "</dd>");
-
-                        }
-                        // console.log(parsed);
-
-                    }
-                });
-            });
         });
     </script>
     <script type="text/javascript">
@@ -1790,414 +1641,6 @@ SURYA PANGAN SEMESTA
                     }
                 });
             });
-            $(document).on('click', '#btn_update', function(e) {
-                e.preventDefault();
-                var status_plan_hpp = $('#status_plan_hpp').val();
-                var status_harga_atas = $('#status_harga_atas').val();
-                var status_harga_bawah = $('#status_harga_bawah').val();
-                var id_gabahincoming_qc = $('#id_gabahincoming_qc').val();
-                var tanggal_po = $('#tanggal_po').val();
-                var date_bid = $('#date_bid').val();
-                var lokasi_gt = $('#lokasi_gt').val();
-                var waktu_penerimaan = $('#waktu_penerimaan').val();
-                var keterangan_lab_1 = $('#keterangan_lab_1').val();
-                var gabahincoming_id_penerimaan_po = $('#gabahincoming_id_penerimaan_po').val();
-                var lab1_kode_po = $('#lab1_kode_po').val();
-                var gabahincoming_id_data_po = $('#gabahincoming_id_data_po').val();
-                var gabahincoming_plat = $('#gabahincoming_plat').val();
-                var gabahincoming_kode_po = $('#gabahincoming_kode_po').val();
-                var hampa = $('#hampa').val();
-                var broken = $('#broken').val();
-                var randoman = $('#randoman').val();
-                var kadar_air = $('#kadar_air').val();
-                var keterangan_lab = $('#keterangan_lab').val();
-                var plan_harga = $('#plan_harga').val();
-                var kg_after_adjust_hampa = $('#kg_after_adjust_hampa').val();
-                var prosentasi_kg = $('#prosentasi_kg').val();
-                var susut = $('#susut').val();
-                var adjust_susut = $('#adjust_susut').val();
-                var prsentase_ks_kg_after_adjust_susut = $('#prsentase_ks_kg_after_adjust_susut').val();
-                var prsentase_kg_pk = $('#prsentase_kg_pk').val();
-                var adjust_prosentase_kg_pk = $('#adjust_prosentase_kg_pk').val();
-                var presentase_ks_pk = $('#presentase_ks_pk').val();
-                var presentase_putih = $('#presentase_putih').val();
-                var adjust_prosentase_kg_ke_putih = $('#adjust_prosentase_kg_ke_putih').val();
-                var plan_rend_dari_ks_beras = $('#plan_rend_dari_ks_beras').val();
-                var katul = $('#katul').val();
-                var refraksi_broken = $('#refraksi_broken').val();
-                var plan_harga_gabah = $('#plan_harga_gabah').val();
-                var ka_kg = $('#ka_kg').val();
-                var nama_supplier = $('#nama_supplier').val();
-                var no_supplier = $('#no_supplier').val();
-                var berat_sample_awal_ks = $('#berat_sample_awal_ks').val();
-                var berat_sample_awal_kg = $('#berat_sample_awal_kg').val();
-                var berat_sample_akhir_kg = $('#berat_sample_akhir_kg').val();
-                var berat_sample_pk = $('#berat_sample_pk').val();
-                var wh = $('#wh').val();
-                var tp = $('#tp').val();
-                var md = $('#md').val();
-                var keterangan_lab1 = $('#keterangan_lab1').val();
-                var status_pending = $('#status_pending').val();
-                $('#btn_update').html('Menyimpan...');
-                if (status_plan_hpp == '1' && status_harga_atas == '1' && status_harga_bawah == '1') {
-                    Swal.fire({
-                        title: 'Konfirmasi',
-                        icon: 'warning',
-                        text: "Apakah data yang kamu input sudah benar ?",
-                        showCancelButton: true,
-                        inputValue: 0,
-                        confirmButtonText: 'Yes',
-                    }).then(function(result) {
-                        if (result.value) {
-                            if ($('#keterangan_lab_1').val() == 'Unload') {
-                                if ($('#kadar_air').val() == '' || $('#ka_kg').val() == '' || $('#berat_sample_awal_ks').val() == '' || $('#berat_sample_awal_kg').val() == '' || $('#berat_sample_akhir_kg').val() == '' || $('#berat_sample_pk').val() == '' || $('#randoman').val() == '' || $('#wh').val() == '' || $('#tp').val() == '' || $('#md').val() == '' || $('#keterangan_lab_1').find(":selected").val() == '' || $('#broken').val() == '' || $('#keterangan_lab1').val() == '') {
-                                    Swal.fire({
-                                        title: 'Gagal !',
-                                        text: 'Data Harus Diisi.',
-                                        icon: 'warning',
-                                        timer: 1500
-                                    })
-                                    $('#btn_update').html('Simpan');
-                                } else if ($('#plan_harga').val() == '' | $('#plan_harga').val() == '0') {
-                                    Swal.fire({
-                                        title: 'Mohon Dicek!',
-                                        text: 'Harga Rp. 0 ',
-                                        icon: 'warning',
-                                        timer: 1500
-                                    })
-                                    $('#btn_update').html('Simpan');
-                                } else {
-                                    Swal.fire({
-                                        title: 'Harap Tuggu Sebentar!',
-                                        html: 'Proses Menyimpan Data...', // add html attribute if you want or remove
-                                        allowOutsideClick: false,
-                                        onBeforeOpen: () => {
-                                            Swal.showLoading()
-                                            $.ajax({
-                                                data: {
-                                                    "_token": "{{ csrf_token() }}",
-                                                    id_gabahincoming_qc: id_gabahincoming_qc,
-                                                    tanggal_po: tanggal_po,
-                                                    date_bid: date_bid,
-                                                    lokasi_gt: lokasi_gt,
-                                                    waktu_penerimaan: waktu_penerimaan,
-                                                    keterangan_lab_1: keterangan_lab_1,
-                                                    gabahincoming_id_penerimaan_po: gabahincoming_id_penerimaan_po,
-                                                    gabahincoming_id_data_po: gabahincoming_id_data_po,
-                                                    gabahincoming_kode_po: gabahincoming_kode_po,
-                                                    gabahincoming_plat: gabahincoming_plat,
-                                                    hampa: hampa,
-                                                    broken: broken,
-                                                    randoman: randoman,
-                                                    kadar_air: kadar_air,
-                                                    keterangan_lab: keterangan_lab,
-                                                    plan_harga: plan_harga,
-                                                    kg_after_adjust_hampa: kg_after_adjust_hampa,
-                                                    prosentasi_kg: prosentasi_kg,
-                                                    susut: susut,
-                                                    adjust_susut: adjust_susut,
-                                                    prsentase_ks_kg_after_adjust_susut: prsentase_ks_kg_after_adjust_susut,
-                                                    prsentase_kg_pk: prsentase_kg_pk,
-                                                    adjust_prosentase_kg_pk: adjust_prosentase_kg_pk,
-                                                    presentase_ks_pk: presentase_ks_pk,
-                                                    presentase_putih: presentase_putih,
-                                                    adjust_prosentase_kg_ke_putih: adjust_prosentase_kg_ke_putih,
-                                                    plan_rend_dari_ks_beras: plan_rend_dari_ks_beras,
-                                                    katul: katul,
-                                                    refraksi_broken: refraksi_broken,
-                                                    plan_harga_gabah: plan_harga_gabah,
-                                                    ka_kg: ka_kg,
-                                                    berat_sample_awal_ks: berat_sample_awal_ks,
-                                                    berat_sample_awal_kg: berat_sample_awal_kg,
-                                                    berat_sample_akhir_kg: berat_sample_akhir_kg,
-                                                    berat_sample_pk: berat_sample_pk,
-                                                    wh: wh,
-                                                    tp: tp,
-                                                    md: md,
-                                                    status_pending: status_pending,
-                                                    keterangan_lab1: keterangan_lab1,
-                                                },
-                                                url: "{{ route('qc.lab.update_proses1_gabah_basah') }}",
-                                                type: "POST",
-                                                dataType: 'json',
-                                                success: function(data) {
-
-                                                    // table.draw();
-                                                    $('#data_longgrain').DataTable().ajax.reload();
-                                                    $('#data_pw').DataTable().ajax.reload();
-                                                    $('#data_kp').DataTable().ajax.reload();
-                                                    $('#btn_update').html('Simpan');
-                                                    $('#modal_outputlab1').modal('hide');
-                                                    Swal.fire({
-                                                        title: 'success',
-                                                        Text: 'Data Berhasil DiSimpan',
-                                                        icon: 'success',
-                                                        timer: 1500
-                                                    })
-
-                                                },
-                                                error: function(data) {
-                                                    $('#btn_update').html('Simpan');
-                                                    $('#modal_outputlab1').modal('hide');
-                                                    Swal.fire({
-                                                        title: 'Gagal',
-                                                        text: 'Data Tidak Tersimpan ',
-                                                        icon: 'error',
-                                                        timer: 1500
-
-                                                    })
-
-                                                }
-                                            });
-                                        },
-                                    });
-                                    // Swal.fire('Sukses!', 'Data anda berhasil di Simpan.', 'success')
-                                }
-                            } else if ($('#keterangan_lab_1').val() == 'Pending') {
-                                if ($('#kadar_air').val() == '' || $('#ka_kg').val() == '' || $('#berat_sample_awal_ks').val() == '' || $('#berat_sample_awal_kg').val() == '' || $('#berat_sample_akhir_kg').val() == '' || $('#berat_sample_pk').val() == '' || $('#randoman').val() == '' || $('#wh').val() == '' || $('#tp').val() == '' || $('#md').val() == '' || $('#keterangan_lab_1').find(":selected").val() == '' || $('#broken').val() == '' || $('#keterangan_lab1').val() == '') {
-                                    Swal.fire({
-                                        title: 'Gagal',
-                                        text: 'Data Tidak Diisi ',
-                                        icon: 'warning',
-                                        timer: 1500
-
-                                    })
-                                    $('#btn_update').html('Simpan');
-                                } else if ($('#plan_harga').val() == '' | $('#plan_harga').val() == '0') {
-                                    Swal.fire({
-                                        title: 'Mohon Dicek!',
-                                        text: 'Plan Harga Rp. 0',
-                                        icon: 'warning',
-                                        timer: 1500
-
-                                    })
-                                    $('#btn_update').html('Simpan');
-                                } else {
-                                    Swal.fire({
-                                        title: 'Harap Tuggu Sebentar!',
-                                        html: 'Proses Menyimpan Data...', // add html attribute if you want or remove
-                                        allowOutsideClick: false,
-                                        onBeforeOpen: () => {
-                                            Swal.showLoading()
-                                            $.ajax({
-                                                data: {
-                                                    "_token": "{{ csrf_token() }}",
-                                                    id_gabahincoming_qc: id_gabahincoming_qc,
-                                                    tanggal_po: tanggal_po,
-                                                    date_bid: date_bid,
-                                                    lokasi_gt: lokasi_gt,
-                                                    waktu_penerimaan: waktu_penerimaan,
-                                                    keterangan_lab_1: keterangan_lab_1,
-                                                    gabahincoming_id_penerimaan_po: gabahincoming_id_penerimaan_po,
-                                                    gabahincoming_id_data_po: gabahincoming_id_data_po,
-                                                    gabahincoming_kode_po: gabahincoming_kode_po,
-                                                    gabahincoming_plat: gabahincoming_plat,
-                                                    hampa: hampa,
-                                                    broken: broken,
-                                                    randoman: randoman,
-                                                    kadar_air: kadar_air,
-                                                    nama_supplier: nama_supplier,
-                                                    no_supplier: no_supplier,
-                                                    keterangan_lab: keterangan_lab,
-                                                    plan_harga: plan_harga,
-                                                    kg_after_adjust_hampa: kg_after_adjust_hampa,
-                                                    prosentasi_kg: prosentasi_kg,
-                                                    susut: susut,
-                                                    adjust_susut: adjust_susut,
-                                                    prsentase_ks_kg_after_adjust_susut: prsentase_ks_kg_after_adjust_susut,
-                                                    prsentase_kg_pk: prsentase_kg_pk,
-                                                    adjust_prosentase_kg_pk: adjust_prosentase_kg_pk,
-                                                    presentase_ks_pk: presentase_ks_pk,
-                                                    presentase_putih: presentase_putih,
-                                                    adjust_prosentase_kg_ke_putih: adjust_prosentase_kg_ke_putih,
-                                                    plan_rend_dari_ks_beras: plan_rend_dari_ks_beras,
-                                                    katul: katul,
-                                                    refraksi_broken: refraksi_broken,
-                                                    plan_harga_gabah: plan_harga_gabah,
-                                                    ka_kg: ka_kg,
-                                                    berat_sample_awal_ks: berat_sample_awal_ks,
-                                                    berat_sample_awal_kg: berat_sample_awal_kg,
-                                                    berat_sample_akhir_kg: berat_sample_akhir_kg,
-                                                    berat_sample_pk: berat_sample_pk,
-                                                    wh: wh,
-                                                    tp: tp,
-                                                    md: md,
-                                                    status_pending: status_pending,
-                                                    keterangan_lab1: keterangan_lab1,
-                                                },
-                                                url: "{{ route('qc.lab.update_proses1_gabah_basah') }}",
-                                                type: "POST",
-                                                dataType: 'json',
-                                                success: function(response) {
-
-                                                    // table.draw();
-                                                    $('#data_longgrain').DataTable().ajax.reload();
-                                                    $('#data_pw').DataTable().ajax.reload();
-                                                    $('#data_kp').DataTable().ajax.reload();
-                                                    $('#btn_update').html('Simpan');
-                                                    $('#modal_outputlab1').modal('hide');
-                                                    Swal.fire({
-                                                        title: 'success',
-                                                        Text: 'Data Berhasil DiSimpan',
-                                                        icon: 'success',
-                                                        timer: 1500
-                                                    })
-
-                                                },
-                                                error: function(response) {
-                                                    $('#btn_update').html('Simpan');
-                                                    $('#modal_outputlab1').modal('hide');
-                                                    Swal.fire({
-                                                        title: 'Gagal',
-                                                        text: 'Data Tidak Tersimpan ',
-                                                        icon: 'error',
-                                                        timer: 1500
-                                                    })
-
-                                                }
-                                            });
-                                        },
-                                    });
-                                }
-                            } else if ($('#keterangan_lab_1').val() == 'Reject') {
-                                if ($('#kadar_air').val() == '' || $('#ka_kg').val() == '' || $('#berat_sample_awal_ks').val() == '' || $('#berat_sample_awal_kg').val() == '' || $('#berat_sample_akhir_kg').val() == '' || $('#berat_sample_pk').val() == '' || $('#randoman').val() == '' || $('#wh').val() == '' || $('#tp').val() == '' || $('#md').val() == '' || $('#keterangan_lab_1').find(":selected").val() == '' || $('#broken').val() == '' || $('#keterangan_lab1').val() == '') {
-                                    Swal.fire({
-                                        title: 'Gagal',
-                                        text: 'Data Tidak Diisi ',
-                                        icon: 'warning',
-                                        timer: 1500
-
-                                    })
-                                    $('#btn_update').html('Simpan');
-                                } else if ($('#plan_harga').val() == '' | $('#plan_harga').val() == '0') {
-                                    Swal.fire({
-                                        title: 'Mohon Dicek!',
-                                        text: 'Plan Harga Rp. 0',
-                                        icon: 'warning',
-                                        timer: 1500
-
-                                    })
-                                    $('#btn_update').html('Simpan');
-                                } else {
-                                    Swal.fire({
-                                        title: 'Harap Tuggu Sebentar!',
-                                        html: 'Proses Menyimpan Data...', // add html attribute if you want or remove
-                                        allowOutsideClick: false,
-                                        onBeforeOpen: () => {
-                                            Swal.showLoading()
-                                            $.ajax({
-                                                data: {
-                                                    "_token": "{{ csrf_token() }}",
-                                                    id_gabahincoming_qc: id_gabahincoming_qc,
-                                                    tanggal_po: tanggal_po,
-                                                    date_bid: date_bid,
-                                                    lokasi_gt: lokasi_gt,
-                                                    waktu_penerimaan: waktu_penerimaan,
-                                                    keterangan_lab_1: keterangan_lab_1,
-                                                    gabahincoming_id_penerimaan_po: gabahincoming_id_penerimaan_po,
-                                                    gabahincoming_id_data_po: gabahincoming_id_data_po,
-                                                    gabahincoming_plat: gabahincoming_plat,
-                                                    gabahincoming_kode_po: gabahincoming_kode_po,
-                                                    hampa: hampa,
-                                                    broken: broken,
-                                                    randoman: randoman,
-                                                    kadar_air: kadar_air,
-                                                    keterangan_lab: keterangan_lab,
-                                                    plan_harga: plan_harga,
-                                                    kg_after_adjust_hampa: kg_after_adjust_hampa,
-                                                    prosentasi_kg: prosentasi_kg,
-                                                    susut: susut,
-                                                    nama_supplier: nama_supplier,
-                                                    no_supplier: no_supplier,
-                                                    adjust_susut: adjust_susut,
-                                                    prsentase_ks_kg_after_adjust_susut: prsentase_ks_kg_after_adjust_susut,
-                                                    prsentase_kg_pk: prsentase_kg_pk,
-                                                    adjust_prosentase_kg_pk: adjust_prosentase_kg_pk,
-                                                    presentase_ks_pk: presentase_ks_pk,
-                                                    presentase_putih: presentase_putih,
-                                                    adjust_prosentase_kg_ke_putih: adjust_prosentase_kg_ke_putih,
-                                                    plan_rend_dari_ks_beras: plan_rend_dari_ks_beras,
-                                                    katul: katul,
-                                                    refraksi_broken: refraksi_broken,
-                                                    plan_harga_gabah: plan_harga_gabah,
-                                                    ka_kg: ka_kg,
-                                                    berat_sample_awal_ks: berat_sample_awal_ks,
-                                                    berat_sample_awal_kg: berat_sample_awal_kg,
-                                                    berat_sample_akhir_kg: berat_sample_akhir_kg,
-                                                    berat_sample_pk: berat_sample_pk,
-                                                    wh: wh,
-                                                    tp: tp,
-                                                    md: md,
-                                                    status_pending: status_pending,
-                                                    keterangan_lab1: keterangan_lab1,
-                                                },
-                                                url: "{{ route('qc.lab.update_proses1_gabah_basah') }}",
-                                                type: "POST",
-                                                dataType: 'json',
-                                                success: function(data) {
-
-                                                    // table.draw();
-                                                    $('#data_longgrain').DataTable().ajax.reload();
-                                                    $('#data_pw').DataTable().ajax.reload();
-                                                    $('#data_kp').DataTable().ajax.reload();
-                                                    $('#btn_update').html('Simpan');
-                                                    $('#modal_outputlab1').modal('hide');
-                                                    Swal.fire({
-                                                        title: 'success',
-                                                        Text: 'Data Berhasil DiSimpan',
-                                                        icon: 'success',
-                                                        timer: 1500
-                                                    })
-
-                                                },
-                                                error: function(data) {
-                                                    $('#btn_update').html('Simpan');
-                                                    $('#modal_outputlab1').modal('hide');
-                                                    Swal.fire({
-                                                        title: 'Gagal',
-                                                        text: 'Data Tidak Tersimpan ',
-                                                        icon: 'error',
-                                                        timer: 1500
-
-                                                    })
-
-                                                }
-                                            });
-                                        },
-                                    });
-                                }
-                            } else {
-                                Swal.fire({
-                                    title: 'Gagal',
-                                    text: 'Data Tidak Tersimpan ',
-                                    icon: 'error',
-                                    timer: 1500
-
-                                })
-                                $('#btn_update').html('Simpan');
-                            }
-                        } else {
-                            Swal.fire({
-                                title: 'Gagal',
-                                text: 'Data Tidak Tersimpan ',
-                                icon: 'error',
-                                timer: 1500
-
-                            })
-                            $('#btn_update').html('Simpan');
-
-                        }
-                    });
-                } else {
-                    Swal.fire({
-                        title: 'Maaf, Anda Tidak Bisa Input',
-                        text: 'SPV belum input Parameter Lab',
-                        icon: 'warning',
-                        allowOutsideClick: false
-                    })
-                    $('#btn_update').html('Simpan');
-                }
-            });
             $(document).on('click', '#btn_bongkar', function(e) {
                 e.preventDefault();
                 var id = $(this).data('id');
@@ -2242,431 +1685,8 @@ SURYA PANGAN SEMESTA
                     }
                 });
             });
-            $(document).on('click', '.lokasi_bongkar', function() {
-                var id = $(this).attr("name");
-                var url = "{{ route('qc.lab.lokasi_bongkar') }}" + "/" + id;
-                // console.log(url);
-                $.ajax({
-                    type: "GET",
-                    url: url,
-                    success: function(response) {
-                        // console.log(response);
-                        var parsed = $.parseJSON(response);
-                        $('#lokasi_bongkar').text(parsed.lokasi_bongkar);
-                        $('#nomer_antrian').text(parsed.antrian);
-                    }
-                });
-            });
+
         });
     </script>
 
-    <script>
-        var gabahincoming_id_penerimaan_po = document.getElementById('gabahincoming_id_penerimaan_po');
-
-        var kadar_air = document.getElementById('kadar_air');
-        var ka_kg = document.getElementById('ka_kg');
-        var berat_sample_awal_ks = document.getElementById('berat_sample_awal_ks');
-        var berat_sample_awal_kg = document.getElementById('berat_sample_awal_kg');
-        var berat_sample_akhir_kg = document.getElementById('berat_sample_akhir_kg');
-        var berat_sample_pk = document.getElementById('berat_sample_pk');
-        var randoman = document.getElementById('randoman');
-        var wh = document.getElementById('wh');
-        var tp = document.getElementById('tp');
-        var md = document.getElementById('md');
-        var broken = document.getElementById('broken');
-        // hidden
-        var kg_after_adjust_hampa = document.getElementById('kg_after_adjust_hampa');
-        var prosentasi_kg = document.getElementById('prosentasi_kg');
-        var susut = document.getElementById('susut');
-        var adjust_susut = document.getElementById('adjust_susut');
-        var prsentase_ks_kg_after_adjust_susut = document.getElementById('prsentase_ks_kg_after_adjust_susut');
-        var prsentase_kg_pk = document.getElementById('prsentase_kg_pk');
-        var adjust_prosentase_kg_pk = document.getElementById('adjust_prosentase_kg_pk');
-        var presentase_ks_pk = document.getElementById('presentase_ks_pk');
-        var presentase_putih = document.getElementById('presentase_putih');
-        var adjust_prosentase_kg_ke_putih = document.getElementById('adjust_prosentase_kg_ke_putih');
-        var plan_rend_dari_ks_beras = document.getElementById('plan_rend_dari_ks_beras');
-        var katul = document.getElementById('katul');
-        var refraksi_broken = document.getElementById('refraksi_broken');
-        var plan_harga_gabah = document.getElementById('plan_harga_gabah');
-        var hampa = document.getElementById('hampa');
-        var status_pending = document.getElementById('status_pending');
-        var item = document.getElementById('item');
-        var plan_harga = document.getElementById('plan_harga');
-
-        function validasi() {
-            var id_penerimaan = id_penerimaan_po_gb.value;
-            $.ajax({
-                type: "GET",
-                url: "{{route('get_count_plan_hpp_gabah_basah')}}" + "/" + id_penerimaan + "/" + item.value,
-                async: false,
-                success: function(data) {
-                    var record = JSON.parse(data);
-                    // console.log(record)
-                    if (record == '0') {
-                        Swal.fire({
-                            title: 'Maaf, Anda Tidak Bisa Input',
-                            text: 'SPV belum input PLAN HPP Sesuai Tanggal PO: ' + tanggal_po_gb.value + ' dan Item :' + item.value,
-                            icon: 'warning',
-                            allowOutsideClick: false
-                        })
-                    } else {
-                        console.log('Plan HPP Sudah Terisi');
-                    }
-                }
-            });
-            $.ajax({
-                type: "GET",
-                url: "{{route('get_price_top_gabah_basah')}}" + "/" + id_penerimaan,
-                async: false,
-                success: function(data) {
-                    var record = JSON.parse(data);
-                    // console.log(record)
-                    if (record == null || record == '') {
-                        Swal.fire({
-                            title: 'Maaf, Anda Tidak Bisa Input',
-                            text: 'SPV Belum input HARGA ATAS Sesuai Tanggal PO',
-                            icon: 'warning',
-                            allowOutsideClick: false
-                        })
-                    } else {
-                        console.log('harga atas sudah terisi')
-                    }
-                }
-            });
-            $.ajax({
-                type: "GET",
-                url: "{{route('get_buttom_price_gabah_basah')}}" + "/" + id_penerimaan,
-                async: false,
-                success: function(data) {
-                    var record = JSON.parse(data);
-                    // console.log(record)
-                    if (record == null || record == '') {
-                        Swal.fire({
-                            title: 'Maaf, Anda Tidak Bisa Input',
-                            text: 'Harap input HARGA BAWAH Sesuai Tanggal PO',
-                            icon: 'warning',
-                            allowOutsideClick: false
-                        })
-                    } else {
-                        console.log('Harga Bawah Sudah Terisi')
-                    }
-                }
-            });
-        }
-
-        function rumus() {
-            if (kadar_air.value == 0 || kadar_air.value == '' ||
-                ka_kg.value == 0 || ka_kg.value == '' ||
-                berat_sample_awal_ks.value == 0 || berat_sample_awal_ks.value == '' ||
-                berat_sample_awal_kg.value == 0 || berat_sample_awal_kg.value == '' ||
-                berat_sample_akhir_kg.value == 0 || berat_sample_akhir_kg.value == '' ||
-                berat_sample_pk.value == 0 || berat_sample_pk.value == '' ||
-                randoman.value == 0 || randoman.value == '' ||
-                wh.value == 0 || wh.value == '' ||
-                tp.value == 0 || tp.value == '' ||
-                md.value == 0 || md.value == '' ||
-                broken.value == 0 || broken.value == '') {
-                plan_harga.value = "0";
-
-            } else {
-                var id_penerimaan = gabahincoming_id_penerimaan_po.value;
-                kg_after_adjust_hampa.value = berat_sample_akhir_kg.value;
-                var perhitungan_prosentasi_kg = parseFloat(kg_after_adjust_hampa.value) / 1.5
-                prosentasi_kg.value = round(perhitungan_prosentasi_kg, 1);
-                var perhitungan_susut = 100 - round(perhitungan_prosentasi_kg, 2)
-                susut.value = round(perhitungan_susut, 1);
-                var perhitungan_adjust_susut = round(perhitungan_susut, 2) * 1.2;
-                adjust_susut.value = round(perhitungan_adjust_susut, 1);
-                var perhitungan_prsentase_ks_kg_after_adjust_susut = 100 - round(perhitungan_adjust_susut, 2);
-                prsentase_ks_kg_after_adjust_susut.value = round(perhitungan_prsentase_ks_kg_after_adjust_susut, 1);
-
-                var perhitungan_prsentase_kg_pk = (berat_sample_pk.value / (kg_after_adjust_hampa.value / 100));
-                prsentase_kg_pk.value = round(perhitungan_prsentase_kg_pk, 1);
-                var perhitungan_adjust_prosentase_kg_pk = round(perhitungan_prsentase_kg_pk, 2) * 0.952;
-                adjust_prosentase_kg_pk.value = round(perhitungan_adjust_prosentase_kg_pk, 1);
-                var perhitungan_presentase_ks_pk = round(perhitungan_prsentase_ks_kg_after_adjust_susut, 2) * (round(perhitungan_adjust_prosentase_kg_pk, 2) / 100);
-                presentase_ks_pk.value = round(perhitungan_presentase_ks_pk, 1);
-                var perhitungan_presentase_putih = randoman.value / (kg_after_adjust_hampa.value / 100);
-                presentase_putih.value = round(perhitungan_presentase_putih, 1);
-                var perhitungan_adjust_prosentase_kg_ke_putih = round(perhitungan_presentase_putih, 2) * 0.952;
-                adjust_prosentase_kg_ke_putih.value = round(perhitungan_adjust_prosentase_kg_ke_putih, 1);
-                var perhitungan_plan_rend_dari_ks_beras = (100 - round(perhitungan_adjust_susut, 2)) * (round(perhitungan_adjust_prosentase_kg_ke_putih, 2) / 100);
-                plan_rend_dari_ks_beras.value = round(perhitungan_plan_rend_dari_ks_beras, 1);
-                var perhitungan_katul = ((round(perhitungan_adjust_prosentase_kg_pk, 2) - round(perhitungan_adjust_prosentase_kg_ke_putih, 2)) / round(perhitungan_adjust_prosentase_kg_pk, 2)) * 100;
-                katul.value = round(perhitungan_katul, 1);
-                var perhitungan_refraksi_broken = "0";
-                var h_broken = broken.value;
-
-                // get plan hpp
-
-                var elems = document.querySelectorAll(".hpp");
-                // console.log(elems);
-
-                var std_hpp_incoming = 0;
-                [].forEach.call(elems, function(el) {
-                    var plan_hpp = el.value;
-                    // console.log(plan_hpp);
-                    arr_hpp = plan_hpp.split("#");
-                    // console.log(arr_hpp[2]);
-                    if (tp.value >= arr_hpp[0] && tp.value <= arr_hpp[1]) {
-                        std_hpp_incoming = arr_hpp[2];
-                    } else if (tp.value >= arr_hpp[1]) {
-                        std_hpp_incoming = arr_hpp[2];
-
-                    }
-                    // console.log(std_hpp_incoming);
-
-                    //                     }
-
-                });
-                // console.log(min_tp,max_tp, harga_hpp);
-                var perhitungan_plan_harga_gabah = ((round(perhitungan_plan_rend_dari_ks_beras, 2) / 100) * std_hpp_incoming) - 75;
-                plan_harga_gabah.value = round(perhitungan_plan_harga_gabah, 0);
-                hasil = plan_harga_gabah.value;
-                // console.log(hasil);
-
-                // if (plan_harga_gabah.value == 0 || plan_harga_gabah.value == '') {
-                //     hasil = "0";
-                // } else {
-                //     if (status_gabah == "UTARA" || status_gabah == "SELATAN") {
-                //         var perhitungan_hasil = plan_harga_gabah.value - refraksi_broken.value;
-                //         hasil = round(perhitungan_hasil, 2);
-                //     } else {
-                //         var perhitungan_hasil = plan_harga_gabah.value - refraksi_broken.value;
-                //         hasil = round(perhitungan_hasil);
-
-                //     }
-                // }
-                $.ajax({
-                    type: "GET",
-                    url: "{{route('get_price_top_gabah_basah')}}" + "/" + id_penerimaan,
-                    async: false,
-                    success: function(data) {
-                        var record = JSON.parse(data);
-                        // console.log(record)
-                        if (record == null || record == '') {
-                            Swal.fire({
-                                title: 'Maaf, Anda Tidak Bisa Input',
-                                text: 'SPV Belum input HARGA ATAS Sesuai Tanggal PO',
-                                icon: 'warning',
-                                allowOutsideClick: false
-                            })
-                        }
-                    }
-                });
-                $.ajax({
-                    type: "GET",
-                    url: "{{route('get_buttom_price_gabah_basah')}}" + "/" + id_penerimaan,
-                    async: false,
-                    success: function(data) {
-                        var record = JSON.parse(data);
-                        // console.log(record)
-                        if (record == null || record == '') {
-                            Swal.fire({
-                                title: 'Maaf, Anda Tidak Bisa Input',
-                                text: 'SPV Belum input HARGA BAWAH Sesuai Tanggal PO',
-                                icon: 'warning',
-                                allowOutsideClick: false
-                            })
-                        } else {
-                            harga_bawah = record.harga_bawah_gb
-                            min_harga_bawah = record.min_toleransi_harga_bawah_gb
-                            max_harga_bawah = record.max_toleransi_harga_bawah_gb
-                        }
-                    }
-                });
-                $.ajax({
-                    type: "GET",
-                    url: "{{route('get_count_plan_hpp_gabah_basah')}}" + "/" + id_penerimaan + "/" + item.value,
-                    async: false,
-                    success: function(data) {
-                        var record = JSON.parse(data);
-                        // console.log(record)
-                        if (record == '0') {
-                            Swal.fire({
-                                title: 'Maaf, Anda Tidak Bisa Input',
-                                text: 'SPV Belum input PLAN HPP Sesuai Tanggal PO: ' + tanggal_po.value + ' dan Item :' + item.value,
-                                icon: 'warning',
-                                allowOutsideClick: false
-                            })
-                        }
-                    }
-                });
-                var harga_bawah_gb = harga_bawah - min_harga_bawah;
-                var harga_bawah_gb1 = harga_bawah - max_harga_bawah;
-                console.log(harga_bawah_gb);
-                console.log(harga_bawah_gb1);
-                if (hasil == 0 || hasil == '') {
-                    plan_harga.value = "0";
-                } else if (hasil >= harga_bawah_gb1 && hasil <= harga_bawah_gb) {
-                    console.log("konfirmasi");
-                    $('#keterangan_lab_1 > option[value="Pending"]').prop('selected', true);
-                    $('#keterangan_lab_1 > option[value="Reject"]').attr('selected', false);
-                    $('#keterangan_lab_1 > option[value="Unload"]').attr('selected', false);
-                    $('#keterangan_lab_1 > option[value="Unload"]').attr('disabled', true);
-                    $('#keterangan_lab_1 > option[value="Pending"]').attr('disabled', false);
-                    $('#keterangan_lab_1 > option[value="Reject"]').attr('disabled', false);
-                    status_pending.value = 'Pending Harga';
-                } else if (hasil <= harga_bawah_gb1) {
-                    $('#keterangan_lab_1 > option[value="Reject"]').prop('selected', true);
-                    $('#keterangan_lab_1 > option[value="Pending"]').attr('selected', false);
-                    $('#keterangan_lab_1 > option[value="Unload"]').attr('selected', false);
-                    $('#keterangan_lab_1 > option[value="Pending"]').attr('disabled', true);
-                    $('#keterangan_lab_1 > option[value="Unload"]').attr('disabled', true);
-                    $('#keterangan_lab_1 > option[value="Reject"]').attr('disabled', false);
-                    console.log("tolak");
-                } else {
-                    console.log("bongkar");
-                    $('#keterangan_lab_1 > option[value="Unload"]').prop('selected', true);
-                    $('#keterangan_lab_1 > option[value="Pending"]').attr('selected', false);
-                    $('#keterangan_lab_1 > option[value="reject"]').attr('selected', false);
-                    $('#keterangan_lab_1 > option[value="Unload"]').attr('disabled', false);
-                    $('#keterangan_lab_1 > option[value="Pending"]').attr('disabled', false);
-                    $('#keterangan_lab_1 > option[value="reject"]').attr('disabled', false);
-                }
-                var perhitungan_hampa = (berat_sample_awal_kg.value - berat_sample_akhir_kg.value) / (berat_sample_awal_kg.value / 100);
-                hampa.value = round(perhitungan_hampa, 1);
-                console.log("id_penerimaan = " + id_penerimaan);
-                console.log("Hampa = " + round(perhitungan_hampa, 8));
-                console.log("kg after djust hampa = " + kg_after_adjust_hampa.value);
-                console.log("prosentasi kg = " + round(perhitungan_prosentasi_kg, 2));
-
-                console.log("susut = " + round(perhitungan_susut, 2));
-                console.log("adjust susut = " + round(perhitungan_adjust_susut, 2));
-                console.log("presentase ks kg after adjust = " + round(perhitungan_prsentase_ks_kg_after_adjust_susut, 2));
-                console.log("prsentase kg pk = " + round(perhitungan_prsentase_kg_pk, 2));
-                console.log("adjust prosentase kg pk = " + round(perhitungan_adjust_prosentase_kg_pk, 2));
-                console.log("presentase ks pk = " + round(perhitungan_presentase_ks_pk, 2));
-                console.log("presentase putih = " + round(perhitungan_presentase_putih, 2));
-                console.log("adjust prosentase kg ke putih = " + round(perhitungan_adjust_prosentase_kg_ke_putih, 2));
-                console.log("Katul = " + round(perhitungan_katul, 2));
-                console.log("plan rend dari ks beras = " + round(perhitungan_plan_rend_dari_ks_beras, 3));
-                console.log("PLAN = " + std_hpp_incoming);
-                console.log("refraksi broken = " + refraksi_broken.value);
-                console.log("plan harga gabah = " + plan_harga_gabah.value);
-                console.log("hasil akhir = " + round(perhitungan_plan_harga_gabah, 1));
-
-                plan_harga.value = hasil;
-            }
-        }
-        var typingTimer; //timer identifier
-        var doneTypingInterval = 2000;
-
-        gabahincoming_id_penerimaan_po.addEventListener('keyup', function(e) {
-            clearTimeout(typingTimer);
-            typingTimer = setTimeout(rumus, doneTypingInterval);
-        });
-
-        kadar_air.addEventListener('keyup', function(e) {
-            clearTimeout(typingTimer);
-            typingTimer = setTimeout(rumus, doneTypingInterval);
-        });
-        ka_kg.addEventListener('keyup', function(e) {
-            clearTimeout(typingTimer);
-            typingTimer = setTimeout(rumus, doneTypingInterval);
-        });
-        berat_sample_awal_ks.addEventListener('keyup', function(e) {
-            clearTimeout(typingTimer);
-            typingTimer = setTimeout(rumus, doneTypingInterval);
-        });
-        berat_sample_awal_kg.addEventListener('keyup', function(e) {
-            clearTimeout(typingTimer);
-            typingTimer = setTimeout(rumus, doneTypingInterval);
-        });
-        berat_sample_akhir_kg.addEventListener('keyup', function(e) {
-            clearTimeout(typingTimer);
-            typingTimer = setTimeout(rumus, doneTypingInterval);
-        });
-        berat_sample_pk.addEventListener('keyup', function(e) {
-            clearTimeout(typingTimer);
-            typingTimer = setTimeout(rumus, doneTypingInterval);
-        });
-        randoman.addEventListener('keyup', function(e) {
-            clearTimeout(typingTimer);
-            typingTimer = setTimeout(rumus, doneTypingInterval);
-        });
-        wh.addEventListener('keyup', function(e) {
-            clearTimeout(typingTimer);
-            typingTimer = setTimeout(rumus, doneTypingInterval);
-        });
-        tp.addEventListener('keyup', function(e) {
-            clearTimeout(typingTimer);
-            typingTimer = setTimeout(rumus, doneTypingInterval);
-        });
-        md.addEventListener('keyup', function(e) {
-            clearTimeout(typingTimer);
-            typingTimer = setTimeout(rumus, doneTypingInterval);
-        });
-        broken.addEventListener('keyup', function(e) {
-            clearTimeout(typingTimer);
-            typingTimer = setTimeout(rumus, doneTypingInterval);
-        });
-
-        function round(value, exp) {
-            if (typeof exp === 'undefined' || +exp === 0)
-                return Math.round(value);
-
-            value = +value;
-            exp = +exp;
-
-            if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0))
-                return NaN;
-
-            // Shift
-            value = value.toString().split('e');
-            value = Math.round(+(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp)));
-
-            // Shift back
-            value = value.toString().split('e');
-            return +(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp));
-        }
-
-        var changeprice = false;
-
-        // function newprice() {
-        //     var id_penerimaan = gabahincoming_id_penerimaan_po.value;
-        //     var radio = document.getElementsByName('lokasi_gt');
-        //     var harga = document.getElementById('plan_harga').value;
-        //     var potongan = 0;
-        //     var hargabaru = 0;
-        //     $.ajax({
-        //         type: "GET",
-        //         url: "{{route('get_price_gt4')}}" + "/" + id_penerimaan,
-        //         async: false,
-        //         success: function(data) {
-        //             var record = JSON.parse(data);
-        //             potongan = record.potongan_bongkar_gt_04;
-        //         }
-        //     });
-
-        //     for (i = 0; i < radio.length; i++) {
-        //         if (radio[i].checked) {
-        //             if(radio[i].value=='SELATAN'){
-        //                     if(changeprice==false){
-        //                         // hargabaru=harga;
-        //                         hargabaru=harga-potongan;
-        //                         changeprice=true;
-        //                     } else {
-        //                         hargabaru1=parseInt(harga)+parseInt(potongan);
-        //                         hargabaru=hargabaru1-potongan;
-        //                         changeprice=true;
-        //                     }
-        //                 } else {
-        //                     if(changeprice==false){
-        //                         // hargabaru=harga;
-        //                         hargabaru=harga-potongan;
-        //                         changeprice=true;
-        //                     } else {
-        //                         hargabaru1=parseInt(harga)+parseInt(potongan);
-        //                         hargabaru=hargabaru1-potongan;
-        //                         changeprice=true;
-        //                     }
-        //                 }
-        //             // // console.log(hargabaru,potongan);
-        //             document.getElementById('plan_harga').value = hargabaru;
-        //         }
-        //     }
-        // }
-    </script>
     @endsection

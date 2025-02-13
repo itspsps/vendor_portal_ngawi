@@ -351,7 +351,8 @@ class AdminTimbanganController extends Controller
     function timbangan_logout()
     {
         Auth::guard('timbangan')->logout();
-        return redirect()->route('timbangan.login');
+        Alert::success('Sukses', 'Anda Berhasil Logout');
+        return redirect()->route('timbangan.login')->with('Sukses', 'Anda Berhasil Logout');
     }
 
 
@@ -688,11 +689,14 @@ class AdminTimbanganController extends Controller
         $data_po->update();
 
         $po = trackerPO::where('kode_po_tracker', $request->penerimaan_kode_po)->first();
-        $po->nama_admin_tracker  = Auth::guard('timbangan')->user()->name_admin_timbangan;
-        $po->status_po_tracker  = '9';
-        $po->proses_tracker  = 'insert TIMBANGAN AWAL';
-        $po->timbangan_awal_tracker  = date('Y-m-d H:i:s');
-        $po->update();
+        if ($po == NULL) {
+        } else {
+            $po->nama_admin_tracker  = Auth::guard('timbangan')->user()->name_admin_timbangan;
+            $po->status_po_tracker  = '9';
+            $po->proses_tracker  = 'insert TIMBANGAN AWAL';
+            $po->timbangan_awal_tracker  = date('Y-m-d H:i:s');
+            $po->update();
+        }
 
         if (
             $request->name_bid == 'GABAH BASAH LONG GRAIN' || $request->name_bid == 'GABAH BASAH CIHERANG' || $request->name_bid == 'GABAH BASAH LONG GRAIN 50 KG' || $request->name_bid == 'GABAH BASAH LONG GRAIN JUMBO BAG' || $request->name_bid == 'GABAH BASAH PANDAN WANGI' || $request->name_bid == 'GABAH BASAH PANDAN WANGI 50 KG'
@@ -921,6 +925,7 @@ class AdminTimbanganController extends Controller
                 $data->penerima_tonase_akhir = $request->penerima_tonase_akhir;
                 $data->tanggal_keluar = $request->tanggal_keluar;
                 $data->jam_keluar = $request->jam_keluar;
+                $data->tonase_awal = $request->tonase_awal;
                 $data->tonase_akhir = $request->tonase_akhir;
                 $data->created_at_tonase_akhir = date('Y-m-d H:i:s');
                 $data->hasil_akhir_tonase = $request->hasil_akhir_tonase;
@@ -930,17 +935,19 @@ class AdminTimbanganController extends Controller
                 $log                               = new LogAktivityTimbangan();
                 $log->nama_user                    = Auth::guard('timbangan')->user()->name_admin_timbangan;
                 $log->id_objek_aktivitas_timbangan = $request->id_penerimaan_po;
-                $log->aktivitas_timbangan          = 'Insert Tonase Akhir. Kode PO: ' . $data->penerimaan_kode_po . ' Tonase Akhir : ' . tonase($request->tonase_akhir) . ' Hasil Tonase : ' . tonase($request->hasil_akhir_tonase);
+                $log->aktivitas_timbangan          = 'Insert Tonase Akhir. Kode PO: ' . $data->penerimaan_kode_po . ' Tonase Awal : ' . $request->tonase_awal . ' Tonase Akhir : ' . tonase($request->tonase_akhir) . ' Hasil Tonase : ' . tonase($request->hasil_akhir_tonase);
                 $log->keterangan_aktivitas         = 'Selesai';
                 $log->created_at                   = date('Y-m-d H:i:s');
                 $log->save();
 
                 $po = trackerPO::where('kode_po_tracker', $data->penerimaan_kode_po)->first();
-                $po->nama_admin_tracker  = Auth::guard('timbangan')->user()->name_admin_timbangan;
-                $po->timbangan_akhir_tracker  = date('Y-m-d H:i:s');
-                $po->proses_tracker  = 'insert TONASE AKHIR';
-                $po->update();
-
+                if ($po == NULL) {
+                } else {
+                    $po->nama_admin_tracker  = Auth::guard('timbangan')->user()->name_admin_timbangan;
+                    $po->timbangan_akhir_tracker  = date('Y-m-d H:i:s');
+                    $po->proses_tracker  = 'insert TONASE AKHIR';
+                    $po->update();
+                }
                 return response()->json($data);
             } else {
                 $data = PenerimaanPO::where('id_penerimaan_po', $request->id_penerimaan_po)->first();
@@ -948,6 +955,7 @@ class AdminTimbanganController extends Controller
                 $data->penerima_tonase_akhir = $request->penerima_tonase_akhir;
                 $data->tanggal_keluar = $request->tanggal_keluar;
                 $data->jam_keluar = $request->jam_keluar;
+                $data->tonase_awal = $request->tonase_awal;
                 $data->tonase_akhir = $request->tonase_akhir;
                 $data->created_at_tonase_akhir = date('Y-m-d H:i:s');
                 $data->hasil_akhir_tonase = $request->hasil_akhir_tonase;
@@ -957,16 +965,19 @@ class AdminTimbanganController extends Controller
                 $log                               = new LogAktivityTimbangan();
                 $log->nama_user                    = Auth::guard('timbangan')->user()->name_admin_timbangan;
                 $log->id_objek_aktivitas_timbangan = $request->id_penerimaan_po;
-                $log->aktivitas_timbangan          = 'Insert Tonase Akhir. Kode PO:' . $data->penerimaan_kode_po . ' Tonase Akhir : ' . $request->tonase_akhir . ' Hasil Tonase : ' . $request->hasil_akhir_tonase;
+                $log->aktivitas_timbangan          = 'Insert Tonase Akhir. Kode PO:' . $data->penerimaan_kode_po . ' Tonase Awal : ' . $request->tonase_awal . ' Tonase Akhir : ' . $request->tonase_akhir . ' Hasil Tonase : ' . $request->hasil_akhir_tonase;
                 $log->keterangan_aktivitas         = 'Selesai';
                 $log->created_at                   = date('Y-m-d H:i:s');
                 $log->save();
 
                 $po = trackerPO::where('kode_po_tracker', $data->penerimaan_kode_po)->first();
-                $po->nama_admin_tracker  = Auth::guard('timbangan')->user()->name_admin_timbangan;
-                $po->timbangan_akhir_tracker  = date('Y-m-d H:i:s');
-                $po->proses_tracker  = 'insert TIMBANGAN AKHIR';
-                $po->update();
+                if ($po == NULL) {
+                } else {
+                    $po->nama_admin_tracker  = Auth::guard('timbangan')->user()->name_admin_timbangan;
+                    $po->timbangan_akhir_tracker  = date('Y-m-d H:i:s');
+                    $po->proses_tracker  = 'insert TIMBANGAN AKHIR';
+                    $po->update();
+                }
 
                 $data = Lab2GabahBasah::where('lab2_kode_po_gb', $request->penerimaan_kode_po)->first();
                 $data->plan_berat_kg_pertruk_gb = $request->plan_berat_kg_pertruk;
@@ -1274,6 +1285,10 @@ class AdminTimbanganController extends Controller
                         $result = $list->kode_po;
                         return $result;
                     })
+                    ->addColumn('form_tonase_akhir', function ($list) {
+                        $result = $list->form_tonase_akhir;
+                        return $result;
+                    })
                     ->addColumn('nama_vendor', function ($list) {
                         $result = $list->nama_vendor;
                         return '
@@ -1306,7 +1321,7 @@ class AdminTimbanganController extends Controller
                     <i class="fa fa-print">&nbsp;Cetak&nbsp;Penerimaan</i>
                 </a>';
                     })
-                    ->rawColumns(['kode_po', 'name_bid', 'nama_vendor', 'plat_kendaraan', 'tanggal_po', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'rafraksi', 'ckelola'])
+                    ->rawColumns(['kode_po', 'form_tonase_akhir', 'name_bid', 'nama_vendor', 'plat_kendaraan', 'tanggal_po', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'rafraksi', 'ckelola'])
                     ->make(true);
             } else {
                 return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
@@ -1326,6 +1341,10 @@ class AdminTimbanganController extends Controller
                         $result = $list->kode_po;
                         return $result;
                     })
+                    ->addColumn('form_tonase_akhir', function ($list) {
+                        $result = $list->form_tonase_akhir;
+                        return $result;
+                    })
                     ->addColumn('nama_vendor', function ($list) {
                         $result = $list->nama_vendor;
                         return '
@@ -1358,7 +1377,7 @@ class AdminTimbanganController extends Controller
                     <i class="fa fa-print">&nbsp;Cetak&nbsp;Penerimaan</i>
                 </a>';
                     })
-                    ->rawColumns(['kode_po', 'name_bid', 'nama_vendor', 'plat_kendaraan', 'tanggal_po', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'rafraksi', 'ckelola'])
+                    ->rawColumns(['kode_po', 'form_tonase_akhir', 'name_bid', 'nama_vendor', 'plat_kendaraan', 'tanggal_po', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'rafraksi', 'ckelola'])
                     ->make(true);
             }
         }
@@ -1384,6 +1403,10 @@ class AdminTimbanganController extends Controller
                     })
                     ->addColumn('kode_po', function ($list) {
                         $result = $list->kode_po;
+                        return $result;
+                    })
+                    ->addColumn('form_tonase_akhir', function ($list) {
+                        $result = $list->form_tonase_akhir;
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
@@ -1426,7 +1449,7 @@ class AdminTimbanganController extends Controller
                         <i class="fa fa-print">&nbsp;Cetak&nbsp;Penerimaan</i>
                          </a>';
                     })
-                    ->rawColumns(['kode_po', 'nama_vendor', 'plat_kendaraan', 'name_bid', 'tanggal_po', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'rafraksi', 'ckelola'])
+                    ->rawColumns(['kode_po', 'form_tonase_akhir', 'nama_vendor', 'plat_kendaraan', 'name_bid', 'tanggal_po', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'rafraksi', 'ckelola'])
                     ->make(true);
             } else {
                 return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
@@ -1444,6 +1467,10 @@ class AdminTimbanganController extends Controller
                     })
                     ->addColumn('kode_po', function ($list) {
                         $result = $list->kode_po;
+                        return $result;
+                    })
+                    ->addColumn('form_tonase_akhir', function ($list) {
+                        $result = $list->form_tonase_akhir;
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
@@ -1478,7 +1505,7 @@ class AdminTimbanganController extends Controller
                     <i class="fa fa-print">&nbsp;Cetak&nbsp;Penerimaan</i>
                 </a>';
                     })
-                    ->rawColumns(['kode_po', 'name_bid', 'nama_vendor', 'plat_kendaraan', 'tanggal_po', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'rafraksi', 'ckelola'])
+                    ->rawColumns(['kode_po', 'form_tonase_akhir', 'name_bid', 'nama_vendor', 'plat_kendaraan', 'tanggal_po', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'rafraksi', 'ckelola'])
                     ->make(true);
             }
         }
@@ -1504,6 +1531,10 @@ class AdminTimbanganController extends Controller
                     })
                     ->addColumn('kode_po', function ($list) {
                         $result = $list->kode_po;
+                        return $result;
+                    })
+                    ->addColumn('form_tonase_akhir', function ($list) {
+                        $result = $list->form_tonase_akhir;
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
@@ -1546,7 +1577,7 @@ class AdminTimbanganController extends Controller
                 <i class="fa fa-print">&nbsp;Cetak&nbsp;Penerimaan</i>
             </a>';
                     })
-                    ->rawColumns(['kode_po', 'nama_vendor', 'plat_kendaraan', 'name_bid', 'tanggal_po', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'rafraksi', 'ckelola'])
+                    ->rawColumns(['kode_po', 'form_tonase_akhir', 'nama_vendor', 'plat_kendaraan', 'name_bid', 'tanggal_po', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'rafraksi', 'ckelola'])
                     ->make(true);
             } else {
                 return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
@@ -1564,6 +1595,10 @@ class AdminTimbanganController extends Controller
                     })
                     ->addColumn('kode_po', function ($list) {
                         $result = $list->kode_po;
+                        return $result;
+                    })
+                    ->addColumn('form_tonase_akhir', function ($list) {
+                        $result = $list->form_tonase_akhir;
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
@@ -1598,7 +1633,7 @@ class AdminTimbanganController extends Controller
                     <i class="fa fa-print">&nbsp;Cetak&nbsp;Penerimaan</i>
                 </a>';
                     })
-                    ->rawColumns(['kode_po', 'name_bid', 'nama_vendor', 'plat_kendaraan', 'tanggal_po', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'rafraksi', 'ckelola'])
+                    ->rawColumns(['kode_po', 'name_bid', 'form_tonase_akhir', 'nama_vendor', 'plat_kendaraan', 'tanggal_po', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'rafraksi', 'ckelola'])
                     ->make(true);
             }
         }
@@ -2011,15 +2046,18 @@ class AdminTimbanganController extends Controller
         $log->save();
 
         $po = trackerPO::where('kode_po_tracker', $request->penerimaan_kode_po)->first();
-        $po->nama_admin_tracker  = Auth::guard('timbangan')->user()->name_admin_timbangan;
-        $po->revisi_po_tracker  = date('Y-m-d H:i:s');
-        $po->proses_tracker  = 'REVISI TONASE';
-        $po->approve_revisi_spvap_tracker  = NULL;
-        $po->approve_tolak_revisi_spvap_tracker  = NULL;
-        $po->pengajuan_revisi_ap_tracker  = NULL;
-        $po->approve_spvap_tracker  = NULL;
-        $po->tolak_approve_spvap_tracker  = NULL;
-        $po->update();
+        if ($po == NULL) {
+        } else {
+            $po->nama_admin_tracker  = Auth::guard('timbangan')->user()->name_admin_timbangan;
+            $po->revisi_po_tracker  = date('Y-m-d H:i:s');
+            $po->proses_tracker  = 'REVISI TONASE';
+            $po->approve_revisi_spvap_tracker  = NULL;
+            $po->approve_tolak_revisi_spvap_tracker  = NULL;
+            $po->pengajuan_revisi_ap_tracker  = NULL;
+            $po->approve_spvap_tracker  = NULL;
+            $po->tolak_approve_spvap_tracker  = NULL;
+            $po->update();
+        }
         return response()->json($data);
     }
     public function timbangan_akhir_gb_ciherang_index()
@@ -2329,7 +2367,7 @@ class AdminTimbanganController extends Controller
 
     public function get_all_notifikasi()
     {
-        $get_notifikasitimbangan = NotifTimbangan::where('status', 0)->orderBy('created_at', 'DESC')->get();
+        $get_notifikasitimbangan = NotifTimbangan::where('status', 0)->orderBy('id_notif', 'DESC')->limit(10)->get();
         $getcountnotif_datatonaseawal = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
@@ -2378,7 +2416,25 @@ class AdminTimbanganController extends Controller
         ];
         return response()->json($result);
     }
-
+    public function get_notif_timbangan_all()
+    {
+        return view('dashboard.admin_timbangan.notifikasi.notifikasi');
+    }
+    public function get_notif_timbangan_all_index()
+    {
+        return Datatables::of(NotifTimbangan::where('status', 0)->orderBy('id_notif', 'DESC')->get())
+            ->addColumn('keterangan', function ($list) {
+                $result = $list->keterangan;
+                return $result;
+            })
+            ->addColumn('created_at', function ($list) {
+                $result_date = \Carbon\Carbon::parse($list->created_at)->isoFormat('DD-MM-Y');
+                $result_time = \Carbon\Carbon::parse($list->created_at)->isoFormat('HH:mm:ss ');
+                $result = $result_date . '<br><span class="btn btn-sm btn-label-primary">' . $result_time . ' WIB</span>';
+                return $result;
+            })->rawColumns(['keterangan', 'created_at'])
+            ->make(true);
+    }
     public function set_notifikasitimbangan(request $request)
     {
         $id = $request->id;
@@ -2395,9 +2451,9 @@ class AdminTimbanganController extends Controller
     public function new_notifikasitimbangan()
     {
         $data = NotifTimbangan::where('notifbaru', 0)->first();
-        if($data==''||$data==NULL){
+        if ($data == '' || $data == NULL) {
             return 'kosong';
-        }else{
+        } else {
 
             $title = $data->judul;
             $keterangan = $data->keterangan;

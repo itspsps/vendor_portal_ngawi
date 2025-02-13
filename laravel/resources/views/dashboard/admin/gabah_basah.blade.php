@@ -10,16 +10,21 @@ SURYA PANGAN SEMESTA
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
                 <h3 class="kt-subheader__title">
-                    E-PROCUREMENT
+                    PT. SURYA PANGAN SEMESTA
                 </h3>
+                <span class="btn-outline btn-sm btn-info mr-3">NGAWI</span>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
-                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
                     <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
-                        SURYA PANGAN SEMESTA
+                        Plan PO
                     </a>
-                    <span class="btn-outline btn-sm btn-info">Site Ngawi</span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Gabah Basah
+                    </a>
                 </div>
             </div>
         </div>
@@ -44,26 +49,29 @@ SURYA PANGAN SEMESTA
                         <div class="m-portlet__body">
                             <ul class="nav nav-pills" role="tablist">
                                 <li class="nav-item mt-3">
-                                    <a class="nav-link" data-toggle="tab" href="#m_tabs_3_1"><i class="la la-database"></i>PO Kemaren (Terlambat)</a>
+                                    <a class="nav-link active" data-toggle="tab" href="#m_tabs_3_2"><i class="la la-database"></i>PO Aktif ( <?php if (date('H:i:s') < '12:00:00') {
+                                                                                                                                                    echo date('d-m-Y', strtotime("-1 days")) . ' - ' . date('d-m-Y');
+                                                                                                                                                } else {
+                                                                                                                                                    echo date('d-m-Y');
+                                                                                                                                                } ?> )</a>
                                 </li>
                                 <li class="nav-item mt-3">
-                                    <a class="nav-link active" data-toggle="tab" href="#m_tabs_3_2"><i class="la la-database"></i>PO Hari Ini ( <?php echo date('d-m-Y'); ?> )</a>
-                                </li>
-                                <li class="nav-item mt-3">
-                                    <a class="nav-link" data-toggle="tab" href="#m_tabs_3_3"><i class="la la-database"></i>PO Besok ( <?php echo date('d-m-Y', strtotime("+1 days")); ?> )</a>
+                                    <a class="nav-link" data-toggle="tab" href="#m_tabs_3_1"><i class="la la-database"></i>PO Terlambat (Close)</a>
                                 </li>
                             </ul>
                             <!-- <button class="btn btn-info" id="btn_scan"><i class="fa fa-barcode"></i>SCAN BARCODE PENERIMAAN</button> -->
                             <div class="tab-content">
                                 <div class="tab-pane" id="m_tabs_3_1" role="tabpanel">
                                     <div class="kt-portlet__body col-12">
-                                        <table class="table table-bordered" id="po_kemarin" style="overflow-x:auto;">
+                                        <table class="table table-bordered" id="po_kemarin" style="overflow-x:auto; font-size: small;">
                                             <thead>
                                                 <tr>
                                                     <th style="text-align: center;width:2%">No</th>
                                                     <th style="text-align: center;width:18%">Nama&nbsp;Item</th>
                                                     <th style="text-align: center;width:18%">Kode&nbsp;PO</th>
+                                                    <th style="text-align: center;width:18%">Nama&nbsp;Supplier </th>
                                                     <th style="text-align: center;width:18%">Tanggal&nbsp;PO </th>
+                                                    <th style="text-align: center;width:18%">Tanggal&nbsp;Bongkaran </th>
                                                     <th style="text-align: center;width:18%">Mulai&nbsp;Penerimaan </th>
                                                     <th style="text-align: center;width:16%">Batas&nbsp;Penerimaan</th>
                                                     <th style="text-align: center;width:20%">Action</th>
@@ -77,39 +85,21 @@ SURYA PANGAN SEMESTA
                                 </div>
                                 <div class="tab-pane active" id="m_tabs_3_2" role="tabpanel">
                                     <div class="kt-portlet__body col-12">
-                                        <table class="table table-bordered" id="datatable_sekarang">
+                                        <table class="table table-bordered" id="datatable_sekarang" style="font-size: small;">
                                             <thead>
                                                 <tr>
                                                     <th style="text-align: center;width:2%">No</th>
                                                     <th style="text-align: center;width:18%">Nama&nbsp;Item</th>
                                                     <th style="text-align: center;width:18%">Kode&nbsp;PO</th>
+                                                    <th style="text-align: center;width:18%">Nama&nbsp;Supplier </th>
                                                     <th style="text-align: center;width:18%">Tanggal&nbsp;PO </th>
+                                                    <th style="text-align: center;width:18%">Tanggal&nbsp;Bongkaran </th>
                                                     <th style="text-align: center;width:18%">Mulai&nbsp;Penerimaan </th>
                                                     <th style="text-align: center;width:16%">Batas&nbsp;Penerimaan</th>
                                                     <th style="text-align: center;width:20%">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody style="text-align: center">
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="m_tabs_3_3" role="tabpanel">
-                                    <div class="kt-portlet__body col-12" style="overflow-x:auto;">
-                                        <table class="table table-bordered" id="data_po">
-                                            <thead>
-                                                <tr>
-                                                    <th style="text-align: center;width:2%">No</th>
-                                                    <th style="text-align: center;width:18%">Nama&nbsp;Item</th>
-                                                    <th style="text-align: center;width:18%">Kode&nbsp;PO</th>
-                                                    <th style="text-align: center;width:18%">Tanggal&nbsp;PO </th>
-                                                    <th style="text-align: center;width:18%">Mulai&nbsp;Penerimaan </th>
-                                                    <th style="text-align: center;width:16%">Batas&nbsp;Penerimaan</th>
-                                                    <th style="text-align: center;width:20%">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody style="text-align: center">
-
                                             </tbody>
                                         </table>
                                     </div>
@@ -133,7 +123,7 @@ SURYA PANGAN SEMESTA
                 {{ csrf_field() }}
                 {{ method_field('POST') }}
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Terima Data PO</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">Form Kedatangan PO</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     </button>
                 </div>
@@ -144,17 +134,14 @@ SURYA PANGAN SEMESTA
                     <input type="hidden" id="tanggal_po" name="tanggal_po" value="">
                     <input type="hidden" id="ponum" name="ponum">
                     <input type="hidden" id="nama_item" name="nama_item">
+                    <label>Waktu Kedatangan</label>
+                    <br>
+                    <span class="btn btn-label-primary text-center" style="text-align: center;" id="jam_sekarang"><b></b></span>
                     <div class="form-group">
                         <div class="">
                             <label>Penerima PO</label>
                             <input id="name_bid" readonly value="{{Auth::user()->name}}" type="text" class="form-control m-input">
                             <input type="hidden" required name="penerima_po" id="penerima_po" value="{{Auth::user()->id}}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="">
-                            <label>Waktu Kedatangan</label>
-                            <input id="waktu_penerimaan" required name="waktu_penerimaan" readonly value="{{date('Y-m-d H:i:s')}}" class="form-control m-input">
                         </div>
                     </div>
                     <div class="form-group">
@@ -179,156 +166,21 @@ SURYA PANGAN SEMESTA
                     <div class="form-group">
                         <div class="">
                             <label for="">Status</label><br>
-                            <input type="radio" required name="status_penerimaan" id="status_penerimaan" checked="checked" value="3">
-                            <label for="age2">PARKIR</label>
-                            <input type="radio" required disabled name="status_penerimaan" id="status_penerimaan" value="5">
-                            <label for="age2">TIDAK</label>
+                            <input type="hidden" required name="status_penerimaan" id="status_penerimaan" checked="checked" value="3">
+                            <span class="btn btn-label-success btn-sm" style="font-weight: bold;"><i class="fa fa-truck"></i>&nbsp;PARKIR</span>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger m-btn" data-dismiss="modal">Close</button>
-                    <button id="btn_save" class="btn btn-success m-btn pull-right">Save</button>
+                    <button id="btn_save" class="btn btn-label-success m-btn pull-right">Save</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="modal_po_ditolak" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <form id="form_poTerlambat" class="m-form m-form--fit m-form--label-align-right" method="post" action="{{route('security.terima_data_po_telat')}}" enctype="multipart/form-data">
-                {{ csrf_field() }}
-                {{ method_field('POST') }}
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Tolak PO</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <input type="hidden" name="penerimaan_id_data_po" id="id_data_po_tolak" value="">
-                    <input type="hidden" id="bid_user_tolak" name="penerimaan_id_bid_user">
-                    <input type="hidden" id="PONum" name="PONum">
-                    <input type="hidden" id="nama_item3" name="nama_item">
-                    <div class="form-group">
-                        <div class="">
-                            <label>Penerima PO</label>
-                            <input id="name_bid" readonly value="{{Auth::user()->name}}" type="text" class="form-control m-input">
-                            <input type="hidden" name="penerima_po" value="{{Auth::user()->id}}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="">
-                            <label>Waktu Kedatangan</label>
-                            <input id="harga" name="waktu_penerimaan" readonly value="{{date('Y-m-d H:i:s')}}" class="form-control m-input">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="">
-                            <label>Kode PO</label>
-                            <input id="kode_po_tolak" name="penerimaan_kode_po" type="text" readonly class="form-control m-input">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="">
-                            <label>Nopol</label>
-                            <input name="plat_kendaraan" id="plat_kendaraan" style="text-transform:uppercase;" required type="text" maxlength="10" class="form-control m-input">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="">
-                            <label>Asal Gabah</label>
-                            <input name="keterangan_penerimaan_po" required type="text" class="form-control m-input">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="">
-                            <label for="">Status</label><br>
-                            <input type="radio" disabled required name="status_penerimaan" value="3">
-                            <label for="age2">PARKIR</label>
-                            <input type="radio" required checked="checked" name="status_penerimaan" value="5">
-                            <label for="age2">TIDAK</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger m-btn" data-dismiss="modal">Tutup</button>
-                    <button id="btn_save1" type="submit" class="btn btn-success m-btn pull-right">Simpan</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 
-<div class="modal fade" id="modal_po_diterima" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <form class="m-form m-form--fit m-form--label-align-right" method="post" action="{{route('security.terima_data_po')}}" enctype="multipart/form-data">
-                {{ csrf_field() }}
-                {{ method_field('POST') }}
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Terima PO</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <input type="hidden" name="penerimaan_id_data_po" id="id_data_po_kemarin" value="">
-                    <input type="hidden" id="bid_user_kemarin" name="penerimaan_id_bid_user">
-                    <input type="hidden" id="tanggal_po" name="tanggal_po" value="">
-                    <input type="hidden" id="ponum" name="ponum">
-                    <input type="hidden" id="nama_item1" name="nama_item">
-                    <div class="form-group">
-                        <div class="">
-                            <label>Penerima PO</label>
-                            <input id="name_bid" readonly value="{{Auth::user()->name}}" type="text" class="form-control m-input">
-                            <input type="hidden" name="penerima_po" value="{{Auth::user()->id}}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="">
-                            <label>Waktu Kedatangan</label>
-                            <input id="harga" name="waktu_penerimaan" readonly value="{{date('Y-m-d H:i:s')}}" class="form-control m-input">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="">
-                            <label>Kode PO</label>
-                            <input id="kode_po_kemarin" name="penerimaan_kode_po" type="text" readonly class="form-control m-input">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="">
-                            <label>Nopol</label>
-                            <input name="plat_kendaraan" id="plat_kendaraan" style="text-transform:uppercase;" required type="text" maxlength="10" class="form-control m-input">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="">
-                            <label>Keterangan</label>
-                            <input name="keterangan_penerimaan_po" id="keterangan_penerimaan_po" required type="text" class="form-control m-input">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="">
-                            <label for="">Status</label><br>
-                            <input type="radio" checked="checked" required name="status_penerimaan" value="3">
-                            <label for="age2">Parkir</label>
-                            <input type="radio" disabled name="status_penerimaan" value="5">
-                            <label for="age2">Tidak Parkir</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger m-btn" data-dismiss="modal">Tutup</button>
-                    <button type="submit" class="btn btn-success m-btn pull-right">Simpan</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 <div class="modal fade" id="modal_scan_barcode" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -398,7 +250,13 @@ SURYA PANGAN SEMESTA
                     data: 'kode_po'
                 },
                 {
+                    data: 'nama_vendor'
+                },
+                {
                     data: 'tanggal_po'
+                },
+                {
+                    data: 'tanggal_bongkar'
                 },
                 {
                     data: 'mulai_penerimaan'
@@ -458,7 +316,13 @@ SURYA PANGAN SEMESTA
                     data: 'kode_po'
                 },
                 {
+                    data: 'nama_vendor'
+                },
+                {
                     data: 'tanggal_po'
+                },
+                {
+                    data: 'tanggal_bongkar'
                 },
                 {
                     data: 'mulai_penerimaan'
@@ -490,66 +354,7 @@ SURYA PANGAN SEMESTA
         $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
             table2.columns.adjust().draw().responsive.recalc();
         })
-        var table3 = $('#data_po').DataTable({
-            "scrollY": true,
-            "scrollX": true,
-            processing: true,
-            language: {
-                "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"></div></div>'
-            },
-            serverSide: true,
-            "aLengthMenu": [
-                [25, 100, 300, -1],
-                [25, 100, 300, "All"]
-            ],
-            "iDisplayLength": 10,
-            ajax: "{{ route('security.gabahbasah_index_besok') }}",
-            columns: [{
-                    data: "id_bid",
 
-                    render: function(data, type, row, meta) {
-                        return meta.row + meta.settings._iDisplayStart + 1;
-                    }
-                },
-                {
-                    data: 'name_bid'
-                },
-                {
-                    data: 'kode_po'
-                },
-                {
-                    data: 'tanggal_po'
-                },
-                {
-                    data: 'mulai_penerimaan'
-                },
-                {
-                    data: 'batas_bid'
-                },
-                {
-                    data: 'ckelola'
-                }
-
-            ],
-            createdRow: function(row, data, index) {
-
-                // Updated Schedule Week 1 - 07 Mar 22
-
-                if (data.name_bid == 'GABAH BASAH CIHERANG') {
-                    $('td:eq(1)', row).css('background-color', '#CCE5FF'); //Original Date
-                } else if (data.name_bid == 'GABAH BASAH PANDAN WANGI') {
-                    $('td:eq(1)', row).css('background-color', '#CCFFCC'); // Behind of Original Date
-                } else if (data.name_bid == 'GABAH BASAH KETAN PUTIH') {
-                    $('td:eq(1)', row).css('background-color', '#D5D5D5'); // Behind of Original Date
-                } else if (data.name_bid == 'GABAH BASAH LONG GRAIN') {
-                    $('td:eq(1)', row).css('color', '#6666FF'); // Behind of Original Date
-                }
-            },
-            "order": []
-        });
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-            table3.columns.adjust().draw().responsive.recalc();
-        })
     });
 </script>
 
@@ -558,12 +363,12 @@ SURYA PANGAN SEMESTA
         $(document).on('click', '.toedit', function() {
             var id = $(this).attr("name");
             var url = "{{ route('security.show.penerimaan_po') }}" + "/" + id;
-            // console.log(url);
+            console.log(url);
             $.ajax({
                 type: "GET",
                 url: url,
                 success: function(response) {
-                    // console.log(response);
+                    console.log(response);
                     var parsed = $.parseJSON(response);
                     $('#penerimaan_id_data_po').val(parsed.id_data_po);
                     $('#penerimaan_kode_po').val(parsed.kode_po);
@@ -572,6 +377,15 @@ SURYA PANGAN SEMESTA
                     $('#tanggal_po').val(parsed.tanggal_po);
                     $('#ponum').val(parsed.PONum);
                     $('#nama_item').val(parsed.name_bid);
+                    setInterval(customClock, 500);
+
+                    function customClock() {
+                        var time = new Date()
+                        var hrs = (time.getHours() < 10 ? '0' : '') + time.getHours();
+                        var min = (time.getMinutes() < 10 ? '0' : '') + time.getMinutes();
+                        var sec = (time.getSeconds() < 10 ? '0' : '') + time.getSeconds();
+                        $('#jam_sekarang').html(parsed.tanggal_po + '&nbsp;' + hrs + ":" + min + ":" + sec);
+                    }
                 }
             });
         });

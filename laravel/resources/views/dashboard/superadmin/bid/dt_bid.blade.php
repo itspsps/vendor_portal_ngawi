@@ -10,16 +10,16 @@ SURYA PANGAN SEMESTA
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
                 <h3 class="kt-subheader__title">
-                    E-PROCUREMENT
+                    PT. SURYA PANGAN SEMESTA
                 </h3>
+                <span class="btn-outline btn-sm btn-info mr-3">NGAWI</span>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
-                    <a href="#" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="" class="kt-subheader__breadcrumbs-link">
-                        SURYA PANGAN SEMESTA
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        E-Procurement
                     </a>
-                    <span class="btn-outline btn-sm btn-info">Site Ngawi</span>
                 </div>
             </div>
         </div>
@@ -50,7 +50,8 @@ SURYA PANGAN SEMESTA
                                                             <div class="kt-section__body">
                                                                 <div class="form-group row">
                                                                     <label class="col-xl-3 col-lg-3 col-form-label">Kategori</label>
-                                                                    <div class="col-lg-9 col-xl-9">
+                                                                    <label class="col-xl-1 col-lg-1 col-form-label">:</label>
+                                                                    <div class="col-lg-8 col-xl-8">
                                                                         <!-- <input class="form-control" required name="name_bid" id="name_bid" placeholder="" type="text" value="BERAS PECAH KULIT" readonly> -->
                                                                         <select class="form-control selectpicker" onchange="cekDS(this);" id="name_bid" required name="name_bid" data-live-search="true">
                                                                             <option value="">Pilih Kategori...</option>
@@ -78,7 +79,8 @@ SURYA PANGAN SEMESTA
                                                                 <input class="form-control" required name="harga" value="0" readonly placeholder="" type="hidden">
                                                                 <div class="form-group row">
                                                                     <label class="col-xl-3 col-lg-3 col-form-label">Kuota Lelang (Truk)</label>
-                                                                    <div class="col-lg-9 col-xl-9">
+                                                                    <label class="col-xl-1 col-lg-1 col-form-label">:</label>
+                                                                    <div class="col-lg-8 col-xl-8">
                                                                         <input class="form-control" id="jumlah" maxlength="3" required name="jumlah" placeholder="...Truk" type="text">
                                                                         <!-- <select class="form-control m-input m-input--air" id="jumlah" required name="jumlah" required>
                                                                             <option selected disabled value="">Pilih Jumlah</option>
@@ -92,32 +94,52 @@ SURYA PANGAN SEMESTA
                                                                 </div>
                                                                 <div class="form-group row">
                                                                     <label class="col-xl-3 col-lg-3 col-form-label">Lokasi</label>
-                                                                    <div class="col-lg-9 col-xl-9">
+                                                                    <label class="col-xl-1 col-lg-1 col-form-label">:</label>
+                                                                    <div class="col-lg-8 col-xl-8">
                                                                         <input class="form-control" required name="lokasi" placeholder="" type="text" value="NGAWI" readonly>
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
                                                                     <label class="col-xl-3 col-lg-3 col-form-label">Tanggal PO</label>
-                                                                    <div class="col-lg-9 col-xl-9">
-                                                                        <input class="form-control" value="<?php echo date('Y-m-d', strtotime("+1 days")); ?>" required id="open_po" name="open_po" placeholder="" type="date">
+                                                                    <label class="col-xl-1 col-lg-1 col-form-label">:</label>
+                                                                    <div class="col-lg-8 col-xl-8">
+                                                                        <span class="btn btn-label-primary"><b><?php echo date('d-m-Y'); ?></b></span>
+                                                                        <input class="form-control" value="<?php echo date('Y-m-d'); ?>" required id="open_po" name="open_po" placeholder="" type="hidden">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label class="col-xl-3 col-lg-3 col-form-label">Tanggal Bongkaran</label>
+                                                                    <label class="col-xl-1 col-lg-1 col-form-label">:</label>
+                                                                    <div class="col-lg-8 col-xl-8">
+                                                                        <span class="btn btn-label-primary"><b><?php echo date('d-m-Y', strtotime("+1 days")); ?></b></span>
+                                                                        <input class="form-control" value="<?php echo date('Y-m-d', strtotime("+1 days")); ?>" required id="tgl_bongkaran" name="tgl_bongkaran" placeholder="" type="hidden">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
                                                                     <label class="col-xl-3 col-lg-3 col-form-label">Buka Penawaran</label>
-                                                                    <div class="col-lg-9 col-xl-9">
-                                                                        <input class="form-control" value="<?php echo date('Y-m-d'); ?>" required id="date_bid" name="date_bid" placeholder="" type="date">
+                                                                    <label class="col-xl-1 col-lg-1 col-form-label">:</label>
+                                                                    <div class="col-lg-8 col-xl-8">
+                                                                        <span class="btn btn-label-success"><b><?php echo date('d-m-Y'); ?></b></span>
+                                                                        jam
+                                                                        <span class="btn btn-label-success"><b>12.00 WIB</b></span>
+                                                                        <input class="form-control" value="<?php echo date('Y-m-d'); ?>" required id="date_bid" name="date_bid" placeholder="" type="hidden">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
                                                                     <label class="col-xl-3 col-lg-3 col-form-label">Batas Penawaran</label>
-                                                                    <div class="col-lg-9 col-xl-9">
-                                                                        <input class="form-control" value="<?php echo date('Y-m-d', strtotime("+1 days")); ?>" required id="batas_bid" name="batas_bid" placeholder="" type="date">
+                                                                    <label class="col-xl-1 col-lg-1 col-form-label">:</label>
+                                                                    <div class="col-lg-8 col-xl-8">
+                                                                        <span class="btn btn-label-danger"><b><?php echo date('d-m-Y', strtotime("+1 days")); ?></b></span>
+                                                                        jam
+                                                                        <span class="btn btn-label-danger"><b>12.00 WIB</b></span>
+                                                                        <input class="form-control" value="<?php echo date('Y-m-d', strtotime("+1 days")); ?>" required id="batas_bid" name="batas_bid" placeholder="" type="hidden">
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
                                                                     <label class="col-xl-3 col-lg-3 col-form-label">Keterangan</label>
-                                                                    <div class="col-lg-9 col-xl-9">
-                                                                        <textarea id="description_bid" name="description_bid" type="type" class="form-control m-input" placeholder="Type your description" rows="5" required=""></textarea>
+                                                                    <label class="col-xl-1 col-lg-1 col-form-label">:</label>
+                                                                    <div class="col-lg-8 col-xl-8">
+                                                                        <textarea id="description_bid" name="description_bid" type="type" class="form-control m-input" placeholder="Keterangan Lelang" rows="5" required=""></textarea>
                                                                     </div>
                                                                 </div>
                                                                 <!--<div class="form-group row">-->
@@ -160,6 +182,7 @@ SURYA PANGAN SEMESTA
                     </div>
                 </div>
                 <div style="margin-left: 10px; margin-top:10px;" class="row input-daterange">
+                    <h5>Filter PO</h5>
                     <div class="col-md-4">
                         <input type="text" name="from_date" id="from_date" class="form-control" placeholder="From Date" readonly />
                     </div>
@@ -206,8 +229,8 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:15%">Add&nbsp;Kuota</th>
                                         <th style="text-align: center;width:15%">Total&nbsp;Kuota</th>
                                         <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:15%">Mulai&nbsp;PO</th>
                                         <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tutup&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:15%">Mulai&nbsp;Pengajuan</th>
                                         <th style="text-align: center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Action&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                     </tr>
                                 </thead>
@@ -228,8 +251,8 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:15%">Add&nbsp;Kuota</th>
                                         <th style="text-align: center;width:15%">Total&nbsp;Kuota</th>
                                         <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:15%">Mulai&nbsp;PO</th>
                                         <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tutup&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:15%">Mulai&nbsp;Pengajuan</th>
                                         <th style="text-align: center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Action&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                     </tr>
                                 </thead>
@@ -250,9 +273,167 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:15%">Add&nbsp;Kuota</th>
                                         <th style="text-align: center;width:15%">Total&nbsp;Kuota</th>
                                         <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:15%">Mulai&nbsp;PO</th>
                                         <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tutup&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:15%">Mulai&nbsp;Pengajuan</th>
                                         <th style="text-align: center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Action&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align: center">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modal_addkuota" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <form id="form_addkuota" class="m-form m-form--fit m-form--label-align-right" method="post" action="{{ route('sourching.add_kuota') }}" enctype="multipart/form-data">
+                        {{ csrf_field() }}
+                        {{ method_field('POST') }}
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">ADD Kuota Tambahan</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="id" id="id" value="">
+                            <div class="form-group">
+                                <select class="form-control selectpicker" id="add_kuota" required name="add_kuota" data-live-search="true">
+                                    <option selected disabled value="">Pilih Add Kuota</option>
+                                    <option value="8000">8.000 Kg -> Setara 1 Truk</option>
+                                    <option value="16000">16.000 Kg -> Setara 2 Truk</option>
+                                    <option value="24000">24.000 Kg -> Setara 3 Truk</option>
+                                    <option value="32000">32.000 Kg -> Setara 4 Truk</option>
+                                    <option value="40000">40.000 Kg -> Setara 5 Truk</option>
+                                    <option value="48000">48.000 Kg -> Setara 6 Truk</option>
+                                    <option value="56000">56.000 Kg -> Setara 7 Truk</option>
+                                    <option value="64000">64.000 Kg -> Setara 8 Truk</option>
+                                    <option value="72000">72.000 Kg -> Setara 9 Truk</option>
+                                    <option value="80000">80.000 Kg -> Setara 10 Truk</option>
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button id="btn_saveaddkuota" class="btn btn-success m-btn pull-right">Save</button>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    @elseif(Auth::guard('sourching')->user()->level=='MANAGER')
+    <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+
+
+        <div class="col-xl-12 col-lg-12 col-md-12 order-lg-1 order-xl-1">
+            <div class="kt-portlet kt-portlet--mobile">
+                <div class="kt-portlet__head kt-portlet__head--lg">
+                    <div class="kt-portlet__head-label">
+                        <span class="kt-portlet__head-icon">
+                            <i class="flaticon2-list kt-font-success"></i>
+                        </span>
+                        <h3 class="kt-portlet__head-title">
+                            Data E-Procurement
+                        </h3>
+                    </div>
+                </div>
+                <div style="margin-left: 10px; margin-top:10px;" class="row input-daterange">
+                    <div class="col-md-4">
+                        <input type="text" name="from_date" id="from_date" class="form-control" placeholder="From Date" readonly />
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="to_date" id="to_date" class="form-control" placeholder="To Date" readonly />
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" name="filter" id="filter" class="btn btn-primary">Filter</button>
+                        <button type="button" name="refresh" id="refresh" class="btn btn-default">Refresh</button>
+                    </div>
+                </div>
+                <div class="kt-portlet__body">
+                    <ul class="nav nav-pills" role="tablist">
+                        <li class="nav-item mt-3">
+                            <a class="nav-link active" data-toggle="tab" href="#m_tabs_3_1"><i class="la la-database"></i>GABAH BASAH&nbsp;
+                                <span id="count_bid_gb" class="badge badge badge-info" style=" max-width: max-content; text-align: left; background-color: green;">
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-item mt-3">
+                            <a class="nav-link" data-toggle="tab" href="#m_tabs_3_2"><i class="la la-database"></i>BERAS PECAH KULIT&nbsp;
+                                <span id="count_bid_pk" class="badge badge badge-info" style="margin-top: -15px; width: max-content; text-align: left; background-color: green;">
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-item mt-3">
+                            <a class="nav-link" data-toggle="tab" href="#m_tabs_3_3"><i class="la la-database"></i>BERAS DS&nbsp;
+                                <span id="count_bid_ds" class="badge badge badge-info" style="margin-top: -15px; width: max-content; text-align: left; background-color: green;">
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="m_tabs_3_1" role="tabpanel">
+                            <table class="table table-bordered" id="data_gb1">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center">No</th>
+                                        <th style="text-align: center;width:15%">Gambar</th>
+                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:15%">Status</th>
+                                        <th style="text-align: center;width:15%">Pengajuan</th>
+                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kuota&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:15%">Add&nbsp;Kuota</th>
+                                        <th style="text-align: center;width:15%">Total&nbsp;Kuota</th>
+                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:15%">Mulai&nbsp;PO</th>
+                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tutup&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align: center">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane" id="m_tabs_3_2" role="tabpanel">
+                            <table class="table table-bordered" id="data_pk1">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center">No</th>
+                                        <th style="text-align: center;width:15%">Gambar</th>
+                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:15%">Status</th>
+                                        <th style="text-align: center;width:15%">Pengajuan</th>
+                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kuota&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:15%">Add&nbsp;Kuota</th>
+                                        <th style="text-align: center;width:15%">Total&nbsp;Kuota</th>
+                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:15%">Mulai&nbsp;PO</th>
+                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tutup&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align: center">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane" id="m_tabs_3_3" role="tabpanel">
+                            <table class="table table-bordered" id="data_ds1">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center">No</th>
+                                        <th style="text-align: center;width:15%">Gambar</th>
+                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:15%">Status</th>
+                                        <th style="text-align: center;width:15%">Pengajuan</th>
+                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kuota&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:15%">Add&nbsp;Kuota</th>
+                                        <th style="text-align: center;width:15%">Total&nbsp;Kuota</th>
+                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:15%">Mulai&nbsp;PO</th>
+                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tutup&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                     </tr>
                                 </thead>
                                 <tbody style="text-align: center">
@@ -319,14 +500,9 @@ SURYA PANGAN SEMESTA
                             </div>
                             <div class="form-group">
                                 <div class="">
-                                    <label>Date Bid</label>
-                                    <input id="date_bid1" required name="date_bid" readonly placeholder="" type="date" class="form-control m-input">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="">
-                                    <label>Last Bid</label>
-                                    <input id="batas_bid1" required name="batas_bid" readonly placeholder="" type="date" class="form-control m-input">
+                                    <label>Tanggal PO</label><br>
+                                    <span class="btn btn-label-primary" id="date_bid1"><b></b></span>
+
                                 </div>
                             </div>
                             <div class="form-group">
@@ -351,162 +527,6 @@ SURYA PANGAN SEMESTA
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="modal_addkuota" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <form id="form_addkuota" class="m-form m-form--fit m-form--label-align-right" method="post" action="{{ route('sourching.add_kuota') }}" enctype="multipart/form-data">
-                        {{ csrf_field() }}
-                        {{ method_field('POST') }}
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">ADD Kuota Tambahan</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <input type="hidden" name="id" id="id" value="">
-                            <div class="form-group">
-                                <select class="form-control selectpicker" id="add_kuota" required name="add_kuota" data-live-search="true">
-                                    <option selected disabled value="">Pilih Add Kuota</option>
-                                    <option value="8000">8.000 Kg -> Setara 1 Truk</option>
-                                    <option value="16000">16.000 Kg -> Setara 2 Truk</option>
-                                    <option value="24000">24.000 Kg -> Setara 3 Truk</option>
-                                    <option value="32000">32.000 Kg -> Setara 4 Truk</option>
-                                    <option value="40000">40.000 Kg -> Setara 5 Truk</option>
-                                    <option value="48000">48.000 Kg -> Setara 6 Truk</option>
-                                    <option value="56000">56.000 Kg -> Setara 7 Truk</option>
-                                    <option value="64000">64.000 Kg -> Setara 8 Truk</option>
-                                    <option value="72000">72.000 Kg -> Setara 9 Truk</option>
-                                    <option value="80000">80.000 Kg -> Setara 10 Truk</option>
-                                </select>
-                            </div>
-                            <div class="modal-footer">
-                                <button id="btn_saveaddkuota" class="btn btn-success m-btn pull-right">Save</button>
-                            </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    @elseif(Auth::guard('sourching')->user()->level=='MANAGER')
-    <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
-        <div class="col-xl-12 col-lg-12 col-md-12 order-lg-1 order-xl-1">
-            <div class="kt-portlet kt-portlet--mobile">
-                <div class="kt-portlet__head kt-portlet__head--lg">
-                    <div class="kt-portlet__head-label">
-                        <span class="kt-portlet__head-icon">
-                            <i class="flaticon2-list kt-font-success"></i>
-                        </span>
-                        <h3 class="kt-portlet__head-title">
-                            Data E-Procurement
-                        </h3>
-                    </div>
-                </div>
-                <div style="margin-left: 10px; margin-top:10px;" class="row input-daterange">
-                    <div class="col-md-4">
-                        <input type="text" name="from_date" id="from_date" class="form-control" placeholder="From Date" readonly />
-                    </div>
-                    <div class="col-md-4">
-                        <input type="text" name="to_date" id="to_date" class="form-control" placeholder="To Date" readonly />
-                    </div>
-                    <div class="col-md-4">
-                        <button type="button" name="filter" id="filter" class="btn btn-primary">Filter</button>
-                        <button type="button" name="refresh" id="refresh" class="btn btn-default">Refresh</button>
-                    </div>
-                </div>
-                <div class="kt-portlet__body">
-                    <ul class="nav nav-pills" role="tablist">
-                        <li class="nav-item mt-3">
-                            <a class="nav-link active" data-toggle="tab" href="#m_tabs_3_1"><i class="la la-database"></i>GABAH BASAH&nbsp;
-                                <span id="count_bid_gb" class="badge badge badge-info" style=" max-width: max-content; text-align: left; background-color: green;">
-                                </span>
-                            </a>
-                        </li>
-                        <li class="nav-item mt-3">
-                            <a class="nav-link" data-toggle="tab" href="#m_tabs_3_2"><i class="la la-database"></i>BERAS PECAH KULIT&nbsp;
-                                <span id="count_bid_pk" class="badge badge badge-info" style="margin-top: -15px; width: max-content; text-align: left; background-color: green;">
-                                </span>
-                            </a>
-                        </li>
-                        <li class="nav-item mt-3">
-                            <a class="nav-link" data-toggle="tab" href="#m_tabs_3_3"><i class="la la-database"></i>BERAS DS&nbsp;
-                                <span id="count_bid_ds" class="badge badge badge-info" style="margin-top: -15px; width: max-content; text-align: left; background-color: green;">
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="m_tabs_3_1" role="tabpanel">
-                            <table class="table table-bordered" id="data_gb1">
-                                <thead>
-                                    <tr>
-                                        <th style="text-align: center">No</th>
-                                        <th style="text-align: center;width:15%">Gambar</th>
-                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:15%">Status</th>
-                                        <th style="text-align: center;width:15%">Pengajuan</th>
-                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kuota&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:15%">Add&nbsp;Kuota</th>
-                                        <th style="text-align: center;width:15%">Total&nbsp;Kuota</th>
-                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tutup&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:15%">Mulai&nbsp;Pengajuan</th>
-                                    </tr>
-                                </thead>
-                                <tbody style="text-align: center">
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="tab-pane" id="m_tabs_3_2" role="tabpanel">
-                            <table class="table table-bordered" id="data_pk1">
-                                <thead>
-                                    <tr>
-                                        <th style="text-align: center">No</th>
-                                        <th style="text-align: center;width:15%">Gambar</th>
-                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:15%">Status</th>
-                                        <th style="text-align: center;width:15%">Pengajuan</th>
-                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kuota&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:15%">Add&nbsp;Kuota</th>
-                                        <th style="text-align: center;width:15%">Total&nbsp;Kuota</th>
-                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tutup&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:15%">Mulai&nbsp;Pengajuan</th>
-                                    </tr>
-                                </thead>
-                                <tbody style="text-align: center">
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="tab-pane" id="m_tabs_3_3" role="tabpanel">
-                            <table class="table table-bordered" id="data_ds1">
-                                <thead>
-                                    <tr>
-                                        <th style="text-align: center">No</th>
-                                        <th style="text-align: center;width:15%">Gambar</th>
-                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:15%">Status</th>
-                                        <th style="text-align: center;width:15%">Pengajuan</th>
-                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kuota&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:15%">Add&nbsp;Kuota</th>
-                                        <th style="text-align: center;width:15%">Total&nbsp;Kuota</th>
-                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:15%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tutup&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:15%">Mulai&nbsp;Pengajuan</th>
-                                    </tr>
-                                </thead>
-                                <tbody style="text-align: center">
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="modal fade" id="modal_addkuota" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -614,10 +634,10 @@ SURYA PANGAN SEMESTA
                         data: 'open_po'
                     },
                     {
-                        data: 'close_po'
+                        data: 'start_pengajuan'
                     },
                     {
-                        data: 'start_pengajuan'
+                        data: 'close_po'
                     },
                     {
                         data: 'ckelola'
@@ -693,10 +713,10 @@ SURYA PANGAN SEMESTA
                         data: 'open_po'
                     },
                     {
-                        data: 'close_po'
+                        data: 'start_pengajuan'
                     },
                     {
-                        data: 'start_pengajuan'
+                        data: 'close_po'
                     },
                     {
                         data: 'ckelola'
@@ -770,10 +790,10 @@ SURYA PANGAN SEMESTA
                         data: 'open_po'
                     },
                     {
-                        data: 'close_po'
+                        data: 'start_pengajuan'
                     },
                     {
-                        data: 'start_pengajuan'
+                        data: 'close_po'
                     },
                     {
                         data: 'ckelola'
@@ -851,10 +871,10 @@ SURYA PANGAN SEMESTA
                         data: 'open_po'
                     },
                     {
-                        data: 'close_po'
+                        data: 'start_pengajuan'
                     },
                     {
-                        data: 'start_pengajuan'
+                        data: 'close_po'
                     },
 
                 ],
@@ -1139,7 +1159,7 @@ SURYA PANGAN SEMESTA
                 confirmButtonText: 'Yes',
             }).then(function(result) {
                 if (result.value) {
-                    if ($('#name_bid1').val() == '' || $('#jumlah1').val() == '' || $('#description_bid1').val() == '' || $('#batas_bid1').val() == '' || $('#date_bid1').val() == '') {
+                    if ($('#name_bid1').val() == '' || $('#description_bid1').val() == '' || $('#date_bid1').val() == '') {
                         Swal.fire('Gagal!', 'Data Harus Terisi.', 'error')
 
                     } else {
@@ -1325,7 +1345,6 @@ SURYA PANGAN SEMESTA
             var nama = $(this).data('nama');
             var harga = $(this).data('harga');
             var jumlah = $(this).data('jumlah');
-            var datebid = $(this).data('datebid');
             var batasbid = $(this).data('lastbid');
             var description = $(this).data('description');
             var hasil_jml = (jumlah / 8000);
@@ -1336,8 +1355,8 @@ SURYA PANGAN SEMESTA
             $('input[id=harga1]').val(harga);
             $('input[id=jumlah1]').val(hasil_jml);
             $('input[id=lokasi1]').val(lokasi);
-            $('input[id=date_bid1]').val(date_bid);
-            $('input[id=batas_bid1]').val(batasbid);
+            $('#date_bid1').html(date_bid);
+            $('#batas_bid1').html(batasbid);
             $('textarea[id=description_bid1]').val(description);
         });
         $('#gambar_bid1').change(function() {

@@ -9,16 +9,21 @@ SURYA PANGAN SEMESTA
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
                 <h3 class="kt-subheader__title">
-                    E-PROCUREMENT
+                    PT. SURYA PANGAN SEMESTA
                 </h3>
+                <span class="btn-outline btn-sm btn-info mr-3">NGAWI</span>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
-                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
                     <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
-                        SURYA PANGAN SEMESTA
+                        Approve Data Pembelian
                     </a>
-                    <span class="btn-outline btn-sm btn-info">Site Ngawi</span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Gabah Basah
+                    </a>
                 </div>
             </div>
         </div>
@@ -71,12 +76,13 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;">&nbsp;PO&nbsp;Num&nbsp;</th>
                                         <th style="text-align: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kode&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;">&nbsp;Nama&nbsp;Supplier&nbsp;</th>
-                                        <th style="text-align: center;">&nbsp;&nbsp;Tanggal&nbsp;PO&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;">&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;">&nbsp;&nbsp;Nopol&nbsp;Kendaraan&nbsp;&nbsp;</th>
                                         <th style="text-align: center;">&nbsp;&nbsp;No.&nbsp;DTM&nbsp;&nbsp;</th>
                                         <th style="text-align: center;">&nbsp;&nbsp;Bruto&nbsp;&nbsp;</th>
                                         <th style="text-align: center;">&nbsp;&nbsp;Tara&nbsp;&nbsp;</th>
                                         <th style="text-align: center;">&nbsp;&nbsp;Netto&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:20%">Tanggal&nbsp;Receipt</th>
                                         <th style="text-align: center;">&nbsp;&nbsp;Harga&nbsp;Akhir&nbsp;&nbsp;</th>
                                         <th style="text-align: center;">&nbsp;&nbsp;Status&nbsp;Approved&nbsp;&nbsp;</th>
                                         <th style="text-align: center;">&nbsp;&nbsp;Status&nbsp;Epicor&nbsp;&nbsp;</th>
@@ -97,12 +103,13 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;">&nbsp;PO&nbsp;Num&nbsp;</th>
                                         <th style="text-align: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kode&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;">&nbsp;Nama&nbsp;Supplier&nbsp;</th>
-                                        <th style="text-align: center;">&nbsp;&nbsp;Tanggal&nbsp;PO&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;">&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;">&nbsp;&nbsp;Nopol&nbsp;Kendaraan&nbsp;&nbsp;</th>
                                         <th style="text-align: center;">&nbsp;&nbsp;No.&nbsp;DTM&nbsp;&nbsp;</th>
                                         <th style="text-align: center;">&nbsp;&nbsp;Bruto&nbsp;&nbsp;</th>
                                         <th style="text-align: center;">&nbsp;&nbsp;Tara&nbsp;&nbsp;</th>
                                         <th style="text-align: center;">&nbsp;&nbsp;Netto&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:20%">Tanggal&nbsp;Receipt</th>
                                         <th style="text-align: center;">&nbsp;&nbsp;Harga&nbsp;Akhir&nbsp;&nbsp;</th>
                                         <th style="text-align: center;">&nbsp;&nbsp;Status&nbsp;Approved&nbsp;&nbsp;</th>
                                         <th style="text-align: center;">&nbsp;&nbsp;Status&nbsp;Epicor&nbsp;&nbsp;</th>
@@ -242,6 +249,9 @@ SURYA PANGAN SEMESTA
                         data: 'hasil_akhir_tonase'
                     },
                     {
+                        data: 'tanggal_receipt'
+                    },
+                    {
                         data: 'harga_akhir'
                     },
                     {
@@ -334,6 +344,9 @@ SURYA PANGAN SEMESTA
                     },
                     {
                         data: 'hasil_akhir_tonase'
+                    },
+                    {
+                        data: 'tanggal_receipt'
                     },
                     {
                         data: 'harga_akhir'
@@ -595,7 +608,8 @@ SURYA PANGAN SEMESTA
                             $.ajax({
                                 url: "{{route('ap.spv.approve_receipt')}}/" + cek,
                                 type: "GET",
-                                error: function() {
+                                error: function(data) {
+                                    console.errors(data);
                                     Swal.fire({
                                         title: 'Gagal!',
                                         text: 'Gagal Approve Data.',

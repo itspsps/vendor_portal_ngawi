@@ -41,6 +41,7 @@ Route::get('/bid_user/{id?}', [BidController::class, 'bid_user'])->name('bid_use
 Route::post('/approve_bid', [BidController::class, 'approve_bid'])->name('approve_bid');
 Route::post('/konfirmasi_bongkar', [BidController::class, 'konfirmasi_bongkar'])->name('konfirmasi_bongkar');
 
+Route::get('/add_vendor', [SuperadminController::class, 'add_vendor'])->name('add_vendor');
 Route::post('/vendor_store', [BidController::class, 'approve_store'])->name('approve_store');
 Route::post('/vendor_store', [SuperadminController::class, 'vendor_store'])->name('vendor_store');
 Route::get('/vendor_index', [SuperadminController::class, 'vendor_index'])->name('vendor_index');
@@ -82,7 +83,6 @@ Route::get('/getkabupaten', [SuperadminController::class, 'getkabupaten'])->name
 Route::get('/getkecamatan', [SuperadminController::class, 'getkecamatan'])->name('getkecamatan');
 Route::get('/getdesa', [SuperadminController::class, 'getdesa'])->name('getdesa');
 
-Route::post('/vendor_store', [SuperadminController::class, 'vendor_store'])->name('vendor_store');
 
 
 Route::get('/generate', [SuperadminController::class, 'generate'])->name('generate');
@@ -103,5 +103,7 @@ Route::get('chart_po/', [SuperadminController::class, 'chart_po'])->name('chart_
 Route::get('setnotifikasisourching/', [SuperadminController::class, 'set_notifikasisourching'])->name('set_notifikasisourching');
 Route::get('newnotifikasisourching/', [SuperadminController::class, 'new_notifikasisourching'])->name('new_notifikasisourching');
 Route::get('getnotifikasisourching', [SuperadminController::class, 'get_notifikasisourching'])->name('get_notifikasisourching');
+Route::get('get_notif_sourching_all/', [SuperadminController::class, 'get_notif_sourching_all'])->name('get_notif_sourching_all');
+Route::get('get_notif_sourching_all_index/', [SuperadminController::class, 'get_notif_sourching_all_index'])->name('get_notif_sourching_all_index');
 Route::get('getcountnotifikasisourching', [SuperadminController::class, 'get_countnotifikasisourching'])->name('get_countnotifikasisourching');
 Route::get('notifikasi_clear', [SuperadminController::class, 'notifikasi_clear'])->name('notifikasi_clear');

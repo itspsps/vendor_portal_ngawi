@@ -9,16 +9,21 @@ SURYA PANGAN SEMESTA
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
                 <h3 class="kt-subheader__title">
-                    E-PROCUREMENT
+                    PT. SURYA PANGAN SEMESTA
                 </h3>
+                <span class="btn-outline btn-sm btn-info mr-3">NGAWI</span>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
-                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
                     <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
-                        SURYA PANGAN SEMESTA
+                        Data Bongkar
                     </a>
-                    <span class="btn-outline btn-sm btn-info">Site Ngawi</span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Gabah Basah
+                    </a>
                 </div>
             </div>
         </div>
@@ -38,7 +43,9 @@ SURYA PANGAN SEMESTA
                     </div>
                 </div>
                 <div class="kt-portlet__body">
+                    <h5>Filter&nbsp;Tanggal&nbsp;PO</h5>
                     <div class="row input-daterange">
+                      
                         <div class="col-md-4">
                             <input type="text" name="from_date" id="from_date" class="form-control" placeholder="From Date" readonly />
                         </div>
@@ -52,13 +59,13 @@ SURYA PANGAN SEMESTA
                     </div>
                     <ul style="margin-left: 10px; margin-top:10px;" class="nav nav-pills" role="tablist">
                         <li class="nav-item mt-3">
-                            <a class="nav-link active" data-toggle="tab" href="#m_tabs_3_1"><i class="la la-database"></i>GABAH BASAH (UTARA)</a>
+                            <a class="nav-link active" data-toggle="tab" href="#m_tabs_3_1"><i class="flaticon2-box"></i>GABAH BASAH (UTARA)</a>
                         </li>
                         <li class="nav-item mt-3">
-                            <a class="nav-link" data-toggle="tab" href="#m_tabs_3_2"><i class="la la-database"></i>GABAH BASAH (SELATAN)</a>
+                            <a class="nav-link" data-toggle="tab" href="#m_tabs_3_2"><i class="flaticon2-box"></i>GABAH BASAH (SELATAN)</a>
                         </li>
                         <li class="nav-item mt-3">
-                            <a class="nav-link" data-toggle="tab" href="#m_tabs_3_3"><i class="la la-database"></i>BERAS PECAH KULIT</a>
+                            <a class="nav-link" data-toggle="tab" href="#m_tabs_3_3"><i class="flaticon2-box"></i>BERAS PECAH KULIT</a>
                         </li>
                     </ul>
                     <div class="tab-content">
@@ -71,6 +78,7 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;Nama&nbsp;Supplier&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Tanggal&nbsp;PO</th>
+                                        <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkar</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;Surveyor&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Keterangan&nbsp;Bongkar</th>
                                         <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkar</th>
@@ -93,6 +101,7 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kode&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;Bongkar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Surveyor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;Keterangan&nbsp;Bongkar&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;Bongkar&nbsp;&nbsp;&nbsp;&nbsp;</th>
@@ -114,6 +123,7 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kode&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;Bongkar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Surveyor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;Keterangan&nbsp;Bongkar&nbsp;&nbsp;&nbsp;&nbsp;</th>
@@ -186,6 +196,9 @@ SURYA PANGAN SEMESTA
                     },
                     {
                         data: 'tanggal_po'
+                    },
+                    {
+                        data: 'tanggal_bongkar'
                     },
                     {
                         data: 'surveyor_bongkar'
@@ -311,6 +324,9 @@ SURYA PANGAN SEMESTA
                         data: 'tanggal_po'
                     },
                     {
+                        data: 'tanggal_bongkar'
+                    },
+                    {
                         data: 'surveyor_bongkar'
                     },
                     {
@@ -429,6 +445,9 @@ SURYA PANGAN SEMESTA
                     },
                     {
                         data: 'tanggal_po'
+                    },
+                    {
+                        data: 'tanggal_bongkar'
                     },
                     {
                         data: 'nama_vendor'

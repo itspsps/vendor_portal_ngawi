@@ -10,20 +10,26 @@ SURYA PANGAN SEMESTA
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
                 <h3 class="kt-subheader__title">
-                    VENDOR
+                    PT. SURYA PANGAN SEMESTA
                 </h3>
+                <span class="btn-outline btn-sm btn-info mr-3">NGAWI</span>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
-                    <a href="#" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="" class="kt-subheader__breadcrumbs-link">
-                        SURYA PANGAN SEMESTA
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Data Vendor
                     </a>
-                    <span class="btn-outline btn-sm btn-info">Site Ngawi</span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Detail Vendor
+                    </a>
                 </div>
             </div>
         </div>
     </div>
+
 
     <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
         <div class="col-lg-12">
@@ -614,8 +620,8 @@ SURYA PANGAN SEMESTA
             };
         }
         $(function() {
-            var max_chars = 15;
-            var min_chars = 15;
+            var max_chars = 16;
+            var min_chars = 16;
             $('#npwp').keyup(delay(function(e) {
                 if ($(this).val().length >= max_chars) {
                     $(this).val($(this).val().substr(0, max_chars));
@@ -623,7 +629,7 @@ SURYA PANGAN SEMESTA
                     Swal.fire({
                         position: 'top',
                         icon: 'warning',
-                        title: 'Panjang NPWP adalah 15 karakter',
+                        title: 'Panjang NPWP adalah 16 karakter',
                         showConfirmButton: false,
                         timer: 1500
                     });
@@ -634,7 +640,7 @@ SURYA PANGAN SEMESTA
                     Swal.fire({
                         position: 'top',
                         icon: 'warning',
-                        title: 'Panjang NPWP adalah 15 karakter',
+                        title: 'Panjang NPWP adalah 16 karakter',
                         showConfirmButton: false,
                         timer: 1500
                     });

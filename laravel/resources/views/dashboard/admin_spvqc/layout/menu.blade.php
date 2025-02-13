@@ -1,4 +1,12 @@
 <div class="kt-aside-menu-wrapper kt-grid__item kt-grid__item--fluid" id="kt_aside_menu_wrapper">
+    <div class="text-center">
+        <a href="{{route('qc.spv.home')}}">
+            <img class="img-responsive" alt="iamgurdeeposahan" src="{{asset('logo_sps_ngawi.png')}}" style="width: 150px;">
+        </a>
+    </div>
+    <div class="btn btn-label-primary col-lg-12">
+        <span><b>MENU</b></span>
+    </div>
     <div id="kt_aside_menu" class="kt-aside-menu " data-ktmenu-vertical="1" data-ktmenu-scroll="1">
         <ul class="kt-menu__nav ">
             <li class="kt-menu__item  kt-menu__item--{{ set_active('qc/spv/home') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
@@ -6,10 +14,6 @@
                     <i class="kt-menu__link-icon fa fa-home"></i>
                     <span class="kt-menu__link-text">Beranda</span>
                 </a>
-            </li>
-            <li class="kt-menu__section kt-menu__section--first">
-                <h4 class="kt-menu__section-text">PARAMETER LAB</h4>
-                <i class="kt-menu__section-icon flaticon-more-v2"></i>
             </li>
             <li class="kt-menu__item kt-menu__item--submenu {{ Request::is('qc/spv/parameter_gb*') ? 'kt-menu__item--open' : '' }}{{ Request::is('qc/spv/parameter_pk_refraksi*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/spv/parameter_gb*') ? 'kt-menu__item--open' : '' }}{{ Request::is('qc/spv/parameter_gb*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/spv/parameter_pk_refraksi*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/spv/parameter_lab_pk_reward*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/spv/parameter_lab_pk_kualitas*') ? 'kt-menu__item--open' : '' }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                 <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
@@ -252,10 +256,6 @@
                     </ul>
                 </div>
             </li>
-            <li class="kt-menu__section kt-menu__section--first">
-                <h4 class="kt-menu__section-text">DATA LAB</h4>
-                <i class="kt-menu__section-icon flaticon-more-v2"></i>
-            </li>
             <li class="kt-menu__item kt-menu__item--submenu {{ Request::is('qc/spv/output_lab1_pk*') ? 'kt-menu__item--open' : '' }} {{ Request::is('qc/spv/output_lab1_gb*') ? 'kt-menu__item--open' : '' }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                 <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
                     <span class="kt-menu__link-icon">
@@ -332,29 +332,23 @@
                     </ul>
                 </div>
             </li>
-            <li class="kt-menu__section kt-menu__section--first">
-                <h4 class="kt-menu__section-text">Menu Nego</h4>
-                <i class="kt-menu__section-icon flaticon-more-v2"></i>
-            </li>
             <li class="kt-menu__item kt-menu__item--{{ set_active('qc/spv/nego') }} " aria-haspopup="true">
                 <a href="{{route('qc.spv.nego')}}" class="kt-menu__link ">
                     <i class="kt-menu__link-icon flaticon2-writing kt-font-warning"></i>
                     <span class="kt-menu__link-text">Nego</span>
+                    <span id="count_nego" class="badge badge badge-info" style="position:absolute; margin-left:81%; width: 100%; text-align: left; background-color: #9f187c;">
+                       
+                    </span>
                 </a>
-            </li>
-            <li class="kt-menu__section kt-menu__section--first">
-                <h4 class="kt-menu__section-text">Menu Revisi</h4>
-                <i class="kt-menu__section-icon flaticon-more-v2"></i>
             </li>
             <li class="kt-menu__item kt-menu__item--{{ set_active('qc/spv/revisi_harga') }} " aria-haspopup="true">
                 <a href="{{route('qc.spv.revisi_harga')}}" class="kt-menu__link ">
                     <i class="kt-menu__link-icon flaticon2-writing kt-font-danger"></i>
                     <span class="kt-menu__link-text">Revisi Harga</span>
+                    <span id="count_revisiharga" class="badge badge badge-info" style="position:absolute; margin-left:81%; width: 100%; text-align: left; background-color: #9f187c;">
+                       
+                    </span>
                 </a>
-            </li>
-            <li class="kt-menu__section kt-menu__section--first">
-                <h4 class="kt-menu__section-text">Menu Surveyor</h4>
-                <i class="kt-menu__section-icon flaticon-more-v2"></i>
             </li>
             <li class="kt-menu__item kt-menu__item--{{ set_active('qc/spv/data_surveyor') }} " aria-haspopup="true">
                 <a href="{{route('qc.spv.data_surveyor')}}" class="kt-menu__link ">
@@ -363,10 +357,6 @@
                 </a>
             </li>
 
-            <li class="kt-menu__section kt-menu__section--first">
-                <h4 class="kt-menu__section-text">Akun</h4>
-                <i class="kt-menu__section-icon flaticon-more-v2"></i>
-            </li>
             <li class="kt-menu__item kt-menu__item--{{ set_active('qc/spv/account_spv') }} " aria-haspopup="true">
                 <a href="{{route('qc.spv.account_spv')}}" class="kt-menu__link ">
                     <i class="kt-menu__link-icon flaticon2-user-1 kt-font-info"></i>
@@ -382,6 +372,13 @@
             <form id="logout-form" action="" method="POST" style="display: none;">
                 {{ csrf_field() }}
             </form>
+            <li class="kt-menu__item text-center" aria-haspopup="true" data-ktmenu-submenu-toggle="hover" style="bottom: 2%; position: fixed; margin-left: -5px; text-align: center;">
+                <div class="kt-menu__link kt-menu__toggle">
+                    <span class="kt-menu__link-text">
+                        2023&nbsp;&copy;&nbsp;<a href="https://ngawi.suryapangansemesta.store/qc/spv/home" target="_blank" class="kt-link">VENDOR PORTAL-NGAWI</a>
+                    </span>
+                </div>
+            </li>
         </ul>
     </div>
 </div>

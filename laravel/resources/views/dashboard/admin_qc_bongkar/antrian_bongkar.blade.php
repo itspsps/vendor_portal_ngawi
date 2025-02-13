@@ -10,16 +10,21 @@ SURYA PANGAN SEMESTA
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
                 <h3 class="kt-subheader__title">
-                    E-PROCUREMENT
+                    PT. SURYA PANGAN SEMESTA
                 </h3>
+                <span class="btn-outline btn-sm btn-info mr-3">NGAWI</span>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
-                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
                     <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
-                        SURYA PANGAN SEMESTA
+                        Proses Bongkar
                     </a>
-                    <span class="btn-outline btn-sm btn-info">Site Ngawi</span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Gabah Basah
+                    </a>
                 </div>
             </div>
         </div>
@@ -863,92 +868,121 @@ SURYA PANGAN SEMESTA
             var z_yang_dibawa = $('#z_yang_dibawa').val();
             var z_yang_ditolak = $('#z_yang_ditolak').val();
             Swal.fire({
-                title: 'Konfirmasi',
-                icon: 'warning',
-                text: "Apakah data yang kamu input sudah benar ?",
-                showCancelButton: true,
-                inputValue: 0,
-                confirmButtonText: 'Yes',
-            }).then(function(result) {
-                if ($('#z_yang_dibawa').val() == '' | $('#z_yang_ditolak').val() == '' | $('#keterangan').val() == '' | $('#no_dtm').val() == '' | $('#waktu_bongkar').val() == '' | $('#tempat_bongkar').val() == '') {
-                    Swal.fire({
-                        title: 'Maaf!!',
-                        text: 'Data Harus Diisi Semua',
-                        icon: 'warning',
-                        timer: 1500
-                    })
-                } else if ($('#surveyor_bongkar').val() == 'NULL' | $('#surveyor_bongkar').val() == '') {
-                    Swal.fire({
-                        title: 'Maaf!!',
-                        text: 'Data Harus Diisi Semua',
-                        icon: 'warning',
-                        timer: 1500
-                    })
-                } else {
-                    if (result.value) {
-                        Swal.fire({
-                            title: 'Harap Tuggu Sebentar!',
-                            html: 'Proses Menyimpan Data...', // add html attribute if you want or remove
-                            allowOutsideClick: false,
-                            onBeforeOpen: () => {
-                                Swal.showLoading()
-                                $.ajax({
-                                    data: {
-                                        "_token": "{{ csrf_token() }}",
-                                        name_bid: name_bid,
-                                        penerimaan_kode_po: penerimaan_kode_po,
-                                        no_dtm: no_dtm,
-                                        surveyor_bongkar: surveyor_bongkar,
-                                        keterangan: keterangan,
-                                        waktu_bongkar: waktu_bongkar,
-                                        tempat_bongkar: tempat_bongkar,
-                                        z_yang_dibawa: z_yang_dibawa,
-                                        z_yang_ditolak: z_yang_ditolak,
-                                    },
-                                    url: "{{route('qc.bongkar.update_qc_bongkar')}}",
-                                    type: "POST",
-                                    dataType: 'json',
-                                    success: function(data) {
-                                        $('#data_longgrain').DataTable().ajax.reload();
-                                        $('#data_pw').DataTable().ajax.reload();
-                                        $('#data_kp').DataTable().ajax.reload();
-                                        $("#formantrian_bongkar").trigger('reset');
-                                        $('#surveyor_bongkar').val(null);
-                                        $('#btn_save').html('Simpan');
-                                        $('#modal_qc_bongkar').modal('hide');
+                title: 'Harap Tuggu Sebentar!',
+                html: 'Analisa Data Double', // add html attribute if you want or remove
+                allowOutsideClick: false,
+                onBeforeOpen: () => {
+                    Swal.showLoading()
+                    $.ajax({
+                        data: {
+                            kode_po: penerimaan_kode_po,
+                        },
+                        url: "{{ route('qc.bongkar.check_input_bongkar') }}",
+                        type: "GET",
+                        dataType: 'json',
+                        success: function(data) {
+                            console.log(data);
+                            if (data == 'double') {
+                                Swal.fire({
+                                    title: 'Maaf, Anda Tidak Bisa Input',
+                                    text: 'Data Sudah Tersedia',
+                                    icon: 'warning',
+                                    allowOutsideClick: false
+                                })
+                            } else {
+                                Swal.fire({
+                                    title: 'Konfirmasi',
+                                    icon: 'warning',
+                                    text: "Apakah data yang kamu input sudah benar ?",
+                                    showCancelButton: true,
+                                    inputValue: 0,
+                                    confirmButtonText: 'Yes',
+                                }).then(function(result) {
+                                    if ($('#z_yang_dibawa').val() == '' | $('#z_yang_ditolak').val() == '' | $('#keterangan').val() == '' | $('#no_dtm').val() == '' | $('#waktu_bongkar').val() == '' | $('#tempat_bongkar').val() == '') {
                                         Swal.fire({
-                                            title: 'success',
-                                            text: 'Data Berhasil DiSimpan',
-                                            icon: 'success',
+                                            title: 'Maaf!!',
+                                            text: 'Data Harus Diisi Semua',
+                                            icon: 'warning',
                                             timer: 1500
                                         })
-
-                                    },
-                                    error: function(data) {
-                                        $("#formantrian_bongkar").trigger('reset');
-                                        $('#surveyor_bongkar').val(null);
-                                        $('#btn_save').html('Simpan');
-                                        $('#modal_qc_bongkar').modal('hide');
+                                    } else if ($('#surveyor_bongkar').val() == 'NULL' | $('#surveyor_bongkar').val() == '') {
                                         Swal.fire({
-                                            title: 'Gagal',
-                                            text: 'Data Tidak Disimpan',
-                                            icon: 'error',
+                                            title: 'Maaf!!',
+                                            text: 'Data Harus Diisi Semua',
+                                            icon: 'warning',
                                             timer: 1500
                                         })
+                                    } else {
+                                        if (result.value) {
+                                            Swal.fire({
+                                                title: 'Harap Tuggu Sebentar!',
+                                                html: 'Proses Menyimpan Data...', // add html attribute if you want or remove
+                                                allowOutsideClick: false,
+                                                onBeforeOpen: () => {
+                                                    Swal.showLoading()
+                                                    $.ajax({
+                                                        data: {
+                                                            "_token": "{{ csrf_token() }}",
+                                                            name_bid: name_bid,
+                                                            penerimaan_kode_po: penerimaan_kode_po,
+                                                            no_dtm: no_dtm,
+                                                            surveyor_bongkar: surveyor_bongkar,
+                                                            keterangan: keterangan,
+                                                            waktu_bongkar: waktu_bongkar,
+                                                            tempat_bongkar: tempat_bongkar,
+                                                            z_yang_dibawa: z_yang_dibawa,
+                                                            z_yang_ditolak: z_yang_ditolak,
+                                                        },
+                                                        url: "{{route('qc.bongkar.update_qc_bongkar')}}",
+                                                        type: "POST",
+                                                        dataType: 'json',
+                                                        success: function(data) {
+                                                            $('#data_longgrain').DataTable().ajax.reload();
+                                                            $('#data_pw').DataTable().ajax.reload();
+                                                            $('#data_kp').DataTable().ajax.reload();
+                                                            $("#formantrian_bongkar").trigger('reset');
+                                                            $('#surveyor_bongkar').val(null);
+                                                            $('#btn_save').html('Simpan');
+                                                            $('#modal_qc_bongkar').modal('hide');
+                                                            Swal.fire({
+                                                                title: 'success',
+                                                                text: 'Data Berhasil DiSimpan',
+                                                                icon: 'success',
+                                                                timer: 1500
+                                                            })
 
+                                                        },
+                                                        error: function(data) {
+                                                            $("#formantrian_bongkar").trigger('reset');
+                                                            $('#surveyor_bongkar').val(null);
+                                                            $('#btn_save').html('Simpan');
+                                                            $('#modal_qc_bongkar').modal('hide');
+                                                            Swal.fire({
+                                                                title: 'Gagal',
+                                                                text: 'Data Tidak Disimpan',
+                                                                icon: 'error',
+                                                                timer: 1500
+                                                            })
+
+                                                        }
+                                                    });
+                                                },
+                                            });
+                                        } else {
+                                            $("#formantrian_bongkar").trigger('reset');
+                                            $('#btn_save').html('Simpan');
+                                            $('#modal_qc_bongkar').modal('hide');
+                                            Swal.fire('Gagal!', 'Data anda Tidak di Simpan.', 'error')
+
+                                        }
                                     }
                                 });
-                            },
-                        });
-                    } else {
-                        $("#formantrian_bongkar").trigger('reset');
-                        $('#btn_save').html('Simpan');
-                        $('#modal_qc_bongkar').modal('hide');
-                        Swal.fire('Gagal!', 'Data anda Tidak di Simpan.', 'error')
-
-                    }
+                            }
+                        }
+                    });
                 }
             });
+
         });
         $(document).on('click', '#btn_save_pk', function(e) {
             e.preventDefault();

@@ -9,20 +9,26 @@ SURYA PANGAN SEMESTA
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
                 <h3 class="kt-subheader__title">
-                    E-PROCUREMENT
+                    PT. SURYA PANGAN SEMESTA
                 </h3>
+                <span class="btn-outline btn-sm btn-info mr-3">NGAWI</span>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
-                    <a href="#" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="" class="kt-subheader__breadcrumbs-link">
-                        SURYA PANGAN SEMESTA
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Data Sourching
                     </a>
-                    <span class="btn-outline btn-sm btn-info">Site Ngawi</span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        PO Deal
+                    </a>
                 </div>
             </div>
         </div>
     </div>
+
 
     <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
         <div class="col-xl-12 col-lg-12 col-md-12 order-lg-1 order-xl-1">
@@ -50,7 +56,7 @@ SURYA PANGAN SEMESTA
                         <div class="col-md-4">
                             <button type="button" name="filter" id="filter" class="btn btn-primary">Filter</button>
                             <button type="button" name="refresh" id="refresh" class="btn btn-default">Refresh</button>
-                            <button type="button" name="btn_export" id="btn_export" class="btn btn-success"><i class="fa fa-file-excel"></i>Excel</button>
+                            <button type="button" name="btn_export" id="btn_export" class="btn btn-success"></button>
                         </div>
                     </div>
                 </form>
@@ -83,8 +89,8 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
-                                        <th style="text-align: center;width:auto">&nbsp;No.&nbsp;DTM&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;Tonase&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:auto">&nbsp;No.&nbsp;DTM&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;Harga&nbsp;Awal&nbsp;</th>
                                         <th style="text-align: center;width:auto">Aksi&nbsp;Harga</th>
                                         <th style="text-align: center;width:auto">Reaksi&nbsp;Harga</th>
@@ -130,8 +136,8 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
-                                        <th style="text-align: center;width:auto">&nbsp;No.&nbsp;DTM&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;Tonase&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:auto">&nbsp;No.&nbsp;DTM&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;Harga&nbsp;Awal&nbsp;</th>
                                         <th style="text-align: center;width:auto">Aksi&nbsp;Harga</th>
                                         <th style="text-align: center;width:auto">Reaksi&nbsp;Harga</th>
@@ -154,8 +160,8 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
-                                        <th style="text-align: center;width:auto">&nbsp;No.&nbsp;DTM&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;Tonase&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:auto">&nbsp;No.&nbsp;DTM&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;Harga&nbsp;Awal&nbsp;</th>
                                         <th style="text-align: center;width:auto">Aksi&nbsp;Harga</th>
                                         <th style="text-align: center;width:auto">Reaksi&nbsp;Harga</th>
@@ -208,6 +214,7 @@ SURYA PANGAN SEMESTA
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <script>
     $(document).ready(function() {
+        $('#btn_export').prepend('<i class="fa fa-file-excel"></i>Excel');
         $('.input-daterange').datepicker({
             todayBtn: 'linked',
             format: 'yyyy-mm-dd',
@@ -260,10 +267,10 @@ SURYA PANGAN SEMESTA
                         data: 'kode_po'
                     },
                     {
-                        data: 'dtm_gb'
+                        data: 'hasil_akhir_tonase'
                     },
                     {
-                        data: 'hasil_akhir_tonase'
+                        data: 'dtm_gb'
                     },
                     {
                         data: 'harga_awal'
@@ -347,10 +354,10 @@ SURYA PANGAN SEMESTA
                         data: 'kode_po'
                     },
                     {
-                        data: 'dtm_gb'
+                        data: 'hasil_akhir_tonase'
                     },
                     {
-                        data: 'hasil_akhir_tonase'
+                        data: 'dtm_gb'
                     },
                     {
                         data: 'harga_awal'
@@ -436,10 +443,10 @@ SURYA PANGAN SEMESTA
                         data: 'dtm_gb'
                     },
                     {
-                        data: 'hasil_akhir_tonase'
+                        data: 'harga_awal'
                     },
                     {
-                        data: 'harga_awal'
+                        data: 'hasil_akhir_tonase'
                     },
                     {
                         data: 'aksi_harga'
@@ -597,6 +604,8 @@ SURYA PANGAN SEMESTA
         $('#btn_export').click(function() {
             var from_date = $('#from_date').val();
             var to_date = $('#to_date').val();
+            $('#btn_export').empty();
+            $('#btn_export').prepend('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;Excel');
             $.ajax({
                 data: {
                     "_token": "{{ csrf_token() }}",
@@ -613,9 +622,14 @@ SURYA PANGAN SEMESTA
                     alert('Something is wrong');
                 },
                 success: function(data, status, xhr) {
+                    $('#btn_export').empty();
+                    $('#btn_export').prepend('<i class="fa fa-file-excel"></i>Excel');
+                    var d = new Date();
+                    var l = d.getDate() + '-' + (d.getMonth() + 1) + '-' + d.getFullYear();
+                    var n = d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
                     var link = document.createElement('a');
                     link.href = window.URL.createObjectURL(data);
-                    link.download = `DATA SOURCHING DEAL GABAH BASAH NGAWI.xlsx`;
+                    link.download = `DATA SOURCHING DEAL GABAH BASAH NGAWI(` + l + ` ` + n + `).xlsx`;
                     link.click();
 
                 }

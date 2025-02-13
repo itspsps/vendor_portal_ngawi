@@ -9,16 +9,21 @@ SURYA PANGAN SEMESTA
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
                 <h3 class="kt-subheader__title">
-                    E-PROCUREMENT
+                    PT. SURYA PANGAN SEMESTA
                 </h3>
+                <span class="btn-outline btn-sm btn-info mr-3">NGAWI</span>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
-                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                    <a href="{{route('ap.data_pembelian_gb')}}" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
-                        SURYA PANGAN SEMESTA
+                    <a href="{{route('ap.data_pembelian_gb')}}" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Data Pembelian
                     </a>
-                    <span class="btn-outline btn-sm btn-info">Site Ngawi</span>
+                    <a href="{{route('ap.data_pembelian_gb')}}" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="{{route('ap.data_pembelian_gb')}}" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Gabah Basah
+                    </a>
                 </div>
             </div>
         </div>
@@ -59,16 +64,17 @@ SURYA PANGAN SEMESTA
                                     <tr>
                                         <th style="text-align: center;width:2%">No</th>
                                         <th style="text-align: center;width:20%">&nbsp;Status&nbsp;</th>
-                                        <th style="text-align: center;width:2%">No.&nbsp;Antrian</th>
+                                        <!-- <th style="text-align: center;width:2%">No.&nbsp;Antrian</th> -->
                                         <th style="text-align: center;width:18%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:18%">Kode&nbsp;PO</th>
                                         <th style="text-align: center;width:18%">&nbsp;&nbsp;&nbsp;Nama&nbsp;Supplier&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:18%">Tanggal&nbsp;PO </th>
+                                        <th style="text-align: center;width:18%">&nbsp;&nbsp;&nbsp;Tanggal&nbsp;PO&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:18%">&nbsp;&nbsp;Nopol&nbsp;Kendaraan&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:18%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No.&nbsp;DTM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:18%">Bruto</th>
                                         <th style="text-align: center;width:20%">Tara</th>
                                         <th style="text-align: center;width:20%">Netto</th>
+                                        <th style="text-align: center;width:20%">Tanggal&nbsp;Receipt</th>
                                         <th style="text-align: center;width:20%">Harga&nbsp;Akhir&nbsp;/Kg</th>
                                         <th style="text-align: center;width:20%">Keterangan&nbsp;Harga</th>
                                         <th style="text-align: center;width:20%">Keterangan&nbsp;Approved</th>
@@ -84,16 +90,17 @@ SURYA PANGAN SEMESTA
                                     <tr>
                                         <th style="text-align: center;width:2%">No</th>
                                         <th style="text-align: center;width:20%">&nbsp;Status&nbsp;</th>
-                                        <th style="text-align: center;width:2%">No.&nbsp;Antrian</th>
+                                        <!-- <th style="text-align: center;width:2%">No.&nbsp;Antrian</th> -->
                                         <th style="text-align: center;width:18%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:18%">Kode&nbsp;PO</th>
                                         <th style="text-align: center;width:18%">&nbsp;&nbsp;&nbsp;Nama&nbsp;Supplier&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:18%">Tanggal&nbsp;PO </th>
+                                        <th style="text-align: center;width:18%">&nbsp;&nbsp;&nbsp;Tanggal&nbsp;PO&nbsp;&nbsp;&nbsp; </th>
                                         <th style="text-align: center;width:18%">&nbsp;&nbsp;Nopol&nbsp;Kendaraan&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:18%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No.&nbsp;DTM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:18%">Bruto</th>
                                         <th style="text-align: center;width:20%">Tara</th>
                                         <th style="text-align: center;width:20%">Netto</th>
+                                        <th style="text-align: center;width:20%">Tanggal&nbsp;Receipt</th>
                                         <th style="text-align: center;width:20%">Harga&nbsp;Akhir&nbsp;/Kg</th>
                                         <th style="text-align: center;width:20%">Keterangan&nbsp;Harga</th>
                                         <th style="text-align: center;width:20%">Keterangan&nbsp;Approved</th>
@@ -114,31 +121,45 @@ SURYA PANGAN SEMESTA
                     <form id="form_verifikasi" class="m-form m-form--fit m-form--label-align-right" method="post" action="javascript:void(0);" enctype="multipart/form-data">
                         @csrf
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">Data Verifikasi</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             </button>
                         </div>
                         <div class="modal-body">
+                            <h5 class="text-center mb-2">DATA VERIFIKASI</h5>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="id_penerimaan_po" id="id_penerimaan_po" value="">
-                            <div class="form-group">
-                                <div class="">
-                                    <label>Kode PO</label>
-                                    <input id="penerimaan_kode_po" readonly name="penerimaan_kode_po" type="text" class="form-control m-input">
-                                </div>
-                            </div>
+                            <input id="penerimaan_kode_po" name="penerimaan_kode_po" type="hidden" class="form-control m-input" value="">
+                            <dl class="dl-horizontal row">
+                                <dd class="col-3">SITE</dd>
+                                <dd class="col-1">:</dd>
+                                <dd class="col-8" style="font-weight: bold;">NGAWI</dd>
+                                <dd class="col-3">NO. PO</dd>
+                                <dd class="col-1">:</dd>
+                                <dd class="col-8" id="result_no_po" style="font-weight: bold;"></dd>
+                                <dd class="col-3">TANGGAL PO</dd>
+                                <dd class="col-1">:</dd>
+                                <dd class="col-8"><span class="btn btn-sm btn-label-primary" style="font-weight: bold;" id="result_tgl_po"></span></dd>
+                                <dd class="col-3">TANGGAL RECEIPT</dd>
+                                <dd class="col-1">:</dd>
+                                <dd class="col-8"><span class="btn btn-sm btn-label-primary" style="font-weight: bold;" id="result_tgl_receipt"></span></dd>
+                            </dl>
                             <div class="form-group">
                                 <div class="">
                                     <label>Analisa</label>
                                     <div class="kt-radio-inline">
                                         <label class="kt-radio">
-                                            <input type="radio" value="verified" checked=checked id="verified" onchange="cekAnalisa(this);" class="form-control m-input" name="analisa"> Verifikasi
+                                            <input type="radio" class="form-control m-input" name="analisa" value="verified"> Verifikasi
                                             <span></span>
                                         </label>
                                         <label class="kt-radio">
                                             <input type="radio" value="revisi" id="revisi" onchange="cekAnalisa(this);" class="form-control m-input" name="analisa"> Revisi
                                             <span></span>
                                         </label>
+                                        <!-- <input type="radio" value="verified" checked=checked id="verified" onchange="cekAnalisa(this);" class="btn-check" name="analisa" id="success-outlined" autocomplete="off">
+                                        <label class="btn btn-outline-success" for="success-outlined">Verifikasi</label>
+
+                                        <input type="radio" value="revisi" id="revisi" onchange="cekAnalisa(this);" class="btn-check" name="analisa" id="danger-outlined" autocomplete="off">
+                                        <label class="btn btn-outline-danger" for="danger-outlined">Revisi</label> -->
                                     </div>
                                 </div>
                             </div>
@@ -214,9 +235,6 @@ SURYA PANGAN SEMESTA
                     data: 'ckelola'
                 },
                 {
-                    data: 'antrian'
-                },
-                {
                     data: 'name_bid'
                 },
                 {
@@ -242,6 +260,9 @@ SURYA PANGAN SEMESTA
                 },
                 {
                     data: 'hasil_akhir_tonase'
+                },
+                {
+                    data: 'tanggal_receipt'
                 },
                 {
                     data: 'harga_akhir'
@@ -298,9 +319,6 @@ SURYA PANGAN SEMESTA
                     data: 'ckelola'
                 },
                 {
-                    data: 'antrian'
-                },
-                {
                     data: 'name_bid'
                 },
                 {
@@ -326,6 +344,9 @@ SURYA PANGAN SEMESTA
                 },
                 {
                     data: 'hasil_akhir_tonase'
+                },
+                {
+                    data: 'tanggal_receipt'
                 },
                 {
                     data: 'harga_akhir'
@@ -508,6 +529,15 @@ SURYA PANGAN SEMESTA
                                 });
                             },
                         });
+                    } else {
+                        Swal.fire({
+                            title: 'Gagal!!',
+                            text: 'Analisa Kosong..',
+                            icon: 'error',
+                            timer: 1500
+                        })
+                        $('#btn_save').html('Simpan');
+
                     }
                 } else {
                     $('#btn_save').html('Simpan');
@@ -523,22 +553,19 @@ SURYA PANGAN SEMESTA
         });
         $(document).on('click', '.to_show', function() {
             var id = $(this).attr("name");
+            var tgl_po = $(this).data("tgl_po");
+            var tgl_receipt = $(this).data("tgl_receipt");
+            var kode_po = $(this).data("kode_po");
             // console.log(id);
-            var url = "{{ route('ap.data_pembelian_show') }}" + "/" + id;
-            console.log(url);
-            $.ajax({
-                type: "GET",
-                url: url,
-                success: function(response) {
-                    // console.log(response);
-                    var parsed = $.parseJSON(response);
-                    $("#form_verifikasi").trigger('reset');
-                    $('#id_penerimaan_po').val(parsed.id_penerimaan_po);
-                    $('#penerimaan_kode_po').val(parsed.penerimaan_kode_po);
-                    document.getElementById("idAdmin").style.display = "none";
-                    document.getElementById("form_keterangan").style.display = "none";
-                }
-            });
+            $("#form_verifikasi").trigger('reset');
+            $('#id_penerimaan_po').val(id);
+            $('#penerimaan_kode_po').val(kode_po);
+            $('#result_no_po').html(kode_po);
+            $('#result_tgl_po').html(tgl_po);
+            $('#result_tgl_receipt').html(tgl_receipt);
+            document.getElementById("idAdmin").style.display = "none";
+            document.getElementById("form_keterangan").style.display = "none";
+
         });
     });
 </script>

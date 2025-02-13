@@ -9,16 +9,26 @@ SURYA PANGAN SEMESTA
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
                 <h3 class="kt-subheader__title">
-                    E-PROCUREMENT
+                    PT. SURYA PANGAN SEMESTA
                 </h3>
+                <span class="btn-outline btn-sm btn-info mr-3">NGAWI</span>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
-                    <a href="#" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="" class="kt-subheader__breadcrumbs-link">
-                SURYA PANGAN SEMESTA   
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Hasil Lab(Incoming)
                     </a>
-                    <span class="btn-outline btn-sm btn-info">Site Ngawi</span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Bongkar
+                    </a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Beras PK
+                    </a>
                 </div>
             </div>
         </div>
@@ -30,93 +40,93 @@ SURYA PANGAN SEMESTA
                 <div class="kt-portlet__head kt-portlet__head--lg">
                     <div class="kt-portlet__head-label">
                         <span class="kt-portlet__head-icon">
-                        <i class="kt-menu__link-icon flaticon2-box-1 kt-font-warning"></i>
+                            <i class="kt-menu__link-icon flaticon2-box-1 kt-font-warning"></i>
                         </span>
                         <h3 class="kt-portlet__head-title">
                             Data Incoming (Bongkar) Beras PK
                         </h3>
                     </div>
                 </div>
-                 <form class="" method="post" action="{{route('qc.lab.download_data_unload_excel')}}" enctype="multipart/form-data">
-                <div style="margin-left: 10px; margin-top:10px;" class="row input-daterange">
-                {{ csrf_field() }}
-                {{ method_field('POST') }}
-                    <div class="col-md-4">
-                        <input type="text" name="from_date" id="from_date" class="form-control" placeholder="From Date" readonly />
+                <form class="" method="post" action="{{route('qc.lab.download_data_unload_excel')}}" enctype="multipart/form-data">
+                    <div style="margin-left: 10px; margin-top:10px;" class="row input-daterange">
+                        {{ csrf_field() }}
+                        {{ method_field('POST') }}
+                        <div class="col-md-4">
+                            <input type="text" name="from_date" id="from_date" class="form-control" placeholder="From Date" readonly />
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" name="to_date" id="to_date" class="form-control" placeholder="To Date" readonly />
+                        </div>
+                        <div class="col-md-4">
+                            <button type="button" name="filter" id="filter" class="btn btn-primary">Filter</button>
+                            <button type="button" name="refresh" id="refresh" class="btn btn-default">Refresh</button>
+                            <button type="submit" name="btn_export" id="btn_export" class="btn btn-success"><i class="fa fa-file-excel"></i>Excel</button>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <input type="text" name="to_date" id="to_date" class="form-control" placeholder="To Date" readonly />
-                    </div>
-                    <div class="col-md-4">
-                        <button type="button" name="filter" id="filter" class="btn btn-primary">Filter</button>
-                        <button type="button" name="refresh" id="refresh" class="btn btn-default">Refresh</button>
-                        <button type="submit" name="btn_export" id="btn_export" class="btn btn-success"><i class="fa fa-file-excel"></i>Excel</button>
-                    </div>
-                </div>
-                    </form>
+                </form>
                 <div class="kt-portlet__body">
                     <table class="table table-bordered" id="datatable_pk">
                         <thead>
-                             <tr>
-                                                        <th style="text-align: center;width:auto" rowspan="2">No.</th>
-                                                        <th style="text-align: center;width:auto" rowspan="2">Kode&nbsp;PO</th>
-                                                        <th style="text-align: center;width:auto" rowspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                                        <th style="text-align: center;width:auto" rowspan="2">Waktu&nbsp;Penerimaan</th>
-                                                        <th style="text-align: center;width:auto" rowspan="2">&nbsp;&nbsp;&nbsp;Tanggal&nbsp;PO&nbsp;&nbsp;&nbsp;</th>
-                                                        <th style="text-align: center;width:auto" rowspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                                        <th style="text-align: center;width:auto" rowspan="2">Asal&nbsp;Gabah</th>
-                                                        <th style="text-align: center;width:auto" rowspan="2">Lokasi&nbsp;Bongkar</th>
-                                                        <th style="text-align: center;width:auto" rowspan="2">&nbsp;&nbsp;&nbsp;Harga&nbsp;&nbsp;&nbsp;</th>
-                                                        <th style="text-align: center;width:auto" rowspan="2">Action</th>
-                                                        <th style="text-align: center;width:20px" rowspan="2">KA</th>
-                                                        
-                                                        <th bgcolor="#F8F8FF" style="text-align: center;width:20px" colspan="6">Berat Sample (g)</th>
-                                                        <th style="text-align: center;width:auto" rowspan="2">WH </th>
-                                                        <th style="text-align: center;width:auto" rowspan="2">TR </th>
-                                                        <th style="text-align: center;width:auto" rowspan="2">MD </th>
-                                                        <th bgcolor="#90EE90" style="text-align: center;width:auto" colspan="7">Presentase (%) </th>
-                                                        <th bgcolor="#66CDAA" style="text-align: center;width:auto" colspan="5">Refraksi</th>
-                                                        <th bgcolor="#48D1CC" style="text-align: center;width:auto" colspan="4">Reward</th>
-                                                        <th style="text-align: center;width:auto" rowspan="2">Plan&nbsp;Kualitas</th>
-                                                        <th style="text-align: center;width:auto" rowspan="2">Harga&nbsp;Atas</th>
-                                                        <th style="text-align: center;width:auto" rowspan="2">Harga&nbsp;Incoming</th>
-                                                        <th style="text-align: center;width:auto" rowspan="2">Plan&nbsp;Harga&nbsp;Aktual</th>
-                                                        <th style="text-align: center;width:auto" rowspan="2">Aktual&nbsp;Kualitas</th>
-                                                        <th style="text-align: center;width:auto" rowspan="2">Harga&nbsp;Awal</th>
-                                                        <th style="text-align: center;width:auto" rowspan="2">Aksi&nbsp;Harga</th>
-                                                        <th style="text-align: center;width:auto" rowspan="2">Reaksi&nbsp;Harga</th>
-                                                        <th style="text-align: center;width:auto" rowspan="2">Harga&nbsp;Akhir</th>
-                                                        <th style="text-align: center;width:auto" rowspan="2">Keterangan&nbsp;Harga</th>
-                                                        <th style="text-align: center;width:auto" rowspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Waktu&nbsp;Lab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                                    </tr>    
-                                                    <tr>    
-                                                        <th style="text-align: center;width:20px">PK</th>
-                                                        <th style="text-align: center;width:20px">PK&nbsp;Bersih</th>
-                                                        <th style="text-align: center;width:auto">Beras&nbsp;PK</th>
-                                                        <th style="text-align: center;width:auto">Butir&nbsp;Patah</th>
-                                                        <th style="text-align: center;width:auto">Hampa</th>
-                                                        <th style="text-align: center;width:auto">Katul</th>
-                                                        
-                                                        <th style="text-align: center;width:auto" >(%)&nbsp;Hampa </th>
-                                                        <th style="text-align: center;width:auto" >(%)&nbsp;PK&nbsp;Bersih</th>
-                                                        <th style="text-align: center;width:auto" >(%)&nbsp;Katul</th>
-                                                        <th style="text-align: center;width:auto" >(%)&nbsp;beras&nbsp;PK</th>
-                                                        <th style="text-align: center;width:auto" >(%)&nbsp;butir&nbsp;Patah</th>
-                                                        <th style="text-align: center;width:auto" >(%)&nbsp;Butir&nbsp;Patah&nbsp;Beras</th>
-                                                        <th style="text-align: center;width:auto" >(%)&nbsp;Butir&nbsp;Patah&nbsp;Beras&nbsp;Adjust</th>
-                                                        
-                                                        <th style="text-align: center;width:auto" >Refraksi&nbsp;KA</th>
-                                                        <th style="text-align: center;width:auto" >refraksi&nbsp;Hampa</th>
-                                                        <th style="text-align: center;width:auto" >Refraksi&nbsp;Katul</th>
-                                                        <th style="text-align: center;width:auto" >refraksi&nbsp;TR</th>
-                                                        <th style="text-align: center;width:auto" >Refraksi&nbsp;Butir&nbsp;Patah</th>
-                                                        
-                                                        <th style="text-align: center;width:auto" >Reward&nbsp;hampa</th>
-                                                        <th style="text-align: center;width:auto" >Reward&nbsp;Katul</th>
-                                                        <th style="text-align: center;width:auto" >Reward&nbsp;TR</th>
-                                                        <th style="text-align: center;width:auto" >Reward&nbsp;Butir&nbsp;Patah</th>
-                                                        
-                                                    </tr>
+                            <tr>
+                                <th style="text-align: center;width:auto" rowspan="2">No.</th>
+                                <th style="text-align: center;width:auto" rowspan="2">Kode&nbsp;PO</th>
+                                <th style="text-align: center;width:auto" rowspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                <th style="text-align: center;width:auto" rowspan="2">Waktu&nbsp;Penerimaan</th>
+                                <th style="text-align: center;width:auto" rowspan="2">&nbsp;&nbsp;&nbsp;Tanggal&nbsp;PO&nbsp;&nbsp;&nbsp;</th>
+                                <th style="text-align: center;width:auto" rowspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                <th style="text-align: center;width:auto" rowspan="2">Asal&nbsp;Gabah</th>
+                                <th style="text-align: center;width:auto" rowspan="2">Lokasi&nbsp;Bongkar</th>
+                                <th style="text-align: center;width:auto" rowspan="2">&nbsp;&nbsp;&nbsp;Harga&nbsp;&nbsp;&nbsp;</th>
+                                <th style="text-align: center;width:auto" rowspan="2">Action</th>
+                                <th style="text-align: center;width:20px" rowspan="2">KA</th>
+
+                                <th bgcolor="#F8F8FF" style="text-align: center;width:20px" colspan="6">Berat Sample (g)</th>
+                                <th style="text-align: center;width:auto" rowspan="2">WH </th>
+                                <th style="text-align: center;width:auto" rowspan="2">TR </th>
+                                <th style="text-align: center;width:auto" rowspan="2">MD </th>
+                                <th bgcolor="#90EE90" style="text-align: center;width:auto" colspan="7">Presentase (%) </th>
+                                <th bgcolor="#66CDAA" style="text-align: center;width:auto" colspan="5">Refraksi</th>
+                                <th bgcolor="#48D1CC" style="text-align: center;width:auto" colspan="4">Reward</th>
+                                <th style="text-align: center;width:auto" rowspan="2">Plan&nbsp;Kualitas</th>
+                                <th style="text-align: center;width:auto" rowspan="2">Harga&nbsp;Atas</th>
+                                <th style="text-align: center;width:auto" rowspan="2">Harga&nbsp;Incoming</th>
+                                <th style="text-align: center;width:auto" rowspan="2">Plan&nbsp;Harga&nbsp;Aktual</th>
+                                <th style="text-align: center;width:auto" rowspan="2">Aktual&nbsp;Kualitas</th>
+                                <th style="text-align: center;width:auto" rowspan="2">Harga&nbsp;Awal</th>
+                                <th style="text-align: center;width:auto" rowspan="2">Aksi&nbsp;Harga</th>
+                                <th style="text-align: center;width:auto" rowspan="2">Reaksi&nbsp;Harga</th>
+                                <th style="text-align: center;width:auto" rowspan="2">Harga&nbsp;Akhir</th>
+                                <th style="text-align: center;width:auto" rowspan="2">Keterangan&nbsp;Harga</th>
+                                <th style="text-align: center;width:auto" rowspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Waktu&nbsp;Lab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center;width:20px">PK</th>
+                                <th style="text-align: center;width:20px">PK&nbsp;Bersih</th>
+                                <th style="text-align: center;width:auto">Beras&nbsp;PK</th>
+                                <th style="text-align: center;width:auto">Butir&nbsp;Patah</th>
+                                <th style="text-align: center;width:auto">Hampa</th>
+                                <th style="text-align: center;width:auto">Katul</th>
+
+                                <th style="text-align: center;width:auto">(%)&nbsp;Hampa </th>
+                                <th style="text-align: center;width:auto">(%)&nbsp;PK&nbsp;Bersih</th>
+                                <th style="text-align: center;width:auto">(%)&nbsp;Katul</th>
+                                <th style="text-align: center;width:auto">(%)&nbsp;beras&nbsp;PK</th>
+                                <th style="text-align: center;width:auto">(%)&nbsp;butir&nbsp;Patah</th>
+                                <th style="text-align: center;width:auto">(%)&nbsp;Butir&nbsp;Patah&nbsp;Beras</th>
+                                <th style="text-align: center;width:auto">(%)&nbsp;Butir&nbsp;Patah&nbsp;Beras&nbsp;Adjust</th>
+
+                                <th style="text-align: center;width:auto">Refraksi&nbsp;KA</th>
+                                <th style="text-align: center;width:auto">refraksi&nbsp;Hampa</th>
+                                <th style="text-align: center;width:auto">Refraksi&nbsp;Katul</th>
+                                <th style="text-align: center;width:auto">refraksi&nbsp;TR</th>
+                                <th style="text-align: center;width:auto">Refraksi&nbsp;Butir&nbsp;Patah</th>
+
+                                <th style="text-align: center;width:auto">Reward&nbsp;hampa</th>
+                                <th style="text-align: center;width:auto">Reward&nbsp;Katul</th>
+                                <th style="text-align: center;width:auto">Reward&nbsp;TR</th>
+                                <th style="text-align: center;width:auto">Reward&nbsp;Butir&nbsp;Patah</th>
+
+                            </tr>
                         </thead>
                         <tbody style="text-align: center">
                         </tbody>
@@ -235,7 +245,7 @@ SURYA PANGAN SEMESTA
                 ],
                 "iDisplayLength": 10,
                 ajax: {
-                    url : "{{ route('qc.lab.unload_lab1_pecah_kulit_index') }}",
+                    url: "{{ route('qc.lab.unload_lab1_pecah_kulit_index') }}",
                     data: {
                         from_date: from_date,
                         to_date: to_date
@@ -363,7 +373,7 @@ SURYA PANGAN SEMESTA
                     {
                         data: 'harga_incoming_pk'
                     },
-                    
+
                     {
                         data: 'plan_harga_aktual_pk'
                     },
@@ -392,7 +402,7 @@ SURYA PANGAN SEMESTA
 
                 ],
                 "order": []
-        });
+            });
         }
         $('#filter').click(function() {
             var from_date = $('#from_date').val();
@@ -403,17 +413,17 @@ SURYA PANGAN SEMESTA
                 load_data(from_date, to_date);
                 Swal.fire({
                     title: 'Berhasil',
-                    text: 'Sukses filter data', 
+                    text: 'Sukses filter data',
                     icon: 'success',
                     timer: 1500
-                    });
+                });
             } else {
                 Swal.fire({
                     title: 'Infoo!!',
                     text: 'Mohon Isikan data',
                     icon: 'warning',
                     timer: 1500
-                    });
+                });
             }
 
         });

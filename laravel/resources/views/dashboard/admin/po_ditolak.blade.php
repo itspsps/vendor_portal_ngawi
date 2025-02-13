@@ -6,23 +6,23 @@ SURYA PANGAN SEMESTA
     <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
         <!-- begin:: Subheader -->
         <div class="kt-subheader   kt-grid__item" id="kt_subheader">
-            <div class="kt-container  kt-container--fluid ">
-                <div class="kt-subheader__main">
-                    <h3 class="kt-subheader__title">
-                        E-PROCUREMENT
-                    </h3>
-                    <span class="kt-subheader__separator kt-hidden"></span>
-                    <div class="kt-subheader__breadcrumbs">
-                        <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
-                        <span class="kt-subheader__breadcrumbs-separator"></span>
-                        <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
-                            SURYA PANGAN SEMESTA
-                        </a>
-                                    <span class="btn-outline btn-sm btn-info">Site Ngawi</span>
-                    </div>
+        <div class="kt-container  kt-container--fluid ">
+            <div class="kt-subheader__main">
+                <h3 class="kt-subheader__title">
+                    PT. SURYA PANGAN SEMESTA
+                </h3>
+                <span class="btn-outline btn-sm btn-info mr-3">NGAWI</span>
+                <span class="kt-subheader__separator kt-hidden"></span>
+                <div class="kt-subheader__breadcrumbs">
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        PO Tolak
+                    </a>
                 </div>
             </div>
         </div>
+    </div>
 
         <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
             <div class="col-xl-12 col-lg-12 col-md-12 order-lg-1 order-xl-1">

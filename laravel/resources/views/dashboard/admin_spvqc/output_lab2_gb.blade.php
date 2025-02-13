@@ -9,16 +9,21 @@ SURYA PANGAN SEMESTA
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
                 <h3 class="kt-subheader__title">
-                    E-PROCUREMENT
+                    PT. SURYA PANGAN SEMESTA
                 </h3>
+                <span class="btn-outline btn-sm btn-info mr-3">NGAWI</span>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
-                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
                     <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
-                        SURYA PANGAN SEMESTA
+                        Output Lab Bongkaran
                     </a>
-                    <span class="btn-outline btn-sm btn-info">Site Ngawi</span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Gabah Basah
+                    </a>
                 </div>
             </div>
         </div>
@@ -76,8 +81,11 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Status </th>
                                         <th style="text-align: center;width:auto">Tanggal&nbsp;PO</th>
+                                        <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkaran</th>
                                         <th style="text-align: center;width:auto">Asal&nbsp;Gabah</th>
                                         <th style="text-align: center;width:auto">DTM&nbsp;KS</th>
+                                        <th style="text-align: center;width:auto">Lokasi&nbsp;Bongkar</th>
+
                                         <th style="text-align: center;width:auto">Tonase&nbsp;KS</th>
                                         <th style="text-align: center;width:auto">KA&nbsp;KS</th>
                                         <th style="text-align: center;width:auto">KA&nbsp;KG</th>
@@ -88,9 +96,9 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">Berat&nbsp;Sampel&nbsp;Beras</th>
                                         <th style="text-align: center;width:auto">WH</th>
                                         <th style="text-align: center;width:auto">TP</th>
+
                                         <th style="text-align: center;width:auto">MD</th>
                                         <th style="text-align: center;width:auto">Broken&nbsp;Setelah&nbsp;Bongkar</th>
-
                                         <th style="text-align: center;width:auto">Hampa&nbsp;(%)</th>
                                         <th style="text-align: center;width:auto">KG&nbsp;After&nbsp;Adjust&nbsp;Hampa</th>
                                         <th style="text-align: center;width:auto">(%)&nbsp;KG</th>
@@ -99,6 +107,7 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">(%)&nbsp;KS&nbsp;-&nbsp;KG&nbsp;After&nbsp;Adjust&nbsp;Susut</th>
                                         <th style="text-align: center;width:auto">(%)&nbsp;KG&nbsp;-&nbsp;PK</th>
                                         <th style="text-align: center;width:auto">Adjust&nbsp;(%)&nbsp;KG&nbsp;-&nbsp;PK&nbsp;(0.952)</th>
+
                                         <th style="text-align: center;width:auto">(%)&nbsp;KS&nbsp;-&nbsp;PK</th>
                                         <th style="text-align: center;width:auto">(%)&nbsp;Putih</th>
                                         <th style="text-align: center;width:auto">Adjust&nbsp;(%)&nbsp;KG&nbsp;ke&nbsp;Putih&nbsp;(0.952)</th>
@@ -110,12 +119,13 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">Refraksi&nbsp;Broken</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Plan&nbsp;Harga&nbsp;Gabah&nbsp;/Kg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Plan&nbsp;Harga&nbsp;Beli&nbsp;gabah&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Harga&nbsp;Tempat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Harga&nbsp;Atas&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Harga&nbsp;Awal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Aksi&nbsp;Harga</th>
                                         <th style="text-align: center;width:auto">Reaksi&nbsp;Harga</th>
-                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Harga&nbsp;Akhir&nbsp;-&nbsp;Rp.&nbsp;13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Harga&nbsp;Akhir&nbsp;(&minus;Rp.&nbsp;14)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Keterangan&nbsp;Harga</th>
                                     </tr>
                                 </thead>
@@ -192,6 +202,7 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Status </th>
                                         <th style="text-align: center;width:auto">Tanggal&nbsp;PO</th>
+                                        <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkaran</th>
                                         <th style="text-align: center;width:auto">Asal&nbsp;Gabah</th>
                                         <th style="text-align: center;width:auto">DTM&nbsp;KS</th>
                                         <th style="text-align: center;width:auto">Tonase&nbsp;KS</th>
@@ -250,6 +261,7 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Status </th>
                                         <th style="text-align: center;width:auto">Tanggal&nbsp;PO</th>
+                                        <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkaran</th>
                                         <th style="text-align: center;width:auto">Asal&nbsp;Gabah</th>
                                         <th style="text-align: center;width:auto">DTM&nbsp;KS</th>
                                         <th style="text-align: center;width:auto">Tonase&nbsp;KS</th>
@@ -364,10 +376,16 @@ SURYA PANGAN SEMESTA
                         data: 'tanggal_po'
                     },
                     {
+                        data: 'tanggal_bongkar'
+                    },
+                    {
                         data: 'keterangan_penerimaan_po'
                     },
                     {
                         data: 'no_dtm'
+                    },
+                    {
+                        data: 'lokasi_bongkar'
                     },
                     {
                         data: 'hasil_akhir_tonase'
@@ -548,6 +566,9 @@ SURYA PANGAN SEMESTA
                     },
                     {
                         data: 'tanggal_po'
+                    },
+                    {
+                        data: 'tanggal_bongkar'
                     },
                     {
                         data: 'keterangan_penerimaan_po'
@@ -731,6 +752,9 @@ SURYA PANGAN SEMESTA
                     },
                     {
                         data: 'tanggal_po'
+                    },
+                    {
+                        data: 'tanggal_bongkar'
                     },
                     {
                         data: 'keterangan_penerimaan_po'

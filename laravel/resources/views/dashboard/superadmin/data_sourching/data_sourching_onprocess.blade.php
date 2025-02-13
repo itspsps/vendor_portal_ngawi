@@ -9,16 +9,21 @@ SURYA PANGAN SEMESTA
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
                 <h3 class="kt-subheader__title">
-                    E-PROCUREMENT
+                    PT. SURYA PANGAN SEMESTA
                 </h3>
+                <span class="btn-outline btn-sm btn-info mr-3">NGAWI</span>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
-                    <a href="#" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="" class="kt-subheader__breadcrumbs-link">
-                        SURYA PANGAN SEMESTA
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        Data Sourching
                     </a>
-                    <span class="btn-outline btn-sm btn-info">Site Ngawi</span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-fast-next"></i></a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="#" onclick="return false" class="kt-subheader__breadcrumbs-link">
+                        PO On Process
+                    </a>
                 </div>
             </div>
         </div>
@@ -75,10 +80,12 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:2%">No</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;Bongkaran&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
                                         <th style="text-align: center;width:auto">Aksi&nbsp;Harga</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No.&nbsp;DTM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tonase&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Plan&nbsp;Harga&nbsp;Beli&nbsp;Gabah</th>
                                         <th style="text-align: center;width:auto">Harga&nbsp;Berdasarkan&nbsp;Harga&nbsp;Atas</th>
@@ -119,10 +126,12 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:2%">No</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;Bongkaran&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
                                         <th style="text-align: center;width:auto">Aksi&nbsp;Harga</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No.&nbsp;DTM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tonase&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Plan&nbsp;Harga&nbsp;Beli&nbsp;Gabah</th>
                                         <th style="text-align: center;width:auto">Harga&nbsp;Berdasarkan&nbsp;Harga&nbsp;Atas</th>
@@ -141,10 +150,12 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:2%">No</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;Bongkaran&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
                                         <th style="text-align: center;width:auto">Aksi&nbsp;Harga</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No.&nbsp;DTM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tonase&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Plan&nbsp;Harga&nbsp;Beli&nbsp;Gabah</th>
                                         <th style="text-align: center;width:auto">Harga&nbsp;Berdasarkan&nbsp;Harga&nbsp;Atas</th>
@@ -236,6 +247,9 @@ SURYA PANGAN SEMESTA
                         data: 'tanggal_po'
                     },
                     {
+                        data: 'tanggal_bongkar'
+                    },
+                    {
                         data: 'kode_po'
                     },
                     {
@@ -246,6 +260,9 @@ SURYA PANGAN SEMESTA
                     },
                     {
                         data: 'plat_kendaraan'
+                    },
+                    {
+                        data: 'dtm_gb'
                     },
                     {
                         data: 'hasil_akhir_tonase'
@@ -282,83 +299,7 @@ SURYA PANGAN SEMESTA
             $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
                 table.columns.adjust().draw().responsive.recalc();
             })
-            // var table1 = $('#data_ciherang').DataTable({
-            //     "scrollY": true,
-            //     "scrollX": true,
-            //     processing: true,
-            //     serverSide: true,
-            //     "aLengthMenu": [
-            //         [25, 100, 300, -1],
-            //         [25, 100, 300, "All"]
-            //     ],
-            //     "iDisplayLength": 10,
-            //     ajax: {
-            //         url: "{{ route('sourching.data_sourching_onprocess_gb_ciherang_index') }}",
-            //         data: {
-            //             from_date: from_date,
-            //             to_date: to_date
-            //         }
-            //     },
-            //     columns: [{
-            //             data: "id_bid",
 
-            //             render: function(data, type, row, meta) {
-            //                 return meta.row + meta.settings._iDisplayStart + 1;
-            //             }
-            //         },
-            //         {
-            //             data: 'aksi_harga'
-            //         },
-            //         {
-            //             data: 'name_bid'
-            //         },
-            //         {
-            //             data: 'nama_vendor'
-            //         },
-            //         {
-            //             data: 'kode_po'
-            //         },
-            //         {
-            //             data: 'tanggal_po'
-            //         },
-            //         {
-            //             data: 'plat_kendaraan'
-            //         },
-            //         {
-            //             data: 'plan_harga_beli_gabah'
-            //         },
-            //         {
-            //             data: 'harga_berdasarkan_tempat'
-            //         },
-            //         {
-            //             data: 'harga_berdasarkan_harga_atas'
-            //         },
-            //         {
-            //             data: 'harga_akhir'
-            //         },
-            //         {
-            //             data: 'keterangan_harga_akhir_gb'
-            //         },
-            //     ],
-            //     createdRow: function(row, data, index) {
-
-            //         // Updated Schedule Week 1 - 07 Mar 22
-
-            //         if (data.name_bid == 'GABAH BASAH CIHERANG') {
-            //             $('td:eq(2)', row).css('color', '#000099'); //Original Date
-            //         } else if (data.name_bid == 'GABAH BASAH PANDAN WANGI') {
-            //             $('td:eq(2)', row).css('color', '#009900'); // Behind of Original Date
-            //         } else if (data.name_bid == 'GABAH BASAH KETAN PUTIH') {
-            //             $('td:eq(2)', row).css('color', '#330019'); // Behind of Original Date
-            //         } else if (data.name_bid == 'GABAH BASAH LONG GRAIN') {
-            //             $('td:eq(2)', row).css('color', '#6666FF'); // Behind of Original Date
-            //         }
-            //     },
-            //     "order": []
-            // });
-            // $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-            //     table1.columns.adjust().draw().responsive.recalc();
-            // })
             var table2 = $('#data_pw').DataTable({
                 "scrollY": true,
                 "scrollX": true,
@@ -390,6 +331,9 @@ SURYA PANGAN SEMESTA
                         data: 'tanggal_po'
                     },
                     {
+                        data: 'tanggal_bongkar'
+                    },
+                    {
                         data: 'kode_po'
                     },
                     {
@@ -400,6 +344,9 @@ SURYA PANGAN SEMESTA
                     },
                     {
                         data: 'plat_kendaraan'
+                    },
+                    {
+                        data: 'dtm_gb'
                     },
                     {
                         data: 'hasil_akhir_tonase'
@@ -467,6 +414,9 @@ SURYA PANGAN SEMESTA
                         data: 'tanggal_po'
                     },
                     {
+                        data: 'tanggal_bongkar'
+                    },
+                    {
                         data: 'kode_po'
                     },
                     {
@@ -477,6 +427,9 @@ SURYA PANGAN SEMESTA
                     },
                     {
                         data: 'plat_kendaraan'
+                    },
+                    {
+                        data: 'dtm_gb'
                     },
                     {
                         data: 'hasil_akhir_tonase'
