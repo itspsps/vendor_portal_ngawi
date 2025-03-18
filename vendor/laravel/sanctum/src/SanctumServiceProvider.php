@@ -40,7 +40,9 @@ class SanctumServiceProvider extends ServiceProvider
     public function boot()
     {
         if (app()->runningInConsole()) {
-            $this->publishesMigrations([
+            $this->registerMigrations();
+
+            $this->publishes([
                 __DIR__.'/../database/migrations' => database_path('migrations'),
             ], 'sanctum-migrations');
 
@@ -59,6 +61,18 @@ class SanctumServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register Sanctum's migration files.
+     *
+     * @return void
+     */
+    protected function registerMigrations()
+    {
+        if (Sanctum::shouldRunMigrations()) {
+            return $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        }
+    }
+
+    /**
      * Define the Sanctum routes.
      *
      * @return void
@@ -73,7 +87,7 @@ class SanctumServiceProvider extends ServiceProvider
             Route::get(
                 '/csrf-cookie',
                 CsrfCookieController::class.'@show'
-            )->middleware('web')->name('sanctum.csrf-cookie');
+            )->middleware('web');
         });
     }
 

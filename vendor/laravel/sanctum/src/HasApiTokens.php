@@ -2,25 +2,21 @@
 
 namespace Laravel\Sanctum;
 
-use DateTimeInterface;
 use Illuminate\Support\Str;
 
-/**
- * @template TToken of \Laravel\Sanctum\Contracts\HasAbilities = \Laravel\Sanctum\PersonalAccessToken
- */
 trait HasApiTokens
 {
     /**
      * The access token the user is using for the current request.
      *
-     * @var TToken
+     * @var \Laravel\Sanctum\Contracts\HasAbilities
      */
     protected $accessToken;
 
     /**
      * Get the access tokens that belong to model.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany<TToken, $this>
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function tokens()
     {
@@ -39,57 +35,27 @@ trait HasApiTokens
     }
 
     /**
-     * Determine if the current API token does not have a given scope.
-     *
-     * @param  string  $ability
-     * @return bool
-     */
-    public function tokenCant(string $ability)
-    {
-        return ! $this->tokenCan($ability);
-    }
-
-    /**
      * Create a new personal access token for the user.
      *
      * @param  string  $name
      * @param  array  $abilities
-     * @param  \DateTimeInterface|null  $expiresAt
      * @return \Laravel\Sanctum\NewAccessToken
      */
-    public function createToken(string $name, array $abilities = ['*'], ?DateTimeInterface $expiresAt = null)
+    public function createToken(string $name, array $abilities = ['*'])
     {
-        $plainTextToken = $this->generateTokenString();
-
         $token = $this->tokens()->create([
             'name' => $name,
-            'token' => hash('sha256', $plainTextToken),
+            'token' => hash('sha256', $plainTextToken = Str::random(40)),
             'abilities' => $abilities,
-            'expires_at' => $expiresAt,
         ]);
 
-        return new NewAccessToken($token, $token->getKey().'|'.$plainTextToken);
-    }
-
-    /**
-     * Generate the token string.
-     *
-     * @return string
-     */
-    public function generateTokenString()
-    {
-        return sprintf(
-            '%s%s%s',
-            config('sanctum.token_prefix', ''),
-            $tokenEntropy = Str::random(40),
-            hash('crc32b', $tokenEntropy)
-        );
+        return new NewAccessToken($token, $token->getKey() . '|' . $plainTextToken);
     }
 
     /**
      * Get the access token currently associated with the user.
      *
-     * @return TToken
+     * @return \Laravel\Sanctum\Contracts\HasAbilities
      */
     public function currentAccessToken()
     {
@@ -99,7 +65,7 @@ trait HasApiTokens
     /**
      * Set the current access token for the user.
      *
-     * @param  TToken  $accessToken
+     * @param  \Laravel\Sanctum\Contracts\HasAbilities  $accessToken
      * @return $this
      */
     public function withAccessToken($accessToken)
