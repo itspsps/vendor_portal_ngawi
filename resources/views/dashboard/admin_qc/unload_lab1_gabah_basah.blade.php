@@ -235,8 +235,8 @@ SURYA PANGAN SEMESTA
                 },
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -421,6 +421,24 @@ SURYA PANGAN SEMESTA
 </script>
 <script type="text/javascript">
     $(function() {
+        $(window).on("load", function() {
+            var url = "{{ route('qc.lab.count_unload_gb') }}";
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function(response) {
+                    console.log(response);
+                    if (response.code == 200) {
+                        Swal.fire({
+                            title: response.title,
+                            text: response.message,
+                            icon: 'info',
+                            timer: 5000
+                        })
+                    }
+                }
+            });
+        });
         $(document).on('click', '.detail_hasil_qc', function() {
             var id = $(this).attr("name");
             var url = "{{ route('qc.lab.detail_output_incoming_qc') }}" + "/" + id;

@@ -41,10 +41,10 @@ SURYA PANGAN SEMESTA
                 <div class="kt-portlet__body">
                     <ul class="nav nav-pills" role="tablist">
                         <li class="nav-item mt-3">
-                            <a class="nav-link" data-toggle="tab" href="#m_tabs_3_1"><i class="la la-database"></i>BULAN LALU (<b>{{\Carbon\Carbon::now()->subMonthsNoOverflow()->isoFormat('MMMM');}}</b>)</a>
+                            <a class="nav-link" data-toggle="tab" href="#m_tabs_3_1"><i class="la la-database"></i>BULAN (<b>{{\Carbon\Carbon::now()->subMonths(2)->isoFormat('MMMM');}}</b>)</a>
                         </li>
                         <li class="nav-item mt-3">
-                            <a class="nav-link active" data-toggle="tab" href="#m_tabs_3_2"><i class="la la-database"></i>BULAN INI (<b>{{\Carbon\Carbon::now()->isoFormat('MMMM');}}</b>)</a>
+                            <a class="nav-link active" data-toggle="tab" href="#m_tabs_3_2"><i class="la la-database"></i>BULAN (<b>{{\Carbon\Carbon::now()->subMonthsNoOverflow()->isoFormat('MMMM');}}</b>)</a>
                         </li>
                     </ul>
                     <div class="tab-content">
@@ -168,8 +168,8 @@ SURYA PANGAN SEMESTA
             },
             serverSide: true,
             "aLengthMenu": [
-                [25, 100, 300, -1],
-                [25, 100, 300, "All"]
+                [10, 25, 100, 300, -1],
+                [10, 25, 100, 300, "All"]
             ],
             "iDisplayLength": 10,
             ajax: "{{ route('ap.potong_pajak_index') }}",
@@ -205,8 +205,8 @@ SURYA PANGAN SEMESTA
             },
             serverSide: true,
             "aLengthMenu": [
-                [25, 100, 300, -1],
-                [25, 100, 300, "All"]
+                [10, 25, 100, 300, -1],
+                [10, 25, 100, 300, "All"]
             ],
             "iDisplayLength": 10,
             ajax: "{{ route('ap.potong_pajak1_index') }}",
@@ -237,10 +237,10 @@ SURYA PANGAN SEMESTA
 </script>
 <script type="text/javascript">
     $(function() {
-        const month_yesterday = '{{\Carbon\Carbon::now()->subMonthsNoOverflow()->isoFormat("MMMM");}}';
-        const month = '{{\Carbon\Carbon::now()->isoFormat("MMMM");}}'
-        const year_yesterday = '{{\Carbon\Carbon::now()->subMonthsNoOverflow()->isoFormat("YYYY");}}';
-        const year = '{{\Carbon\Carbon::now()->isoFormat("YYYY");}}'
+        const month_yesterday = '{{\Carbon\Carbon::now()->subMonths(2)->isoFormat("MMMM");}}';
+        const month = '{{\Carbon\Carbon::now()->subMonthsNoOverflow()->isoFormat("MMMM");}}'
+        const year_yesterday = '{{\Carbon\Carbon::now()->subMonths(2)->isoFormat("YYYY");}}';
+        const year = '{{\Carbon\Carbon::now()->subMonthsNoOverflow()->isoFormat("YYYY");}}'
         // console.log(month_yesterday);
         $(document).on('click', '#btn_modal_upload', function() {
             var id = $(this).data('id');
@@ -248,7 +248,7 @@ SURYA PANGAN SEMESTA
             if (bulan == 'lalu') {
                 $('#keterangan_potong_pajak').val(month_yesterday.toUpperCase() + ' ' + year_yesterday);
             } else {
-                $('#keterangan_potong_pajak').val(month + ' ' + year);
+                $('#keterangan_potong_pajak').val(month.toUpperCase() + ' ' + year);
             }
             $('#id_user').val(id);
             $('#bulan').val(bulan);

@@ -32,6 +32,7 @@ Route::get('/data_sourching_onprocess_gb_ketan_putih_index', [MasterSourchingCon
 Route::get('/data_sourching_onprocess_pk_index', [MasterSourchingController::class, 'data_sourching_onprocess_pk_index'])->name('data_sourching_onprocess_pk_index');
 
 // On Deal
+Route::get('/count_deal_master_gb', [MasterSourchingController::class, 'count_deal_master_gb'])->name('count_deal_master_gb');
 Route::get('/data_sourching_deal', [MasterSourchingController::class, 'data_sourching_deal'])->name('data_sourching_deal');
 Route::get('/data_sourching_deal_gb_longgrain_index', [MasterSourchingController::class, 'data_sourching_deal_gb_longgrain_index'])->name('data_sourching_deal_gb_longgrain_index');
 Route::get('/data_sourching_deal_gb_ciherang_index', [MasterSourchingController::class, 'data_sourching_deal_gb_ciherang_index'])->name('data_sourching_deal_gb_ciherang_index');

@@ -21,8 +21,8 @@
 
                     <span class="kt-menu__link-text">Data Antrian
                     </span>
-                    <span id="count_antrian" class="badge badge badge-info" style="position:absolute; margin-left:75%; width: 100%; text-align: left; background-color: #9f187c;">
-
+                    <span id="count_antrian" class="badge badge badge-info" style="position:absolute; right: 0%; width: max-content; background-color: #9f187c;">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     </span>
                 </a>
             </li>
@@ -30,8 +30,8 @@
                 <a href="{{ route('qc.bongkar.antrian_bongkar') }}" class="kt-menu__link kt-menu__toggle">
                     <i class="kt-menu__link-icon flaticon2-open-box kt-font-info"></i>
                     <span class="kt-menu__link-text">Proses Bongkar</span>
-                    <span id="proses_bongkar" class="badge badge badge-info" style="position:absolute; margin-left:75%; width: 100%; text-align: left; background-color: #9f187c;">
-
+                    <span id="proses_bongkar" class="badge badge badge-info" style="position:absolute; right: 0%; width: max-content; background-color: #9f187c;">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     </span>
                 </a>
             </li>
@@ -39,7 +39,8 @@
                 <a href="{{ route('qc.bongkar.data_bongkar') }}" class="kt-menu__link kt-menu__toggle">
                     <i class="kt-menu__link-icon flaticon2-open-box kt-font-success"></i>
                     <span class="kt-menu__link-text">Data Bongkar</span>
-                    <span id="data_bongkar" class="badge badge badge-info" style="position:absolute; margin-left:75%; width: 100%; text-align: left; background-color: #9f187c;">
+                    <span id="data_bongkar" class="badge badge badge-info" style="position:absolute; right: 0%; width: max-content; background-color: #9f187c;">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     </span>
                 </a>
             </li>
@@ -47,7 +48,8 @@
                 <a href="{{ route('qc.bongkar.data_revisi_gb') }}" class="kt-menu__link kt-menu__toggle">
                     <i class="kt-menu__link-icon flaticon2-sheet kt-font-warning"></i>
                     <span class="kt-menu__link-text">Data Revisi</span>
-                    <span id="revisi_bongkar" class="badge badge badge-info" style="position:absolute; margin-left:75%; width: 50%; text-align: left; background-color: #9f187c;">
+                    <span id="revisi_bongkar" class="badge badge badge-info" style="position:absolute; right: 0%; width: max-content; background-color: #9f187c;">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     </span>
                 </a>
             </li>

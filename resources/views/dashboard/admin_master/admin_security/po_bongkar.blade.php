@@ -65,7 +65,7 @@ SURYA PANGAN SEMESTA
 <div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <form class="m-form m-form--fit m-form--label-align-right" method="post" action="{{ route('master.update_nopol') }}" enctype="multipart/form-data">
+            <form class="m-form m-form--fit m-form--label-align-right" method="post" action="{{ route('master.security.update_nopol') }}" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 {{ method_field('POST') }}
                 <div class="modal-header">
@@ -111,7 +111,7 @@ SURYA PANGAN SEMESTA
                 [25, 100, 300, "All"]
             ],
             "iDisplayLength": 10,
-            ajax: "{{ route('master.po_bongkar_index') }}",
+            ajax: "{{ route('master.security.po_bongkar_index') }}",
             columns: [{
                     data: "id_bid",
 
@@ -153,7 +153,7 @@ SURYA PANGAN SEMESTA
     //     $(function() {
     //         $(document).on('click', '.to_satpam_for_bonkar', function() {
     //             var id = $(this).attr("name");
-    //             var url = '{{ route('master.to_satpam_for_bonkar') }}' + "/" + id;
+    //             var url = '{{ route('master.security.to_satpam_for_bonkar') }}' + "/" + id;
     //             console.log(url);
     //             $.ajax({
     //                 type: "GET",
@@ -173,7 +173,7 @@ SURYA PANGAN SEMESTA
     $(function() {
         $(document).on('click', '.to_show_nopol', function() {
             var id = $(this).attr("name");
-            var url = "{{ route('master.show_nopol') }}" + "/" + id;
+            var url = "{{ route('master.security.show_nopol') }}" + "/" + id;
             console.log(url);
             $.ajax({
                 type: "GET",

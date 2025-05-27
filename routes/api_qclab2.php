@@ -26,6 +26,7 @@ Route::get('/lab/output_proses_lab2_pk', [QcLab2Controller::class, 'output_prose
 Route::get('/lab/output_edit_proses_lab2_gb/{id?}', [QcLab2Controller::class, 'output_edit_proses_lab2_gb'])->name('lab.output_edit_proses_lab2_gb');
 
 // Hasil Deal Lab 2 
+Route::get('/lab/count_deal_lab2', [QcLab2Controller::class, 'count_deal_lab2'])->name('lab.count_deal_lab2');
 Route::get('/lab/output_deal_lab2_gb', [QcLab2Controller::class, 'output_deal_lab2_gb'])->name('lab.output_deal_lab2_gb');
 Route::get('/lab/output_deal_lab2_gb_longgrain_index', [QcLab2Controller::class, 'output_deal_lab2_gb_longgrain_index'])->name('lab.output_deal_lab2_gb_longgrain_index');
 Route::get('/lab/output_deal_lab2_gb_pandan_wangi_index', [QcLab2Controller::class, 'output_deal_lab2_gb_pandan_wangi_index'])->name('lab.output_deal_lab2_gb_pandan_wangi_index');

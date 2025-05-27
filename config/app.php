@@ -176,7 +176,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         // AzisHapidin\IndoRegion\IndoRegionServiceProvider::class,
-        // Barryvdh\DomPDF\ServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
         // Maatwebsite\Excel\ExcelServiceProvider::class,
         // Yajra\DataTables\ButtonsServiceProvider::class,
     ],
@@ -233,7 +233,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
-        // 'PDF' => Barryvdh\DomPDF\Facade::class,
+        'PDF' => Barryvdh\DomPDF\Facade\Pdf::class,
+        'QRcode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
         // 'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 

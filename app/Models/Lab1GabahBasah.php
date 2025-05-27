@@ -35,5 +35,16 @@ class Lab1GabahBasah extends Model
     //     'nomor_antrian',
     //     'plan_harga',
     // ];
-
+    public function DataPO()
+    {
+        return $this->hasOne(DataPO::class, 'id_data_po', 'lab1_id_data_po_gb');
+    }
+    public function PenerimaanPo()
+    {
+        return $this->hasOne(PenerimaanPO::class, 'id_penerimaan_po', 'lab1_id_penerimaan_po_gb');
+    }
+    public function User()
+    {
+        return $this->hasOne(User::class, 'id', 'user_idbid');
+    }
 }

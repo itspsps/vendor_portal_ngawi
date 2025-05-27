@@ -62,12 +62,25 @@ class DataPO extends Model
         'pengiriman_aol',
         'cabang_aol'
     ];
-    // public function penerimaan_po():BelongsTo
-    // {
-    //     return $this->belongsTo(PenerimaanPO::class,'penerimaan_id_data_po');
-    // }
-    // public function user():BelongsTo
-    // {
-    //     return $this->belongsTo(User::class,'user_idbid', 'id');
-    // }
+
+    public function PenerimaanPo()
+    {
+        return $this->hasOne(PenerimaanPO::class, 'penerimaan_id_data_po', 'id_data_po');
+    }
+    public function Bid()
+    {
+        return $this->hasOne(Bid::class, 'id_bid', 'bid_id');
+    }
+    public function User()
+    {
+        return $this->hasOne(User::class, 'id', 'user_idbid');
+    }
+    public function Lab1()
+    {
+        return $this->hasOne(Lab1GabahBasah::class, 'lab1_id_data_po_gb', 'id');
+    }
+    public function Lab2()
+    {
+        return $this->hasOne(Lab2GabahBasah::class, 'lab2_kode_po_gb', 'kode_po');
+    }
 }

@@ -3,6 +3,7 @@
 SURYA PANGAN SEMESTA
 @endsection
 @section('content')
+@include('sweetalert::alert')
 <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
     <!-- begin:: Subheader -->
     <div class="kt-subheader   kt-grid__item" id="kt_subheader">
@@ -70,16 +71,13 @@ SURYA PANGAN SEMESTA
                 <div class="kt-portlet__body">
                     <ul class="nav nav-pills" role="tablist">
                         <li class="nav-item mt-3">
-                            <a class="nav-link active" data-toggle="tab" href="#m_tabs_3_1"><i class="la la-database"></i>GB LONG GRAIN</a>
-                        </li>
-                        <!-- <li class="nav-item mt-3">
-                            <a class="nav-link" data-toggle="tab" href="#m_tabs_3_2"><i class="la la-database"></i>GB CIHERANG</a>
-                        </li> -->
-                        <li class="nav-item mt-3">
-                            <a class="nav-link" data-toggle="tab" href="#m_tabs_3_3"><i class="la la-database"></i>GB PANDAN WANGI</a>
+                            <a class="nav-link active" data-toggle="tab" href="#m_tabs_3_1" id="notif_swal_longgrain"><i class="la la-database"></i>GB LONG GRAIN</a>
                         </li>
                         <li class="nav-item mt-3">
-                            <a class="nav-link" data-toggle="tab" href="#m_tabs_3_4"><i class="la la-database"></i>GB KETAN PUTIH</a>
+                            <a class="nav-link" data-toggle="tab" href="#m_tabs_3_3" id="notif_swal_pw"><i class="la la-database"></i>GB PANDAN WANGI</a>
+                        </li>
+                        <li class="nav-item mt-3">
+                            <a class="nav-link" data-toggle="tab" href="#m_tabs_3_4" id="notif_swal_kp"><i class="la la-database"></i>GB KETAN PUTIH</a>
                         </li>
                         <li class="nav-item mt-3">
                             <a class="nav-link" data-toggle="tab" href="#m_tabs_3_5"><i class="la la-database"></i>BERAS PECAH KULIT</a>
@@ -108,26 +106,6 @@ SURYA PANGAN SEMESTA
                                 </tbody>
                             </table>
                         </div>
-                        <!-- <div class="tab-pane" id="m_tabs_3_2" role="tabpanel">
-                            <table class="table table-bordered" id="data_ciherang">
-                                <thead>
-                                    <tr>
-                                        <th style="text-align: center;width:2%">No</th>
-                                        <th style="text-align: center;width:auto">&nbsp;Nama&nbsp;Item&nbsp;</th>
-                                        <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
-                                        <th style="text-align: center;width:auto">Nama&nbsp;Supplier</th>
-                                        <th style="text-align: center;width:auto">Tanggal&nbsp;PO </th>
-                                        <th style="text-align: center;width:auto">Nopol&nbsp;Kendaraan</th>
-                                        <th style="text-align: center;width:auto">Timbangan&nbsp;Awal</th>
-                                        <th style="text-align: center;width:auto">Timbangan&nbsp;Akhir</th>
-                                        <th style="text-align: center;width:auto">Output&nbsp;Timbangan</th>
-                                        <th style="text-align: center;width:auto">Aksi </th>
-                                    </tr>
-                                </thead>
-                                <tbody style="text-align: center">
-                                </tbody>
-                            </table>
-                        </div> -->
                         <div class="tab-pane" id="m_tabs_3_3" role="tabpanel">
                             <table class="table table-bordered" id="data_pw">
                                 <thead>
@@ -292,6 +270,35 @@ SURYA PANGAN SEMESTA
     });
 </script>
 <script>
+    $(window).on('load', function(e) {
+        var from_date = $('#from_date').val();
+        var to_date = $('#to_date').val();
+        var item = 'longgrain';
+        $.ajax({
+            type: "GET",
+            url: "{{route('timbangan.count_timbangan_akhir') }}",
+            data: {
+                item: item,
+            },
+            error: function() {
+                alert('Something is wrong');
+            },
+            success: function(data) {
+                console.log(data.datatonaseakhir);
+                if (from_date == '' || from_date == null) {
+                    if (data.datatonaseakhir >= 200) {
+                        Swal.fire({
+                            title: 'Data Limits 200 Row',
+                            text: 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu',
+                            icon: 'warning',
+                            // timer: 5000
+                        })
+                    }
+                }
+            }
+        })
+
+    });
     $(document).ready(function() {
         $('.input-daterange').datepicker({
             todayBtn: 'linked',
@@ -311,8 +318,8 @@ SURYA PANGAN SEMESTA
                 },
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -393,8 +400,8 @@ SURYA PANGAN SEMESTA
                 },
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -472,8 +479,8 @@ SURYA PANGAN SEMESTA
                 },
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -551,8 +558,8 @@ SURYA PANGAN SEMESTA
                 },
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -612,17 +619,17 @@ SURYA PANGAN SEMESTA
             var to_date = $('#to_date').val();
 
             if (from_date != '' && to_date != '') {
-                $('#datatable1').DataTable().destroy();
                 $('#data_longgrain').DataTable().destroy();
                 $('#data_pw').DataTable().destroy();
                 $('#data_kp').DataTable().destroy();
+                $('#datatable1').DataTable().destroy();
                 // table.ajax.reload(from_date, to_date);
                 load_data(from_date, to_date);
                 Swal.fire({
-                    title: 'Berhasil',
-                    text: 'Sukses filter data',
+                    title: 'Sukses filter data',
+                    text: 'Mohon Tunggu Sebentar',
                     icon: 'success',
-                    timer: 1500
+                    timer: 4000
                 });
             } else {
                 Swal.fire({
@@ -634,14 +641,100 @@ SURYA PANGAN SEMESTA
             }
 
         });
+        $(document).on('click', '#notif_swal_longgrain', function(e) {
+            var from_date = $('#from_date').val();
+            var to_date = $('#to_date').val();
+            var item = 'longgrain';
+            $.ajax({
+                type: "GET",
+                url: "{{route('timbangan.count_timbangan_akhir') }}",
+                data: {
+                    item: item,
+                },
+                error: function() {
+                    alert('Something is wrong');
+                },
+                success: function(data) {
+                    console.log(data.datatonaseakhir);
+                    if (from_date == '' || from_date == null) {
+                        if (data.datatonaseakhir >= 200) {
+                            Swal.fire({
+                                title: 'Data Limits 200 Row',
+                                text: 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu',
+                                icon: 'warning',
+                                // timer: 5000
+                            })
+                        }
+                    }
+                }
+            })
 
+        });
+        $(document).on('click', '#notif_swal_pw', function(e) {
+            var from_date = $('#from_date').val();
+            var to_date = $('#to_date').val();
+            var item = 'longgrain';
+            $.ajax({
+                type: "GET",
+                url: "{{route('timbangan.count_timbangan_akhir') }}",
+                data: {
+                    item: item,
+                },
+                error: function() {
+                    alert('Something is wrong');
+                },
+                success: function(data) {
+                    console.log(data.datatonaseakhir);
+                    if (from_date == '' || from_date == null) {
+                        if (data.datatonaseakhir >= 200) {
+                            Swal.fire({
+                                title: 'Data Limits 200 Row',
+                                text: 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu',
+                                icon: 'warning',
+                                // timer: 5000
+                            })
+                        }
+                    }
+                }
+            })
+
+        });
+        $(document).on('click', '#notif_swal_kp', function(e) {
+            var from_date = $('#from_date').val();
+            var to_date = $('#to_date').val();
+            var item = 'longgrain';
+            $.ajax({
+                type: "GET",
+                url: "{{route('timbangan.count_timbangan_akhir') }}",
+                data: {
+                    item: item,
+                },
+                error: function() {
+                    alert('Something is wrong');
+                },
+                success: function(data) {
+                    console.log(data.datatonaseakhir);
+                    if (from_date == '' || from_date == null) {
+                        if (data.datatonaseakhir >= 200) {
+                            Swal.fire({
+                                title: 'Data Limits 200 Row',
+                                text: 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu',
+                                icon: 'warning',
+                                // timer: 5000
+                            })
+                        }
+                    }
+                }
+            })
+
+        });
         $('#refresh').click(function() {
             $('#from_date').val('');
             $('#to_date').val('');
-            $('#datatable1').DataTable().destroy();
+            $('#data_longgrain').DataTable().destroy();
             $('#data_pw').DataTable().destroy();
             $('#data_kp').DataTable().destroy();
-            $('#data_longgrain').DataTable().destroy();
+            $('#datatable1').DataTable().destroy();
             load_data();
         });
         $('#btn_export').click(function() {

@@ -1461,11 +1461,9 @@
                                     <label for="email">Email</label>
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="password" name="password" placeholder="Password" value="{{$profil->password_show}}">
-                                    <label for="password">Password</label>
-                                </div>
+                            <div class="col-12" style="text-align: left;">
+                                <h6>Password</h6>
+                                <a type="button" href="{{route('user.edit_password',$profil->id)}}" class="btn btn-sm text-white" style="background-color: rgb(110, 97, 209);"><i class="fa fa-key"></i>&nbsp;Edit Password</a>
                             </div>
                             <div class="col-12">
                                 <div class="form-floating">
@@ -1517,6 +1515,25 @@
 @section('js')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <script>
+    $(document).ready(function() {
+        const eyeIcon = document.querySelector(".togglePassword i");
+        const passwordInput = document.getElementById("new_password");
+        const passwordInput1 = document.getElementById("confirm_password");
+        eyeIcon.addEventListener("click", () => {
+            // Toggle the password input type between "password" and "text"
+            passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+            // Update the eye icon class based on the password input type
+            eyeIcon.className = `fa fa-eye${passwordInput.type === "password" ? "" : "-slash"}`;
+        });
+        eyeIcon1.addEventListener("click", () => {
+            // Toggle the password input type between "password" and "text"
+            passwordInput1.type = passwordInput1.type === "password" ? "text" : "password";
+            // Update the eye icon class based on the password input type
+            eyeIcon1.className = `fa fa-eye${passwordInput1.type === "password" ? "" : "-slash"}`;
+        });
+        $('#icon-password').addClass("fa fa-eye");
+
+    });
     $(document).on('click', '#btn_klik', function(e) {
         Swal.fire({
             allowOutsideClick: false,

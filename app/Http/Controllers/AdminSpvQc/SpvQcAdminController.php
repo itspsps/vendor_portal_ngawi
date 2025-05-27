@@ -171,7 +171,7 @@ class SpvQcAdminController extends Controller
                 return $result;
             })
             ->addColumn('date_bid', function ($list) {
-                $result = \Carbon\Carbon::parse($list->date_biduser)->isoFormat('DD-MM-Y hh:mm:ss');
+                $result = \Carbon\Carbon::parse($list->date_biduser)->isoFormat('DD-MM-Y HH:mm:ss');
 
                 return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
             })
@@ -258,7 +258,7 @@ class SpvQcAdminController extends Controller
                 return $result;
             })
             ->addColumn('date_bid', function ($list) {
-                $result = \Carbon\Carbon::parse($list->date_biduser)->isoFormat('DD-MM-Y hh:mm:ss');
+                $result = \Carbon\Carbon::parse($list->date_biduser)->isoFormat('DD-MM-Y HH:mm:ss');
 
                 return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
             })
@@ -345,7 +345,7 @@ class SpvQcAdminController extends Controller
                 return $result;
             })
             ->addColumn('date_bid', function ($list) {
-                $result = \Carbon\Carbon::parse($list->date_biduser)->isoFormat('DD-MM-Y hh:mm:ss');
+                $result = \Carbon\Carbon::parse($list->date_biduser)->isoFormat('DD-MM-Y HH:mm:ss');
 
                 return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
             })
@@ -432,7 +432,7 @@ class SpvQcAdminController extends Controller
                 return $result;
             })
             ->addColumn('date_bid', function ($list) {
-                $result = \Carbon\Carbon::parse($list->date_biduser)->isoFormat('DD-MM-Y hh:mm:ss');
+                $result = \Carbon\Carbon::parse($list->date_biduser)->isoFormat('DD-MM-Y HH:mm:ss');
 
                 return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
             })
@@ -693,7 +693,7 @@ class SpvQcAdminController extends Controller
                 ';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('tanggal_bongkar', function ($list) {
@@ -701,7 +701,7 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('nama_penerima_po', function ($list) {
@@ -909,7 +909,7 @@ class SpvQcAdminController extends Controller
                 ';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('tanggal_bongkar', function ($list) {
@@ -917,7 +917,7 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('nama_penerima_po', function ($list) {
@@ -1108,12 +1108,20 @@ class SpvQcAdminController extends Controller
         if (request()->ajax()) {
 
             if (!empty($request->from_date)) {
-
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
-                    ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
+                $table = Lab1GabahBasah::With(['DataPO' => function ($query) use ($request) {
+                    $query->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date));
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With('PenerimaanPo')
+                    ->whereHas('DataPO', function ($query) use ($request) {
+                        $query->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date));
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                        });
+                    })
                     ->where(function ($query) {
                         $query->where('lab1_gb.status_lab1_gb', '=', 5)
                             ->orWhere('lab1_gb.status_lab1_gb', '=', 6);
@@ -1123,283 +1131,83 @@ class SpvQcAdminController extends Controller
                             ->orWhere('lab1_gb.status_approved', '=', 2)
                             ->orWhereNull('lab1_gb.status_approved');
                     })
-                    // ->orWhere('penerimaan_po.status_penerimaan', '!=', 16)
-                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
-                    ->where('bid.name_bid', '=', 'GABAH BASAH LONG GRAIN')
                     ->orderBy('id_lab1_gb', 'desc')
-                    ->get())
+                    ->select(
+                        'lab1_gb.id_lab1_gb',
+                        'lab1_gb.lab1_id_data_po_gb',
+                        'lab1_gb.lab1_id_penerimaan_po_gb',
+                        'lab1_gb.status_lab1_gb',
+                        'lab1_gb.status_approved',
+                        'lab1_gb.output_lab_gb',
+                        'lab1_gb.plan_harga_gb',
+                        'lab1_gb.lokasi_bongkar_gb',
+                        'lab1_gb.created_at_approved',
+                        'lab1_gb.kadar_air_gb',
+                        'lab1_gb.ka_kg_gb',
+                        'lab1_gb.berat_sample_awal_ks_gb',
+                        'lab1_gb.berat_sample_awal_kg_gb',
+                        'lab1_gb.berat_sample_akhir_kg_gb',
+                        'lab1_gb.berat_sample_pk_gb',
+                        'lab1_gb.randoman_gb',
+                        'lab1_gb.wh_gb',
+                        'lab1_gb.tp_gb',
+                        'lab1_gb.md_gb',
+                        'lab1_gb.broken_gb',
+                        'lab1_gb.hampa_gb',
+                        'lab1_gb.kg_after_adjust_hampa_gb',
+                        'lab1_gb.prosentasi_kg_gb',
+                        'lab1_gb.susut_gb',
+                        'lab1_gb.adjust_susut_gb',
+                        'lab1_gb.prsentase_ks_kg_after_adjust_susut_gb',
+                        'lab1_gb.prsentase_kg_pk_gb',
+                        'lab1_gb.adjust_prosentase_kg_pk_gb',
+                        'lab1_gb.presentase_ks_pk_gb',
+                        'lab1_gb.presentase_putih_gb',
+                        'lab1_gb.adjust_prosentase_kg_ke_putih_gb',
+                        'lab1_gb.plan_rend_dari_ks_beras_gb',
+                        'lab1_gb.katul_gb',
+                        'lab1_gb.refraksi_broken_gb',
+                        'lab1_gb.plan_harga_gabah_gb',
+                        'lab1_gb.plan_harga_gabah_gb',
+                    )
+                    ->get();
+                return Datatables::of($table)
+                    ->addColumn('waktu_penerimaan', function ($list) {
+                        $result = $list->PenerimaanPo->waktu_penerimaan;
+                        return $result;
+                    })
+                    ->addColumn('kode_po', function ($list) {
+                        $result = $list->DataPO->kode_po;
+                        return $result;
+                    })
                     ->addColumn('name_bid', function ($list) {
-                        $result = $list->name_bid;
-                        return $result;
-                    })
-                    ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = $list->waktu_penerimaan;
-                        return $result;
-                    })
-                    ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
+                        $result = $list->DataPO->Bid->name_bid;
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
-                        return '
-                <span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>
-                ';
-                    })
-                    ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
-                        return $result;
-                    })
-                    ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
-                        return $result;
-                    })
-                    ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
-                        return $result;
-                    })
-                    ->addColumn('nama_penerima_po', function ($list) {
-                        $result = $list->name;
-                        return $result;
-                    })
-                    ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
-                        return $result;
-                    })
-                    ->addColumn('asal_gabah', function ($list) {
-                        $result = $list->keterangan_penerimaan_po;
-                        return $result;
-                    })
-                    ->addColumn('plan_harga', function ($list) {
-                        $result = rupiah($list->plan_harga_gb) . '/Kg';
-                        return $result;
-                    })
-                    ->addColumn('ckelola', function ($list) {
-                        if ($list->status_lab1_gb == 5) {
-                            if ($list->status_approved == 1) {
-                                return
-                                    '<button class=" btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-check"></i>&nbsp;Approved&nbsp;Tolak</button>';
-                            } else if ($list->status_approved == 2) {
-                                return
-                                    '<button class=" btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-minus">&nbsp;Approved&nbsp;Tolak</i></button>';
-                            } else if ($list->status_approved == 3) {
-                                return
-                                    '<button class=" btn btn-outline-warning m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="flaticon2-hourglass">&nbsp;Analisa&nbsp;Ulang</i></button>';
-                            } else if ($list->status_approved == 0) {
-                                return
-                                    '<div class="dropdown">
-                                <button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-question"></i> Cek&nbsp;Tolak</button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                                <button class="dropdown-item" id="btn_tolak" data-id="' . $list->id_lab1_gb . '"><i class="fas fa-check"></i>Approve&nbsp;Tolak</button>
-                                <button id="btn_bongkar" class="dropdown-item" data-id="' . $list->id_lab1_gb . '" title="Tolak"><i class="fas fa-minus-circle"></i>Tetap&nbsp;Bongkar</button>
-                                <button id="btn_analisa" class="dropdown-item" data-id="' . $list->id_lab1_gb . '" title="Analisa Ulang"><i class="flaticon2-hourglass"></i>Analisa&nbsp;Ulang</button>
-                                </div>
-                                </div>';
-                            }
-                        } else if ($list->status_lab1_gb == 6) {
-                            if ($list->status_approved == 1) {
-                                return
-                                    '<div class="dropdown">
-                    <button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-question"></i> Cek&nbsp;Bongkar
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                    <button class="dropdown-item" id="btn_bongkar" data-id="' . $list->id_lab1_gb . '"><i class="fas fa-check"></i>Approve&nbsp;Bongkar</button>
-                    <button id="btn_tolakbongkar" class="dropdown-item" data-id="' . $list->id_lab1_gb . '" title="Tolak"><i class="fas fa-minus-circle"></i>Tolak&nbsp;Approve</button>
-                    </div>
-                    </div>';
-                            } else if ($list->status_approved == 2) {
-                                return
-                                    '<button class=" btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-minus">&nbsp;Tolak&nbsp;Approved&nbsp;Bongkar</i></button>';
-                            } else if ($list->status_approved == null || $list->status_approved == '') {
-                                return
-                                    '<button class="btn btn-outline-warning" type="button"><i class="fa fa-spinner"></i> Belum&nbsp;Ajukan&nbsp;Approve</button>';
-                            }
-                        } else if ($list->status_lab1_gb == 16) {
-                            return
-                                '<button class=" btn btn-outline-warning m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-spinner">&nbsp;Pending</i></button>';
-                        } else if ($list->status_lab1_gb == 7) {
-                            return
-                                '<button class=" btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only" ><i class="fas fa-check"></i>&nbsp;Approved&nbsp;Bongkar</button>';
-                        } else {
-                            if ($list->status_approved == 1) {
-                                return
-                                    '<button class=" btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only" ><i class="fas fa-check"></i>&nbsp;Approved&nbsp;Bongkar</button>';
-                            } else if ($list->status_approved == 2) {
-                                return
-                                    '<button class=" btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-minus">&nbsp;Tolak&nbsp;Approved&nbsp;Bongkar</i></button>';
-                            }
-                        }
-                    })
-                    //add
-                    ->addColumn('kadar_air', function ($list) {
-                        $result = $list->kadar_air_gb;
-                        return $result;
-                    })
-                    ->addColumn('ka_kg', function ($list) {
-                        $result = $list->ka_kg_gb;
-                        return $result;
-                    })
-                    ->addColumn('berat_sample_awal_ks', function ($list) {
-                        $result = $list->berat_sample_awal_ks_gb;
-                        return $result;
-                    })
-                    ->addColumn('berat_sample_awal_kg', function ($list) {
-                        $result = $list->berat_sample_awal_kg_gb;
-                        return $result;
-                    })
-                    ->addColumn('berat_sample_akhir_kg', function ($list) {
-                        $result = $list->berat_sample_akhir_kg_gb;
-                        return $result;
-                    })
-                    ->addColumn('berat_sample_pk', function ($list) {
-                        $result = $list->berat_sample_pk_gb;
-                        return $result;
-                    })
-                    ->addColumn('berat_sample_beras', function ($list) {
-                        $result = $list->randoman_gb;
-                        return $result;
-                    })
-                    ->addColumn('wh', function ($list) {
-                        $result = $list->wh_gb;
-                        return $result;
-                    })
-                    ->addColumn('tp', function ($list) {
-                        $result = $list->tp_gb;
-                        return $result;
-                    })
-                    ->addColumn('md', function ($list) {
-                        $result = $list->md_gb;
-                        return $result;
-                    })
-                    ->addColumn('broken', function ($list) {
-                        $result = $list->broken_gb;
-                        return $result;
-                    })
-
-                    //add
-                    ->addColumn('hampa', function ($list) {
-                        $result = $list->hampa_gb;
-                        return $result;
-                    })
-                    ->addColumn('kg_after_adjust_hampa', function ($list) {
-                        $result = $list->kg_after_adjust_hampa_gb;
-                        return $result;
-                    })
-                    ->addColumn('prosentasi_kg', function ($list) {
-                        $result = $list->prosentasi_kg_gb;
-                        return $result;
-                    })
-                    ->addColumn('susut', function ($list) {
-                        $result = $list->susut_gb;
-                        return $result;
-                    })
-                    ->addColumn('adjust_susut', function ($list) {
-                        $result = $list->adjust_susut_gb;
-                        return $result;
-                    })
-                    ->addColumn('prsentase_ks_kg_after_adjust_susut', function ($list) {
-                        $result = $list->prsentase_ks_kg_after_adjust_susut_gb;
-                        return $result;
-                    })
-                    ->addColumn('prsentase_kg_pk', function ($list) {
-                        $result = $list->prsentase_kg_pk_gb;
-                        return $result;
-                    })
-                    ->addColumn('adjust_prosentase_kg_pk', function ($list) {
-                        $result = $list->adjust_prosentase_kg_pk_gb;
-                        return $result;
-                    })
-                    ->addColumn('presentase_ks_pk', function ($list) {
-                        $result = $list->presentase_ks_pk_gb;
-                        return $result;
-                    })
-                    ->addColumn('presentase_putih', function ($list) {
-                        $result = $list->presentase_putih_gb;
-                        return $result;
-                    })
-                    ->addColumn('adjust_prosentase_kg_ke_putih', function ($list) {
-                        $result = $list->adjust_prosentase_kg_ke_putih_gb;
-                        return $result;
-                    })
-                    ->addColumn('plan_rend_dari_ks_beras', function ($list) {
-                        $result = $list->plan_rend_dari_ks_beras_gb;
-                        return $result;
-                    })
-                    ->addColumn('katul', function ($list) {
-                        $result = $list->katul_gb;
-                        return $result;
-                    })
-                    ->addColumn('refraksi_broken', function ($list) {
-                        $result = $list->refraksi_broken_gb;
-                        return $result;
-                    })
-                    ->addColumn('plan_harga_gabah', function ($list) {
-                        $result = rupiah($list->plan_harga_gabah_gb);
-                        return $result;
-                    })
-                    ->addColumn('plan_harga_beli_gabah', function ($list) {
-                        $result = rupiah($list->plan_harga_gabah_gb);
-                        return $result;
-                    })
-
-                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'nama_vendor', 'tanggal_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
-                    ->make(true);
-            } else {
-
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
-                    ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
-                    ->where('bid.name_bid', '=', 'GABAH BASAH LONG GRAIN')
-                    ->where(function ($query) {
-                        $query->where('lab1_gb.status_lab1_gb', '=', 5)
-                            ->orWhere('lab1_gb.status_lab1_gb', '=', 6);
-                    })
-                    ->where(function ($query) {
-                        $query->where('lab1_gb.status_approved', '=', 0)
-                            ->orWhere('lab1_gb.status_approved', '=', 2)
-                            ->orWhereNull('lab1_gb.status_approved');
-                    })
-                    ->orderBy('id_lab1_gb', 'desc')
-                    ->get())
-                    ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = $list->waktu_penerimaan;
-                        return $result;
-                    })
-                    ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
-                        return $result;
-                    })
-                    ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
+                        $result = $list->DataPO->User->nama_vendor;
                         return '
                         <span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>
                         ';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
-                        return $result;
-                    })
-                    ->addColumn('nama_penerima_po', function ($list) {
-                        $result = $list->name;
+                        $result = \Carbon\Carbon::parse($list->PenerimaanPo->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
+                        $result = $list->PenerimaanPo->plat_kendaraan;
                         return $result;
                     })
                     ->addColumn('asal_gabah', function ($list) {
-                        $result = $list->keterangan_penerimaan_po;
+                        $result = $list->PenerimaanPo->keterangan_penerimaan_po;
                         return $result;
                     })
                     ->addColumn('plan_harga', function ($list) {
@@ -1578,7 +1386,286 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['name_bid', 'waktu_penerimaan', 'tanggal_bongkar', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['name_bid', 'waktu_penerimaan', 'name_bid', 'tanggal_bongkar', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->make(true);
+            } else {
+                $table = Lab1GabahBasah::With(['DataPO' => function ($query) {
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With('PenerimaanPo')
+                    ->whereHas('DataPO', function ($query) {
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                        });
+                    })
+                    ->where(function ($query) {
+                        $query->where('lab1_gb.status_lab1_gb', '=', 5)
+                            ->orWhere('lab1_gb.status_lab1_gb', '=', 6);
+                    })
+                    ->where(function ($query) {
+                        $query->where('lab1_gb.status_approved', '=', 0)
+                            ->orWhere('lab1_gb.status_approved', '=', 2)
+                            ->orWhereNull('lab1_gb.status_approved');
+                    })
+                    ->orderBy('id_lab1_gb', 'desc')
+                    ->select(
+                        'lab1_gb.id_lab1_gb',
+                        'lab1_gb.lab1_id_data_po_gb',
+                        'lab1_gb.lab1_id_penerimaan_po_gb',
+                        'lab1_gb.status_lab1_gb',
+                        'lab1_gb.status_approved',
+                        'lab1_gb.output_lab_gb',
+                        'lab1_gb.plan_harga_gb',
+                        'lab1_gb.lokasi_bongkar_gb',
+                        'lab1_gb.created_at_approved',
+                        'lab1_gb.kadar_air_gb',
+                        'lab1_gb.ka_kg_gb',
+                        'lab1_gb.berat_sample_awal_ks_gb',
+                        'lab1_gb.berat_sample_awal_kg_gb',
+                        'lab1_gb.berat_sample_akhir_kg_gb',
+                        'lab1_gb.berat_sample_pk_gb',
+                        'lab1_gb.randoman_gb',
+                        'lab1_gb.wh_gb',
+                        'lab1_gb.tp_gb',
+                        'lab1_gb.md_gb',
+                        'lab1_gb.broken_gb',
+                        'lab1_gb.hampa_gb',
+                        'lab1_gb.kg_after_adjust_hampa_gb',
+                        'lab1_gb.prosentasi_kg_gb',
+                        'lab1_gb.susut_gb',
+                        'lab1_gb.adjust_susut_gb',
+                        'lab1_gb.prsentase_ks_kg_after_adjust_susut_gb',
+                        'lab1_gb.prsentase_kg_pk_gb',
+                        'lab1_gb.adjust_prosentase_kg_pk_gb',
+                        'lab1_gb.presentase_ks_pk_gb',
+                        'lab1_gb.presentase_putih_gb',
+                        'lab1_gb.adjust_prosentase_kg_ke_putih_gb',
+                        'lab1_gb.plan_rend_dari_ks_beras_gb',
+                        'lab1_gb.katul_gb',
+                        'lab1_gb.refraksi_broken_gb',
+                        'lab1_gb.plan_harga_gabah_gb',
+                        'lab1_gb.plan_harga_gabah_gb',
+                    )
+                    ->get();
+                return Datatables::of($table)
+                    ->addColumn('waktu_penerimaan', function ($list) {
+                        $result = $list->PenerimaanPo->waktu_penerimaan;
+                        return $result;
+                    })
+                    ->addColumn('kode_po', function ($list) {
+                        $result = $list->DataPO->kode_po;
+                        return $result;
+                    })
+                    ->addColumn('name_bid', function ($list) {
+                        $result = $list->DataPO->Bid->name_bid;
+                        return $result;
+                    })
+                    ->addColumn('nama_vendor', function ($list) {
+                        $result = $list->DataPO->User->nama_vendor;
+                        return '
+                        <span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>
+                        ';
+                    })
+                    ->addColumn('tanggal_po', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('waktu_penerimaan', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->PenerimaanPo->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
+                        return $result;
+                    })
+                    ->addColumn('plat_kendaraan', function ($list) {
+                        $result = $list->PenerimaanPo->plat_kendaraan;
+                        return $result;
+                    })
+                    ->addColumn('asal_gabah', function ($list) {
+                        $result = $list->PenerimaanPo->keterangan_penerimaan_po;
+                        return $result;
+                    })
+                    ->addColumn('plan_harga', function ($list) {
+                        $result = rupiah($list->plan_harga_gb) . '/Kg';
+                        return $result;
+                    })
+                    ->addColumn('ckelola', function ($list) {
+                        if ($list->status_lab1_gb == 5) {
+                            if ($list->status_approved == 1) {
+                                return
+                                    '<button class=" btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-check"></i>&nbsp;Approved&nbsp;Tolak</button>';
+                            } else if ($list->status_approved == 3) {
+                                return
+                                    '<button class=" btn btn-outline-warning m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="flaticon2-hourglass">&nbsp;Analisa&nbsp;Ulang</i></button>';
+                            } else if ($list->status_approved == 2) {
+                                return
+                                    '<button class=" btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-minus">&nbsp;Approved&nbsp;Tolak</i></button>';
+                            } else if ($list->status_approved == 0) {
+                                return
+                                    '<div class="dropdown">
+                                    <button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-question"></i> Cek&nbsp;Tolak</button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                                    <button class="dropdown-item" id="btn_tolak" data-id="' . $list->id_lab1_gb . '"><i class="fas fa-check"></i>Approve&nbsp;Tolak</button>
+                                    <button id="btn_bongkar" class="dropdown-item" data-id="' . $list->id_lab1_gb . '" title="Tolak"><i class="fas fa-minus-circle"></i>Tetap&nbsp;Bongkar</button>
+                                    <button id="btn_analisa" class="dropdown-item" data-id="' . $list->id_lab1_gb . '" title="Analisa Ulang"><i class="flaticon2-hourglass"></i>Analisa&nbsp;Ulang</button>
+                                    </div>
+                                    </div>';
+                            }
+                        } else if ($list->status_lab1_gb == 6) {
+                            if ($list->status_approved == 0) {
+                                return
+                                    '<div class="dropdown">
+                                <button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-question"></i> Cek&nbsp;Bongkar
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                                <button class="dropdown-item" id="btn_bongkar" data-id="' . $list->id_lab1_gb . '"><i class="fas fa-check"></i>Approve&nbsp;Bongkar</button>
+                                <button id="btn_tolakbongkar" class="dropdown-item" data-id="' . $list->id_lab1_gb . '" title="Tolak"><i class="fas fa-minus-circle"></i>Tolak&nbsp;Approve</button>
+                                </div>
+                                </div>';
+                            } else if ($list->status_approved == 2) {
+                                return
+                                    '<button class=" btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-minus">&nbsp;Tolak&nbsp;Approved&nbsp;Bongkar</i></button>';
+                            } else if ($list->status_approved == null || $list->status_approved == '') {
+                                return
+                                    '<button class="btn btn-outline-warning" type="button"><i class="fa fa-spinner"></i> Belum&nbsp;Ajukan&nbsp;Approve</button>';
+                            }
+                        } else if ($list->status_lab1_gb == 16) {
+                            return
+                                '<button class=" btn btn-outline-warning m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-spinner">&nbsp;Pending</i></button>';
+                        } else if ($list->status_lab1_gb == 7) {
+                            return
+                                '<button class=" btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only" ><i class="fas fa-check"></i>&nbsp;Approved&nbsp;Bongkar</button>';
+                        } else {
+                            if ($list->status_approved == 1) {
+                                return
+                                    '<button class=" btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only" ><i class="fas fa-check"></i>&nbsp;Approved&nbsp;Bongkar</button>';
+                            } else if ($list->status_approved == 2) {
+                                return
+                                    '<button class=" btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-minus">&nbsp;Tolak&nbsp;Approved&nbsp;Bongkar</i></button>';
+                            } else {
+                                return
+                                    '<button class=" btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only" ><i class="fas fa-check"></i>&nbsp;Approved&nbsp;Bongkar</button>';
+                            }
+                        }
+                    })
+                    //add
+                    ->addColumn('kadar_air', function ($list) {
+                        $result = $list->kadar_air_gb;
+                        return $result;
+                    })
+                    ->addColumn('ka_kg', function ($list) {
+                        $result = $list->ka_kg_gb;
+                        return $result;
+                    })
+                    ->addColumn('berat_sample_awal_ks', function ($list) {
+                        $result = $list->berat_sample_awal_ks_gb;
+                        return $result;
+                    })
+                    ->addColumn('berat_sample_awal_kg', function ($list) {
+                        $result = $list->berat_sample_awal_kg_gb;
+                        return $result;
+                    })
+                    ->addColumn('berat_sample_akhir_kg', function ($list) {
+                        $result = $list->berat_sample_akhir_kg_gb;
+                        return $result;
+                    })
+                    ->addColumn('berat_sample_pk', function ($list) {
+                        $result = $list->berat_sample_pk_gb;
+                        return $result;
+                    })
+                    ->addColumn('berat_sample_beras', function ($list) {
+                        $result = $list->randoman_gb;
+                        return $result;
+                    })
+                    ->addColumn('wh', function ($list) {
+                        $result = $list->wh_gb;
+                        return $result;
+                    })
+                    ->addColumn('tp', function ($list) {
+                        $result = $list->tp_gb;
+                        return $result;
+                    })
+                    ->addColumn('md', function ($list) {
+                        $result = $list->md_gb;
+                        return $result;
+                    })
+                    ->addColumn('broken', function ($list) {
+                        $result = $list->broken_gb;
+                        return $result;
+                    })
+
+                    //add
+                    ->addColumn('hampa', function ($list) {
+                        $result = $list->hampa_gb;
+                        return $result;
+                    })
+                    ->addColumn('kg_after_adjust_hampa', function ($list) {
+                        $result = $list->kg_after_adjust_hampa_gb;
+                        return $result;
+                    })
+                    ->addColumn('prosentasi_kg', function ($list) {
+                        $result = $list->prosentasi_kg_gb;
+                        return $result;
+                    })
+                    ->addColumn('susut', function ($list) {
+                        $result = $list->susut_gb;
+                        return $result;
+                    })
+                    ->addColumn('adjust_susut', function ($list) {
+                        $result = $list->adjust_susut_gb;
+                        return $result;
+                    })
+                    ->addColumn('prsentase_ks_kg_after_adjust_susut', function ($list) {
+                        $result = $list->prsentase_ks_kg_after_adjust_susut_gb;
+                        return $result;
+                    })
+                    ->addColumn('prsentase_kg_pk', function ($list) {
+                        $result = $list->prsentase_kg_pk_gb;
+                        return $result;
+                    })
+                    ->addColumn('adjust_prosentase_kg_pk', function ($list) {
+                        $result = $list->adjust_prosentase_kg_pk_gb;
+                        return $result;
+                    })
+                    ->addColumn('presentase_ks_pk', function ($list) {
+                        $result = $list->presentase_ks_pk_gb;
+                        return $result;
+                    })
+                    ->addColumn('presentase_putih', function ($list) {
+                        $result = $list->presentase_putih_gb;
+                        return $result;
+                    })
+                    ->addColumn('adjust_prosentase_kg_ke_putih', function ($list) {
+                        $result = $list->adjust_prosentase_kg_ke_putih_gb;
+                        return $result;
+                    })
+                    ->addColumn('plan_rend_dari_ks_beras', function ($list) {
+                        $result = $list->plan_rend_dari_ks_beras_gb;
+                        return $result;
+                    })
+                    ->addColumn('katul', function ($list) {
+                        $result = $list->katul_gb;
+                        return $result;
+                    })
+                    ->addColumn('refraksi_broken', function ($list) {
+                        $result = $list->refraksi_broken_gb;
+                        return $result;
+                    })
+                    ->addColumn('plan_harga_gabah', function ($list) {
+                        $result = rupiah($list->plan_harga_gabah_gb);
+                        return $result;
+                    })
+                    ->addColumn('plan_harga_beli_gabah', function ($list) {
+                        $result = rupiah($list->plan_harga_gabah_gb);
+                        return $result;
+                    })
+
+                    ->rawColumns(['name_bid', 'waktu_penerimaan', 'name_bid', 'tanggal_bongkar', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             }
         }
@@ -1588,59 +1675,97 @@ class SpvQcAdminController extends Controller
         if (request()->ajax()) {
 
             if (!empty($request->from_date)) {
-
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
-                    ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
-
-                    ->where('penerimaan_po.status_penerimaan', '>', 5, 'AND', 'penerimaan_po.status_penerimaan', '!=', 16)
-                    // ->orWhere('penerimaan_po.status_penerimaan', '!=', 16)
-                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
-                    ->where('bid.name_bid', '=', 'GABAH BASAH LONG GRAIN')
-                    ->orderBy('id_lab1_gb', 'desc')
-                    ->get())
-                    ->addColumn('name_bid', function ($list) {
-                        $result = $list->name_bid;
-                        return $result;
+                $table = Lab1GabahBasah::With(['DataPO' => function ($query) use ($request) {
+                    $query->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date));
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With('PenerimaanPo')
+                    ->whereHas('DataPO', function ($query) use ($request) {
+                        $query->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date));
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                        });
                     })
-                    ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = $list->waktu_penerimaan;
+                    ->where(function ($query) {
+                        $query->where('penerimaan_po.status_penerimaan', '>', 5)
+                            ->where('penerimaan_po.status_penerimaan', '!=', 16);
+                    })
+                    ->orderBy('id_lab1_gb', 'desc')
+                    ->select(
+                        'lab1_gb.id_lab1_gb',
+                        'lab1_gb.lab1_id_data_po_gb',
+                        'lab1_gb.lab1_id_penerimaan_po_gb',
+                        'lab1_gb.status_lab1_gb',
+                        'lab1_gb.status_approved',
+                        'lab1_gb.output_lab_gb',
+                        'lab1_gb.plan_harga_gb',
+                        'lab1_gb.lokasi_bongkar_gb',
+                        'lab1_gb.created_at_approved',
+                        'lab1_gb.kadar_air_gb',
+                        'lab1_gb.ka_kg_gb',
+                        'lab1_gb.berat_sample_awal_ks_gb',
+                        'lab1_gb.berat_sample_awal_kg_gb',
+                        'lab1_gb.berat_sample_akhir_kg_gb',
+                        'lab1_gb.berat_sample_pk_gb',
+                        'lab1_gb.randoman_gb',
+                        'lab1_gb.wh_gb',
+                        'lab1_gb.tp_gb',
+                        'lab1_gb.md_gb',
+                        'lab1_gb.broken_gb',
+                        'lab1_gb.hampa_gb',
+                        'lab1_gb.kg_after_adjust_hampa_gb',
+                        'lab1_gb.prosentasi_kg_gb',
+                        'lab1_gb.susut_gb',
+                        'lab1_gb.adjust_susut_gb',
+                        'lab1_gb.prsentase_ks_kg_after_adjust_susut_gb',
+                        'lab1_gb.prsentase_kg_pk_gb',
+                        'lab1_gb.adjust_prosentase_kg_pk_gb',
+                        'lab1_gb.presentase_ks_pk_gb',
+                        'lab1_gb.presentase_putih_gb',
+                        'lab1_gb.adjust_prosentase_kg_ke_putih_gb',
+                        'lab1_gb.plan_rend_dari_ks_beras_gb',
+                        'lab1_gb.katul_gb',
+                        'lab1_gb.refraksi_broken_gb',
+                        'lab1_gb.plan_harga_gabah_gb',
+                        'lab1_gb.plan_harga_gabah_gb',
+                    )
+                    ->get();
+                return Datatables::of($table)
+                    ->addColumn('name_bid', function ($list) {
+                        $result = $list->DataPO->Bid->name_bid;
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
+                        $result = $list->DataPO->kode_po;
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
+                        $result = $list->DataPO->User->nama_vendor;
                         return '
                 <span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>
                 ';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
-                        return $result;
-                    })
-                    ->addColumn('nama_penerima_po', function ($list) {
-                        $result = $list->name;
+                        $result = \Carbon\Carbon::parse($list->PenerimaanPo->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
+                        $result = $list->PenerimaanPo->plat_kendaraan;
                         return $result;
                     })
                     ->addColumn('asal_gabah', function ($list) {
-                        $result = $list->keterangan_penerimaan_po;
+                        $result = $list->PenerimaanPo->keterangan_penerimaan_po;
                         return $result;
                     })
                     ->addColumn('plan_harga', function ($list) {
@@ -1771,46 +1896,96 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'waktu_approved', 'nama_vendor', 'tanggal_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'name_bid', 'kode_po', 'waktu_approved', 'nama_vendor', 'tanggal_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             } else {
-
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
-                    ->where('bid.name_bid', '=', 'GABAH BASAH LONG GRAIN')
-                    ->where('lab1_gb.output_lab_gb', 'Unload')
-                    ->where('lab1_gb.status_lab1_gb', '>', 6)
-                    ->where('lab1_gb.status_approved', 1)
+                $table = Lab1GabahBasah::With(['DataPO' => function ($query) {
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With('PenerimaanPo')
+                    ->whereHas('DataPO', function ($query) {
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                        });
+                    })
+                    ->where(function ($query) {
+                        $query->where('lab1_gb.output_lab_gb', 'Unload')
+                            ->where('lab1_gb.status_lab1_gb', '>', 6)
+                            ->where('lab1_gb.status_approved', 1);
+                    })
                     ->orderBy('id_lab1_gb', 'desc')
                     ->limit(200)
-                    ->select('lab1_gb.*', 'data_po.tanggal_po', 'data_po.kode_po', 'data_po.tanggal_bongkar', 'penerimaan_po.waktu_penerimaan', 'penerimaan_po.keterangan_penerimaan_po', 'bid.name_bid', 'users.nama_vendor')
-                    ->get())
+                    ->select(
+                        'lab1_gb.id_lab1_gb',
+                        'lab1_gb.lab1_id_data_po_gb',
+                        'lab1_gb.lab1_id_penerimaan_po_gb',
+                        'lab1_gb.status_lab1_gb',
+                        'lab1_gb.status_approved',
+                        'lab1_gb.output_lab_gb',
+                        'lab1_gb.plan_harga_gb',
+                        'lab1_gb.lokasi_bongkar_gb',
+                        'lab1_gb.created_at_approved',
+                        'lab1_gb.kadar_air_gb',
+                        'lab1_gb.ka_kg_gb',
+                        'lab1_gb.berat_sample_awal_ks_gb',
+                        'lab1_gb.berat_sample_awal_kg_gb',
+                        'lab1_gb.berat_sample_akhir_kg_gb',
+                        'lab1_gb.berat_sample_pk_gb',
+                        'lab1_gb.randoman_gb',
+                        'lab1_gb.wh_gb',
+                        'lab1_gb.tp_gb',
+                        'lab1_gb.md_gb',
+                        'lab1_gb.broken_gb',
+                        'lab1_gb.hampa_gb',
+                        'lab1_gb.kg_after_adjust_hampa_gb',
+                        'lab1_gb.prosentasi_kg_gb',
+                        'lab1_gb.susut_gb',
+                        'lab1_gb.adjust_susut_gb',
+                        'lab1_gb.prsentase_ks_kg_after_adjust_susut_gb',
+                        'lab1_gb.prsentase_kg_pk_gb',
+                        'lab1_gb.adjust_prosentase_kg_pk_gb',
+                        'lab1_gb.presentase_ks_pk_gb',
+                        'lab1_gb.presentase_putih_gb',
+                        'lab1_gb.adjust_prosentase_kg_ke_putih_gb',
+                        'lab1_gb.plan_rend_dari_ks_beras_gb',
+                        'lab1_gb.katul_gb',
+                        'lab1_gb.refraksi_broken_gb',
+                        'lab1_gb.plan_harga_gabah_gb',
+                        'lab1_gb.plan_harga_gabah_gb',
+                    )
+                    ->get();
+                return Datatables::of($table)
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = $list->waktu_penerimaan;
+                        $result = $list->PenerimaanPo->waktu_penerimaan;
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
+                        $result = $list->DataPO->kode_po;
+                        return $result;
+                    })
+                    ->addColumn('name_bid', function ($list) {
+                        $result = $list->DataPO->Bid->name_bid;
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
+                        $result = $list->DataPO->User->nama_vendor;
                         return '
                         <span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>
                         ';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->PenerimaanPo->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('waktu_approved', function ($list) {
@@ -1820,11 +1995,11 @@ class SpvQcAdminController extends Controller
                         return $result . '<br><span class="btn btn-sm btn-label-info">' . $time . '</span>';
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
+                        $result = $list->PenerimaanPo->plat_kendaraan;
                         return $result;
                     })
                     ->addColumn('asal_gabah', function ($list) {
-                        $result = $list->keterangan_penerimaan_po;
+                        $result = $list->PenerimaanPo->keterangan_penerimaan_po;
                         return $result;
                     })
                     ->addColumn('plan_harga', function ($list) {
@@ -1960,7 +2135,7 @@ class SpvQcAdminController extends Controller
 
             if (!empty($request->from_date)) {
 
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
@@ -1991,7 +2166,7 @@ class SpvQcAdminController extends Controller
                 ';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('tanggal_bongkar', function ($list) {
@@ -1999,7 +2174,7 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('nama_penerima_po', function ($list) {
@@ -2144,7 +2319,7 @@ class SpvQcAdminController extends Controller
                     ->make(true);
             } else {
 
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+                return Datatables::of(DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
                     ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
@@ -2152,7 +2327,17 @@ class SpvQcAdminController extends Controller
                     ->where('lab1_gb.output_lab_gb', 'Reject')
                     ->where('lab1_gb.status_approved', 1)
                     ->orderBy('id_lab1_gb', 'desc')
-                    ->select('lab1_gb.*', 'data_po.tanggal_po', 'data_po.kode_po', 'data_po.tanggal_bongkar', 'penerimaan_po.waktu_penerimaan', 'penerimaan_po.keterangan_penerimaan_po', 'bid.name_bid', 'users.nama_vendor')
+                    ->select(
+                        'lab1_gb.*',
+                        'data_po.tanggal_po',
+                        'data_po.kode_po',
+                        'data_po.tanggal_bongkar',
+                        'penerimaan_po.waktu_penerimaan',
+                        'penerimaan_po.plat_kendaraan',
+                        'penerimaan_po.keterangan_penerimaan_po',
+                        'bid.name_bid',
+                        'users.nama_vendor'
+                    )
                     ->limit(200)
                     ->get())
                     ->addColumn('waktu_penerimaan', function ($list) {
@@ -2170,7 +2355,7 @@ class SpvQcAdminController extends Controller
                         ';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('tanggal_bongkar', function ($list) {
@@ -2178,11 +2363,7 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
-                        return $result;
-                    })
-                    ->addColumn('nama_penerima_po', function ($list) {
-                        $result = $list->name;
+                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
@@ -2363,7 +2544,7 @@ class SpvQcAdminController extends Controller
                 ';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('tanggal_bongkar', function ($list) {
@@ -2371,7 +2552,7 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('nama_penerima_po', function ($list) {
@@ -2586,7 +2767,7 @@ class SpvQcAdminController extends Controller
                         ';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('tanggal_bongkar', function ($list) {
@@ -2594,7 +2775,7 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('nama_penerima_po', function ($list) {
@@ -2795,282 +2976,106 @@ class SpvQcAdminController extends Controller
         if (request()->ajax()) {
 
             if (!empty($request->from_date)) {
-
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
-                    ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
-
-                    ->where('penerimaan_po.status_penerimaan', '>', 5, 'AND', 'penerimaan_po.status_penerimaan', '!=', 16)
-                    // ->orWhere('penerimaan_po.status_penerimaan', '!=', 16)
-                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
-                    ->where('bid.name_bid', '=', 'GABAH BASAH PANDAN WANGI')
-                    ->orderBy('id_lab1_gb', 'desc')
-                    ->get())
-                    ->addColumn('name_bid', function ($list) {
-                        $result = $list->name_bid;
-                        return $result;
+                $table = Lab1GabahBasah::With(['DataPO' => function ($query) use ($request) {
+                    $query->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date));
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH PANDAN WANGI');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With('PenerimaanPo')
+                    ->whereHas('DataPO', function ($query) use ($request) {
+                        $query->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date));
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH PANDAN WANGI');
+                        });
                     })
+                    ->where(function ($query) {
+                        $query->where('lab1_gb.status_lab1_gb', '=', 5)
+                            ->orWhere('lab1_gb.status_lab1_gb', '=', 6);
+                    })
+                    ->where(function ($query) {
+                        $query->where('lab1_gb.status_approved', '=', 0)
+                            ->orWhere('lab1_gb.status_approved', '=', 2)
+                            ->orWhereNull('lab1_gb.status_approved');
+                    })
+                    ->orderBy('id_lab1_gb', 'desc')
+                    ->select(
+                        'lab1_gb.id_lab1_gb',
+                        'lab1_gb.lab1_id_data_po_gb',
+                        'lab1_gb.lab1_id_penerimaan_po_gb',
+                        'lab1_gb.status_lab1_gb',
+                        'lab1_gb.status_approved',
+                        'lab1_gb.output_lab_gb',
+                        'lab1_gb.plan_harga_gb',
+                        'lab1_gb.lokasi_bongkar_gb',
+                        'lab1_gb.created_at_approved',
+                        'lab1_gb.kadar_air_gb',
+                        'lab1_gb.ka_kg_gb',
+                        'lab1_gb.berat_sample_awal_ks_gb',
+                        'lab1_gb.berat_sample_awal_kg_gb',
+                        'lab1_gb.berat_sample_akhir_kg_gb',
+                        'lab1_gb.berat_sample_pk_gb',
+                        'lab1_gb.randoman_gb',
+                        'lab1_gb.wh_gb',
+                        'lab1_gb.tp_gb',
+                        'lab1_gb.md_gb',
+                        'lab1_gb.broken_gb',
+                        'lab1_gb.hampa_gb',
+                        'lab1_gb.kg_after_adjust_hampa_gb',
+                        'lab1_gb.prosentasi_kg_gb',
+                        'lab1_gb.susut_gb',
+                        'lab1_gb.adjust_susut_gb',
+                        'lab1_gb.prsentase_ks_kg_after_adjust_susut_gb',
+                        'lab1_gb.prsentase_kg_pk_gb',
+                        'lab1_gb.adjust_prosentase_kg_pk_gb',
+                        'lab1_gb.presentase_ks_pk_gb',
+                        'lab1_gb.presentase_putih_gb',
+                        'lab1_gb.adjust_prosentase_kg_ke_putih_gb',
+                        'lab1_gb.plan_rend_dari_ks_beras_gb',
+                        'lab1_gb.katul_gb',
+                        'lab1_gb.refraksi_broken_gb',
+                        'lab1_gb.plan_harga_gabah_gb',
+                        'lab1_gb.plan_harga_gabah_gb',
+                    )
+                    ->get();
+                return Datatables::of($table)
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = $list->waktu_penerimaan;
+                        $result = $list->PenerimaanPo->waktu_penerimaan;
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
+                        $result = $list->DataPO->kode_po;
+                        return $result;
+                    })
+                    ->addColumn('name_bid', function ($list) {
+                        $result = $list->DataPO->Bid->name_bid;
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
+                        $result = $list->DataPO->User->nama_vendor;
                         return '
                         <span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>
                         ';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
-                        return $result;
-                    })
-                    ->addColumn('nama_penerima_po', function ($list) {
-                        $result = $list->name;
+                        $result = \Carbon\Carbon::parse($list->PenerimaanPo->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
+                        $result = $list->PenerimaanPo->plat_kendaraan;
                         return $result;
                     })
                     ->addColumn('asal_gabah', function ($list) {
-                        $result = $list->keterangan_penerimaan_po;
-                        return $result;
-                    })
-                    ->addColumn('plan_harga', function ($list) {
-                        $result = rupiah($list->plan_harga_gb) . '/Kg';
-                        return $result;
-                    })
-                    ->addColumn('ckelola', function ($list) {
-                        if ($list->status_lab1_gb == 5) {
-                            if ($list->status_approved == 1) {
-                                return
-                                    '<button class=" btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-check"></i>&nbsp;Approved&nbsp;Tolak</button>';
-                            } else if ($list->status_approved == 3) {
-                                return
-                                    '<button class=" btn btn-outline-warning m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="flaticon2-hourglass">&nbsp;Analisa&nbsp;Ulang</i></button>';
-                            } else if ($list->status_approved == 2) {
-                                return
-                                    '<button class=" btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-minus">&nbsp;Approved&nbsp;Tolak</i></button>';
-                            } else if ($list->status_approved == 0) {
-                                return
-                                    '<div class="dropdown">
-                                <button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-question"></i> Cek&nbsp;Tolak</button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                                <button class="dropdown-item" id="btn_tolak" data-id="' . $list->id_lab1_gb . '"><i class="fas fa-check"></i>Approve&nbsp;Tolak</button>
-                                <button id="btn_bongkar" class="dropdown-item" data-id="' . $list->id_lab1_gb . '" title="Tolak"><i class="fas fa-minus-circle"></i>Tetap&nbsp;Bongkar</button>
-                                <button id="btn_analisa" class="dropdown-item" data-id="' . $list->id_lab1_gb . '" title="Analisa Ulang"><i class="flaticon2-hourglass"></i>Analisa&nbsp;Ulang</button>
-                                </div>
-                                </div>';
-                            }
-                        } else if ($list->status_lab1_gb == 6) {
-                            if ($list->status_approved == 1) {
-                                return
-                                    '<div class="dropdown">
-                    <button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-question"></i> Cek&nbsp;Bongkar
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                    <button class="dropdown-item" id="btn_bongkar" data-id="' . $list->id_lab1_gb . '"><i class="fas fa-check"></i>Approve&nbsp;Bongkar</button>
-                    <button id="btn_tolakbongkar" class="dropdown-item" data-id="' . $list->id_lab1_gb . '" title="Tolak"><i class="fas fa-minus-circle"></i>Tolak&nbsp;Approve</button>
-                    </div>
-                    </div>';
-                            } else if ($list->status_approved == 2) {
-                                return
-                                    '<button class=" btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-minus">&nbsp;Tolak&nbsp;Approved&nbsp;Bongkar</i></button>';
-                            } else if ($list->status_approved == null || $list->status_approved == '') {
-                                return
-                                    '<button class="btn btn-outline-warning" type="button"><i class="fa fa-spinner"></i> Belum&nbsp;Ajukan&nbsp;Approve</button>';
-                            }
-                        } else if ($list->status_lab1_gb == 7) {
-                            return
-                                '<button class=" btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only" ><i class="fas fa-check"></i>&nbsp;Approved&nbsp;Bongkar</button>';
-                        } else if ($list->status_lab1_gb == 16) {
-                            return
-                                '<button class=" btn btn-outline-warning m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-spinner">&nbsp;Pending</i></button>';
-                        } else {
-                            if ($list->status_approved == 1) {
-                                return
-                                    '<button class=" btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only" ><i class="fas fa-check"></i>&nbsp;Approved&nbsp;Bongkar</button>';
-                            } else if ($list->status_approved == 2) {
-                                return
-                                    '<button class=" btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-minus">&nbsp;Tolak&nbsp;Approved&nbsp;Bongkar</i></button>';
-                            }
-                        }
-                    })
-                    //add
-                    ->addColumn('kadar_air', function ($list) {
-                        $result = $list->kadar_air_gb;
-                        return $result;
-                    })
-                    ->addColumn('ka_kg', function ($list) {
-                        $result = $list->ka_kg_gb;
-                        return $result;
-                    })
-                    ->addColumn('berat_sample_awal_ks', function ($list) {
-                        $result = $list->berat_sample_awal_ks_gb;
-                        return $result;
-                    })
-                    ->addColumn('berat_sample_awal_kg', function ($list) {
-                        $result = $list->berat_sample_awal_kg_gb;
-                        return $result;
-                    })
-                    ->addColumn('berat_sample_akhir_kg', function ($list) {
-                        $result = $list->berat_sample_akhir_kg_gb;
-                        return $result;
-                    })
-                    ->addColumn('berat_sample_pk', function ($list) {
-                        $result = $list->berat_sample_pk_gb;
-                        return $result;
-                    })
-                    ->addColumn('berat_sample_beras', function ($list) {
-                        $result = $list->randoman_gb;
-                        return $result;
-                    })
-                    ->addColumn('wh', function ($list) {
-                        $result = $list->wh_gb;
-                        return $result;
-                    })
-                    ->addColumn('tp', function ($list) {
-                        $result = $list->tp_gb;
-                        return $result;
-                    })
-                    ->addColumn('md', function ($list) {
-                        $result = $list->md_gb;
-                        return $result;
-                    })
-                    ->addColumn('broken', function ($list) {
-                        $result = $list->broken_gb;
-                        return $result;
-                    })
-
-                    //add
-                    ->addColumn('hampa', function ($list) {
-                        $result = $list->hampa_gb;
-                        return $result;
-                    })
-                    ->addColumn('kg_after_adjust_hampa', function ($list) {
-                        $result = $list->kg_after_adjust_hampa_gb;
-                        return $result;
-                    })
-                    ->addColumn('prosentasi_kg', function ($list) {
-                        $result = $list->prosentasi_kg_gb;
-                        return $result;
-                    })
-                    ->addColumn('susut', function ($list) {
-                        $result = $list->susut_gb;
-                        return $result;
-                    })
-                    ->addColumn('adjust_susut', function ($list) {
-                        $result = $list->adjust_susut_gb;
-                        return $result;
-                    })
-                    ->addColumn('prsentase_ks_kg_after_adjust_susut', function ($list) {
-                        $result = $list->prsentase_ks_kg_after_adjust_susut_gb;
-                        return $result;
-                    })
-                    ->addColumn('prsentase_kg_pk', function ($list) {
-                        $result = $list->prsentase_kg_pk_gb;
-                        return $result;
-                    })
-                    ->addColumn('adjust_prosentase_kg_pk', function ($list) {
-                        $result = $list->adjust_prosentase_kg_pk_gb;
-                        return $result;
-                    })
-                    ->addColumn('presentase_ks_pk', function ($list) {
-                        $result = $list->presentase_ks_pk_gb;
-                        return $result;
-                    })
-                    ->addColumn('presentase_putih', function ($list) {
-                        $result = $list->presentase_putih_gb;
-                        return $result;
-                    })
-                    ->addColumn('adjust_prosentase_kg_ke_putih', function ($list) {
-                        $result = $list->adjust_prosentase_kg_ke_putih_gb;
-                        return $result;
-                    })
-                    ->addColumn('plan_rend_dari_ks_beras', function ($list) {
-                        $result = $list->plan_rend_dari_ks_beras_gb;
-                        return $result;
-                    })
-                    ->addColumn('katul', function ($list) {
-                        $result = $list->katul_gb;
-                        return $result;
-                    })
-                    ->addColumn('refraksi_broken', function ($list) {
-                        $result = $list->refraksi_broken_gb;
-                        return $result;
-                    })
-                    ->addColumn('plan_harga_gabah', function ($list) {
-                        $result = rupiah($list->plan_harga_gabah_gb);
-                        return $result;
-                    })
-                    ->addColumn('plan_harga_beli_gabah', function ($list) {
-                        $result = rupiah($list->plan_harga_gabah_gb);
-                        return $result;
-                    })
-
-                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'tanggal_bongkar', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
-                    ->make(true);
-            } else {
-
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
-                    ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
-                    ->where('bid.name_bid', '=', 'GABAH BASAH PANDAN WANGI')
-                    ->orderBy('id_lab1_gb', 'desc')
-                    ->get())
-                    ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = $list->waktu_penerimaan;
-                        return $result;
-                    })
-                    ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
-                        return $result;
-                    })
-                    ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
-                        return '
-                <span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>
-                ';
-                    })
-                    ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
-                        return $result;
-                    })
-                    ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
-                        return $result;
-                    })
-                    ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
-                        return $result;
-                    })
-                    ->addColumn('nama_penerima_po', function ($list) {
-                        $result = $list->name;
-                        return $result;
-                    })
-                    ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
-                        return $result;
-                    })
-                    ->addColumn('asal_gabah', function ($list) {
-                        $result = $list->keterangan_penerimaan_po;
+                        $result = $list->PenerimaanPo->keterangan_penerimaan_po;
                         return $result;
                     })
                     ->addColumn('plan_harga', function ($list) {
@@ -3100,17 +3105,17 @@ class SpvQcAdminController extends Controller
                                     </div>';
                             }
                         } else if ($list->status_lab1_gb == 6) {
-                            if ($list->status_approved == 1) {
+                            if ($list->status_approved == 0) {
                                 return
                                     '<div class="dropdown">
-                    <button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-question"></i> Cek&nbsp;Bongkar
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                    <button class="dropdown-item" id="btn_bongkar" data-id="' . $list->id_lab1_gb . '"><i class="fas fa-check"></i>Approve&nbsp;Bongkar</button>
-                    <button id="btn_tolakbongkar" class="dropdown-item" data-id="' . $list->id_lab1_gb . '" title="Tolak"><i class="fas fa-minus-circle"></i>Tolak&nbsp;Approve</button>
-                    </div>
-                    </div>';
+                                <button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-question"></i> Cek&nbsp;Bongkar
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                                <button class="dropdown-item" id="btn_bongkar" data-id="' . $list->id_lab1_gb . '"><i class="fas fa-check"></i>Approve&nbsp;Bongkar</button>
+                                <button id="btn_tolakbongkar" class="dropdown-item" data-id="' . $list->id_lab1_gb . '" title="Tolak"><i class="fas fa-minus-circle"></i>Tolak&nbsp;Approve</button>
+                                </div>
+                                </div>';
                             } else if ($list->status_approved == 2) {
                                 return
                                     '<button class=" btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-minus">&nbsp;Tolak&nbsp;Approved&nbsp;Bongkar</i></button>';
@@ -3131,6 +3136,9 @@ class SpvQcAdminController extends Controller
                             } else if ($list->status_approved == 2) {
                                 return
                                     '<button class=" btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-minus">&nbsp;Tolak&nbsp;Approved&nbsp;Bongkar</i></button>';
+                            } else {
+                                return
+                                    '<button class=" btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only" ><i class="fas fa-check"></i>&nbsp;Approved&nbsp;Bongkar</button>';
                             }
                         }
                     })
@@ -3246,7 +3254,286 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['name_bid', 'waktu_penerimaan', 'tanggal_bongkar', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['name_bid', 'waktu_penerimaan', 'name_bid', 'tanggal_bongkar', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->make(true);
+            } else {
+                $table = Lab1GabahBasah::With(['DataPO' => function ($query) {
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH PANDAN WANGI');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With('PenerimaanPo')
+                    ->whereHas('DataPO', function ($query) {
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH PANDAN WANGI');
+                        });
+                    })
+                    ->where(function ($query) {
+                        $query->where('lab1_gb.status_lab1_gb', '=', 5)
+                            ->orWhere('lab1_gb.status_lab1_gb', '=', 6);
+                    })
+                    ->where(function ($query) {
+                        $query->where('lab1_gb.status_approved', '=', 0)
+                            ->orWhere('lab1_gb.status_approved', '=', 2)
+                            ->orWhereNull('lab1_gb.status_approved');
+                    })
+                    ->orderBy('id_lab1_gb', 'desc')
+                    ->select(
+                        'lab1_gb.id_lab1_gb',
+                        'lab1_gb.lab1_id_data_po_gb',
+                        'lab1_gb.lab1_id_penerimaan_po_gb',
+                        'lab1_gb.status_lab1_gb',
+                        'lab1_gb.status_approved',
+                        'lab1_gb.output_lab_gb',
+                        'lab1_gb.plan_harga_gb',
+                        'lab1_gb.lokasi_bongkar_gb',
+                        'lab1_gb.created_at_approved',
+                        'lab1_gb.kadar_air_gb',
+                        'lab1_gb.ka_kg_gb',
+                        'lab1_gb.berat_sample_awal_ks_gb',
+                        'lab1_gb.berat_sample_awal_kg_gb',
+                        'lab1_gb.berat_sample_akhir_kg_gb',
+                        'lab1_gb.berat_sample_pk_gb',
+                        'lab1_gb.randoman_gb',
+                        'lab1_gb.wh_gb',
+                        'lab1_gb.tp_gb',
+                        'lab1_gb.md_gb',
+                        'lab1_gb.broken_gb',
+                        'lab1_gb.hampa_gb',
+                        'lab1_gb.kg_after_adjust_hampa_gb',
+                        'lab1_gb.prosentasi_kg_gb',
+                        'lab1_gb.susut_gb',
+                        'lab1_gb.adjust_susut_gb',
+                        'lab1_gb.prsentase_ks_kg_after_adjust_susut_gb',
+                        'lab1_gb.prsentase_kg_pk_gb',
+                        'lab1_gb.adjust_prosentase_kg_pk_gb',
+                        'lab1_gb.presentase_ks_pk_gb',
+                        'lab1_gb.presentase_putih_gb',
+                        'lab1_gb.adjust_prosentase_kg_ke_putih_gb',
+                        'lab1_gb.plan_rend_dari_ks_beras_gb',
+                        'lab1_gb.katul_gb',
+                        'lab1_gb.refraksi_broken_gb',
+                        'lab1_gb.plan_harga_gabah_gb',
+                        'lab1_gb.plan_harga_gabah_gb',
+                    )
+                    ->get();
+                return Datatables::of($table)
+                    ->addColumn('waktu_penerimaan', function ($list) {
+                        $result = $list->PenerimaanPo->waktu_penerimaan;
+                        return $result;
+                    })
+                    ->addColumn('kode_po', function ($list) {
+                        $result = $list->DataPO->kode_po;
+                        return $result;
+                    })
+                    ->addColumn('name_bid', function ($list) {
+                        $result = $list->DataPO->Bid->name_bid;
+                        return $result;
+                    })
+                    ->addColumn('nama_vendor', function ($list) {
+                        $result = $list->DataPO->User->nama_vendor;
+                        return '
+                        <span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>
+                        ';
+                    })
+                    ->addColumn('tanggal_po', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('waktu_penerimaan', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->PenerimaanPo->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
+                        return $result;
+                    })
+                    ->addColumn('plat_kendaraan', function ($list) {
+                        $result = $list->PenerimaanPo->plat_kendaraan;
+                        return $result;
+                    })
+                    ->addColumn('asal_gabah', function ($list) {
+                        $result = $list->PenerimaanPo->keterangan_penerimaan_po;
+                        return $result;
+                    })
+                    ->addColumn('plan_harga', function ($list) {
+                        $result = rupiah($list->plan_harga_gb) . '/Kg';
+                        return $result;
+                    })
+                    ->addColumn('ckelola', function ($list) {
+                        if ($list->status_lab1_gb == 5) {
+                            if ($list->status_approved == 1) {
+                                return
+                                    '<button class=" btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-check"></i>&nbsp;Approved&nbsp;Tolak</button>';
+                            } else if ($list->status_approved == 3) {
+                                return
+                                    '<button class=" btn btn-outline-warning m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="flaticon2-hourglass">&nbsp;Analisa&nbsp;Ulang</i></button>';
+                            } else if ($list->status_approved == 2) {
+                                return
+                                    '<button class=" btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-minus">&nbsp;Approved&nbsp;Tolak</i></button>';
+                            } else if ($list->status_approved == 0) {
+                                return
+                                    '<div class="dropdown">
+                                    <button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-question"></i> Cek&nbsp;Tolak</button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                                    <button class="dropdown-item" id="btn_tolak" data-id="' . $list->id_lab1_gb . '"><i class="fas fa-check"></i>Approve&nbsp;Tolak</button>
+                                    <button id="btn_bongkar" class="dropdown-item" data-id="' . $list->id_lab1_gb . '" title="Tolak"><i class="fas fa-minus-circle"></i>Tetap&nbsp;Bongkar</button>
+                                    <button id="btn_analisa" class="dropdown-item" data-id="' . $list->id_lab1_gb . '" title="Analisa Ulang"><i class="flaticon2-hourglass"></i>Analisa&nbsp;Ulang</button>
+                                    </div>
+                                    </div>';
+                            }
+                        } else if ($list->status_lab1_gb == 6) {
+                            if ($list->status_approved == 0) {
+                                return
+                                    '<div class="dropdown">
+                                <button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-question"></i> Cek&nbsp;Bongkar
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                                <button class="dropdown-item" id="btn_bongkar" data-id="' . $list->id_lab1_gb . '"><i class="fas fa-check"></i>Approve&nbsp;Bongkar</button>
+                                <button id="btn_tolakbongkar" class="dropdown-item" data-id="' . $list->id_lab1_gb . '" title="Tolak"><i class="fas fa-minus-circle"></i>Tolak&nbsp;Approve</button>
+                                </div>
+                                </div>';
+                            } else if ($list->status_approved == 2) {
+                                return
+                                    '<button class=" btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-minus">&nbsp;Tolak&nbsp;Approved&nbsp;Bongkar</i></button>';
+                            } else if ($list->status_approved == null || $list->status_approved == '') {
+                                return
+                                    '<button class="btn btn-outline-warning" type="button"><i class="fa fa-spinner"></i> Belum&nbsp;Ajukan&nbsp;Approve</button>';
+                            }
+                        } else if ($list->status_lab1_gb == 16) {
+                            return
+                                '<button class=" btn btn-outline-warning m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-spinner">&nbsp;Pending</i></button>';
+                        } else if ($list->status_lab1_gb == 7) {
+                            return
+                                '<button class=" btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only" ><i class="fas fa-check"></i>&nbsp;Approved&nbsp;Bongkar</button>';
+                        } else {
+                            if ($list->status_approved == 1) {
+                                return
+                                    '<button class=" btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only" ><i class="fas fa-check"></i>&nbsp;Approved&nbsp;Bongkar</button>';
+                            } else if ($list->status_approved == 2) {
+                                return
+                                    '<button class=" btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-minus">&nbsp;Tolak&nbsp;Approved&nbsp;Bongkar</i></button>';
+                            } else {
+                                return
+                                    '<button class=" btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only" ><i class="fas fa-check"></i>&nbsp;Approved&nbsp;Bongkar</button>';
+                            }
+                        }
+                    })
+                    //add
+                    ->addColumn('kadar_air', function ($list) {
+                        $result = $list->kadar_air_gb;
+                        return $result;
+                    })
+                    ->addColumn('ka_kg', function ($list) {
+                        $result = $list->ka_kg_gb;
+                        return $result;
+                    })
+                    ->addColumn('berat_sample_awal_ks', function ($list) {
+                        $result = $list->berat_sample_awal_ks_gb;
+                        return $result;
+                    })
+                    ->addColumn('berat_sample_awal_kg', function ($list) {
+                        $result = $list->berat_sample_awal_kg_gb;
+                        return $result;
+                    })
+                    ->addColumn('berat_sample_akhir_kg', function ($list) {
+                        $result = $list->berat_sample_akhir_kg_gb;
+                        return $result;
+                    })
+                    ->addColumn('berat_sample_pk', function ($list) {
+                        $result = $list->berat_sample_pk_gb;
+                        return $result;
+                    })
+                    ->addColumn('berat_sample_beras', function ($list) {
+                        $result = $list->randoman_gb;
+                        return $result;
+                    })
+                    ->addColumn('wh', function ($list) {
+                        $result = $list->wh_gb;
+                        return $result;
+                    })
+                    ->addColumn('tp', function ($list) {
+                        $result = $list->tp_gb;
+                        return $result;
+                    })
+                    ->addColumn('md', function ($list) {
+                        $result = $list->md_gb;
+                        return $result;
+                    })
+                    ->addColumn('broken', function ($list) {
+                        $result = $list->broken_gb;
+                        return $result;
+                    })
+
+                    //add
+                    ->addColumn('hampa', function ($list) {
+                        $result = $list->hampa_gb;
+                        return $result;
+                    })
+                    ->addColumn('kg_after_adjust_hampa', function ($list) {
+                        $result = $list->kg_after_adjust_hampa_gb;
+                        return $result;
+                    })
+                    ->addColumn('prosentasi_kg', function ($list) {
+                        $result = $list->prosentasi_kg_gb;
+                        return $result;
+                    })
+                    ->addColumn('susut', function ($list) {
+                        $result = $list->susut_gb;
+                        return $result;
+                    })
+                    ->addColumn('adjust_susut', function ($list) {
+                        $result = $list->adjust_susut_gb;
+                        return $result;
+                    })
+                    ->addColumn('prsentase_ks_kg_after_adjust_susut', function ($list) {
+                        $result = $list->prsentase_ks_kg_after_adjust_susut_gb;
+                        return $result;
+                    })
+                    ->addColumn('prsentase_kg_pk', function ($list) {
+                        $result = $list->prsentase_kg_pk_gb;
+                        return $result;
+                    })
+                    ->addColumn('adjust_prosentase_kg_pk', function ($list) {
+                        $result = $list->adjust_prosentase_kg_pk_gb;
+                        return $result;
+                    })
+                    ->addColumn('presentase_ks_pk', function ($list) {
+                        $result = $list->presentase_ks_pk_gb;
+                        return $result;
+                    })
+                    ->addColumn('presentase_putih', function ($list) {
+                        $result = $list->presentase_putih_gb;
+                        return $result;
+                    })
+                    ->addColumn('adjust_prosentase_kg_ke_putih', function ($list) {
+                        $result = $list->adjust_prosentase_kg_ke_putih_gb;
+                        return $result;
+                    })
+                    ->addColumn('plan_rend_dari_ks_beras', function ($list) {
+                        $result = $list->plan_rend_dari_ks_beras_gb;
+                        return $result;
+                    })
+                    ->addColumn('katul', function ($list) {
+                        $result = $list->katul_gb;
+                        return $result;
+                    })
+                    ->addColumn('refraksi_broken', function ($list) {
+                        $result = $list->refraksi_broken_gb;
+                        return $result;
+                    })
+                    ->addColumn('plan_harga_gabah', function ($list) {
+                        $result = rupiah($list->plan_harga_gabah_gb);
+                        return $result;
+                    })
+                    ->addColumn('plan_harga_beli_gabah', function ($list) {
+                        $result = rupiah($list->plan_harga_gabah_gb);
+                        return $result;
+                    })
+
+                    ->rawColumns(['name_bid', 'waktu_penerimaan', 'name_bid', 'tanggal_bongkar', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             }
         }
@@ -3256,59 +3543,106 @@ class SpvQcAdminController extends Controller
         if (request()->ajax()) {
 
             if (!empty($request->from_date)) {
-
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
-                    ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
-
-                    ->where('penerimaan_po.status_penerimaan', '>', 5, 'AND', 'penerimaan_po.status_penerimaan', '!=', 16)
-                    // ->orWhere('penerimaan_po.status_penerimaan', '!=', 16)
-                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
-                    ->where('bid.name_bid', '=', 'GABAH BASAH KETAN PUTIH')
-                    ->orderBy('id_lab1_gb', 'desc')
-                    ->get())
-                    ->addColumn('name_bid', function ($list) {
-                        $result = $list->name_bid;
-                        return $result;
+                $table = Lab1GabahBasah::With(['DataPO' => function ($query) use ($request) {
+                    $query->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date));
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH KETAN PUTIH');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With('PenerimaanPo')
+                    ->whereHas('DataPO', function ($query) use ($request) {
+                        $query->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date));
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH KETAN PUTIH');
+                        });
                     })
+                    ->where(function ($query) {
+                        $query->where('lab1_gb.status_lab1_gb', '=', 5)
+                            ->orWhere('lab1_gb.status_lab1_gb', '=', 6);
+                    })
+                    ->where(function ($query) {
+                        $query->where('lab1_gb.status_approved', '=', 0)
+                            ->orWhere('lab1_gb.status_approved', '=', 2)
+                            ->orWhereNull('lab1_gb.status_approved');
+                    })
+                    ->orderBy('id_lab1_gb', 'desc')
+                    ->select(
+                        'lab1_gb.id_lab1_gb',
+                        'lab1_gb.lab1_id_data_po_gb',
+                        'lab1_gb.lab1_id_penerimaan_po_gb',
+                        'lab1_gb.status_lab1_gb',
+                        'lab1_gb.status_approved',
+                        'lab1_gb.output_lab_gb',
+                        'lab1_gb.plan_harga_gb',
+                        'lab1_gb.lokasi_bongkar_gb',
+                        'lab1_gb.created_at_approved',
+                        'lab1_gb.kadar_air_gb',
+                        'lab1_gb.ka_kg_gb',
+                        'lab1_gb.berat_sample_awal_ks_gb',
+                        'lab1_gb.berat_sample_awal_kg_gb',
+                        'lab1_gb.berat_sample_akhir_kg_gb',
+                        'lab1_gb.berat_sample_pk_gb',
+                        'lab1_gb.randoman_gb',
+                        'lab1_gb.wh_gb',
+                        'lab1_gb.tp_gb',
+                        'lab1_gb.md_gb',
+                        'lab1_gb.broken_gb',
+                        'lab1_gb.hampa_gb',
+                        'lab1_gb.kg_after_adjust_hampa_gb',
+                        'lab1_gb.prosentasi_kg_gb',
+                        'lab1_gb.susut_gb',
+                        'lab1_gb.adjust_susut_gb',
+                        'lab1_gb.prsentase_ks_kg_after_adjust_susut_gb',
+                        'lab1_gb.prsentase_kg_pk_gb',
+                        'lab1_gb.adjust_prosentase_kg_pk_gb',
+                        'lab1_gb.presentase_ks_pk_gb',
+                        'lab1_gb.presentase_putih_gb',
+                        'lab1_gb.adjust_prosentase_kg_ke_putih_gb',
+                        'lab1_gb.plan_rend_dari_ks_beras_gb',
+                        'lab1_gb.katul_gb',
+                        'lab1_gb.refraksi_broken_gb',
+                        'lab1_gb.plan_harga_gabah_gb',
+                        'lab1_gb.plan_harga_gabah_gb',
+                    )
+                    ->get();
+                return Datatables::of($table)
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = $list->waktu_penerimaan;
+                        $result = $list->PenerimaanPo->waktu_penerimaan;
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
+                        $result = $list->DataPO->kode_po;
+                        return $result;
+                    })
+                    ->addColumn('name_bid', function ($list) {
+                        $result = $list->DataPO->Bid->name_bid;
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
+                        $result = $list->DataPO->User->nama_vendor;
                         return '
-                <span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>
-                ';
+                        <span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>
+                        ';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
-                        return $result;
-                    })
-                    ->addColumn('nama_penerima_po', function ($list) {
-                        $result = $list->name;
+                        $result = \Carbon\Carbon::parse($list->PenerimaanPo->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
+                        $result = $list->PenerimaanPo->plat_kendaraan;
                         return $result;
                     })
                     ->addColumn('asal_gabah', function ($list) {
-                        $result = $list->keterangan_penerimaan_po;
+                        $result = $list->PenerimaanPo->keterangan_penerimaan_po;
                         return $result;
                     })
                     ->addColumn('plan_harga', function ($list) {
@@ -3320,12 +3654,12 @@ class SpvQcAdminController extends Controller
                             if ($list->status_approved == 1) {
                                 return
                                     '<button class=" btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-check"></i>&nbsp;Approved&nbsp;Tolak</button>';
-                            } else if ($list->status_approved == 2) {
-                                return
-                                    '<button class=" btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-minus">&nbsp;Approved&nbsp;Tolak</i></button>';
                             } else if ($list->status_approved == 3) {
                                 return
                                     '<button class=" btn btn-outline-warning m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="flaticon2-hourglass">&nbsp;Analisa&nbsp;Ulang</i></button>';
+                            } else if ($list->status_approved == 2) {
+                                return
+                                    '<button class=" btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-minus">&nbsp;Approved&nbsp;Tolak</i></button>';
                             } else if ($list->status_approved == 0) {
                                 return
                                     '<div class="dropdown">
@@ -3338,21 +3672,21 @@ class SpvQcAdminController extends Controller
                                     </div>';
                             }
                         } else if ($list->status_lab1_gb == 6) {
-                            if ($list->status_approved == 1) {
+                            if ($list->status_approved == 0) {
                                 return
                                     '<div class="dropdown">
-                    <button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-question"></i> Cek&nbsp;Bongkar
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                    <button class="dropdown-item" id="btn_bongkar" data-id="' . $list->id_lab1_gb . '"><i class="fas fa-check"></i>Approve&nbsp;Bongkar</button>
-                    <button id="btn_tolakbongkar" class="dropdown-item" data-id="' . $list->id_lab1_gb . '" title="Tolak"><i class="fas fa-minus-circle"></i>Tolak&nbsp;Approve</button>
-                    </div>
-                    </div>';
+                                <button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-question"></i> Cek&nbsp;Bongkar
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                                <button class="dropdown-item" id="btn_bongkar" data-id="' . $list->id_lab1_gb . '"><i class="fas fa-check"></i>Approve&nbsp;Bongkar</button>
+                                <button id="btn_tolakbongkar" class="dropdown-item" data-id="' . $list->id_lab1_gb . '" title="Tolak"><i class="fas fa-minus-circle"></i>Tolak&nbsp;Approve</button>
+                                </div>
+                                </div>';
                             } else if ($list->status_approved == 2) {
                                 return
                                     '<button class=" btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-minus">&nbsp;Tolak&nbsp;Approved&nbsp;Bongkar</i></button>';
-                            } else if ($list->status_approved == 'NULL' || $list->status_approved == '') {
+                            } else if ($list->status_approved == null || $list->status_approved == '') {
                                 return
                                     '<button class="btn btn-outline-warning" type="button"><i class="fa fa-spinner"></i> Belum&nbsp;Ajukan&nbsp;Approve</button>';
                             }
@@ -3369,6 +3703,9 @@ class SpvQcAdminController extends Controller
                             } else if ($list->status_approved == 2) {
                                 return
                                     '<button class=" btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-minus">&nbsp;Tolak&nbsp;Approved&nbsp;Bongkar</i></button>';
+                            } else {
+                                return
+                                    '<button class=" btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only" ><i class="fas fa-check"></i>&nbsp;Approved&nbsp;Bongkar</button>';
                             }
                         }
                     })
@@ -3484,54 +3821,107 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'tanggal_bongkar', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['name_bid', 'waktu_penerimaan', 'name_bid', 'tanggal_bongkar', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             } else {
-
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
-                    ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
-                    ->where('bid.name_bid', '=', 'GABAH BASAH KETAN PUTIH')
+                $table = Lab1GabahBasah::With(['DataPO' => function ($query) {
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH KETAN PUTIH');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With('PenerimaanPo')
+                    ->whereHas('DataPO', function ($query) {
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH KETAN PUTIH');
+                        });
+                    })
+                    ->where(function ($query) {
+                        $query->where('lab1_gb.status_lab1_gb', '=', 5)
+                            ->orWhere('lab1_gb.status_lab1_gb', '=', 6);
+                    })
+                    ->where(function ($query) {
+                        $query->where('lab1_gb.status_approved', '=', 0)
+                            ->orWhere('lab1_gb.status_approved', '=', 2)
+                            ->orWhereNull('lab1_gb.status_approved');
+                    })
                     ->orderBy('id_lab1_gb', 'desc')
-                    ->get())
+                    ->select(
+                        'lab1_gb.id_lab1_gb',
+                        'lab1_gb.lab1_id_data_po_gb',
+                        'lab1_gb.lab1_id_penerimaan_po_gb',
+                        'lab1_gb.status_lab1_gb',
+                        'lab1_gb.status_approved',
+                        'lab1_gb.output_lab_gb',
+                        'lab1_gb.plan_harga_gb',
+                        'lab1_gb.lokasi_bongkar_gb',
+                        'lab1_gb.created_at_approved',
+                        'lab1_gb.kadar_air_gb',
+                        'lab1_gb.ka_kg_gb',
+                        'lab1_gb.berat_sample_awal_ks_gb',
+                        'lab1_gb.berat_sample_awal_kg_gb',
+                        'lab1_gb.berat_sample_akhir_kg_gb',
+                        'lab1_gb.berat_sample_pk_gb',
+                        'lab1_gb.randoman_gb',
+                        'lab1_gb.wh_gb',
+                        'lab1_gb.tp_gb',
+                        'lab1_gb.md_gb',
+                        'lab1_gb.broken_gb',
+                        'lab1_gb.hampa_gb',
+                        'lab1_gb.kg_after_adjust_hampa_gb',
+                        'lab1_gb.prosentasi_kg_gb',
+                        'lab1_gb.susut_gb',
+                        'lab1_gb.adjust_susut_gb',
+                        'lab1_gb.prsentase_ks_kg_after_adjust_susut_gb',
+                        'lab1_gb.prsentase_kg_pk_gb',
+                        'lab1_gb.adjust_prosentase_kg_pk_gb',
+                        'lab1_gb.presentase_ks_pk_gb',
+                        'lab1_gb.presentase_putih_gb',
+                        'lab1_gb.adjust_prosentase_kg_ke_putih_gb',
+                        'lab1_gb.plan_rend_dari_ks_beras_gb',
+                        'lab1_gb.katul_gb',
+                        'lab1_gb.refraksi_broken_gb',
+                        'lab1_gb.plan_harga_gabah_gb',
+                        'lab1_gb.plan_harga_gabah_gb',
+                    )
+                    ->get();
+                return Datatables::of($table)
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = $list->waktu_penerimaan;
+                        $result = $list->PenerimaanPo->waktu_penerimaan;
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
+                        $result = $list->DataPO->kode_po;
+                        return $result;
+                    })
+                    ->addColumn('name_bid', function ($list) {
+                        $result = $list->DataPO->Bid->name_bid;
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
+                        $result = $list->DataPO->User->nama_vendor;
                         return '
-                <span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>
-                ';
+                        <span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>
+                        ';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
-                        return $result;
-                    })
-                    ->addColumn('nama_penerima_po', function ($list) {
-                        $result = $list->name;
+                        $result = \Carbon\Carbon::parse($list->PenerimaanPo->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
+                        $result = $list->PenerimaanPo->plat_kendaraan;
                         return $result;
                     })
                     ->addColumn('asal_gabah', function ($list) {
-                        $result = $list->keterangan_penerimaan_po;
+                        $result = $list->PenerimaanPo->keterangan_penerimaan_po;
                         return $result;
                     })
                     ->addColumn('plan_harga', function ($list) {
@@ -3543,12 +3933,12 @@ class SpvQcAdminController extends Controller
                             if ($list->status_approved == 1) {
                                 return
                                     '<button class=" btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-check"></i>&nbsp;Approved&nbsp;Tolak</button>';
-                            } else if ($list->status_approved == 2) {
-                                return
-                                    '<button class=" btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-minus">&nbsp;Approved&nbsp;Tolak</i></button>';
                             } else if ($list->status_approved == 3) {
                                 return
                                     '<button class=" btn btn-outline-warning m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="flaticon2-hourglass">&nbsp;Analisa&nbsp;Ulang</i></button>';
+                            } else if ($list->status_approved == 2) {
+                                return
+                                    '<button class=" btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-minus">&nbsp;Approved&nbsp;Tolak</i></button>';
                             } else if ($list->status_approved == 0) {
                                 return
                                     '<div class="dropdown">
@@ -3561,21 +3951,21 @@ class SpvQcAdminController extends Controller
                                     </div>';
                             }
                         } else if ($list->status_lab1_gb == 6) {
-                            if ($list->status_approved == 1) {
+                            if ($list->status_approved == 0) {
                                 return
                                     '<div class="dropdown">
-                    <button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-question"></i> Cek&nbsp;Bongkar
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                    <button class="dropdown-item" id="btn_bongkar" data-id="' . $list->id_lab1_gb . '"><i class="fas fa-check"></i>Approve&nbsp;Bongkar</button>
-                    <button id="btn_tolakbongkar" class="dropdown-item" data-id="' . $list->id_lab1_gb . '" title="Tolak"><i class="fas fa-minus-circle"></i>Tolak&nbsp;Approve</button>
-                    </div>
-                    </div>';
+                                <button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-question"></i> Cek&nbsp;Bongkar
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                                <button class="dropdown-item" id="btn_bongkar" data-id="' . $list->id_lab1_gb . '"><i class="fas fa-check"></i>Approve&nbsp;Bongkar</button>
+                                <button id="btn_tolakbongkar" class="dropdown-item" data-id="' . $list->id_lab1_gb . '" title="Tolak"><i class="fas fa-minus-circle"></i>Tolak&nbsp;Approve</button>
+                                </div>
+                                </div>';
                             } else if ($list->status_approved == 2) {
                                 return
                                     '<button class=" btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-minus">&nbsp;Tolak&nbsp;Approved&nbsp;Bongkar</i></button>';
-                            } else if ($list->status_approved == 'NULL' || $list->status_approved == '') {
+                            } else if ($list->status_approved == null || $list->status_approved == '') {
                                 return
                                     '<button class="btn btn-outline-warning" type="button"><i class="fa fa-spinner"></i> Belum&nbsp;Ajukan&nbsp;Approve</button>';
                             }
@@ -3592,6 +3982,9 @@ class SpvQcAdminController extends Controller
                             } else if ($list->status_approved == 2) {
                                 return
                                     '<button class=" btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only"><i class="fas fa-minus">&nbsp;Tolak&nbsp;Approved&nbsp;Bongkar</i></button>';
+                            } else {
+                                return
+                                    '<button class=" btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only" ><i class="fas fa-check"></i>&nbsp;Approved&nbsp;Bongkar</button>';
                             }
                         }
                     })
@@ -3707,7 +4100,7 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['name_bid', 'waktu_penerimaan', 'kode_po', 'tanggal_bongkar', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['name_bid', 'waktu_penerimaan', 'name_bid', 'tanggal_bongkar', 'kode_po', 'nama_vendor', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             }
         }
@@ -3745,11 +4138,11 @@ class SpvQcAdminController extends Controller
                         ';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('nama_penerima_po', function ($list) {
@@ -3984,11 +4377,11 @@ class SpvQcAdminController extends Controller
                         ';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('nama_penerima_po', function ($list) {
@@ -4321,47 +4714,168 @@ class SpvQcAdminController extends Controller
         // $log->save();
 
     }
-    public function count_outputlab1_gb()
+    public function count_outputlab1_gb(Request $request)
     {
-        $count_success = DataPO::join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-            ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
-            ->where('lab1_gb.output_lab_gb', 'Unload')
-            ->where('lab1_gb.status_lab1_gb', '>', 6)
-            ->where('lab1_gb.status_approved', 1)
-            ->orderBy('id_lab1_gb', 'desc')
-            ->count();
-        $count_tolak = DataPO::join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-            ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
-            ->where('lab1_gb.output_lab_gb', 'Reject')
-            ->where('lab1_gb.status_approved', 1)
-            ->orderBy('id_lab1_gb', 'desc')
-            ->count();
-        return response()->json(
-            [
-                'count_success' => $count_success,
-                'count_tolak' => $count_tolak
-            ]
-        );
+        if ($request->item == 'longgrain') {
+            $count_success = $table = Lab1GabahBasah::With(['DataPO' => function ($query) {
+                $query->With(['Bid' => function ($query) {
+                    $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                }]);
+                $query->With('User');
+            }])
+                ->With('PenerimaanPo')
+                ->whereHas('DataPO', function ($query) {
+                    $query->whereHas('Bid', function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                    });
+                })
+                ->where(function ($query) {
+                    $query->where('output_lab_gb', 'Unload')
+                        ->where('status_lab1_gb', '>', 6)
+                        ->where('status_approved', 1);
+                })
+                ->orderBy('id_lab1_gb', 'desc')
+                ->limit(200)
+                ->count();
+            $count_tolak = $table = Lab1GabahBasah::With(['DataPO' => function ($query) {
+                $query->With(['Bid' => function ($query) {
+                    $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                }]);
+                $query->With('User');
+            }])
+                ->With('PenerimaanPo')
+                ->whereHas('DataPO', function ($query) {
+                    $query->whereHas('Bid', function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                    });
+                })
+                ->where(function ($query) {
+                    $query->where('output_lab_gb', 'Reject')
+                        ->where('status_approved', 1);
+                })
+                ->orderBy('id_lab1_gb', 'desc')
+                ->limit(200)
+                ->count();
+            return response()->json(
+                [
+                    'count_success' => $count_success,
+                    'count_tolak' => $count_tolak
+                ]
+            );
+        } else {
+            $count_pw_success = $table = Lab1GabahBasah::With(['DataPO' => function ($query) {
+                $query->With(['Bid' => function ($query) {
+                    $query->where('name_bid', 'GABAH BASAH PANDAN WANGI');
+                }]);
+                $query->With('User');
+            }])
+                ->With('PenerimaanPo')
+                ->whereHas('DataPO', function ($query) {
+                    $query->whereHas('Bid', function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH PANDAN WANGI');
+                    });
+                })
+                ->where(function ($query) {
+                    $query->where('output_lab_gb', 'Unload')
+                        ->where('status_lab1_gb', '>', 6)
+                        ->where('status_approved', 1);
+                })
+                ->orderBy('id_lab1_gb', 'desc')
+                ->limit(200)
+                ->count();
+            $count_pw_tolak = $table = Lab1GabahBasah::With(['DataPO' => function ($query) {
+                $query->With(['Bid' => function ($query) {
+                    $query->where('name_bid', 'GABAH BASAH PANDAN WANGI');
+                }]);
+                $query->With('User');
+            }])
+                ->With('PenerimaanPo')
+                ->whereHas('DataPO', function ($query) {
+                    $query->whereHas('Bid', function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH PANDAN WANGI');
+                    });
+                })
+                ->where(function ($query) {
+                    $query->where('output_lab_gb', 'Reject')
+                        ->where('status_approved', 1);
+                })
+                ->orderBy('id_lab1_gb', 'desc')
+                ->limit(200)
+                ->count();
+            return response()->json(
+                [
+                    'count_pw_success' => $count_pw_success,
+                    'count_pw_tolak' => $count_pw_tolak
+                ]
+            );
+        }
     }
-    public function count_outputlab2_gb()
+    public function count_outputlab2_gb(Request $request)
     {
-        $count_success = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-            ->join('users', 'users.id', '=', 'data_po.user_idbid')
-            ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-            ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
-            ->where('bid.name_bid', '=', 'GABAH BASAH LONG GRAIN')
-            ->where('data_po.status_bid', 13)
-            ->where('penerimaan_po.status_penerimaan', 13)
-            ->where('lab2_gb.status_lab2_gb', 13)
-            ->where('lab2_gb.status_approved', 1)
-            ->orderBy('id_lab2_gb', 'desc')
-            ->count();
+        if ($request->item == 'longgrain') {
+            $count_success = Lab2GabahBasah::With(['DataPO' => function ($query) {
+                $query->With(['Bid' => function ($query) {
+                    $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                }]);
+                $query->With('User');
+            }])
+                ->With(['PenerimaanPo' => function ($query) {
+                    $query->where('status_penerimaan', 13);
+                }])
+                ->whereHas('PenerimaanPo', function ($query) {
+                    $query->where('status_penerimaan', 13);
+                })
+                ->whereHas('DataPO', function ($query) {
+                    $query->where('status_bid', 13);
+                    $query->whereHas('Bid', function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                    });
+                })
+                ->where(function ($query) {
+                    $query->where('status_lab2_gb', 13)
+                        ->where('status_approved', 1);
+                })
+                ->limit(200)
+                ->count();
 
-        return response()->json(
-            [
-                'count_success' => $count_success,
-            ]
-        );
+            return response()->json(
+                [
+                    'count_success' => $count_success,
+                ]
+            );
+        } else {
+
+            $count_success = Lab2GabahBasah::With(['DataPO' => function ($query) {
+                $query->With(['Bid' => function ($query) {
+                    $query->where('name_bid', 'GABAH BASAH PANDAN WANGI');
+                }]);
+                $query->With('User');
+            }])
+                ->With(['PenerimaanPo' => function ($query) {
+                    $query->where('status_penerimaan', 13);
+                }])
+                ->whereHas('PenerimaanPo', function ($query) {
+                    $query->where('status_penerimaan', 13);
+                })
+                ->whereHas('DataPO', function ($query) {
+                    $query->where('status_bid', 13);
+                    $query->whereHas('Bid', function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH PANDAN WANGI');
+                    });
+                })
+                ->where(function ($query) {
+                    $query->where('status_lab2_gb', 13)
+                        ->where('status_approved', 1);
+                })
+                ->limit(200)
+                ->count();
+
+            return response()->json(
+                [
+                    'count_success' => $count_success,
+                ]
+            );
+        }
     }
     public function approve_lab1_gb($id)
     {
@@ -5242,7 +5756,7 @@ class SpvQcAdminController extends Controller
                                 if ($list->kategory_po == '') {
                                     return '';
                                 } else {
-                                    if ($list->vendor_id == 'VBB20171' || $list->vendor_id == 'VBB20118' || $list->vendor_id == 'VBB20083' || $list->vendor_id == 'VBB20071' || $list->vendor_id == 'VBB20160') {
+                                    if ($list->vendorid == 'VBB20171' || $list->vendorid == 'VBB20118' || $list->vendorid == 'VBB20083' || $list->vendorid == 'VBB20071' || $list->vendorid == 'VBB20160') {
                                         return '<span class="btn btn-label-danger">' . $list->kategory_po . '</span>';
                                     } else {
                                         return '';
@@ -5253,7 +5767,7 @@ class SpvQcAdminController extends Controller
                             if ($list->kategory_po == '') {
                                 return '';
                             } else {
-                                if ($list->vendor_id == 'VBB20171' || $list->vendor_id == 'VBB20118' || $list->vendor_id == 'VBB20083' || $list->vendor_id == 'VBB20071' || $list->vendor_id == 'VBB20160') {
+                                if ($list->vendorid == 'VBB20171' || $list->vendorid == 'VBB20118' || $list->vendorid == 'VBB20083' || $list->vendorid == 'VBB20071' || $list->vendorid == 'VBB20160') {
                                     return '<span class="btn btn-label-danger">' . $list->kategory_po . '</span>';
                                 } else {
                                     return '';
@@ -5329,7 +5843,7 @@ class SpvQcAdminController extends Controller
                                 if ($list->kategory_po == '') {
                                     return '';
                                 } else {
-                                    if ($list->vendor_id == 'VBB20171' || $list->vendor_id == 'VBB20118' || $list->vendor_id == 'VBB20083' || $list->vendor_id == 'VBB20071' || $list->vendor_id == 'VBB20160') {
+                                    if ($list->vendorid == 'VBB20171' || $list->vendorid == 'VBB20118' || $list->vendorid == 'VBB20083' || $list->vendorid == 'VBB20071' || $list->vendorid == 'VBB20160') {
                                         return '<span class="btn btn-label-danger">' . $list->kategory_po . '</span>';
                                     } else {
                                         return '';
@@ -5340,7 +5854,7 @@ class SpvQcAdminController extends Controller
                             if ($list->kategory_po == '') {
                                 return '';
                             } else {
-                                if ($list->vendor_id == 'VBB20171' || $list->vendor_id == 'VBB20118' || $list->vendor_id == 'VBB20083' || $list->vendor_id == 'VBB20071' || $list->vendor_id == 'VBB20160') {
+                                if ($list->vendorid == 'VBB20171' || $list->vendorid == 'VBB20118' || $list->vendorid == 'VBB20083' || $list->vendorid == 'VBB20071' || $list->vendorid == 'VBB20160') {
                                     return '<span class="btn btn-label-danger">' . $list->kategory_po . '</span>';
                                 } else {
                                     return '';
@@ -5578,70 +6092,124 @@ class SpvQcAdminController extends Controller
         if (request()->ajax()) {
 
             if (!empty($request->from_date)) {
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
-                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
-                    ->where('bid.name_bid', '=', 'GABAH BASAH LONG GRAIN')
-                    ->where('data_po.status_bid', 12)
-                    ->where('penerimaan_po.status_penerimaan', 12)
-                    ->where('lab2_gb.status_lab2_gb', 12)
-                    ->orderBy('id_lab2_gb', 'desc')
-                    ->get())
+                $table = Lab2GabahBasah::With(['DataPO' => function ($query) use ($request) {
+                    $query->whereBetween('tanggal_po', array($request->from_date, $request->to_date));
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With(['PenerimaanPo' => function ($query) {
+                        $query->where('status_penerimaan', 12);
+                    }])
+                    ->whereHas('PenerimaanPo', function ($query) {
+                        $query->where('status_penerimaan', 12);
+                    })
+                    ->whereHas('DataPO', function ($query) use ($request) {
+                        $query->whereBetween('tanggal_po', array($request->from_date, $request->to_date));
+                        $query->where('status_bid', 12);
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                        });
+                    })
+                    ->where(function ($query) {
+                        $query->where('status_lab2_gb', 12);
+                    })
+                    ->get();
+                return Datatables::of($table)
                     ->addColumn('name_bid', function ($list) {
-                        $result = $list->name_bid;
+                        $result = $list->DataPO->Bid->name_bid;
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
+                        $result = $list->DataPO->kode_po;
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
+                        $result = $list->DataPO->User->nama_vendor;
                         return $result;
                     })
                     ->addColumn('lokasi_bongkar', function ($list) {
                         $lokasi = $list->lokasi_bongkar_gb;
                         if ($lokasi == 'UTARA') {
-                            $result = ' <span class="btn btn-label-primary">UTARA</span>';
+                            $result = ' <span class="btn btn-label-primary"><b>UTARA</b></span>';
                         } else if ($lokasi == 'SELATAN') {
-                            $result = ' <span class="btn btn-label-info">SELATAN</span>';
+                            $result = ' <span class="btn btn-label-success"><b>SELATAN</b></span>';
                         } else {
                             $result = ' <span class="btn btn-label-info">' . $lokasi . '</span>';
                         }
                         return $result;
                     })
+                    ->addColumn('kategory_po', function ($list) {
+                        if ($list->status_lab2_gb == 12) {
+                            if ($list->status_approved == 0) {
+                                if ($list->DataPO->kategory_po == NULL || $list->DataPO->kategory_po == '') {
+                                    if ($list->DataPO->User->vendorid == 'VBB20171' || $list->DataPO->User->vendorid == 'VBB20118' || $list->DataPO->User->vendorid == 'VBB20083' || $list->DataPO->User->vendorid == 'VBB20071' || $list->DataPO->User->vendorid == 'VBB20160') {
+                                        return
+                                            '<button id="btn_kategory" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-tonase_akhir="' . $list->PenerimaanPo->netto2 . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-offset="5px 5px" data-toggle="m-tooltip" title="Approve Data" onclick="return true" class="toyakin btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                        <i class="fa fa-spinner"></i>Pilih&nbsp;Kategori
+                                        </button>';
+                                    } else {
+                                        return '';
+                                    }
+                                } else if ($list->DataPO->kategory_po == 'BULOG') {
+                                    return '<span class="btn btn-label-danger">BULOG</span>';
+                                } else {
+                                    return '<span class="btn btn-label-info">REGULER</span>';
+                                }
+                            } else if ($list->status_approved == 2) {
+                                if ($list->DataPO->kategory_po == '') {
+                                    return '';
+                                } else {
+                                    if ($list->DataPO->User->vendorid == 'VBB20171' || $list->DataPO->User->vendorid == 'VBB20118' || $list->DataPO->User->vendorid == 'VBB20083' || $list->DataPO->User->vendorid == 'VBB20071' || $list->DataPO->User->vendorid == 'VBB20160') {
+                                        return '<span class="btn btn-label-danger">' . $list->DataPO->kategory_po . '</span>';
+                                    } else {
+                                        return '';
+                                    }
+                                }
+                            }
+                        } else {
+                            if ($list->DataPO->kategory_po == '') {
+                                return '';
+                            } else {
+                                if ($list->DataPO->User->vendorid == 'VBB20171' || $list->DataPO->User->vendorid == 'VBB20118' || $list->DataPO->User->vendorid == 'VBB20083' || $list->DataPO->User->vendorid == 'VBB20071' || $list->DataPO->User->vendorid == 'VBB20160') {
+                                    return '<span class="btn btn-label-danger">' . $list->DataPO->kategory_po . '</span>';
+                                } else {
+                                    return '';
+                                }
+                            }
+                        }
+                    })
                     ->addColumn('status_lab2_gb', function ($list) {
                         if ($list->status_lab2_gb == 12) {
                             if ($list->status_approved == 0) {
                                 return
-                                    '<button id="btn_approved" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-tonase_akhir="' . $list->netto2 . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-offset="5px 5px" data-toggle="m-tooltip" title="Approve Data" onclick="return true" class="toyakin btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<button id="btn_approved" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-tonase_akhir="' . $list->PenerimaanPo->netto2 . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-vendorid="' . $list->DataPO->User->vendorid . '" data-kategory_po="' . $list->DataPO->kategory_po . '" data-offset="5px 5px" data-toggle="m-tooltip" title="Approve Data" onclick="return true" class="toyakin btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-spinner"> </i>Diajukan
                         </button>';
                             } else if ($list->status_approved == 2) {
                                 return
-                                    '<button id="btn_tolak_approved" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-tonase_akhir="' . $list->netto2 . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-hargaakhir="' . $list->harga_akhir_gb . '" title="Tolak Data" data-offset="5px 5px" data-toggle="m-tooltip" onclick="return true" class="toyakin btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<button id="btn_tolak_approved" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-tonase_akhir="' . $list->PenerimaanPo->netto2 . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-vendorid="' . $list->DataPO->User->vendorid . '" data-kategory_po="' . $list->DataPO->kategory_po . '" title="Tolak Data" data-offset="5px 5px" data-toggle="m-tooltip" onclick="return true" class="toyakin btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-minus-circle"> </i>Tolak&nbsp;Approve<br> Cek&nbsp;Data
                         </button>';
                             }
                         } else {
                             return
-                                '<button style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                '<button style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                         <i class="fa fa-check">Approved</i>
-                    </button>';
+                        </button>';
                         }
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('keterangan_penerimaan_po', function ($list) {
-                        $result = $list->keterangan_penerimaan_po;
+                        $result = $list->PenerimaanPo->keterangan_penerimaan_po;
                         return $result;
                     })
                     ->addColumn('no_dtm', function ($list) {
@@ -5649,11 +6217,11 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
+                        $result = $list->PenerimaanPo->plat_kendaraan;
                         return $result;
                     })
                     ->addColumn('hasil_akhir_tonase', function ($list) {
-                        $result = $list->hasil_akhir_tonase;
+                        $result = $list->PenerimaanPo->hasil_akhir_tonase;
                         if ($result == '') {
                             return '<span class="badge rounded-pill bg-success">Proses&nbsp;Timbangan&nbsp;2</span>';
                         } else {
@@ -5774,25 +6342,45 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
                     ->addColumn('plan_harga_gabah', function ($list) {
-                        $result = rupiah($list->plan_harga_gabah_gb);
-                        return $result;
+                        $result = $list->plan_harga_gabah_gb;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
                     })
                     ->addColumn('plan_harga_beli_gabah', function ($list) {
-                        $result = rupiah($list->plan_harga_beli_gabah_gb);
-                        return $result;
+                        $result = $list->plan_harga_beli_gabah_gb;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
                     })
                     ->addColumn('harga_berdasarkan_tempat', function ($list) {
-                        $result = rupiah($list->harga_berdasarkan_tempat_gb);
-                        return $result;
+                        $result = $list->harga_berdasarkan_tempat_gb;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
                     })
                     ->addColumn('harga_berdasarkan_harga_atas', function ($list) {
-                        $result = rupiah($list->harga_berdasarkan_harga_atas_gb);
-                        return $result;
+                        $result = $list->harga_berdasarkan_harga_atas_gb;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
                     })
 
                     ->addColumn('harga_awal', function ($list) {
-                        $result = rupiah($list->harga_awal_gb);
-                        return $result;
+                        $result = $list->harga_awal_gb;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
                     })
                     ->addColumn('aksi_harga', function ($list) {
                         $result = $list->aksi_harga_gb;
@@ -5801,46 +6389,6 @@ class SpvQcAdminController extends Controller
                     ->addColumn('reaksi_harga', function ($list) {
                         $result = $list->reaksi_harga_gb;
                         return $result;
-                    })
-                    ->addColumn('kategory_po', function ($list) {
-                        if ($list->status_lab2_gb == 12) {
-                            if ($list->status_approved == 0) {
-                                if ($list->kategory_po == NULL || $list->kategory_po == '') {
-                                    if ($list->vendorid == 'VBB20171' || $list->vendorid == 'VBB20118' || $list->vendorid == 'VBB20083' || $list->vendorid == 'VBB20071' || $list->vendorid == 'VBB20160') {
-                                        return
-                                            '<button id="btn_kategory" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-tonase_akhir="' . $list->netto2 . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-offset="5px 5px" data-toggle="m-tooltip" title="Approve Data" onclick="return true" class="toyakin btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
-                                        <i class="fa fa-spinner"></i>Pilih&nbsp;Kategori
-                                        </button>';
-                                    } else {
-                                        return '';
-                                    }
-                                } else if ($list->kategory_po == 'BULOG') {
-                                    return '<span class="btn btn-label-danger">BULOG</span>';
-                                } else {
-                                    return '<span class="btn btn-label-info">REGULER</span>';
-                                }
-                            } else if ($list->status_approved == 2) {
-                                if ($list->kategory_po == '') {
-                                    return '';
-                                } else {
-                                    if ($list->vendor_id == 'VBB20171' || $list->vendor_id == 'VBB20118' || $list->vendor_id == 'VBB20083' || $list->vendor_id == 'VBB20071' || $list->vendor_id == 'VBB20160') {
-                                        return '<span class="btn btn-label-danger">' . $list->kategory_po . '</span>';
-                                    } else {
-                                        return '';
-                                    }
-                                }
-                            }
-                        } else {
-                            if ($list->kategory_po == '') {
-                                return '';
-                            } else {
-                                if ($list->vendor_id == 'VBB20171' || $list->vendor_id == 'VBB20118' || $list->vendor_id == 'VBB20083' || $list->vendor_id == 'VBB20071' || $list->vendor_id == 'VBB20160') {
-                                    return '<span class="btn btn-label-danger">' . $list->kategory_po . '</span>';
-                                } else {
-                                    return '';
-                                }
-                            }
-                        }
                     })
                     ->addColumn('harga_akhir', function ($list) {
                         $result = $list->harga_akhir_permintaan_gb;
@@ -5852,30 +6400,42 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['name_bid', 'kode_po', 'kategory_po', 'lokasi_bongkar', 'nama_vendor', 'status_lab2_gb', 'tanggal_po', 'tanggal_bongkar', 'keterangan_penerimaan_po', 'no_dtm', 'plat_kendaraan', 'hasil_akhir_tonase', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken_setelah_bongkar', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'plan_berat_kg_pertruk', 'plan_berat_pk_pertruk', 'plan_berat_beras_pertruk', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'reaksi_harga', 'harga_akhir'])
+                    ->rawColumns(['name_bid', 'lokasi_bongkar', 'kategory_po', 'kode_po', 'nama_vendor', 'status_lab2_gb', 'tanggal_po', 'tanggal_bongkar', 'keterangan_penerimaan_po', 'no_dtm', 'plat_kendaraan', 'hasil_akhir_tonase', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken_setelah_bongkar', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'plan_berat_kg_pertruk', 'plan_berat_pk_pertruk', 'plan_berat_beras_pertruk', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'reaksi_harga', 'harga_akhir'])
                     ->make(true);
             } else {
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
-                    ->where('bid.name_bid', '=', 'GABAH BASAH LONG GRAIN')
-                    ->where('data_po.status_bid', 12)
-                    ->where('penerimaan_po.status_penerimaan', 12)
-                    ->where('lab2_gb.status_lab2_gb', 12)
-                    ->orderBy('id_lab2_gb', 'desc')
-                    // ->limit(56)
-                    ->get())
+                $table = Lab2GabahBasah::With(['DataPO' => function ($query) {
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With(['PenerimaanPo' => function ($query) {
+                        $query->where('status_penerimaan', 12);
+                    }])
+                    ->whereHas('PenerimaanPo', function ($query) {
+                        $query->where('status_penerimaan', 12);
+                    })
+                    ->whereHas('DataPO', function ($query) {
+                        $query->where('status_bid', 12);
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                        });
+                    })
+                    ->where(function ($query) {
+                        $query->where('status_lab2_gb', 12);
+                    })
+                    ->get();
+                return Datatables::of($table)
                     ->addColumn('name_bid', function ($list) {
-                        $result = $list->name_bid;
+                        $result = $list->DataPO->Bid->name_bid;
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
+                        $result = $list->DataPO->kode_po;
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
+                        $result = $list->DataPO->User->nama_vendor;
                         return $result;
                     })
                     ->addColumn('lokasi_bongkar', function ($list) {
@@ -5892,37 +6452,37 @@ class SpvQcAdminController extends Controller
                     ->addColumn('kategory_po', function ($list) {
                         if ($list->status_lab2_gb == 12) {
                             if ($list->status_approved == 0) {
-                                if ($list->kategory_po == NULL || $list->kategory_po == '') {
-                                    if ($list->vendorid == 'VBB20171' || $list->vendorid == 'VBB20118' || $list->vendorid == 'VBB20083' || $list->vendorid == 'VBB20071' || $list->vendorid == 'VBB20160') {
+                                if ($list->DataPO->kategory_po == NULL || $list->DataPO->kategory_po == '') {
+                                    if ($list->DataPO->User->vendorid == 'VBB20171' || $list->DataPO->User->vendorid == 'VBB20118' || $list->DataPO->User->vendorid == 'VBB20083' || $list->DataPO->User->vendorid == 'VBB20071' || $list->DataPO->User->vendorid == 'VBB20160') {
                                         return
-                                            '<button id="btn_kategory" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-tonase_akhir="' . $list->netto2 . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-offset="5px 5px" data-toggle="m-tooltip" title="Approve Data" onclick="return true" class="toyakin btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                            '<button id="btn_kategory" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-tonase_akhir="' . $list->PenerimaanPo->netto2 . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-offset="5px 5px" data-toggle="m-tooltip" title="Approve Data" onclick="return true" class="toyakin btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                                         <i class="fa fa-spinner"></i>Pilih&nbsp;Kategori
                                         </button>';
                                     } else {
                                         return '';
                                     }
-                                } else if ($list->kategory_po == 'BULOG') {
+                                } else if ($list->DataPO->kategory_po == 'BULOG') {
                                     return '<span class="btn btn-label-danger">BULOG</span>';
                                 } else {
                                     return '<span class="btn btn-label-info">REGULER</span>';
                                 }
                             } else if ($list->status_approved == 2) {
-                                if ($list->kategory_po == '') {
+                                if ($list->DataPO->kategory_po == '') {
                                     return '';
                                 } else {
-                                    if ($list->vendor_id == 'VBB20171' || $list->vendor_id == 'VBB20118' || $list->vendor_id == 'VBB20083' || $list->vendor_id == 'VBB20071' || $list->vendor_id == 'VBB20160') {
-                                        return '<span class="btn btn-label-danger">' . $list->kategory_po . '</span>';
+                                    if ($list->DataPO->User->vendorid == 'VBB20171' || $list->DataPO->User->vendorid == 'VBB20118' || $list->DataPO->User->vendorid == 'VBB20083' || $list->DataPO->User->vendorid == 'VBB20071' || $list->DataPO->User->vendorid == 'VBB20160') {
+                                        return '<span class="btn btn-label-danger">' . $list->DataPO->kategory_po . '</span>';
                                     } else {
                                         return '';
                                     }
                                 }
                             }
                         } else {
-                            if ($list->kategory_po == '') {
+                            if ($list->DataPO->kategory_po == '') {
                                 return '';
                             } else {
-                                if ($list->vendor_id == 'VBB20171' || $list->vendor_id == 'VBB20118' || $list->vendor_id == 'VBB20083' || $list->vendor_id == 'VBB20071' || $list->vendor_id == 'VBB20160') {
-                                    return '<span class="btn btn-label-danger">' . $list->kategory_po . '</span>';
+                                if ($list->DataPO->User->vendorid == 'VBB20171' || $list->DataPO->User->vendorid == 'VBB20118' || $list->DataPO->User->vendorid == 'VBB20083' || $list->DataPO->User->vendorid == 'VBB20071' || $list->DataPO->User->vendorid == 'VBB20160') {
+                                    return '<span class="btn btn-label-danger">' . $list->DataPO->kategory_po . '</span>';
                                 } else {
                                     return '';
                                 }
@@ -5933,32 +6493,32 @@ class SpvQcAdminController extends Controller
                         if ($list->status_lab2_gb == 12) {
                             if ($list->status_approved == 0) {
                                 return
-                                    '<button id="btn_approved" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-tonase_akhir="' . $list->netto2 . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-vendorid="' . $list->vendorid . '" data-kategory_po="' . $list->kategory_po . '" data-offset="5px 5px" data-toggle="m-tooltip" title="Approve Data" onclick="return true" class="toyakin btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<button id="btn_approved" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-tonase_akhir="' . $list->PenerimaanPo->netto2 . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-vendorid="' . $list->DataPO->User->vendorid . '" data-kategory_po="' . $list->DataPO->kategory_po . '" data-offset="5px 5px" data-toggle="m-tooltip" title="Approve Data" onclick="return true" class="toyakin btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-spinner"> </i>Diajukan
                         </button>';
                             } else if ($list->status_approved == 2) {
                                 return
-                                    '<button id="btn_tolak_approved" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-tonase_akhir="' . $list->netto2 . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-vendorid="' . $list->vendorid . '" data-kategory_po="' . $list->kategory_po . '" title="Tolak Data" data-offset="5px 5px" data-toggle="m-tooltip" onclick="return true" class="toyakin btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<button id="btn_tolak_approved" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-tonase_akhir="' . $list->PenerimaanPo->netto2 . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-vendorid="' . $list->DataPO->User->vendorid . '" data-kategory_po="' . $list->DataPO->kategory_po . '" title="Tolak Data" data-offset="5px 5px" data-toggle="m-tooltip" onclick="return true" class="toyakin btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-minus-circle"> </i>Tolak&nbsp;Approve<br> Cek&nbsp;Data
                         </button>';
                             }
                         } else {
                             return
-                                '<button style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                '<button style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                         <i class="fa fa-check">Approved</i>
                     </button>';
                         }
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('keterangan_penerimaan_po', function ($list) {
-                        $result = $list->keterangan_penerimaan_po;
+                        $result = $list->PenerimaanPo->keterangan_penerimaan_po;
                         return $result;
                     })
                     ->addColumn('no_dtm', function ($list) {
@@ -5966,11 +6526,11 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
+                        $result = $list->PenerimaanPo->plat_kendaraan;
                         return $result;
                     })
                     ->addColumn('hasil_akhir_tonase', function ($list) {
-                        $result = $list->hasil_akhir_tonase;
+                        $result = $list->PenerimaanPo->hasil_akhir_tonase;
                         if ($result == '') {
                             return '<span class="badge rounded-pill bg-success">Proses&nbsp;Timbangan&nbsp;2</span>';
                         } else {
@@ -6159,45 +6719,100 @@ class SpvQcAdminController extends Controller
         if (request()->ajax()) {
 
             if (!empty($request->from_date)) {
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
-                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
-                    ->where('bid.name_bid', '=', 'GABAH BASAH LONG GRAIN')
-                    ->where('data_po.status_bid', 13)
-                    ->where('penerimaan_po.status_penerimaan', 13)
-                    ->where('lab2_gb.status_lab2_gb', 13)
-                    ->where('lab2_gb.status_approved', 1)
-                    ->orderBy('id_lab2_gb', 'desc')
-                    ->get())
+                $table = Lab2GabahBasah::With(['DataPO' => function ($query) use ($request) {
+                    $query->whereBetween('tanggal_po', array($request->from_date, $request->to_date));
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With(['PenerimaanPo' => function ($query) {
+                        $query->where('status_penerimaan', 13);
+                    }])
+                    ->whereHas('PenerimaanPo', function ($query) {
+                        $query->where('status_penerimaan', 13);
+                    })
+                    ->whereHas('DataPO', function ($query) use ($request) {
+                        $query->whereBetween('tanggal_po', array($request->from_date, $request->to_date));
+                        $query->where('status_bid', 13);
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                        });
+                    })
+                    ->where(function ($query) {
+                        $query->where('status_lab2_gb', 13)
+                            ->where('status_approved', 1);
+                    })
+                    ->orderBy('id_lab2_gb', 'DESC')
+                    ->get();
+                return Datatables::of($table)
                     ->addColumn('name_bid', function ($list) {
-                        $result = $list->name_bid;
+                        $result = $list->DataPO->Bid->name_bid;
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
+                        $result = $list->DataPO->kode_po;
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
+                        $result = $list->DataPO->User->nama_vendor;
                         return $result;
                     })
                     ->addColumn('lokasi_bongkar', function ($list) {
                         $lokasi = $list->lokasi_bongkar_gb;
                         if ($lokasi == 'UTARA') {
-                            $result = ' <span class="btn btn-label-primary">UTARA</span>';
+                            $result = ' <span class="btn btn-label-primary"><b>UTARA</b></span>';
                         } else if ($lokasi == 'SELATAN') {
-                            $result = ' <span class="btn btn-label-info">SELATAN</span>';
+                            $result = ' <span class="btn btn-label-success"><b>SELATAN</b></span>';
                         } else {
                             $result = ' <span class="btn btn-label-info">' . $lokasi . '</span>';
                         }
                         return $result;
                     })
+                    ->addColumn('kategory_po', function ($list) {
+                        if ($list->status_lab2_gb == 12) {
+                            if ($list->status_approved == 0) {
+                                if ($list->DataPO->kategory_po == NULL || $list->DataPO->kategory_po == '') {
+                                    if ($list->DataPO->User->vendorid == 'VBB20171' || $list->DataPO->User->vendorid == 'VBB20118' || $list->DataPO->User->vendorid == 'VBB20083' || $list->DataPO->User->vendorid == 'VBB20071' || $list->DataPO->User->vendorid == 'VBB20160') {
+                                        return
+                                            '<button id="btn_kategory" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-tonase_akhir="' . $list->PenerimaanPo->netto2 . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-offset="5px 5px" data-toggle="m-tooltip" title="Approve Data" onclick="return true" class="toyakin btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                        <i class="fa fa-spinner"></i>Pilih&nbsp;Kategori
+                                        </button>';
+                                    } else {
+                                        return '';
+                                    }
+                                } else if ($list->DataPO->kategory_po == 'BULOG') {
+                                    return '<span class="btn btn-label-danger">BULOG</span>';
+                                } else {
+                                    return '<span class="btn btn-label-info">REGULER</span>';
+                                }
+                            } else if ($list->status_approved == 2) {
+                                if ($list->DataPO->kategory_po == '') {
+                                    return '';
+                                } else {
+                                    if ($list->DataPO->User->vendorid == 'VBB20171' || $list->DataPO->User->vendorid == 'VBB20118' || $list->DataPO->User->vendorid == 'VBB20083' || $list->DataPO->User->vendorid == 'VBB20071' || $list->DataPO->User->vendorid == 'VBB20160') {
+                                        return '<span class="btn btn-label-danger">' . $list->DataPO->kategory_po . '</span>';
+                                    } else {
+                                        return '';
+                                    }
+                                }
+                            }
+                        } else {
+                            if ($list->DataPO->kategory_po == '') {
+                                return '';
+                            } else {
+                                if ($list->DataPO->User->vendorid == 'VBB20171' || $list->DataPO->User->vendorid == 'VBB20118' || $list->DataPO->User->vendorid == 'VBB20083' || $list->DataPO->User->vendorid == 'VBB20071' || $list->DataPO->User->vendorid == 'VBB20160') {
+                                    return '<span class="btn btn-label-danger">' . $list->DataPO->kategory_po . '</span>';
+                                } else {
+                                    return '';
+                                }
+                            }
+                        }
+                    })
                     ->addColumn('status_lab2_gb', function ($list) {
 
                         return
-                            '<button style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            '<button style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                         <i class="fa fa-check">Approved</i>
                     </button>';
                     })
@@ -6216,7 +6831,7 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
                     ->addColumn('keterangan_penerimaan_po', function ($list) {
-                        $result = $list->keterangan_penerimaan_po;
+                        $result = $list->PenerimaanPo->keterangan_penerimaan_po;
                         return $result;
                     })
                     ->addColumn('no_dtm', function ($list) {
@@ -6224,11 +6839,11 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
+                        $result = $list->PenerimaanPo->plat_kendaraan;
                         return $result;
                     })
                     ->addColumn('hasil_akhir_tonase', function ($list) {
-                        $result = $list->hasil_akhir_tonase;
+                        $result = $list->PenerimaanPo->hasil_akhir_tonase;
                         if ($result == '') {
                             return '<span class="badge rounded-pill bg-success">Proses&nbsp;Timbangan&nbsp;2</span>';
                         } else {
@@ -6349,25 +6964,45 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
                     ->addColumn('plan_harga_gabah', function ($list) {
-                        $result = rupiah($list->plan_harga_gabah_gb);
-                        return $result;
+                        $result = $list->plan_harga_gabah_gb;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
                     })
                     ->addColumn('plan_harga_beli_gabah', function ($list) {
-                        $result = rupiah($list->plan_harga_beli_gabah_gb);
-                        return $result;
+                        $result = $list->plan_harga_beli_gabah_gb;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
                     })
                     ->addColumn('harga_berdasarkan_tempat', function ($list) {
-                        $result = rupiah($list->harga_berdasarkan_tempat_gb);
-                        return $result;
+                        $result = $list->harga_berdasarkan_tempat_gb;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
                     })
                     ->addColumn('harga_berdasarkan_harga_atas', function ($list) {
-                        $result = rupiah($list->harga_berdasarkan_harga_atas_gb);
-                        return $result;
+                        $result = $list->harga_berdasarkan_harga_atas_gb;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
                     })
 
                     ->addColumn('harga_awal', function ($list) {
-                        $result = rupiah($list->harga_awal_gb);
-                        return $result;
+                        $result = $list->harga_awal_gb;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
                     })
                     ->addColumn('aksi_harga', function ($list) {
                         $result = $list->aksi_harga_gb;
@@ -6376,46 +7011,6 @@ class SpvQcAdminController extends Controller
                     ->addColumn('reaksi_harga', function ($list) {
                         $result = $list->reaksi_harga_gb;
                         return $result;
-                    })
-                    ->addColumn('kategory_po', function ($list) {
-                        if ($list->status_lab2_gb == 12) {
-                            if ($list->status_approved == 0) {
-                                if ($list->kategory_po == NULL || $list->kategory_po == '') {
-                                    if ($list->vendorid == 'VBB20171' || $list->vendorid == 'VBB20118' || $list->vendorid == 'VBB20083' || $list->vendorid == 'VBB20071' || $list->vendorid == 'VBB20160') {
-                                        return
-                                            '<button id="btn_kategory" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-tonase_akhir="' . $list->netto2 . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-offset="5px 5px" data-toggle="m-tooltip" title="Approve Data" onclick="return true" class="toyakin btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
-                                        <i class="fa fa-spinner"></i>Pilih&nbsp;Kategori
-                                        </button>';
-                                    } else {
-                                        return '';
-                                    }
-                                } else if ($list->kategory_po == 'BULOG') {
-                                    return '<span class="btn btn-label-danger">BULOG</span>';
-                                } else {
-                                    return '<span class="btn btn-label-info">REGULER</span>';
-                                }
-                            } else if ($list->status_approved == 2) {
-                                if ($list->kategory_po == '') {
-                                    return '';
-                                } else {
-                                    if ($list->vendor_id == 'VBB20171' || $list->vendor_id == 'VBB20118' || $list->vendor_id == 'VBB20083' || $list->vendor_id == 'VBB20071' || $list->vendor_id == 'VBB20160') {
-                                        return '<span class="btn btn-label-danger">' . $list->kategory_po . '</span>';
-                                    } else {
-                                        return '';
-                                    }
-                                }
-                            }
-                        } else {
-                            if ($list->kategory_po == '') {
-                                return '';
-                            } else {
-                                if ($list->vendor_id == 'VBB20171' || $list->vendor_id == 'VBB20118' || $list->vendor_id == 'VBB20083' || $list->vendor_id == 'VBB20071' || $list->vendor_id == 'VBB20160') {
-                                    return '<span class="btn btn-label-danger">' . $list->kategory_po . '</span>';
-                                } else {
-                                    return '';
-                                }
-                            }
-                        }
                     })
                     ->addColumn('harga_akhir', function ($list) {
                         $result = $list->harga_akhir_permintaan_gb;
@@ -6427,32 +7022,45 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['name_bid', 'waktu_approved', 'kode_po', 'kategory_po', 'lokasi_bongkar', 'nama_vendor', 'status_lab2_gb', 'tanggal_po', 'tanggal_bongkar', 'keterangan_penerimaan_po', 'no_dtm', 'plat_kendaraan', 'hasil_akhir_tonase', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken_setelah_bongkar', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'plan_berat_kg_pertruk', 'plan_berat_pk_pertruk', 'plan_berat_beras_pertruk', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'reaksi_harga', 'harga_akhir'])
+                    ->rawColumns(['name_bid', 'waktu_approved', 'lokasi_bongkar', 'kategory_po', 'kode_po', 'nama_vendor', 'status_lab2_gb', 'tanggal_po', 'tanggal_bongkar', 'keterangan_penerimaan_po', 'no_dtm', 'plat_kendaraan', 'hasil_akhir_tonase', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken_setelah_bongkar', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'plan_berat_kg_pertruk', 'plan_berat_pk_pertruk', 'plan_berat_beras_pertruk', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'reaksi_harga', 'harga_akhir'])
                     ->make(true);
             } else {
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
-                    ->where('bid.name_bid', '=', 'GABAH BASAH LONG GRAIN')
-                    ->where('data_po.status_bid', 13)
-                    ->where('penerimaan_po.status_penerimaan', 13)
-                    ->where('lab2_gb.status_lab2_gb', 13)
-                    ->where('lab2_gb.status_approved', 1)
-                    ->orderBy('id_lab2_gb', 'desc')
-                    ->select('bid.name_bid', 'users.nama_vendor', 'data_po.kode_po', 'data_po.status_bid', 'data_po.tanggal_po', 'data_po.tanggal_bongkar', 'penerimaan_po.plat_kendaraan', 'penerimaan_po.status_penerimaan', 'penerimaan_po.keterangan_penerimaan_po', 'penerimaan_po.hasil_akhir_tonase', 'lab2_gb.*')
+                $table = Lab2GabahBasah::With(['DataPO' => function ($query) {
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With(['PenerimaanPo' => function ($query) {
+                        $query->where('status_penerimaan', 13);
+                    }])
+                    ->whereHas('PenerimaanPo', function ($query) {
+                        $query->where('status_penerimaan', 13);
+                    })
+                    ->whereHas('DataPO', function ($query) {
+                        $query->where('status_bid', 13);
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                        });
+                    })
+                    ->where(function ($query) {
+                        $query->where('status_lab2_gb', 13)
+                            ->where('status_approved', 1);
+                    })
+                    ->orderBy('id_lab2_gb', 'DESC')
                     ->limit(200)
-                    ->get())
+                    ->get();
+                return Datatables::of($table)
                     ->addColumn('name_bid', function ($list) {
-                        $result = $list->name_bid;
+                        $result = $list->DataPO->Bid->name_bid;
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
+                        $result = $list->DataPO->kode_po;
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
+                        $result = $list->DataPO->User->nama_vendor;
                         return $result;
                     })
                     ->addColumn('lokasi_bongkar', function ($list) {
@@ -6469,37 +7077,37 @@ class SpvQcAdminController extends Controller
                     ->addColumn('kategory_po', function ($list) {
                         if ($list->status_lab2_gb == 12) {
                             if ($list->status_approved == 0) {
-                                if ($list->kategory_po == NULL || $list->kategory_po == '') {
-                                    if ($list->vendorid == 'VBB20171' || $list->vendorid == 'VBB20118' || $list->vendorid == 'VBB20083' || $list->vendorid == 'VBB20071' || $list->vendorid == 'VBB20160') {
+                                if ($list->DataPO->kategory_po == NULL || $list->DataPO->kategory_po == '') {
+                                    if ($list->DataPO->User->vendorid == 'VBB20171' || $list->DataPO->User->vendorid == 'VBB20118' || $list->DataPO->User->vendorid == 'VBB20083' || $list->DataPO->User->vendorid == 'VBB20071' || $list->DataPO->User->vendorid == 'VBB20160') {
                                         return
-                                            '<button id="btn_kategory" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-tonase_akhir="' . $list->netto2 . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-offset="5px 5px" data-toggle="m-tooltip" title="Approve Data" onclick="return true" class="toyakin btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                            '<button id="btn_kategory" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-tonase_akhir="' . $list->PenerimaanPo->netto2 . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-offset="5px 5px" data-toggle="m-tooltip" title="Approve Data" onclick="return true" class="toyakin btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                                         <i class="fa fa-spinner"></i>Pilih&nbsp;Kategori
                                         </button>';
                                     } else {
                                         return '';
                                     }
-                                } else if ($list->kategory_po == 'BULOG') {
+                                } else if ($list->DataPO->kategory_po == 'BULOG') {
                                     return '<span class="btn btn-label-danger">BULOG</span>';
                                 } else {
                                     return '<span class="btn btn-label-info">REGULER</span>';
                                 }
                             } else if ($list->status_approved == 2) {
-                                if ($list->kategory_po == '') {
+                                if ($list->DataPO->kategory_po == '') {
                                     return '';
                                 } else {
-                                    if ($list->vendor_id == 'VBB20171' || $list->vendor_id == 'VBB20118' || $list->vendor_id == 'VBB20083' || $list->vendor_id == 'VBB20071' || $list->vendor_id == 'VBB20160') {
-                                        return '<span class="btn btn-label-danger">' . $list->kategory_po . '</span>';
+                                    if ($list->DataPO->User->vendorid == 'VBB20171' || $list->DataPO->User->vendorid == 'VBB20118' || $list->DataPO->User->vendorid == 'VBB20083' || $list->DataPO->User->vendorid == 'VBB20071' || $list->DataPO->User->vendorid == 'VBB20160') {
+                                        return '<span class="btn btn-label-danger">' . $list->DataPO->kategory_po . '</span>';
                                     } else {
                                         return '';
                                     }
                                 }
                             }
                         } else {
-                            if ($list->kategory_po == '') {
+                            if ($list->DataPO->kategory_po == '') {
                                 return '';
                             } else {
-                                if ($list->vendor_id == 'VBB20171' || $list->vendor_id == 'VBB20118' || $list->vendor_id == 'VBB20083' || $list->vendor_id == 'VBB20071' || $list->vendor_id == 'VBB20160') {
-                                    return '<span class="btn btn-label-danger">' . $list->kategory_po . '</span>';
+                                if ($list->DataPO->User->vendorid == 'VBB20171' || $list->DataPO->User->vendorid == 'VBB20118' || $list->DataPO->User->vendorid == 'VBB20083' || $list->DataPO->User->vendorid == 'VBB20071' || $list->DataPO->User->vendorid == 'VBB20160') {
+                                    return '<span class="btn btn-label-danger">' . $list->DataPO->kategory_po . '</span>';
                                 } else {
                                     return '';
                                 }
@@ -6509,7 +7117,7 @@ class SpvQcAdminController extends Controller
                     ->addColumn('status_lab2_gb', function ($list) {
 
                         return
-                            '<button style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            '<button style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                         <i class="fa fa-check">Approved</i>
                     </button>';
                     })
@@ -6528,7 +7136,7 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
                     ->addColumn('keterangan_penerimaan_po', function ($list) {
-                        $result = $list->keterangan_penerimaan_po;
+                        $result = $list->PenerimaanPo->keterangan_penerimaan_po;
                         return $result;
                     })
                     ->addColumn('no_dtm', function ($list) {
@@ -6536,11 +7144,11 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
+                        $result = $list->PenerimaanPo->plat_kendaraan;
                         return $result;
                     })
                     ->addColumn('hasil_akhir_tonase', function ($list) {
-                        $result = $list->hasil_akhir_tonase;
+                        $result = $list->PenerimaanPo->hasil_akhir_tonase;
                         if ($result == '') {
                             return '<span class="badge rounded-pill bg-success">Proses&nbsp;Timbangan&nbsp;2</span>';
                         } else {
@@ -6729,59 +7337,124 @@ class SpvQcAdminController extends Controller
         if (request()->ajax()) {
 
             if (!empty($request->from_date)) {
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
-                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
-                    ->where('bid.name_bid', '=', 'GABAH BASAH PANDAN WANGI')
-                    ->where('data_po.status_bid', '>', 11)
-                    ->where('penerimaan_po.status_penerimaan', '>', 11)
-                    ->where('lab2_gb.status_lab2_gb', '>', 11)
-                    ->orderBy('id_lab2_gb', 'desc')
-                    ->get())
+                $table = Lab2GabahBasah::With(['DataPO' => function ($query) use ($request) {
+                    $query->whereBetween('tanggal_po', array($request->from_date, $request->to_date));
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH PANDAN WANGI');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With(['PenerimaanPo' => function ($query) {
+                        $query->where('status_penerimaan', 12);
+                    }])
+                    ->whereHas('PenerimaanPo', function ($query) {
+                        $query->where('status_penerimaan', 12);
+                    })
+                    ->whereHas('DataPO', function ($query) use ($request) {
+                        $query->whereBetween('tanggal_po', array($request->from_date, $request->to_date));
+                        $query->where('status_bid', 12);
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH PANDAN WANGI');
+                        });
+                    })
+                    ->where(function ($query) {
+                        $query->where('status_lab2_gb', 12);
+                    })
+                    ->get();
+                return Datatables::of($table)
                     ->addColumn('name_bid', function ($list) {
-                        $result = $list->name_bid;
+                        $result = $list->DataPO->Bid->name_bid;
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
+                        $result = $list->DataPO->kode_po;
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
+                        $result = $list->DataPO->User->nama_vendor;
                         return $result;
+                    })
+                    ->addColumn('lokasi_bongkar', function ($list) {
+                        $lokasi = $list->lokasi_bongkar_gb;
+                        if ($lokasi == 'UTARA') {
+                            $result = ' <span class="btn btn-label-primary"><b>UTARA</b></span>';
+                        } else if ($lokasi == 'SELATAN') {
+                            $result = ' <span class="btn btn-label-success"><b>SELATAN</b></span>';
+                        } else {
+                            $result = ' <span class="btn btn-label-info">' . $lokasi . '</span>';
+                        }
+                        return $result;
+                    })
+                    ->addColumn('kategory_po', function ($list) {
+                        if ($list->status_lab2_gb == 12) {
+                            if ($list->status_approved == 0) {
+                                if ($list->DataPO->kategory_po == NULL || $list->DataPO->kategory_po == '') {
+                                    if ($list->DataPO->User->vendorid == 'VBB20171' || $list->DataPO->User->vendorid == 'VBB20118' || $list->DataPO->User->vendorid == 'VBB20083' || $list->DataPO->User->vendorid == 'VBB20071' || $list->DataPO->User->vendorid == 'VBB20160') {
+                                        return
+                                            '<button id="btn_kategory" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-tonase_akhir="' . $list->PenerimaanPo->netto2 . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-offset="5px 5px" data-toggle="m-tooltip" title="Approve Data" onclick="return true" class="toyakin btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                        <i class="fa fa-spinner"></i>Pilih&nbsp;Kategori
+                                        </button>';
+                                    } else {
+                                        return '';
+                                    }
+                                } else if ($list->DataPO->kategory_po == 'BULOG') {
+                                    return '<span class="btn btn-label-danger">BULOG</span>';
+                                } else {
+                                    return '<span class="btn btn-label-info">REGULER</span>';
+                                }
+                            } else if ($list->status_approved == 2) {
+                                if ($list->DataPO->kategory_po == '') {
+                                    return '';
+                                } else {
+                                    if ($list->DataPO->User->vendorid == 'VBB20171' || $list->DataPO->User->vendorid == 'VBB20118' || $list->DataPO->User->vendorid == 'VBB20083' || $list->DataPO->User->vendorid == 'VBB20071' || $list->DataPO->User->vendorid == 'VBB20160') {
+                                        return '<span class="btn btn-label-danger">' . $list->DataPO->kategory_po . '</span>';
+                                    } else {
+                                        return '';
+                                    }
+                                }
+                            }
+                        } else {
+                            if ($list->DataPO->kategory_po == '') {
+                                return '';
+                            } else {
+                                if ($list->DataPO->User->vendorid == 'VBB20171' || $list->DataPO->User->vendorid == 'VBB20118' || $list->DataPO->User->vendorid == 'VBB20083' || $list->DataPO->User->vendorid == 'VBB20071' || $list->DataPO->User->vendorid == 'VBB20160') {
+                                    return '<span class="btn btn-label-danger">' . $list->DataPO->kategory_po . '</span>';
+                                } else {
+                                    return '';
+                                }
+                            }
+                        }
                     })
                     ->addColumn('status_lab2_gb', function ($list) {
                         if ($list->status_lab2_gb == 12) {
                             if ($list->status_approved == 0) {
                                 return
-                                    '<button id="btn_approved" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-tonase_akhir="' . $list->netto2 . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-offset="5px 5px" data-toggle="m-tooltip" title="Approve Data" onclick="return true" class="toyakin btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<button id="btn_approved" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-tonase_akhir="' . $list->PenerimaanPo->netto2 . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-vendorid="' . $list->DataPO->User->vendorid . '" data-kategory_po="' . $list->DataPO->kategory_po . '" data-offset="5px 5px" data-toggle="m-tooltip" title="Approve Data" onclick="return true" class="toyakin btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-spinner"> </i>Diajukan
                         </button>';
                             } else if ($list->status_approved == 2) {
                                 return
-                                    '<button id="btn_tolak_approved" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-tonase_akhir="' . $list->netto2 . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-hargaakhir="' . $list->harga_akhir_gb . '" title="Tolak Data" data-offset="5px 5px" data-toggle="m-tooltip" onclick="return true" class="toyakin btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<button id="btn_tolak_approved" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-tonase_akhir="' . $list->PenerimaanPo->netto2 . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-vendorid="' . $list->DataPO->User->vendorid . '" data-kategory_po="' . $list->DataPO->kategory_po . '" title="Tolak Data" data-offset="5px 5px" data-toggle="m-tooltip" onclick="return true" class="toyakin btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-minus-circle"> </i>Tolak&nbsp;Approve<br> Cek&nbsp;Data
                         </button>';
                             }
                         } else {
                             return
-                                '<button style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                '<button style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                         <i class="fa fa-check">Approved</i>
-                    </button>';
+                        </button>';
                         }
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('keterangan_penerimaan_po', function ($list) {
-                        $result = $list->keterangan_penerimaan_po;
+                        $result = $list->PenerimaanPo->keterangan_penerimaan_po;
                         return $result;
                     })
                     ->addColumn('no_dtm', function ($list) {
@@ -6789,236 +7462,11 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
+                        $result = $list->PenerimaanPo->plat_kendaraan;
                         return $result;
                     })
                     ->addColumn('hasil_akhir_tonase', function ($list) {
-                        $result = $list->hasil_akhir_tonase;
-                        if ($result == '') {
-                            return '<span class="badge rounded-pill bg-success">Proses&nbsp;Timbangan&nbsp;2</span>';
-                        } else {
-                            return tonase($result);
-                        }
-                    })
-
-                    ->addColumn('kadar_air', function ($list) {
-                        $result = $list->kadar_air_gb;
-                        return $result;
-                    })
-                    ->addColumn('ka_kg', function ($list) {
-                        $result = $list->ka_kg_gb;
-                        return $result;
-                    })
-                    ->addColumn('berat_sample_awal_ks', function ($list) {
-                        $result = $list->berat_sample_awal_ks_gb;
-                        return $result;
-                    })
-                    ->addColumn('berat_sample_awal_kg', function ($list) {
-                        $result = $list->berat_sample_awal_kg_gb;
-                        return $result;
-                    })
-                    ->addColumn('berat_sample_akhir_kg', function ($list) {
-                        $result = $list->berat_sample_akhir_kg_gb;
-                        return $result;
-                    })
-                    ->addColumn('berat_sample_pk', function ($list) {
-                        $result = $list->berat_sample_pk_gb;
-                        return $result;
-                    })
-                    ->addColumn('berat_sample_beras', function ($list) {
-                        $result = $list->randoman_gb;
-                        return $result;
-                    })
-                    ->addColumn('wh', function ($list) {
-                        $result = $list->wh_gb;
-                        return $result;
-                    })
-                    ->addColumn('tp', function ($list) {
-                        $result = $list->tp_gb;
-                        return $result;
-                    })
-                    ->addColumn('md', function ($list) {
-                        $result = $list->md_gb;
-                        return $result;
-                    })
-                    ->addColumn('broken', function ($list) {
-                        $result = $list->broken_gb;
-                        return $result;
-                    })
-                    ->addColumn('hampa', function ($list) {
-                        $result = $list->hampa_gb;
-                        return $result;
-                    })
-                    ->addColumn('kg_after_adjust_hampa', function ($list) {
-                        $result = $list->kg_after_adjust_hampa_gb;
-                        return $result;
-                    })
-                    ->addColumn('prosentasi_kg', function ($list) {
-                        $result = $list->prosentasi_kg_gb;
-                        return $result;
-                    })
-                    ->addColumn('susut', function ($list) {
-                        $result = $list->susut_gb;
-                        return $result;
-                    })
-                    ->addColumn('adjust_susut', function ($list) {
-                        $result = $list->adjust_susut_gb;
-                        return $result;
-                    })
-                    ->addColumn('prsentase_ks_kg_after_adjust_susut', function ($list) {
-                        $result = $list->prsentase_ks_kg_after_adjust_susut_gb;
-                        return $result;
-                    })
-                    ->addColumn('prsentase_kg_pk', function ($list) {
-                        $result = $list->prsentase_kg_pk_gb;
-                        return $result;
-                    })
-                    ->addColumn('adjust_prosentase_kg_pk', function ($list) {
-                        $result = $list->adjust_prosentase_kg_pk_gb;
-                        return $result;
-                    })
-                    ->addColumn('presentase_ks_pk', function ($list) {
-                        $result = $list->presentase_ks_pk_gb;
-                        return $result;
-                    })
-                    ->addColumn('presentase_putih', function ($list) {
-                        $result = $list->presentase_putih_gb;
-                        return $result;
-                    })
-                    ->addColumn('adjust_prosentase_kg_ke_putih', function ($list) {
-                        $result = $list->adjust_prosentase_kg_ke_putih_gb;
-                        return $result;
-                    })
-                    ->addColumn('plan_rend_dari_ks_beras', function ($list) {
-                        $result = $list->plan_rend_dari_ks_beras_gb;
-                        return $result;
-                    })
-                    ->addColumn('katul', function ($list) {
-                        $result = $list->katul_gb;
-                        return $result;
-                    })
-                    ->addColumn('plan_berat_kg_pertruk', function ($list) {
-                        $result = $list->plan_berat_kg_pertruk_gb;
-                        return $result;
-                    })
-                    ->addColumn('plan_berat_pk_pertruk', function ($list) {
-                        $result = $list->plan_berat_pk_pertruk_gb;
-                        return $result;
-                    })
-                    ->addColumn('plan_berat_beras_pertruk', function ($list) {
-                        $result = $list->plan_berat_beras_pertruk_gb;
-                        return $result;
-                    })
-                    ->addColumn('refraksi_broken', function ($list) {
-                        $result = $list->refraksi_broken_gb;
-                        return $result;
-                    })
-                    ->addColumn('plan_harga_gabah', function ($list) {
-                        $result = rupiah($list->plan_harga_gabah_gb);
-                        return $result;
-                    })
-                    ->addColumn('plan_harga_beli_gabah', function ($list) {
-                        $result = rupiah($list->plan_harga_beli_gabah_gb);
-                        return $result;
-                    })
-                    ->addColumn('harga_berdasarkan_tempat', function ($list) {
-                        $result = rupiah($list->harga_berdasarkan_tempat_gb);
-                        return $result;
-                    })
-                    ->addColumn('harga_berdasarkan_harga_atas', function ($list) {
-                        $result = rupiah($list->harga_berdasarkan_harga_atas_gb);
-                        return $result;
-                    })
-
-                    ->addColumn('harga_awal', function ($list) {
-                        $result = rupiah($list->harga_awal_gb);
-                        return $result;
-                    })
-                    ->addColumn('aksi_harga', function ($list) {
-                        $result = $list->aksi_harga_gb;
-                        return $result;
-                    })
-                    ->addColumn('reaksi_harga', function ($list) {
-                        $result = $list->reaksi_harga_gb;
-                        return $result;
-                    })
-                    ->addColumn('harga_akhir', function ($list) {
-                        $result = $list->harga_akhir_permintaan_gb;
-                        if ($result == '' && $result == null) {
-                            $result = rupiah($list->harga_akhir_gb);
-                        } else {
-                            $result = rupiah($list->harga_akhir_permintaan_gb);
-                        }
-                        return $result;
-                    })
-
-                    ->rawColumns(['name_bid', 'kode_po', 'nama_vendor', 'status_lab2_gb', 'tanggal_po', 'tanggal_bongkar', 'keterangan_penerimaan_po', 'no_dtm', 'plat_kendaraan', 'hasil_akhir_tonase', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken_setelah_bongkar', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'plan_berat_kg_pertruk', 'plan_berat_pk_pertruk', 'plan_berat_beras_pertruk', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'reaksi_harga', 'harga_akhir'])
-                    ->make(true);
-            } else {
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
-                    ->where('bid.name_bid', '=', 'GABAH BASAH PANDAN WANGI')
-                    ->where('data_po.status_bid', '>', 11)
-                    ->where('penerimaan_po.status_penerimaan', '>', 11)
-                    ->where('lab2_gb.status_lab2_gb', '>', 11)
-                    ->orderBy('id_lab2_gb', 'desc')
-                    ->get())
-                    ->addColumn('name_bid', function ($list) {
-                        $result = $list->name_bid;
-                        return $result;
-                    })
-                    ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
-                        return $result;
-                    })
-                    ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
-                        return $result;
-                    })
-                    ->addColumn('status_lab2_gb', function ($list) {
-                        if ($list->status_lab2_gb == 12) {
-                            if ($list->status_approved == 0) {
-                                return
-                                    '<button id="btn_approved" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-tonase_akhir="' . $list->netto2 . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-offset="5px 5px" data-toggle="m-tooltip" title="Approve Data" onclick="return true" class="toyakin btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
-                            <i class="fa fa-spinner"> </i>Diajukan
-                        </button>';
-                            } else if ($list->status_approved == 2) {
-                                return
-                                    '<button id="btn_tolak_approved" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-tonase_akhir="' . $list->netto2 . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-hargaakhir="' . $list->harga_akhir_gb . '" title="Tolak Data" data-offset="5px 5px" data-toggle="m-tooltip" onclick="return true" class="toyakin btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
-                            <i class="fa fa-minus-circle"> </i>Tolak&nbsp;Approve<br> Cek&nbsp;Data
-                        </button>';
-                            }
-                        } else {
-                            return
-                                '<button style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
-                        <i class="fa fa-check">Approved</i>
-                    </button>';
-                        }
-                    })
-                    ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
-                        return $result;
-                    })
-                    ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
-                        return $result;
-                    })
-                    ->addColumn('keterangan_penerimaan_po', function ($list) {
-                        $result = $list->keterangan_penerimaan_po;
-                        return $result;
-                    })
-                    ->addColumn('no_dtm', function ($list) {
-                        $result = $list->dtm_gb;
-                        return $result;
-                    })
-                    ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
-                        return $result;
-                    })
-                    ->addColumn('hasil_akhir_tonase', function ($list) {
-                        $result = $list->hasil_akhir_tonase;
+                        $result = $list->PenerimaanPo->hasil_akhir_tonase;
                         if ($result == '') {
                             return '<span class="badge rounded-pill bg-success">Proses&nbsp;Timbangan&nbsp;2</span>';
                         } else {
@@ -7140,24 +7588,44 @@ class SpvQcAdminController extends Controller
                     })
                     ->addColumn('plan_harga_gabah', function ($list) {
                         $result = $list->plan_harga_gabah_gb;
-                        return $result;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
                     })
                     ->addColumn('plan_harga_beli_gabah', function ($list) {
                         $result = $list->plan_harga_beli_gabah_gb;
-                        return $result;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
                     })
                     ->addColumn('harga_berdasarkan_tempat', function ($list) {
                         $result = $list->harga_berdasarkan_tempat_gb;
-                        return $result;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
                     })
                     ->addColumn('harga_berdasarkan_harga_atas', function ($list) {
                         $result = $list->harga_berdasarkan_harga_atas_gb;
-                        return $result;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
                     })
 
                     ->addColumn('harga_awal', function ($list) {
-                        $result = rupiah($list->harga_awal_gb);
-                        return $result;
+                        $result = $list->harga_awal_gb;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
                     })
                     ->addColumn('aksi_harga', function ($list) {
                         $result = $list->aksi_harga_gb;
@@ -7177,7 +7645,316 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['name_bid', 'kode_po', 'nama_vendor', 'status_lab2_gb', 'tanggal_po', 'tanggal_bongkar', 'keterangan_penerimaan_po', 'no_dtm', 'plat_kendaraan', 'hasil_akhir_tonase', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken_setelah_bongkar', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'plan_berat_kg_pertruk', 'plan_berat_pk_pertruk', 'plan_berat_beras_pertruk', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'reaksi_harga', 'harga_akhir'])
+                    ->rawColumns(['name_bid', 'lokasi_bongkar', 'kategory_po', 'kode_po', 'nama_vendor', 'status_lab2_gb', 'tanggal_po', 'tanggal_bongkar', 'keterangan_penerimaan_po', 'no_dtm', 'plat_kendaraan', 'hasil_akhir_tonase', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken_setelah_bongkar', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'plan_berat_kg_pertruk', 'plan_berat_pk_pertruk', 'plan_berat_beras_pertruk', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'reaksi_harga', 'harga_akhir'])
+                    ->make(true);
+            } else {
+                $table = Lab2GabahBasah::With(['DataPO' => function ($query) {
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH PANDAN WANGI');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With(['PenerimaanPo' => function ($query) {
+                        $query->where('status_penerimaan', 12);
+                    }])
+                    ->whereHas('PenerimaanPo', function ($query) {
+                        $query->where('status_penerimaan', 12);
+                    })
+                    ->whereHas('DataPO', function ($query) {
+                        $query->where('status_bid', 12);
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH PANDAN WANGI');
+                        });
+                    })
+                    ->where(function ($query) {
+                        $query->where('status_lab2_gb', 12);
+                    })
+                    ->get();
+                return Datatables::of($table)
+                    ->addColumn('name_bid', function ($list) {
+                        $result = $list->DataPO->Bid->name_bid;
+                        return $result;
+                    })
+                    ->addColumn('kode_po', function ($list) {
+                        $result = $list->DataPO->kode_po;
+                        return $result;
+                    })
+                    ->addColumn('nama_vendor', function ($list) {
+                        $result = $list->DataPO->User->nama_vendor;
+                        return $result;
+                    })
+                    ->addColumn('lokasi_bongkar', function ($list) {
+                        $lokasi = $list->lokasi_bongkar_gb;
+                        if ($lokasi == 'UTARA') {
+                            $result = ' <span class="btn btn-label-primary"><b>UTARA</b></span>';
+                        } else if ($lokasi == 'SELATAN') {
+                            $result = ' <span class="btn btn-label-success"><b>SELATAN</b></span>';
+                        } else {
+                            $result = ' <span class="btn btn-label-info">' . $lokasi . '</span>';
+                        }
+                        return $result;
+                    })
+                    ->addColumn('kategory_po', function ($list) {
+                        if ($list->status_lab2_gb == 12) {
+                            if ($list->status_approved == 0) {
+                                if ($list->DataPO->kategory_po == NULL || $list->DataPO->kategory_po == '') {
+                                    if ($list->DataPO->User->vendorid == 'VBB20171' || $list->DataPO->User->vendorid == 'VBB20118' || $list->DataPO->User->vendorid == 'VBB20083' || $list->DataPO->User->vendorid == 'VBB20071' || $list->DataPO->User->vendorid == 'VBB20160') {
+                                        return
+                                            '<button id="btn_kategory" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-tonase_akhir="' . $list->PenerimaanPo->netto2 . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-offset="5px 5px" data-toggle="m-tooltip" title="Approve Data" onclick="return true" class="toyakin btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                        <i class="fa fa-spinner"></i>Pilih&nbsp;Kategori
+                                        </button>';
+                                    } else {
+                                        return '';
+                                    }
+                                } else if ($list->DataPO->kategory_po == 'BULOG') {
+                                    return '<span class="btn btn-label-danger">BULOG</span>';
+                                } else {
+                                    return '<span class="btn btn-label-info">REGULER</span>';
+                                }
+                            } else if ($list->status_approved == 2) {
+                                if ($list->DataPO->kategory_po == '') {
+                                    return '';
+                                } else {
+                                    if ($list->DataPO->User->vendorid == 'VBB20171' || $list->DataPO->User->vendorid == 'VBB20118' || $list->DataPO->User->vendorid == 'VBB20083' || $list->DataPO->User->vendorid == 'VBB20071' || $list->DataPO->User->vendorid == 'VBB20160') {
+                                        return '<span class="btn btn-label-danger">' . $list->DataPO->kategory_po . '</span>';
+                                    } else {
+                                        return '';
+                                    }
+                                }
+                            }
+                        } else {
+                            if ($list->DataPO->kategory_po == '') {
+                                return '';
+                            } else {
+                                if ($list->DataPO->User->vendorid == 'VBB20171' || $list->DataPO->User->vendorid == 'VBB20118' || $list->DataPO->User->vendorid == 'VBB20083' || $list->DataPO->User->vendorid == 'VBB20071' || $list->DataPO->User->vendorid == 'VBB20160') {
+                                    return '<span class="btn btn-label-danger">' . $list->DataPO->kategory_po . '</span>';
+                                } else {
+                                    return '';
+                                }
+                            }
+                        }
+                    })
+                    ->addColumn('status_lab2_gb', function ($list) {
+                        if ($list->status_lab2_gb == 12) {
+                            if ($list->status_approved == 0) {
+                                return
+                                    '<button id="btn_approved" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-tonase_akhir="' . $list->PenerimaanPo->netto2 . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-vendorid="' . $list->DataPO->User->vendorid . '" data-kategory_po="' . $list->DataPO->kategory_po . '" data-offset="5px 5px" data-toggle="m-tooltip" title="Approve Data" onclick="return true" class="toyakin btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <i class="fa fa-spinner"> </i>Diajukan
+                        </button>';
+                            } else if ($list->status_approved == 2) {
+                                return
+                                    '<button id="btn_tolak_approved" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-tonase_akhir="' . $list->PenerimaanPo->netto2 . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-vendorid="' . $list->DataPO->User->vendorid . '" data-kategory_po="' . $list->DataPO->kategory_po . '" title="Tolak Data" data-offset="5px 5px" data-toggle="m-tooltip" onclick="return true" class="toyakin btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <i class="fa fa-minus-circle"> </i>Tolak&nbsp;Approve<br> Cek&nbsp;Data
+                        </button>';
+                            }
+                        } else {
+                            return
+                                '<button style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                        <i class="fa fa-check">Approved</i>
+                    </button>';
+                        }
+                    })
+                    ->addColumn('tanggal_po', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('keterangan_penerimaan_po', function ($list) {
+                        $result = $list->PenerimaanPo->keterangan_penerimaan_po;
+                        return $result;
+                    })
+                    ->addColumn('no_dtm', function ($list) {
+                        $result = $list->dtm_gb;
+                        return $result;
+                    })
+                    ->addColumn('plat_kendaraan', function ($list) {
+                        $result = $list->PenerimaanPo->plat_kendaraan;
+                        return $result;
+                    })
+                    ->addColumn('hasil_akhir_tonase', function ($list) {
+                        $result = $list->PenerimaanPo->hasil_akhir_tonase;
+                        if ($result == '') {
+                            return '<span class="badge rounded-pill bg-success">Proses&nbsp;Timbangan&nbsp;2</span>';
+                        } else {
+                            return tonase($result);
+                        }
+                    })
+
+                    ->addColumn('kadar_air', function ($list) {
+                        $result = $list->kadar_air_gb;
+                        return $result;
+                    })
+                    ->addColumn('ka_kg', function ($list) {
+                        $result = $list->ka_kg_gb;
+                        return $result;
+                    })
+                    ->addColumn('berat_sample_awal_ks', function ($list) {
+                        $result = $list->berat_sample_awal_ks_gb;
+                        return $result;
+                    })
+                    ->addColumn('berat_sample_awal_kg', function ($list) {
+                        $result = $list->berat_sample_awal_kg_gb;
+                        return $result;
+                    })
+                    ->addColumn('berat_sample_akhir_kg', function ($list) {
+                        $result = $list->berat_sample_akhir_kg_gb;
+                        return $result;
+                    })
+                    ->addColumn('berat_sample_pk', function ($list) {
+                        $result = $list->berat_sample_pk_gb;
+                        return $result;
+                    })
+                    ->addColumn('berat_sample_beras', function ($list) {
+                        $result = $list->randoman_gb;
+                        return $result;
+                    })
+                    ->addColumn('wh', function ($list) {
+                        $result = $list->wh_gb;
+                        return $result;
+                    })
+                    ->addColumn('tp', function ($list) {
+                        $result = $list->tp_gb;
+                        return $result;
+                    })
+                    ->addColumn('md', function ($list) {
+                        $result = $list->md_gb;
+                        return $result;
+                    })
+                    ->addColumn('broken', function ($list) {
+                        $result = $list->broken_gb;
+                        return $result;
+                    })
+                    ->addColumn('hampa', function ($list) {
+                        $result = $list->hampa_gb;
+                        return $result;
+                    })
+                    ->addColumn('kg_after_adjust_hampa', function ($list) {
+                        $result = $list->kg_after_adjust_hampa_gb;
+                        return $result;
+                    })
+                    ->addColumn('prosentasi_kg', function ($list) {
+                        $result = $list->prosentasi_kg_gb;
+                        return $result;
+                    })
+                    ->addColumn('susut', function ($list) {
+                        $result = $list->susut_gb;
+                        return $result;
+                    })
+                    ->addColumn('adjust_susut', function ($list) {
+                        $result = $list->adjust_susut_gb;
+                        return $result;
+                    })
+                    ->addColumn('prsentase_ks_kg_after_adjust_susut', function ($list) {
+                        $result = $list->prsentase_ks_kg_after_adjust_susut_gb;
+                        return $result;
+                    })
+                    ->addColumn('prsentase_kg_pk', function ($list) {
+                        $result = $list->prsentase_kg_pk_gb;
+                        return $result;
+                    })
+                    ->addColumn('adjust_prosentase_kg_pk', function ($list) {
+                        $result = $list->adjust_prosentase_kg_pk_gb;
+                        return $result;
+                    })
+                    ->addColumn('presentase_ks_pk', function ($list) {
+                        $result = $list->presentase_ks_pk_gb;
+                        return $result;
+                    })
+                    ->addColumn('presentase_putih', function ($list) {
+                        $result = $list->presentase_putih_gb;
+                        return $result;
+                    })
+                    ->addColumn('adjust_prosentase_kg_ke_putih', function ($list) {
+                        $result = $list->adjust_prosentase_kg_ke_putih_gb;
+                        return $result;
+                    })
+                    ->addColumn('plan_rend_dari_ks_beras', function ($list) {
+                        $result = $list->plan_rend_dari_ks_beras_gb;
+                        return $result;
+                    })
+                    ->addColumn('katul', function ($list) {
+                        $result = $list->katul_gb;
+                        return $result;
+                    })
+                    ->addColumn('plan_berat_kg_pertruk', function ($list) {
+                        $result = $list->plan_berat_kg_pertruk_gb;
+                        return $result;
+                    })
+                    ->addColumn('plan_berat_pk_pertruk', function ($list) {
+                        $result = $list->plan_berat_pk_pertruk_gb;
+                        return $result;
+                    })
+                    ->addColumn('plan_berat_beras_pertruk', function ($list) {
+                        $result = $list->plan_berat_beras_pertruk_gb;
+                        return $result;
+                    })
+                    ->addColumn('refraksi_broken', function ($list) {
+                        $result = $list->refraksi_broken_gb;
+                        return $result;
+                    })
+                    ->addColumn('plan_harga_gabah', function ($list) {
+                        $result = $list->plan_harga_gabah_gb;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
+                    })
+                    ->addColumn('plan_harga_beli_gabah', function ($list) {
+                        $result = $list->plan_harga_beli_gabah_gb;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
+                    })
+                    ->addColumn('harga_berdasarkan_tempat', function ($list) {
+                        $result = $list->harga_berdasarkan_tempat_gb;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
+                    })
+                    ->addColumn('harga_berdasarkan_harga_atas', function ($list) {
+                        $result = $list->harga_berdasarkan_harga_atas_gb;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
+                    })
+
+                    ->addColumn('harga_awal', function ($list) {
+                        $result = $list->harga_awal_gb;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
+                    })
+                    ->addColumn('aksi_harga', function ($list) {
+                        $result = $list->aksi_harga_gb;
+                        return $result;
+                    })
+                    ->addColumn('reaksi_harga', function ($list) {
+                        $result = $list->reaksi_harga_gb;
+                        return $result;
+                    })
+                    ->addColumn('harga_akhir', function ($list) {
+                        $result = $list->harga_akhir_permintaan_gb;
+                        if ($result == '' && $result == null) {
+                            $result = rupiah($list->harga_akhir_gb);
+                        } else {
+                            $result = rupiah($list->harga_akhir_permintaan_gb);
+                        }
+                        return $result;
+                    })
+
+                    ->rawColumns(['name_bid', 'lokasi_bongkar', 'kategory_po', 'kode_po', 'nama_vendor', 'status_lab2_gb', 'tanggal_po', 'tanggal_bongkar', 'keterangan_penerimaan_po', 'no_dtm', 'plat_kendaraan', 'hasil_akhir_tonase', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken_setelah_bongkar', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'plan_berat_kg_pertruk', 'plan_berat_pk_pertruk', 'plan_berat_beras_pertruk', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'reaksi_harga', 'harga_akhir'])
                     ->make(true);
             }
         }
@@ -7185,60 +7962,126 @@ class SpvQcAdminController extends Controller
     public function output_lab2_gb_ketan_putih_index(Request $request)
     {
         if (request()->ajax()) {
+
             if (!empty($request->from_date)) {
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
-                    ->whereBetween('data_po.tanggal_bongkar', array($request->from_date, $request->to_date))
-                    ->where('bid.name_bid', '=', 'GABAH BASAH KETAN PUTIH')
-                    ->where('data_po.status_bid', '>', 11)
-                    ->where('penerimaan_po.status_penerimaan', '>', 11)
-                    ->where('lab2_gb.status_lab2_gb', '>', 11)
-                    ->orderBy('id_lab2_gb', 'desc')
-                    ->get())
+                $table = Lab2GabahBasah::With(['DataPO' => function ($query) use ($request) {
+                    $query->whereBetween('tanggal_po', array($request->from_date, $request->to_date));
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH KETAN PUTIH');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With(['PenerimaanPo' => function ($query) {
+                        $query->where('status_penerimaan', 12);
+                    }])
+                    ->whereHas('PenerimaanPo', function ($query) {
+                        $query->where('status_penerimaan', 12);
+                    })
+                    ->whereHas('DataPO', function ($query) use ($request) {
+                        $query->whereBetween('tanggal_po', array($request->from_date, $request->to_date));
+                        $query->where('status_bid', 12);
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH KETAN PUTIH');
+                        });
+                    })
+                    ->where(function ($query) {
+                        $query->where('status_lab2_gb', 12);
+                    })
+                    ->get();
+                return Datatables::of($table)
                     ->addColumn('name_bid', function ($list) {
-                        $result = $list->name_bid;
+                        $result = $list->DataPO->Bid->name_bid;
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
+                        $result = $list->DataPO->kode_po;
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
+                        $result = $list->DataPO->User->nama_vendor;
                         return $result;
+                    })
+                    ->addColumn('lokasi_bongkar', function ($list) {
+                        $lokasi = $list->lokasi_bongkar_gb;
+                        if ($lokasi == 'UTARA') {
+                            $result = ' <span class="btn btn-label-primary"><b>UTARA</b></span>';
+                        } else if ($lokasi == 'SELATAN') {
+                            $result = ' <span class="btn btn-label-success"><b>SELATAN</b></span>';
+                        } else {
+                            $result = ' <span class="btn btn-label-info">' . $lokasi . '</span>';
+                        }
+                        return $result;
+                    })
+                    ->addColumn('kategory_po', function ($list) {
+                        if ($list->status_lab2_gb == 12) {
+                            if ($list->status_approved == 0) {
+                                if ($list->DataPO->kategory_po == NULL || $list->DataPO->kategory_po == '') {
+                                    if ($list->DataPO->User->vendorid == 'VBB20171' || $list->DataPO->User->vendorid == 'VBB20118' || $list->DataPO->User->vendorid == 'VBB20083' || $list->DataPO->User->vendorid == 'VBB20071' || $list->DataPO->User->vendorid == 'VBB20160') {
+                                        return
+                                            '<button id="btn_kategory" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-tonase_akhir="' . $list->PenerimaanPo->netto2 . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-offset="5px 5px" data-toggle="m-tooltip" title="Approve Data" onclick="return true" class="toyakin btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                        <i class="fa fa-spinner"></i>Pilih&nbsp;Kategori
+                                        </button>';
+                                    } else {
+                                        return '';
+                                    }
+                                } else if ($list->DataPO->kategory_po == 'BULOG') {
+                                    return '<span class="btn btn-label-danger">BULOG</span>';
+                                } else {
+                                    return '<span class="btn btn-label-info">REGULER</span>';
+                                }
+                            } else if ($list->status_approved == 2) {
+                                if ($list->DataPO->kategory_po == '') {
+                                    return '';
+                                } else {
+                                    if ($list->DataPO->User->vendorid == 'VBB20171' || $list->DataPO->User->vendorid == 'VBB20118' || $list->DataPO->User->vendorid == 'VBB20083' || $list->DataPO->User->vendorid == 'VBB20071' || $list->DataPO->User->vendorid == 'VBB20160') {
+                                        return '<span class="btn btn-label-danger">' . $list->DataPO->kategory_po . '</span>';
+                                    } else {
+                                        return '';
+                                    }
+                                }
+                            }
+                        } else {
+                            if ($list->DataPO->kategory_po == '') {
+                                return '';
+                            } else {
+                                if ($list->DataPO->User->vendorid == 'VBB20171' || $list->DataPO->User->vendorid == 'VBB20118' || $list->DataPO->User->vendorid == 'VBB20083' || $list->DataPO->User->vendorid == 'VBB20071' || $list->DataPO->User->vendorid == 'VBB20160') {
+                                    return '<span class="btn btn-label-danger">' . $list->DataPO->kategory_po . '</span>';
+                                } else {
+                                    return '';
+                                }
+                            }
+                        }
                     })
                     ->addColumn('status_lab2_gb', function ($list) {
                         if ($list->status_lab2_gb == 12) {
                             if ($list->status_approved == 0) {
                                 return
-                                    '<button id="btn_approved" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-tonase_akhir="' . $list->netto2 . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-offset="5px 5px" data-toggle="m-tooltip" title="Approve Data" onclick="return true" class="toyakin btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<button id="btn_approved" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-tonase_akhir="' . $list->PenerimaanPo->netto2 . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-vendorid="' . $list->DataPO->User->vendorid . '" data-kategory_po="' . $list->DataPO->kategory_po . '" data-offset="5px 5px" data-toggle="m-tooltip" title="Approve Data" onclick="return true" class="toyakin btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-spinner"> </i>Diajukan
                         </button>';
                             } else if ($list->status_approved == 2) {
                                 return
-                                    '<button id="btn_tolak_approved" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-tonase_akhir="' . $list->netto2 . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-hargaakhir="' . $list->harga_akhir_gb . '" title="Tolak Data" data-offset="5px 5px" data-toggle="m-tooltip" onclick="return true" class="toyakin btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<button id="btn_tolak_approved" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-tonase_akhir="' . $list->PenerimaanPo->netto2 . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-vendorid="' . $list->DataPO->User->vendorid . '" data-kategory_po="' . $list->DataPO->kategory_po . '" title="Tolak Data" data-offset="5px 5px" data-toggle="m-tooltip" onclick="return true" class="toyakin btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-minus-circle"> </i>Tolak&nbsp;Approve<br> Cek&nbsp;Data
                         </button>';
                             }
                         } else {
                             return
-                                '<button style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                '<button style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                         <i class="fa fa-check">Approved</i>
-                    </button>';
+                        </button>';
                         }
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('keterangan_penerimaan_po', function ($list) {
-                        $result = $list->keterangan_penerimaan_po;
+                        $result = $list->PenerimaanPo->keterangan_penerimaan_po;
                         return $result;
                     })
                     ->addColumn('no_dtm', function ($list) {
@@ -7246,236 +8089,11 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
+                        $result = $list->PenerimaanPo->plat_kendaraan;
                         return $result;
                     })
                     ->addColumn('hasil_akhir_tonase', function ($list) {
-                        $result = $list->hasil_akhir_tonase;
-                        if ($result == '') {
-                            return '<span class="badge rounded-pill bg-success">Proses&nbsp;Timbangan&nbsp;2</span>';
-                        } else {
-                            return tonase($result);
-                        }
-                    })
-
-                    ->addColumn('kadar_air', function ($list) {
-                        $result = $list->kadar_air_gb;
-                        return $result;
-                    })
-                    ->addColumn('ka_kg', function ($list) {
-                        $result = $list->ka_kg_gb;
-                        return $result;
-                    })
-                    ->addColumn('berat_sample_awal_ks', function ($list) {
-                        $result = $list->berat_sample_awal_ks_gb;
-                        return $result;
-                    })
-                    ->addColumn('berat_sample_awal_kg', function ($list) {
-                        $result = $list->berat_sample_awal_kg_gb;
-                        return $result;
-                    })
-                    ->addColumn('berat_sample_akhir_kg', function ($list) {
-                        $result = $list->berat_sample_akhir_kg_gb;
-                        return $result;
-                    })
-                    ->addColumn('berat_sample_pk', function ($list) {
-                        $result = $list->berat_sample_pk_gb;
-                        return $result;
-                    })
-                    ->addColumn('berat_sample_beras', function ($list) {
-                        $result = $list->randoman_gb;
-                        return $result;
-                    })
-                    ->addColumn('wh', function ($list) {
-                        $result = $list->wh_gb;
-                        return $result;
-                    })
-                    ->addColumn('tp', function ($list) {
-                        $result = $list->tp_gb;
-                        return $result;
-                    })
-                    ->addColumn('md', function ($list) {
-                        $result = $list->md_gb;
-                        return $result;
-                    })
-                    ->addColumn('broken', function ($list) {
-                        $result = $list->broken_gb;
-                        return $result;
-                    })
-                    ->addColumn('hampa', function ($list) {
-                        $result = $list->hampa_gb;
-                        return $result;
-                    })
-                    ->addColumn('kg_after_adjust_hampa', function ($list) {
-                        $result = $list->kg_after_adjust_hampa_gb;
-                        return $result;
-                    })
-                    ->addColumn('prosentasi_kg', function ($list) {
-                        $result = $list->prosentasi_kg_gb;
-                        return $result;
-                    })
-                    ->addColumn('susut', function ($list) {
-                        $result = $list->susut_gb;
-                        return $result;
-                    })
-                    ->addColumn('adjust_susut', function ($list) {
-                        $result = $list->adjust_susut_gb;
-                        return $result;
-                    })
-                    ->addColumn('prsentase_ks_kg_after_adjust_susut', function ($list) {
-                        $result = $list->prsentase_ks_kg_after_adjust_susut_gb;
-                        return $result;
-                    })
-                    ->addColumn('prsentase_kg_pk', function ($list) {
-                        $result = $list->prsentase_kg_pk_gb;
-                        return $result;
-                    })
-                    ->addColumn('adjust_prosentase_kg_pk', function ($list) {
-                        $result = $list->adjust_prosentase_kg_pk_gb;
-                        return $result;
-                    })
-                    ->addColumn('presentase_ks_pk', function ($list) {
-                        $result = $list->presentase_ks_pk_gb;
-                        return $result;
-                    })
-                    ->addColumn('presentase_putih', function ($list) {
-                        $result = $list->presentase_putih_gb;
-                        return $result;
-                    })
-                    ->addColumn('adjust_prosentase_kg_ke_putih', function ($list) {
-                        $result = $list->adjust_prosentase_kg_ke_putih_gb;
-                        return $result;
-                    })
-                    ->addColumn('plan_rend_dari_ks_beras', function ($list) {
-                        $result = $list->plan_rend_dari_ks_beras_gb;
-                        return $result;
-                    })
-                    ->addColumn('katul', function ($list) {
-                        $result = $list->katul_gb;
-                        return $result;
-                    })
-                    ->addColumn('plan_berat_kg_pertruk', function ($list) {
-                        $result = $list->plan_berat_kg_pertruk_gb;
-                        return $result;
-                    })
-                    ->addColumn('plan_berat_pk_pertruk', function ($list) {
-                        $result = $list->plan_berat_pk_pertruk_gb;
-                        return $result;
-                    })
-                    ->addColumn('plan_berat_beras_pertruk', function ($list) {
-                        $result = $list->plan_berat_beras_pertruk_gb;
-                        return $result;
-                    })
-                    ->addColumn('refraksi_broken', function ($list) {
-                        $result = $list->refraksi_broken_gb;
-                        return $result;
-                    })
-                    ->addColumn('plan_harga_gabah', function ($list) {
-                        $result = rupiah($list->plan_harga_gabah_gb);
-                        return $result;
-                    })
-                    ->addColumn('plan_harga_beli_gabah', function ($list) {
-                        $result = rupiah($list->plan_harga_beli_gabah_gb);
-                        return $result;
-                    })
-                    ->addColumn('harga_berdasarkan_tempat', function ($list) {
-                        $result = rupiah($list->harga_berdasarkan_tempat_gb);
-                        return $result;
-                    })
-                    ->addColumn('harga_berdasarkan_harga_atas', function ($list) {
-                        $result = rupiah($list->harga_berdasarkan_harga_atas_gb);
-                        return $result;
-                    })
-
-                    ->addColumn('harga_awal', function ($list) {
-                        $result = rupiah($list->harga_awal_gb);
-                        return $result;
-                    })
-                    ->addColumn('aksi_harga', function ($list) {
-                        $result = $list->aksi_harga_gb;
-                        return $result;
-                    })
-                    ->addColumn('reaksi_harga', function ($list) {
-                        $result = $list->reaksi_harga_gb;
-                        return $result;
-                    })
-                    ->addColumn('harga_akhir', function ($list) {
-                        $result = $list->harga_akhir_permintaan_gb;
-                        if ($result == '' && $result == null) {
-                            $result = rupiah($list->harga_akhir_gb);
-                        } else {
-                            $result = rupiah($list->harga_akhir_permintaan_gb);
-                        }
-                        return $result;
-                    })
-
-                    ->rawColumns(['name_bid', 'kode_po', 'nama_vendor', 'status_lab2_gb', 'tanggal_po', 'tanggal_bongkar', 'keterangan_penerimaan_po', 'no_dtm', 'plat_kendaraan', 'hasil_akhir_tonase', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken_setelah_bongkar', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'plan_berat_kg_pertruk', 'plan_berat_pk_pertruk', 'plan_berat_beras_pertruk', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'reaksi_harga', 'harga_akhir'])
-                    ->make(true);
-            } else {
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
-                    ->where('bid.name_bid', '=', 'GABAH BASAH KETAN PUTIH')
-                    ->where('data_po.status_bid', '>', 11)
-                    ->where('penerimaan_po.status_penerimaan', '>', 11)
-                    ->where('lab2_gb.status_lab2_gb', '>', 11)
-                    ->orderBy('id_lab2_gb', 'desc')
-                    ->get())
-                    ->addColumn('name_bid', function ($list) {
-                        $result = $list->name_bid;
-                        return $result;
-                    })
-                    ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
-                        return $result;
-                    })
-                    ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
-                        return $result;
-                    })
-                    ->addColumn('status_lab2_gb', function ($list) {
-                        if ($list->status_lab2_gb == 12) {
-                            if ($list->status_approved == 0) {
-                                return
-                                    '<button id="btn_approved" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-tonase_akhir="' . $list->netto2 . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-offset="5px 5px" data-toggle="m-tooltip" title="Approve Data" onclick="return true" class="toyakin btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
-                            <i class="fa fa-spinner"> </i>Diajukan
-                        </button>';
-                            } else if ($list->status_approved == 2) {
-                                return
-                                    '<button id="btn_tolak_approved" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-tonase_akhir="' . $list->netto2 . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-hargaakhir="' . $list->harga_akhir_gb . '" title="Tolak Data" data-offset="5px 5px" data-toggle="m-tooltip" onclick="return true" class="toyakin btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
-                            <i class="fa fa-minus-circle"> </i>Tolak&nbsp;Approve<br> Cek&nbsp;Data
-                        </button>';
-                            }
-                        } else {
-                            return
-                                '<button style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
-                        <i class="fa fa-check">Approved</i>
-                    </button>';
-                        }
-                    })
-                    ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
-                        return $result;
-                    })
-                    ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
-                        return $result;
-                    })
-                    ->addColumn('keterangan_penerimaan_po', function ($list) {
-                        $result = $list->keterangan_penerimaan_po;
-                        return $result;
-                    })
-                    ->addColumn('no_dtm', function ($list) {
-                        $result = $list->dtm_gb;
-                        return $result;
-                    })
-                    ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
-                        return $result;
-                    })
-                    ->addColumn('hasil_akhir_tonase', function ($list) {
-                        $result = $list->hasil_akhir_tonase;
+                        $result = $list->PenerimaanPo->hasil_akhir_tonase;
                         if ($result == '') {
                             return '<span class="badge rounded-pill bg-success">Proses&nbsp;Timbangan&nbsp;2</span>';
                         } else {
@@ -7597,24 +8215,44 @@ class SpvQcAdminController extends Controller
                     })
                     ->addColumn('plan_harga_gabah', function ($list) {
                         $result = $list->plan_harga_gabah_gb;
-                        return $result;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
                     })
                     ->addColumn('plan_harga_beli_gabah', function ($list) {
                         $result = $list->plan_harga_beli_gabah_gb;
-                        return $result;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
                     })
                     ->addColumn('harga_berdasarkan_tempat', function ($list) {
                         $result = $list->harga_berdasarkan_tempat_gb;
-                        return $result;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
                     })
                     ->addColumn('harga_berdasarkan_harga_atas', function ($list) {
                         $result = $list->harga_berdasarkan_harga_atas_gb;
-                        return $result;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
                     })
 
                     ->addColumn('harga_awal', function ($list) {
-                        $result = rupiah($list->harga_awal_gb);
-                        return $result;
+                        $result = $list->harga_awal_gb;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
                     })
                     ->addColumn('aksi_harga', function ($list) {
                         $result = $list->aksi_harga_gb;
@@ -7634,7 +8272,316 @@ class SpvQcAdminController extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['name_bid', 'kode_po', 'nama_vendor', 'status_lab2_gb', 'tanggal_po', 'tanggal_bongkar', 'keterangan_penerimaan_po', 'no_dtm', 'plat_kendaraan', 'hasil_akhir_tonase', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken_setelah_bongkar', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'plan_berat_kg_pertruk', 'plan_berat_pk_pertruk', 'plan_berat_beras_pertruk', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'reaksi_harga', 'harga_akhir'])
+                    ->rawColumns(['name_bid', 'lokasi_bongkar', 'kategory_po', 'kode_po', 'nama_vendor', 'status_lab2_gb', 'tanggal_po', 'tanggal_bongkar', 'keterangan_penerimaan_po', 'no_dtm', 'plat_kendaraan', 'hasil_akhir_tonase', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken_setelah_bongkar', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'plan_berat_kg_pertruk', 'plan_berat_pk_pertruk', 'plan_berat_beras_pertruk', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'reaksi_harga', 'harga_akhir'])
+                    ->make(true);
+            } else {
+                $table = Lab2GabahBasah::With(['DataPO' => function ($query) {
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH KETAN PUTIH');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With(['PenerimaanPo' => function ($query) {
+                        $query->where('status_penerimaan', 12);
+                    }])
+                    ->whereHas('PenerimaanPo', function ($query) {
+                        $query->where('status_penerimaan', 12);
+                    })
+                    ->whereHas('DataPO', function ($query) {
+                        $query->where('status_bid', 12);
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH KETAN PUTIH');
+                        });
+                    })
+                    ->where(function ($query) {
+                        $query->where('status_lab2_gb', 12);
+                    })
+                    ->get();
+                return Datatables::of($table)
+                    ->addColumn('name_bid', function ($list) {
+                        $result = $list->DataPO->Bid->name_bid;
+                        return $result;
+                    })
+                    ->addColumn('kode_po', function ($list) {
+                        $result = $list->DataPO->kode_po;
+                        return $result;
+                    })
+                    ->addColumn('nama_vendor', function ($list) {
+                        $result = $list->DataPO->User->nama_vendor;
+                        return $result;
+                    })
+                    ->addColumn('lokasi_bongkar', function ($list) {
+                        $lokasi = $list->lokasi_bongkar_gb;
+                        if ($lokasi == 'UTARA') {
+                            $result = ' <span class="btn btn-label-primary"><b>UTARA</b></span>';
+                        } else if ($lokasi == 'SELATAN') {
+                            $result = ' <span class="btn btn-label-success"><b>SELATAN</b></span>';
+                        } else {
+                            $result = ' <span class="btn btn-label-info">' . $lokasi . '</span>';
+                        }
+                        return $result;
+                    })
+                    ->addColumn('kategory_po', function ($list) {
+                        if ($list->status_lab2_gb == 12) {
+                            if ($list->status_approved == 0) {
+                                if ($list->DataPO->kategory_po == NULL || $list->DataPO->kategory_po == '') {
+                                    if ($list->DataPO->User->vendorid == 'VBB20171' || $list->DataPO->User->vendorid == 'VBB20118' || $list->DataPO->User->vendorid == 'VBB20083' || $list->DataPO->User->vendorid == 'VBB20071' || $list->DataPO->User->vendorid == 'VBB20160') {
+                                        return
+                                            '<button id="btn_kategory" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-tonase_akhir="' . $list->PenerimaanPo->netto2 . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-offset="5px 5px" data-toggle="m-tooltip" title="Approve Data" onclick="return true" class="toyakin btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                        <i class="fa fa-spinner"></i>Pilih&nbsp;Kategori
+                                        </button>';
+                                    } else {
+                                        return '';
+                                    }
+                                } else if ($list->DataPO->kategory_po == 'BULOG') {
+                                    return '<span class="btn btn-label-danger">BULOG</span>';
+                                } else {
+                                    return '<span class="btn btn-label-info">REGULER</span>';
+                                }
+                            } else if ($list->status_approved == 2) {
+                                if ($list->DataPO->kategory_po == '') {
+                                    return '';
+                                } else {
+                                    if ($list->DataPO->User->vendorid == 'VBB20171' || $list->DataPO->User->vendorid == 'VBB20118' || $list->DataPO->User->vendorid == 'VBB20083' || $list->DataPO->User->vendorid == 'VBB20071' || $list->DataPO->User->vendorid == 'VBB20160') {
+                                        return '<span class="btn btn-label-danger">' . $list->DataPO->kategory_po . '</span>';
+                                    } else {
+                                        return '';
+                                    }
+                                }
+                            }
+                        } else {
+                            if ($list->DataPO->kategory_po == '') {
+                                return '';
+                            } else {
+                                if ($list->DataPO->User->vendorid == 'VBB20171' || $list->DataPO->User->vendorid == 'VBB20118' || $list->DataPO->User->vendorid == 'VBB20083' || $list->DataPO->User->vendorid == 'VBB20071' || $list->DataPO->User->vendorid == 'VBB20160') {
+                                    return '<span class="btn btn-label-danger">' . $list->DataPO->kategory_po . '</span>';
+                                } else {
+                                    return '';
+                                }
+                            }
+                        }
+                    })
+                    ->addColumn('status_lab2_gb', function ($list) {
+                        if ($list->status_lab2_gb == 12) {
+                            if ($list->status_approved == 0) {
+                                return
+                                    '<button id="btn_approved" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-tonase_akhir="' . $list->PenerimaanPo->netto2 . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-vendorid="' . $list->DataPO->User->vendorid . '" data-kategory_po="' . $list->DataPO->kategory_po . '" data-offset="5px 5px" data-toggle="m-tooltip" title="Approve Data" onclick="return true" class="toyakin btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <i class="fa fa-spinner"> </i>Diajukan
+                        </button>';
+                            } else if ($list->status_approved == 2) {
+                                return
+                                    '<button id="btn_tolak_approved" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-kodepo="' . $list->lab2_kode_po_gb . '" data-tonase_akhir="' . $list->PenerimaanPo->netto2 . '" data-hargaakhir="' . $list->harga_akhir_gb . '" data-vendorid="' . $list->DataPO->User->vendorid . '" data-kategory_po="' . $list->DataPO->kategory_po . '" title="Tolak Data" data-offset="5px 5px" data-toggle="m-tooltip" onclick="return true" class="toyakin btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <i class="fa fa-minus-circle"> </i>Tolak&nbsp;Approve<br> Cek&nbsp;Data
+                        </button>';
+                            }
+                        } else {
+                            return
+                                '<button style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                        <i class="fa fa-check">Approved</i>
+                    </button>';
+                        }
+                    })
+                    ->addColumn('tanggal_po', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('keterangan_penerimaan_po', function ($list) {
+                        $result = $list->PenerimaanPo->keterangan_penerimaan_po;
+                        return $result;
+                    })
+                    ->addColumn('no_dtm', function ($list) {
+                        $result = $list->dtm_gb;
+                        return $result;
+                    })
+                    ->addColumn('plat_kendaraan', function ($list) {
+                        $result = $list->PenerimaanPo->plat_kendaraan;
+                        return $result;
+                    })
+                    ->addColumn('hasil_akhir_tonase', function ($list) {
+                        $result = $list->PenerimaanPo->hasil_akhir_tonase;
+                        if ($result == '') {
+                            return '<span class="badge rounded-pill bg-success">Proses&nbsp;Timbangan&nbsp;2</span>';
+                        } else {
+                            return tonase($result);
+                        }
+                    })
+
+                    ->addColumn('kadar_air', function ($list) {
+                        $result = $list->kadar_air_gb;
+                        return $result;
+                    })
+                    ->addColumn('ka_kg', function ($list) {
+                        $result = $list->ka_kg_gb;
+                        return $result;
+                    })
+                    ->addColumn('berat_sample_awal_ks', function ($list) {
+                        $result = $list->berat_sample_awal_ks_gb;
+                        return $result;
+                    })
+                    ->addColumn('berat_sample_awal_kg', function ($list) {
+                        $result = $list->berat_sample_awal_kg_gb;
+                        return $result;
+                    })
+                    ->addColumn('berat_sample_akhir_kg', function ($list) {
+                        $result = $list->berat_sample_akhir_kg_gb;
+                        return $result;
+                    })
+                    ->addColumn('berat_sample_pk', function ($list) {
+                        $result = $list->berat_sample_pk_gb;
+                        return $result;
+                    })
+                    ->addColumn('berat_sample_beras', function ($list) {
+                        $result = $list->randoman_gb;
+                        return $result;
+                    })
+                    ->addColumn('wh', function ($list) {
+                        $result = $list->wh_gb;
+                        return $result;
+                    })
+                    ->addColumn('tp', function ($list) {
+                        $result = $list->tp_gb;
+                        return $result;
+                    })
+                    ->addColumn('md', function ($list) {
+                        $result = $list->md_gb;
+                        return $result;
+                    })
+                    ->addColumn('broken', function ($list) {
+                        $result = $list->broken_gb;
+                        return $result;
+                    })
+                    ->addColumn('hampa', function ($list) {
+                        $result = $list->hampa_gb;
+                        return $result;
+                    })
+                    ->addColumn('kg_after_adjust_hampa', function ($list) {
+                        $result = $list->kg_after_adjust_hampa_gb;
+                        return $result;
+                    })
+                    ->addColumn('prosentasi_kg', function ($list) {
+                        $result = $list->prosentasi_kg_gb;
+                        return $result;
+                    })
+                    ->addColumn('susut', function ($list) {
+                        $result = $list->susut_gb;
+                        return $result;
+                    })
+                    ->addColumn('adjust_susut', function ($list) {
+                        $result = $list->adjust_susut_gb;
+                        return $result;
+                    })
+                    ->addColumn('prsentase_ks_kg_after_adjust_susut', function ($list) {
+                        $result = $list->prsentase_ks_kg_after_adjust_susut_gb;
+                        return $result;
+                    })
+                    ->addColumn('prsentase_kg_pk', function ($list) {
+                        $result = $list->prsentase_kg_pk_gb;
+                        return $result;
+                    })
+                    ->addColumn('adjust_prosentase_kg_pk', function ($list) {
+                        $result = $list->adjust_prosentase_kg_pk_gb;
+                        return $result;
+                    })
+                    ->addColumn('presentase_ks_pk', function ($list) {
+                        $result = $list->presentase_ks_pk_gb;
+                        return $result;
+                    })
+                    ->addColumn('presentase_putih', function ($list) {
+                        $result = $list->presentase_putih_gb;
+                        return $result;
+                    })
+                    ->addColumn('adjust_prosentase_kg_ke_putih', function ($list) {
+                        $result = $list->adjust_prosentase_kg_ke_putih_gb;
+                        return $result;
+                    })
+                    ->addColumn('plan_rend_dari_ks_beras', function ($list) {
+                        $result = $list->plan_rend_dari_ks_beras_gb;
+                        return $result;
+                    })
+                    ->addColumn('katul', function ($list) {
+                        $result = $list->katul_gb;
+                        return $result;
+                    })
+                    ->addColumn('plan_berat_kg_pertruk', function ($list) {
+                        $result = $list->plan_berat_kg_pertruk_gb;
+                        return $result;
+                    })
+                    ->addColumn('plan_berat_pk_pertruk', function ($list) {
+                        $result = $list->plan_berat_pk_pertruk_gb;
+                        return $result;
+                    })
+                    ->addColumn('plan_berat_beras_pertruk', function ($list) {
+                        $result = $list->plan_berat_beras_pertruk_gb;
+                        return $result;
+                    })
+                    ->addColumn('refraksi_broken', function ($list) {
+                        $result = $list->refraksi_broken_gb;
+                        return $result;
+                    })
+                    ->addColumn('plan_harga_gabah', function ($list) {
+                        $result = $list->plan_harga_gabah_gb;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
+                    })
+                    ->addColumn('plan_harga_beli_gabah', function ($list) {
+                        $result = $list->plan_harga_beli_gabah_gb;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
+                    })
+                    ->addColumn('harga_berdasarkan_tempat', function ($list) {
+                        $result = $list->harga_berdasarkan_tempat_gb;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
+                    })
+                    ->addColumn('harga_berdasarkan_harga_atas', function ($list) {
+                        $result = $list->harga_berdasarkan_harga_atas_gb;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
+                    })
+
+                    ->addColumn('harga_awal', function ($list) {
+                        $result = $list->harga_awal_gb;
+                        if ($result == NULL || $result == 0) {
+                            return 'Rp. 0';
+                        } else {
+                            return rupiah($result);
+                        }
+                    })
+                    ->addColumn('aksi_harga', function ($list) {
+                        $result = $list->aksi_harga_gb;
+                        return $result;
+                    })
+                    ->addColumn('reaksi_harga', function ($list) {
+                        $result = $list->reaksi_harga_gb;
+                        return $result;
+                    })
+                    ->addColumn('harga_akhir', function ($list) {
+                        $result = $list->harga_akhir_permintaan_gb;
+                        if ($result == '' && $result == null) {
+                            $result = rupiah($list->harga_akhir_gb);
+                        } else {
+                            $result = rupiah($list->harga_akhir_permintaan_gb);
+                        }
+                        return $result;
+                    })
+
+                    ->rawColumns(['name_bid', 'lokasi_bongkar', 'kategory_po', 'kode_po', 'nama_vendor', 'status_lab2_gb', 'tanggal_po', 'tanggal_bongkar', 'keterangan_penerimaan_po', 'no_dtm', 'plat_kendaraan', 'hasil_akhir_tonase', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken_setelah_bongkar', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'plan_berat_kg_pertruk', 'plan_berat_pk_pertruk', 'plan_berat_beras_pertruk', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'reaksi_harga', 'harga_akhir'])
                     ->make(true);
             }
         }
@@ -8250,7 +9197,7 @@ class SpvQcAdminController extends Controller
                 return $result;
             })
             ->addColumn('date_bid', function ($list) {
-                $result = \Carbon\Carbon::parse($list->date_biduser)->isoFormat('DD-MM-Y hh:mm:ss');
+                $result = \Carbon\Carbon::parse($list->date_biduser)->isoFormat('DD-MM-Y HH:mm:ss');
 
                 return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
             })
@@ -8336,46 +9283,60 @@ class SpvQcAdminController extends Controller
     }
     public function nego_gb_longgrain_index(Request $request)
     {
-        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-            ->join('bid_user', 'bid_user.id_biduser', '=', 'data_po.bid_user_id')
-            ->join('users', 'users.id', '=', 'data_po.user_idbid')
-            ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-            ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
-            ->where('bid.name_bid', '=', 'GABAH BASAH LONG GRAIN')
-            ->where('lab2_gb.aksi_harga_gb', 'NEGO')
-            ->get())
+        $table = Lab2GabahBasah::With(['DataPO' => function ($query) {
+            $query->With(['Bid' => function ($query) {
+                $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+            }]);
+            $query->With('User');
+        }])
+            ->With('PenerimaanPo')
+            ->whereHas('DataPO', function ($query) {
+                $query->whereHas('Bid', function ($query) {
+                    $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                });
+            })
+            ->where(function ($query) {
+                $query->where('aksi_harga_gb', 'NEGO');
+            })
+            ->get();
+        return Datatables::of($table)
             // return $query;
             ->addColumn('name_bid', function ($list) {
-                $result = $list->name_bid;
+                $result = $list->DataPO->Bid->name_bid;
                 return $result;
             })
             ->addColumn('nama_vendor', function ($list) {
-                $result = $list->nama_vendor;
+                $result = $list->DataPO->User->nama_vendor;
                 return $result;
             })
-            ->addColumn('date_bid', function ($list) {
-                $result = \Carbon\Carbon::parse($list->date_biduser)->isoFormat('DD-MM-Y hh:mm:ss');
+            ->addColumn('tanggal_po', function ($list) {
+                $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y');
+
+                return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
+            })
+            ->addColumn('tanggal_bongkar', function ($list) {
+                $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y');
 
                 return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
             })
             ->addColumn('kode_po', function ($list) {
-                $result = $list->kode_po;
+                $result = $list->DataPO->kode_po;
                 return $result;
             })
             ->addColumn('plat_kendaraan', function ($list) {
-                $result = $list->plat_kendaraan;
+                $result = $list->penerimaanPo->plat_kendaraan;
                 return $result;
             })
             ->addColumn('tonase_awal', function ($list) {
-                $result = tonase($list->tonase_awal);
+                $result = tonase($list->penerimaanPo->tonase_awal);
                 return $result;
             })
             ->addColumn('tonase_akhir', function ($list) {
-                $result = tonase($list->tonase_akhir);
+                $result = tonase($list->penerimaanPo->tonase_akhir);
                 return $result;
             })
             ->addColumn('hasil_akhir_tonase', function ($list) {
-                $result = tonase($list->hasil_akhir_tonase);
+                $result = tonase($list->penerimaanPo->hasil_akhir_tonase);
                 return $result;
             })
             ->addColumn('plan_harga_beli_gabah', function ($list) {
@@ -8407,7 +9368,7 @@ class SpvQcAdminController extends Controller
             ->addColumn('aksi_harga', function ($list) {
                 $result = $list->aksi_harga_gb;
                 return '
-                <button id="btn_output_gb" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-kode_po="' . $list->kode_po . '" data-toggle="modal" data-target="#modaloutputnegogb" title="Information" class="btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                <button id="btn_output_gb" style="margin:2px;" data-id="' . $list->id_lab2_gb . '" data-kode_po="' . $list->DataPO->kode_po . '" data-toggle="modal" data-target="#modaloutputnegogb" title="Information" class="btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                 PROSES&nbsp;NEGO
                 </button>';
             })
@@ -8435,7 +9396,7 @@ class SpvQcAdminController extends Controller
                 $result = $list->z_yang_ditolak_gb;
                 return $result;
             })
-            ->rawColumns(['name_bid', 'harga_akhir', 'nama_vendor', 'date_bid', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
+            ->rawColumns(['name_bid', 'harga_akhir', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
             ->make(true);
     }
     public function nego_gb_pandan_wangi_index(Request $request)
@@ -8459,7 +9420,7 @@ class SpvQcAdminController extends Controller
                 return $result;
             })
             ->addColumn('date_bid', function ($list) {
-                $result = \Carbon\Carbon::parse($list->date_biduser)->isoFormat('DD-MM-Y hh:mm:ss');
+                $result = \Carbon\Carbon::parse($list->date_biduser)->isoFormat('DD-MM-Y HH:mm:ss');
 
                 return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
             })
@@ -8564,7 +9525,7 @@ class SpvQcAdminController extends Controller
                 return $result;
             })
             ->addColumn('date_bid', function ($list) {
-                $result = \Carbon\Carbon::parse($list->date_biduser)->isoFormat('DD-MM-Y hh:mm:ss');
+                $result = \Carbon\Carbon::parse($list->date_biduser)->isoFormat('DD-MM-Y HH:mm:ss');
 
                 return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
             })
@@ -8670,7 +9631,7 @@ class SpvQcAdminController extends Controller
                 return $result;
             })
             ->addColumn('date_bid', function ($list) {
-                $result = \Carbon\Carbon::parse($list->date_biduser)->isoFormat('DD-MM-Y hh:mm:ss');
+                $result = \Carbon\Carbon::parse($list->date_biduser)->isoFormat('DD-MM-Y HH:mm:ss');
 
                 return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
             })
@@ -8760,8 +9721,13 @@ class SpvQcAdminController extends Controller
                     }
                 })
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0)" id="btnEdit" data-mintp="' . $row->min_tp_gb . '" data-maxtp="' . $row->max_tp_gb . '" data-tanggal_po="' . $row->waktu_plan_hpp_gb . '" data-harga="' . $row->harga_gb . '" data-id="' . $row->id_plan_hpp_gb . '" data-item="' . $row->nama_item . '" class="btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only mr-1">Edit <i class="fa fa-pen-alt"></i></a>';
-                    $btn = $btn . '<button id="btnDelete" data-id="' . $row->id_plan_hpp_gb . '" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">Delete <i class="fa fa-trash"></i></button>';
+                    if ($row->waktu_plan_hpp_gb <= Carbon::now()->subDays(2)->format('Y-m-d')) {
+                        $btn = '<a href="javascript:void(0)" id="btn_disable_edit" class="btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only mr-1">Edit <i class="fa fa-pen-alt"></i></a>';
+                        $btn = $btn . '<button id="btn_disable_hapus" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">Delete <i class="fa fa-trash"></i></button>';
+                    } else {
+                        $btn = '<a href="javascript:void(0)" id="btnEdit" data-mintp="' . $row->min_tp_gb . '" data-maxtp="' . $row->max_tp_gb . '" data-tanggal_po="' . $row->waktu_plan_hpp_gb . '" data-harga="' . $row->harga_gb . '" data-id="' . $row->id_plan_hpp_gb . '" data-item="' . $row->nama_item . '" class="btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only mr-1">Edit <i class="fa fa-pen-alt"></i></a>';
+                        $btn = $btn . '<button id="btnDelete" data-id="' . $row->id_plan_hpp_gb . '" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">Delete <i class="fa fa-trash"></i></button>';
+                    }
                     return $btn;
                 })
                 ->rawColumns(['harga_gb', 'action'])
@@ -10192,13 +11158,23 @@ class SpvQcAdminController extends Controller
                 return $result;
             })
             ->addColumn('ckelola', function ($list) {
-                return
-                    '<a style="margin:2px;" name="' . $list->id_harga_atas_gb . '" data-toggle="modal" data-target="#modal1" title="Information" class="to_harga_atas btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                if ($list->waktu_harga_atas_gb <= Carbon::now()->subDays(2)->format('Y-m-d')) {
+                    return
+                        '<a style="margin:2px;"id="btn_disable_edit" class="btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                        Edit <i class="fa fa-pen-alt" style="color:#00c5dc;"></i>
+                    </a>
+                     <button style="margin:2px;" id="btn_disable_hapus" data-offset="5px 5px" data-toggle="m-tooltip" title="Hapus Data" onclick="return true" class="toyakin btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                    Hapus <i class="fa fa-trash"></i>
+                    </button>';
+                } else {
+                    return
+                        '<a style="margin:2px;" name="' . $list->id_harga_atas_gb . '" data-toggle="modal" data-target="#modal1" title="Information" class="to_harga_atas btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                     Edit <i class="fa fa-pen-alt" style="color:#00c5dc;"></i>
                 </a>
                  <button style="margin:2px;" id="btn_delete" data-id="' . $list->id_harga_atas_gb . '"  data-offset="5px 5px" data-toggle="m-tooltip" title="Hapus Data" onclick="return true" class="toyakin btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                 Hapus <i class="fa fa-trash"></i>
                 </button>';
+                }
             })
             ->rawColumns(['name_bid', 'open_po', 'harga_atas', 'waktu_harga_atas', 'ckelola'])
             ->make(true);
@@ -10441,13 +11417,23 @@ class SpvQcAdminController extends Controller
                 return $result;
             })
             ->addColumn('ckelola', function ($list) {
-                return
-                    '<a style="margin:2px;" name="' . $list->id_harga_bawah_gb . '" data-toggle="modal" data-target="#modal1" title="Information" class="to_harga_bawah btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                if ($list->waktu_harga_bawah_gb <= Carbon::now()->subDays(2)->format('Y-m-d')) {
+                    return
+                        '<a style="margin:2px;" id="btn_disable_edit" title="Information" class="to_harga_bawah btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                     Edit <i class="fa fa-pen-alt" style="color:#00c5dc;"></i>
                 </a>
-                 <button id="btn_delete" style="margin:2px;" data-id="' . $list->id_harga_bawah_gb . '" data-offset="5px 5px" data-toggle="m-tooltip" title="Hapus Data" onclick="return true" class="toyakin btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                 <button id="btn_disable_hapus" style="margin:2px;"  data-offset="5px 5px" data-toggle="m-tooltip" title="Hapus Data" onclick="return true" class="toyakin btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                 Delete <i class="fa fa-trash"></i>
                 </button>';
+                } else {
+                    return
+                        '<a style="margin:2px;" name="' . $list->id_harga_bawah_gb . '" data-toggle="modal" data-target="#modal1" title="Information" class="to_harga_bawah btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                        Edit <i class="fa fa-pen-alt" style="color:#00c5dc;"></i>
+                    </a>
+                     <button id="btn_delete" style="margin:2px;" data-id="' . $list->id_harga_bawah_gb . '" data-offset="5px 5px" data-toggle="m-tooltip" title="Hapus Data" onclick="return true" class="toyakin btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                    Delete <i class="fa fa-trash"></i>
+                    </button>';
+                }
             })
             ->rawColumns(['harga_bawah', 'waktu_harga_bawah', 'ckelola'])
             ->make(true);
@@ -10892,7 +11878,7 @@ class SpvQcAdminController extends Controller
     }
     public function get_notifikasispvqc()
     {
-        $data = NotifSpvqc::where('status', 0)->orderBy('id_notif', 'DESC')->limit(10)->get();
+        // $data = NotifSpvqc::where('status', 0)->orderBy('id_notif', 'DESC')->limit(10)->get();
         $get_nego = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('bid_user', 'bid_user.id_biduser', '=', 'data_po.bid_user_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
@@ -10912,7 +11898,7 @@ class SpvQcAdminController extends Controller
             // ->where('bid.name_bid', '=', 'GABAH BASAH LONG GRAIN')
             ->count();
         $result = [
-            'data' => $data,
+            // 'data' => $data,
             'get_nego' => $get_nego,
             'get_revisiharga' => $get_revisiharga,
         ];

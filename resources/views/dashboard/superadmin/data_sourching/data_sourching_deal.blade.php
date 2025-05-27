@@ -3,6 +3,7 @@
 SURYA PANGAN SEMESTA
 @endsection
 @section('content')
+@include('sweetalert::alert')
 <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
     <!-- begin:: Subheader -->
     <div class="kt-subheader   kt-grid__item" id="kt_subheader">
@@ -66,7 +67,7 @@ SURYA PANGAN SEMESTA
                 <div class="kt-portlet__body">
                     <ul class="nav nav-pills" role="tablist">
                         <li class="nav-item mt-3">
-                            <a class="nav-link active" data-toggle="tab" href="#m_tabs_3_1"><i class="la la-database"></i>GB LONG GRAIN</a>
+                            <a class="nav-link active" data-toggle="tab" href="#m_tabs_3_1" id="notif_swal_lg"><i class="la la-database"></i>GB LONG GRAIN</a>
                         </li>
                         <!-- <li class="nav-item mt-3">
                             <a class="nav-link" data-toggle="tab" href="#m_tabs_3_2"><i class="la la-database"></i>GB CIHERANG</a>
@@ -79,9 +80,6 @@ SURYA PANGAN SEMESTA
                         </li>
                         <li class="nav-item mt-3">
                             <a class="nav-link" data-toggle="tab" href="#m_tabs_3_5"><i class="la la-database"></i>BERAS PECAH KULIT</a>
-                        </li>
-                        <li class="nav-item mt-3">
-                            <a class="nav-link" data-toggle="tab" href="#m_tabs_3_6"><i class="la la-database"></i>BULOG</a>
                         </li>
                     </ul>
                     <div class="tab-content">
@@ -206,30 +204,6 @@ SURYA PANGAN SEMESTA
                                 </tbody>
                             </table>
                         </div>
-                        <div class="tab-pane" id="m_tabs_3_6" role="tabpanel">
-                            <table class="table table-bordered" id="data_bulog">
-                                <thead>
-                                    <tr>
-                                        <th style="text-align: center;width:2%">No</th>
-                                        <th style="text-align: center;width:2%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lokasi&nbsp;Bongkar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
-                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;Tonase&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:auto">&nbsp;No.&nbsp;DTM&nbsp;</th>
-                                        <th style="text-align: center;width:auto">&nbsp;Harga&nbsp;Awal&nbsp;</th>
-                                        <th style="text-align: center;width:auto">Aksi&nbsp;Harga</th>
-                                        <th style="text-align: center;width:auto">Reaksi&nbsp;Harga</th>
-                                        <th style="text-align: center;width:auto">Harga&nbsp;Akhir&nbsp;&minus;&nbsp;(Potongan&nbsp;Bongkar)</th>
-                                        <th style="text-align: center;width:auto">Keterangan&nbsp;Harga</th>
-                                        <th style="text-align: center;width:auto">Harga&nbsp;Supplier</th>
-                                    </tr>
-                                </thead>
-                                <tbody style="text-align: center">
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -263,8 +237,8 @@ SURYA PANGAN SEMESTA
                 },
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -350,8 +324,8 @@ SURYA PANGAN SEMESTA
                 },
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -436,8 +410,8 @@ SURYA PANGAN SEMESTA
                 },
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -522,8 +496,8 @@ SURYA PANGAN SEMESTA
                 },
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -591,92 +565,7 @@ SURYA PANGAN SEMESTA
             $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
                 table4.columns.adjust().draw().responsive.recalc();
             })
-            var table5 = $('#data_bulog').DataTable({
-                "scrollY": true,
-                "scrollX": true,
-                processing: true,
-                language: {
-                    "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"></div></div>'
-                },
-                serverSide: true,
-                "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
-                ],
-                "iDisplayLength": 10,
-                ajax: {
-                    url: "{{ route('sourching.data_sourching_deal_bulog_index') }}",
-                    data: {
-                        from_date: from_date,
-                        to_date: to_date
-                    }
-                },
-                columns: [{
-                        data: "id_bid",
 
-                        render: function(data, type, row, meta) {
-                            return meta.row + meta.settings._iDisplayStart + 1;
-                        }
-                    },
-                    {
-                        data: 'name_bid'
-                    },
-                    {
-                        data: 'lokasi_bongkar_gb'
-                    },
-                    {
-                        data: 'plat_kendaraan'
-                    },
-                    {
-                        data: 'nama_vendor'
-                    },
-                    {
-                        data: 'kode_po'
-                    },
-                    {
-                        data: 'hasil_akhir_tonase'
-                    },
-                    {
-                        data: 'dtm_gb'
-                    },
-                    {
-                        data: 'harga_awal'
-                    },
-                    {
-                        data: 'aksi_harga'
-                    },
-                    {
-                        data: 'reaksi_harga'
-                    },
-                    {
-                        data: 'harga_akhir'
-                    },
-                    {
-                        data: 'keterangan_harga_akhir_gb'
-                    },
-                    {
-                        data: 'kirim_harga'
-                    },
-                ],
-                createdRow: function(row, data, index) {
-
-                    // Updated Schedule Week 1 - 07 Mar 22
-
-                    if (data.name_bid == 'GABAH BASAH CIHERANG') {
-                        $('td:eq(1)', row).css('color', '#000099'); //Original Date
-                    } else if (data.name_bid == 'GABAH BASAH PANDAN WANGI') {
-                        $('td:eq(1)', row).css('color', '#009900'); // Behind of Original Date
-                    } else if (data.name_bid == 'GABAH BASAH KETAN PUTIH') {
-                        $('td:eq(1)', row).css('color', '#330019'); // Behind of Original Date
-                    } else if (data.name_bid == 'GABAH BASAH LONG GRAIN') {
-                        $('td:eq(1)', row).css('color', '#6666FF'); // Behind of Original Date
-                    }
-                },
-                "order": []
-            });
-            $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-                table5.columns.adjust().draw().responsive.recalc();
-            })
         }
         $('#filter').click(function() {
             var from_date = $('#from_date').val();
@@ -688,7 +577,7 @@ SURYA PANGAN SEMESTA
                 $('#data_kp').DataTable().destroy();
                 $('#data_longgrain').DataTable().destroy();
                 $('#datatable1').DataTable().destroy();
-                $('#data_bulog').DataTable().destroy();
+                // $('#data_bulog').DataTable().destroy();
                 // table.ajax.reload(from_date, to_date);
                 load_data(from_date, to_date);
                 Swal.fire({
@@ -716,7 +605,7 @@ SURYA PANGAN SEMESTA
             $('#data_kp').DataTable().destroy();
             $('#data_longgrain').DataTable().destroy();
             $('#datatable1').DataTable().destroy();
-            $('#data_bulog').DataTable().destroy();
+            // $('#data_bulog').DataTable().destroy();
             load_data();
         });
         $('#btn_export').click(function() {
@@ -756,7 +645,64 @@ SURYA PANGAN SEMESTA
     });
 </script>
 <script type="text/javascript">
+    $(window).on('load', function(e) {
+        var from_date = $('#from_date').val();
+        var to_date = $('#to_date').val();
+        var item = 'longgrain';
+        $.ajax({
+            type: "GET",
+            url: "{{route('sourching.count_deal_gb') }}",
+            data: {
+                item: item,
+            },
+            error: function() {
+                alert('Something is wrong');
+            },
+            success: function(data) {
+                console.log(data.cek_deal_gb);
+                if (from_date == '' || from_date == null) {
+                    if (data.cek_deal_gb >= 200) {
+                        Swal.fire({
+                            title: 'Data Limits 200 Row',
+                            text: 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu',
+                            icon: 'warning',
+                            // timer: 5000
+                        })
+                    }
+                }
+            }
+        })
+
+    });
     $(function() {
+        $(document).on('click', '#notif_swal_lg', function() {
+            var from_date = $('#from_date').val();
+            var to_date = $('#to_date').val();
+            var item = 'longgrain';
+            $.ajax({
+                type: "GET",
+                url: "{{route('sourching.count_deal_gb') }}",
+                data: {
+                    item: item,
+                },
+                error: function() {
+                    alert('Something is wrong');
+                },
+                success: function(data) {
+                    console.log(data.cek_deal_gb);
+                    if (from_date == '' || from_date == null) {
+                        if (data.cek_deal_gb >= 200) {
+                            Swal.fire({
+                                title: 'Data Limits 200 Row',
+                                text: 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu',
+                                icon: 'warning',
+                                // timer: 5000
+                            })
+                        }
+                    }
+                }
+            })
+        });
         $(document).on('click', '.aksi_harga', function() {
             var id = $(this).attr("name");
             var url = "{{ route('qc.lab.detail_output_incoming_qc') }}" + "/" + id;
@@ -813,7 +759,7 @@ SURYA PANGAN SEMESTA
                             $('#data_kp').DataTable().ajax.reload();
                             $('#data_longgrain').DataTable().ajax.reload();
                             $('#datatable1').DataTable().ajax.reload();
-                            $('#data_bulog').DataTable().ajax.reload();
+                            // $('#data_bulog').DataTable().ajax.reload();
                         }
                     });
                 } else {

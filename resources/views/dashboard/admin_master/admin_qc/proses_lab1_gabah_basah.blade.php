@@ -73,7 +73,7 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;Nama&nbsp;Supplier&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;Asal&nbsp;</th>
-                                        <th style="text-align: center;width:auto">Action</th>
+                                        <th style="text-align: center;width:auto">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody style="text-align: center">
@@ -92,7 +92,7 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;Nama&nbsp;Supplier&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;Asal&nbsp;</th>
-                                        <th style="text-align: center;width:auto">Action</th>
+                                        <th style="text-align: center;width:auto">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody style="text-align: center">
@@ -113,7 +113,7 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;Nama&nbsp;Supplier&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;Asal&nbsp;</th>
-                                        <th style="text-align: center;width:auto">Action</th>
+                                        <th style="text-align: center;width:auto">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody style="text-align: center">
@@ -134,7 +134,7 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;Nama&nbsp;Supplier&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;Asal&nbsp;</th>
-                                        <th style="text-align: center;width:auto">Action</th>
+                                        <th style="text-align: center;width:auto">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody style="text-align: center">
@@ -166,7 +166,7 @@ SURYA PANGAN SEMESTA
                 [25, 100, 300, "All"]
             ],
             "iDisplayLength": 10,
-            ajax: "{{ route('master.proses_lab1_gabah_basah_longgrain_index') }}",
+            ajax: "{{ route('master.lab.proses_lab1_gabah_basah_longgrain_index') }}",
             columns: [{
                     data: "id_bid",
 
@@ -235,7 +235,7 @@ SURYA PANGAN SEMESTA
                 [25, 100, 300, "All"]
             ],
             "iDisplayLength": 10,
-            ajax: "{{ route('master.proses_lab1_gabah_basah_pandan_wangi_index') }}",
+            ajax: "{{ route('master.lab.proses_lab1_gabah_basah_pandan_wangi_index') }}",
             columns: [{
                     data: "id_bid",
 
@@ -304,7 +304,7 @@ SURYA PANGAN SEMESTA
                 [25, 100, 300, "All"]
             ],
             "iDisplayLength": 10,
-            ajax: "{{ route('master.proses_lab1_gabah_basah_ketan_putih_index') }}",
+            ajax: "{{ route('master.lab.proses_lab1_gabah_basah_ketan_putih_index') }}",
             columns: [{
                     data: "id_bid",
 

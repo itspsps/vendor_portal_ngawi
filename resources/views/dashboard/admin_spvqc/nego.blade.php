@@ -68,17 +68,18 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:2%">No</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:auto">Tanggal&nbsp;Pengajuan</th>
+                                        <th style="text-align: center;width:auto">Tanggal&nbsp;PO</th>
+                                        <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkar</th>
                                         <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp; </th>
-                                        <th style="text-align: center;width:auto">Bruto</th>
-                                        <th style="text-align: center;width:auto">Tara</th>
-                                        <th style="text-align: center;width:auto">Neto</th>
+                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;Bruto&nbsp;&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;Tara&nbsp;&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;Neto&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;Plan&nbsp;Harga&nbsp;Beli&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;Harga&nbsp;Berdasarkan&nbsp;Tempat&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;Harga&nbsp;Berdasarkan&nbsp;Harga&nbsp;Atas&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;Harga&nbsp;Awal&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;Harga&nbsp;Akhir&nbsp;-&nbsp;Rp.&nbsp;14&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;Harga&nbsp;Akhir&nbsp;&minus;&nbsp;(Potongan&nbsp;Bongkar)&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;Keterangan&nbsp;Harga&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;Aksi&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Surveyor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
@@ -93,37 +94,6 @@ SURYA PANGAN SEMESTA
                                 </tbody>
                             </table>
                         </div>
-                        <!-- <div class="tab-pane" id="m_tabs_3_2" role="tabpanel">
-                            <table class="table table-bordered" id="data_ciherang">
-                                <thead>
-                                    <tr>
-                                        <th style="text-align: center;width:2%">No</th>
-                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:auto">Tanggal&nbsp;Pengajuan</th>
-                                        <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
-                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp; </th>
-                                        <th style="text-align: center;width:auto">Bruto</th>
-                                        <th style="text-align: center;width:auto">Tara</th>
-                                        <th style="text-align: center;width:auto">Neto</th>
-                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;Plan&nbsp;Harga&nbsp;Beli&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;Harga&nbsp;Berdasarkan&nbsp;Tempat&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;Harga&nbsp;Berdasarkan&nbsp;Harga&nbsp;Atas&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;Harga&nbsp;Awal&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;Keterangan&nbsp;Harga&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;Aksi&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Surveyor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:auto">Keterangan</th>
-                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Waktu&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:auto">Tempat</th>
-                                        <th style="text-align: center;width:auto">Z&nbsp;Dibawa</th>
-                                        <th style="text-align: center;width:auto">Z&nbsp;Ditolak</th>
-                                    </tr>
-                                </thead>
-                                <tbody style="text-align: center">
-                                </tbody>
-                            </table>
-                        </div> -->
                         <div class="tab-pane" id="m_tabs_3_3" role="tabpanel">
                             <table class="table table-bordered" id="data_pw">
                                 <thead>
@@ -368,7 +338,10 @@ SURYA PANGAN SEMESTA
                     data: 'nama_vendor'
                 },
                 {
-                    data: 'date_bid'
+                    data: 'tanggal_po'
+                },
+                {
+                    data: 'tanggal_bongkar'
                 },
                 {
                     data: 'kode_po'
@@ -470,7 +443,7 @@ SURYA PANGAN SEMESTA
                     data: 'nama_vendor'
                 },
                 {
-                    data: 'date_bid'
+                    data: 'tanggal_po'
                 },
                 {
                     data: 'kode_po'
@@ -569,7 +542,7 @@ SURYA PANGAN SEMESTA
                     data: 'nama_vendor'
                 },
                 {
-                    data: 'date_bid'
+                    data: 'tanggal_po'
                 },
                 {
                     data: 'kode_po'
@@ -672,7 +645,7 @@ SURYA PANGAN SEMESTA
                     data: 'nama_vendor'
                 },
                 {
-                    data: 'date_bid'
+                    data: 'tanggal_po'
                 },
                 {
                     data: 'kode_po'

@@ -39,7 +39,7 @@ SURYA PANGAN SEMESTA
                             </div>
                             <div id="collapseOne4" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample4">
                                 <div class="card-body">
-                                    <form id="formaddbroadcast" action="{{ route('master.broadcast_store') }}" method="post" class="kt-form" enctype="multipart/form-data">
+                                    <form id="formaddbroadcast" action="{{ route('master.sourching.broadcast_store') }}" method="post" class="kt-form" enctype="multipart/form-data">
                                         @csrf
                                         <div class="kt-wizard-v4__content" data-ktwizard-type="step-content" data-ktwizard-state="current">
                                             <div class="kt-section kt-section--first">
@@ -123,7 +123,7 @@ SURYA PANGAN SEMESTA
         <div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    <form id="formupdatebroadcast" class="m-form m-form--fit m-form--label-align-right" method="post" action="{{ route('master.broadcast_update') }}" enctype="multipart/form-data">
+                    <form id="formupdatebroadcast" class="m-form m-form--fit m-form--label-align-right" method="post" action="{{ route('master.sourching.broadcast_update') }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         {{ method_field('POST') }}
                         <div class="modal-header">
@@ -190,7 +190,7 @@ SURYA PANGAN SEMESTA
                 [25, 100, 300, "All"]
             ],
             "iDisplayLength": 10,
-            ajax: "{{ route('master.broadcast_index') }}",
+            ajax: "{{ route('master.sourching.broadcast_index') }}",
             columns: [{
                     data: "id",
 
@@ -251,7 +251,7 @@ SURYA PANGAN SEMESTA
     $(function() {
         $(document).on('click', '.toedit', function() {
             var id = $(this).attr("name");
-            var url = "{{route('master.broadcast_show') }}" + "/" + id;
+            var url = "{{route('master.sourching.broadcast_show') }}" + "/" + id;
 
             $.ajax({
                 type: "GET",

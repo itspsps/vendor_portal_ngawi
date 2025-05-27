@@ -157,8 +157,8 @@ SURYA PANGAN SEMESTA
                 processing: true,
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -229,59 +229,14 @@ SURYA PANGAN SEMESTA
             $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
                 table1.columns.adjust().draw().responsive.recalc();
             })
-        }
-        $('#filter').click(function() {
-            var from_date = $('#from_date').val();
-            var to_date = $('#to_date').val();
-
-            if (from_date != '' && to_date != '') {
-                $('#datatable').DataTable().destroy();
-                // table.ajax.reload(from_date, to_date);
-                load_data(from_date, to_date);
-                Swal.fire({
-                    title: 'Berhasil',
-                    text: 'Sukses filter data',
-                    icon: 'success',
-                    timer: 1500
-                });
-            } else {
-                Swal.fire({
-                    title: 'Infoo!!',
-                    text: 'Mohon Isikan data',
-                    icon: 'warning',
-                    timer: 1500
-                });
-            }
-
-        });
-
-        $('#refresh').click(function() {
-            $('#from_date').val('');
-            $('#to_date').val('');
-            $('#datatable').DataTable().destroy();
-            load_data();
-        });
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        $('.input-daterange').datepicker({
-            todayBtn: 'linked',
-            format: 'yyyy-mm-dd',
-            autoclose: true
-        });
-
-        load_data();
-
-        function load_data(from_date = '', to_date = '') {
             var table2 = $('#datatable1').DataTable({
                 "scrollY": true,
                 "scrollX": true,
                 processing: true,
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -352,59 +307,14 @@ SURYA PANGAN SEMESTA
             $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
                 table2.columns.adjust().draw().responsive.recalc();
             })
-        }
-        $('#filter').click(function() {
-            var from_date = $('#from_date').val();
-            var to_date = $('#to_date').val();
-
-            if (from_date != '' && to_date != '') {
-                $('#datatable1').DataTable().destroy();
-                // table.ajax.reload(from_date, to_date);
-                load_data(from_date, to_date);
-                Swal.fire({
-                    title: 'Berhasil',
-                    text: 'Sukses filter data',
-                    icon: 'success',
-                    timer: 1500
-                });
-            } else {
-                Swal.fire({
-                    title: 'Infoo!!',
-                    text: 'Mohon Isikan data',
-                    icon: 'warning',
-                    timer: 1500
-                });
-            }
-
-        });
-
-        $('#refresh').click(function() {
-            $('#from_date').val('');
-            $('#to_date').val('');
-            $('#datatable1').DataTable().destroy();
-            load_data();
-        });
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        $('.input-daterange').datepicker({
-            todayBtn: 'linked',
-            format: 'yyyy-mm-dd',
-            autoclose: true
-        });
-
-        load_data();
-
-        function load_data(from_date = '', to_date = '') {
-            var table = $('#datatable2').DataTable({
+            var table3 = $('#datatable2').DataTable({
                 "scrollY": true,
                 "scrollX": true,
                 processing: true,
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -458,12 +368,17 @@ SURYA PANGAN SEMESTA
                 ],
                 "order": []
             });
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+                table3.columns.adjust().draw().responsive.recalc();
+            })
         }
         $('#filter').click(function() {
             var from_date = $('#from_date').val();
             var to_date = $('#to_date').val();
 
             if (from_date != '' && to_date != '') {
+                $('#datatable').DataTable().destroy();
+                $('#datatable1').DataTable().destroy();
                 $('#datatable2').DataTable().destroy();
                 // table.ajax.reload(from_date, to_date);
                 load_data(from_date, to_date);
@@ -487,12 +402,42 @@ SURYA PANGAN SEMESTA
         $('#refresh').click(function() {
             $('#from_date').val('');
             $('#to_date').val('');
+            $('#datatable').DataTable().destroy();
+            $('#datatable1').DataTable().destroy();
             $('#datatable2').DataTable().destroy();
             load_data();
         });
     });
 </script>
 <script type="text/javascript">
-    $(function() {});
+    $(window).on('load', function(e) {
+        var from_date = $('#from_date').val();
+        var to_date = $('#to_date').val();
+        var item = 'longgrain';
+        $.ajax({
+            type: "GET",
+            url: "{{route('qc.bongkar.count_data_bongkar') }}",
+            data: {
+                item: item,
+            },
+            error: function() {
+                alert('Something is wrong');
+            },
+            success: function(data) {
+                console.log(data.datatonaseakhir_lg);
+                if (from_date == '' || from_date == null) {
+                    if (data.datatonaseakhir_lg >= 200) {
+                        Swal.fire({
+                            title: 'Data Limits 200 Row',
+                            text: 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu',
+                            icon: 'warning',
+                            // timer: 5000
+                        })
+                    }
+                }
+            }
+        })
+
+    });
 </script>
 @endsection

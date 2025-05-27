@@ -138,7 +138,7 @@ SURYA PANGAN SEMESTA
         <div class="modal fade" id="modal_addkuota" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    <form id="form_addkuota" class="m-form m-form--fit m-form--label-align-right" method="post" action="{{ route('master.add_kuota') }}" enctype="multipart/form-data">
+                    <form id="form_addkuota" class="m-form m-form--fit m-form--label-align-right" method="post" action="{{ route('master.sourching.add_kuota') }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         {{ method_field('POST') }}
                         <div class="modal-header">
@@ -197,12 +197,12 @@ SURYA PANGAN SEMESTA
                 processing: true,
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
-                    url: "{{ route('master.bid_gb_index') }}",
+                    url: "{{ route('master.sourching.bid_gb_index') }}",
                     data: {
                         from_date: from_date,
                         to_date: to_date
@@ -273,12 +273,12 @@ SURYA PANGAN SEMESTA
                 processing: true,
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
-                    url: "{{ route('master.bid_pk_index') }}",
+                    url: "{{ route('master.sourching.bid_pk_index') }}",
                     data: {
                         from_date: from_date,
                         to_date: to_date
@@ -350,12 +350,12 @@ SURYA PANGAN SEMESTA
                 processing: true,
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
-                    url: "{{ route('master.bid_ds_index') }}",
+                    url: "{{ route('master.sourching.bid_ds_index') }}",
                     data: {
                         from_date: from_date,
                         to_date: to_date
@@ -482,7 +482,7 @@ SURYA PANGAN SEMESTA
             var cek = $(this).data('id');
             console.log(cek);
             $.ajax({
-                url: "{{route('master.delete_add_kuota')}}/" + cek,
+                url: "{{route('master.sourching.delete_add_kuota')}}/" + cek,
                 type: "GET",
                 error: function() {
                     Swal.fire({

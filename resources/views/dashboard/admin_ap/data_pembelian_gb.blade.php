@@ -42,6 +42,25 @@ SURYA PANGAN SEMESTA
                         </h3>
                     </div>
                 </div>
+                <form class="kt-form" action="javascript:void(0)" method="POST" enctype="multipart/form-data">
+                    <div style="margin-left: 10px; margin-top:10px;" class="input-daterange">
+                        <h5>Filter PO: </h5>
+                        <div class="row">
+                            {{ csrf_field() }}
+                            {{ method_field('POST') }}
+                            <div class="col-md-4">
+                                <input type="text" name="from_date" id="from_date" class="form-control" placeholder="From Date" readonly />
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" name="to_date" id="to_date" class="form-control" placeholder="To Date" readonly />
+                            </div>
+                            <div class="col-md-4">
+                                <button type="button" name="filter" id="filter" class="btn btn-primary">Filter</button>
+                                <button type="button" name="refresh" id="refresh" class="btn btn-default">Refresh</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
                 <div class="kt-portlet__body">
                     <ul class="nav nav-pills" role="tablist">
                         <li class="nav-item mt-3">
@@ -49,7 +68,7 @@ SURYA PANGAN SEMESTA
                             </a>
                         </li>
                         <li class="nav-item mt-3">
-                            <a class="nav-link" data-toggle="tab" href="#m_tabs_3_2"><i class="la la-database"></i>SUDAH VERIFIKASI
+                            <a class="nav-link" data-toggle="tab" href="#m_tabs_3_2" id="notif_verified"><i class="la la-database"></i>SUDAH VERIFIKASI
                             </a>
                         </li>
                     </ul>
@@ -207,179 +226,261 @@ SURYA PANGAN SEMESTA
 @section('js')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <script>
-    $(function() {
-        var table = $('#data_verifikasi').DataTable({
-            "scrollY": true,
-            "scrollX": true,
-            processing: true,
-            language: {
-                "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"></div></div>'
-            },
-            serverSide: true,
-            "aLengthMenu": [
-                [25, 100, 300, -1],
-                [25, 100, 300, "All"]
-            ],
-            "iDisplayLength": 10,
-            ajax: "{{ route('ap.data_pembelian_gb_longgrain_index') }}",
-            columns: [{
-                    data: "id_penerimaan_po",
+    $(document).ready(function() {
+        $('.input-daterange').datepicker({
+            todayBtn: 'linked',
+            format: 'yyyy-mm-dd',
+            autoclose: true
+        });
 
-                    render: function(data, type, row, meta) {
-                        return meta.row + meta.settings._iDisplayStart + 1;
+        load_data();
+
+        function load_data(from_date = '', to_date = '') {
+            var table = $('#data_verifikasi').DataTable({
+                "scrollY": true,
+                "scrollX": true,
+                processing: true,
+                language: {
+                    "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"></div></div>'
+                },
+                serverSide: true,
+                "aLengthMenu": [
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
+                ],
+                "iDisplayLength": 10,
+                ajax: {
+                    url: "{{ route('ap.data_pembelian_gb_longgrain_index') }}",
+                    data: {
+                        from_date: from_date,
+                        to_date: to_date
                     }
                 },
-                {
-                    data: 'ckelola'
-                },
-                {
-                    data: 'name_bid'
-                },
-                {
-                    data: 'kode_po'
-                },
-                {
-                    data: 'nama_vendor'
-                },
-                {
-                    data: 'tanggal_po'
-                },
-                {
-                    data: 'plat_kendaraan'
-                },
-                {
-                    data: 'dtm_gb'
-                },
-                {
-                    data: 'lokasi_bongkar'
-                },
-                {
-                    data: 'tonase_awal'
-                },
-                {
-                    data: 'tonase_akhir'
-                },
-                {
-                    data: 'hasil_akhir_tonase'
-                },
-                {
-                    data: 'tanggal_receipt'
-                },
-                {
-                    data: 'harga_akhir'
-                },
-                {
-                    data: 'keterangan_harga_akhir_gb'
-                },
-                {
-                    data: 'keterangan_analisa'
-                },
+                columns: [{
+                        data: "id_penerimaan_po",
 
-            ],
-            createdRow: function(row, data, index) {
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {
+                        data: 'ckelola'
+                    },
+                    {
+                        data: 'name_bid'
+                    },
+                    {
+                        data: 'kode_po'
+                    },
+                    {
+                        data: 'nama_vendor'
+                    },
+                    {
+                        data: 'tanggal_po'
+                    },
+                    {
+                        data: 'plat_kendaraan'
+                    },
+                    {
+                        data: 'dtm_gb'
+                    },
+                    {
+                        data: 'lokasi_bongkar'
+                    },
+                    {
+                        data: 'tonase_awal'
+                    },
+                    {
+                        data: 'tonase_akhir'
+                    },
+                    {
+                        data: 'hasil_akhir_tonase'
+                    },
+                    {
+                        data: 'tanggal_receipt'
+                    },
+                    {
+                        data: 'harga_akhir'
+                    },
+                    {
+                        data: 'keterangan_harga_akhir_gb'
+                    },
+                    {
+                        data: 'keterangan_analisa'
+                    },
 
-                // Updated Schedule Week 1 - 07 Mar 22
+                ],
+                createdRow: function(row, data, index) {
 
-                if (data.name_bid == 'GABAH BASAH CIHERANG') {
-                    $('td:eq(3)', row).css('color', '#000099'); //Original Date
-                } else if (data.name_bid == 'GABAH BASAH PANDAN WANGI') {
-                    $('td:eq(3)', row).css('color', '#009900'); // Behind of Original Date
-                } else if (data.name_bid == 'GABAH BASAH KETAN PUTIH') {
-                    $('td:eq(3)', row).css('color', '#330019'); // Behind of Original Date
-                } else if (data.name_bid == 'GABAH BASAH LONG GRAIN') {
-                    $('td:eq(3)', row).css('color', '#6666FF'); // Behind of Original Date
-                }
-            },
-            "order": []
-        });
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-            table.columns.adjust().draw().responsive.recalc();
-        })
-        var table2 = $('#data_verified').DataTable({
-            "scrollY": true,
-            "scrollX": true,
-            processing: true,
-            language: {
-                "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"></div></div>'
-            },
-            serverSide: true,
-            "aLengthMenu": [
-                [25, 100, 300, -1],
-                [25, 100, 300, "All"]
-            ],
-            "iDisplayLength": 10,
-            ajax: "{{ route('ap.data_pembelian_gb_longgrain1_index') }}",
-            columns: [{
-                    data: "id_penerimaan_po",
+                    // Updated Schedule Week 1 - 07 Mar 22
 
-                    render: function(data, type, row, meta) {
-                        return meta.row + meta.settings._iDisplayStart + 1;
+                    if (data.name_bid == 'GABAH BASAH CIHERANG') {
+                        $('td:eq(3)', row).css('color', '#000099'); //Original Date
+                    } else if (data.name_bid == 'GABAH BASAH PANDAN WANGI') {
+                        $('td:eq(3)', row).css('color', '#009900'); // Behind of Original Date
+                    } else if (data.name_bid == 'GABAH BASAH KETAN PUTIH') {
+                        $('td:eq(3)', row).css('color', '#330019'); // Behind of Original Date
+                    } else if (data.name_bid == 'GABAH BASAH LONG GRAIN') {
+                        $('td:eq(3)', row).css('color', '#6666FF'); // Behind of Original Date
                     }
                 },
-                {
-                    data: 'ckelola'
+                "order": []
+            });
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+                table.columns.adjust().draw().responsive.recalc();
+            })
+            var table2 = $('#data_verified').DataTable({
+                "scrollY": true,
+                "scrollX": true,
+                processing: true,
+                language: {
+                    "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"></div></div>'
                 },
-                {
-                    data: 'name_bid'
+                serverSide: true,
+                "aLengthMenu": [
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
+                ],
+                "iDisplayLength": 10,
+                ajax: {
+                    url: "{{ route('ap.data_pembelian_gb_longgrain1_index') }}",
+                    data: {
+                        from_date: from_date,
+                        to_date: to_date
+                    }
                 },
-                {
-                    data: 'kode_po'
-                },
-                {
-                    data: 'nama_vendor'
-                },
-                {
-                    data: 'tanggal_po'
-                },
-                {
-                    data: 'plat_kendaraan'
-                },
-                {
-                    data: 'dtm_gb'
-                },
-                {
-                    data: 'lokasi_bongkar'
-                },
-                {
-                    data: 'tonase_awal'
-                },
-                {
-                    data: 'tonase_akhir'
-                },
-                {
-                    data: 'hasil_akhir_tonase'
-                },
-                {
-                    data: 'tanggal_receipt'
-                },
-                {
-                    data: 'harga_akhir'
-                },
-                {
-                    data: 'keterangan_harga_akhir_gb'
-                },
-                {
-                    data: 'keterangan_analisa'
-                },
+                columns: [{
+                        data: "id_penerimaan_po",
 
-            ],
-            createdRow: function(row, data, index) {
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {
+                        data: 'ckelola'
+                    },
+                    {
+                        data: 'name_bid'
+                    },
+                    {
+                        data: 'kode_po'
+                    },
+                    {
+                        data: 'nama_vendor'
+                    },
+                    {
+                        data: 'tanggal_po'
+                    },
+                    {
+                        data: 'plat_kendaraan'
+                    },
+                    {
+                        data: 'dtm_gb'
+                    },
+                    {
+                        data: 'lokasi_bongkar'
+                    },
+                    {
+                        data: 'tonase_awal'
+                    },
+                    {
+                        data: 'tonase_akhir'
+                    },
+                    {
+                        data: 'hasil_akhir_tonase'
+                    },
+                    {
+                        data: 'tanggal_receipt'
+                    },
+                    {
+                        data: 'harga_akhir'
+                    },
+                    {
+                        data: 'keterangan_harga_akhir_gb'
+                    },
+                    {
+                        data: 'keterangan_analisa'
+                    },
 
-                // Updated Schedule Week 1 - 07 Mar 22
+                ],
+                createdRow: function(row, data, index) {
 
-                if (data.name_bid == 'GABAH BASAH CIHERANG') {
-                    $('td:eq(3)', row).css('color', '#000099'); //Original Date
-                } else if (data.name_bid == 'GABAH BASAH PANDAN WANGI') {
-                    $('td:eq(3)', row).css('color', '#009900'); // Behind of Original Date
-                } else if (data.name_bid == 'GABAH BASAH KETAN PUTIH') {
-                    $('td:eq(3)', row).css('color', '#330019'); // Behind of Original Date
-                }
-            },
-            "order": []
+                    // Updated Schedule Week 1 - 07 Mar 22
+
+                    if (data.name_bid == 'GABAH BASAH CIHERANG') {
+                        $('td:eq(3)', row).css('color', '#000099'); //Original Date
+                    } else if (data.name_bid == 'GABAH BASAH PANDAN WANGI') {
+                        $('td:eq(3)', row).css('color', '#009900'); // Behind of Original Date
+                    } else if (data.name_bid == 'GABAH BASAH KETAN PUTIH') {
+                        $('td:eq(3)', row).css('color', '#330019'); // Behind of Original Date
+                    }
+                },
+                "order": []
+            });
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+                table2.columns.adjust().draw().responsive.recalc();
+            });
+        }
+        $('#filter').click(function() {
+            var from_date = $('#from_date').val();
+            var to_date = $('#to_date').val();
+
+            if (from_date != '' && to_date != '') {
+                $('#data_verifikasi').DataTable().destroy();
+                $('#data_verified').DataTable().destroy();
+                load_data(from_date, to_date);
+                Swal.fire({
+                    title: 'Sukses filter data',
+                    text: 'Mohon Tunggu Sebentar',
+                    icon: 'success',
+                    timer: 4000
+                });
+            } else {
+                Swal.fire({
+                    title: 'Infoo!!',
+                    text: 'Mohon Isikan data',
+                    icon: 'warning',
+                    timer: 1500
+                });
+            }
+
         });
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-            table2.columns.adjust().draw().responsive.recalc();
-        })
+        $(document).on('click', '#notif_verified', function(e) {
+            var from_date = $('#from_date').val();
+            var to_date = $('#to_date').val();
+            var item = 'longgrain';
+            $.ajax({
+                type: "GET",
+                url: "{{route('ap.count_data_verified') }}",
+                data: {
+                    item: item,
+                },
+                error: function() {
+                    alert('Something is wrong');
+                },
+                success: function(data) {
+                    console.log(data.cek_dataverified);
+                    if (from_date == '' || from_date == null) {
+                        if (data.cek_dataverified >= 200) {
+                            Swal.fire({
+                                title: 'Data Limits 200 Row',
+                                text: 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu',
+                                icon: 'warning',
+                                // timer: 5000
+                            })
+                        }
+                    }
+                }
+            })
+
+        });
+        $('#refresh').click(function() {
+            $('#from_date').val('');
+            $('#to_date').val('');
+            $('#data_verifikasi').DataTable().destroy();
+            $('#data_verified').DataTable().destroy();
+            load_data();
+        });
     });
 </script>
 <script type="text/javascript">

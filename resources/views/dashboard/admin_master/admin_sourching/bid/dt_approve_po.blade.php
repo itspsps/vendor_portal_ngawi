@@ -59,7 +59,6 @@ SURYA PANGAN SEMESTA
                                 <th style="text-align: center;">Kode&nbsp;PO</th>
                                 <th style="text-align: center;">Nopol&nbsp;Kendaraan</th>
                                 <th style="text-align: center;">&nbsp;&nbsp;Status&nbsp;PO&nbsp;&nbsp;</th>
-                                <th style="text-align: center;">&nbsp;&nbsp;Cetak&nbsp;PO&nbsp;&nbsp;</th>
                             </tr>
                         </thead>
                         <tbody style="text-align: center">
@@ -129,11 +128,11 @@ SURYA PANGAN SEMESTA
                 processing: true,
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
-                ajax: "{{ route('master.data_list_index') }}/" + id,
+                ajax: "{{ route('master.sourching.data_list_index') }}/" + id,
                 columns: [{
                         data: "id_bid",
 
@@ -161,9 +160,6 @@ SURYA PANGAN SEMESTA
                     },
                     {
                         data: 'status'
-                    },
-                    {
-                        data: 'cetak'
                     },
 
                 ],
@@ -194,7 +190,7 @@ SURYA PANGAN SEMESTA
                 "_token": "{{ csrf_token() }}",
                 id_bid: id_bid,
             },
-            url: "{{route('master.download_data_pesanan_pemebelian_aol')}}",
+            url: "{{route('master.sourching.download_data_pesanan_pemebelian_aol')}}",
             type: "POST",
             cache: false,
             xhrFields: {
@@ -218,7 +214,7 @@ SURYA PANGAN SEMESTA
         var supplier = $(this).data("supplier");
         var nopol = $(this).data("nopol");
         var nomer_hp = hp.replace(/^./, '62');
-        var url = "{{ route('master.status_pending')}}" + "/" + id;
+        var url = "{{ route('master.sourching.status_pending')}}" + "/" + id;
         // console.log(supplier);
         $.ajax({
             type: "GET",

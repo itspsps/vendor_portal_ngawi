@@ -323,7 +323,7 @@
             }
         });
     }
-    setInterval(get_notifdataAll, 2000);
+    // setInterval(get_notifdataAll, 2000);
 
     $('body').on('click', '#btn_logout', function() {
         Swal.fire({

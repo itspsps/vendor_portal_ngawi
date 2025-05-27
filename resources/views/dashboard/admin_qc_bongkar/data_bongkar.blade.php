@@ -3,6 +3,7 @@
 SURYA PANGAN SEMESTA
 @endsection
 @section('content')
+@include('sweetalert::alert')
 <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
     <!-- begin:: Subheader -->
     <div class="kt-subheader   kt-grid__item" id="kt_subheader">
@@ -45,7 +46,7 @@ SURYA PANGAN SEMESTA
                 <div class="kt-portlet__body">
                     <h5>Filter&nbsp;Tanggal&nbsp;PO</h5>
                     <div class="row input-daterange">
-                      
+
                         <div class="col-md-4">
                             <input type="text" name="from_date" id="from_date" class="form-control" placeholder="From Date" readonly />
                         </div>
@@ -59,10 +60,10 @@ SURYA PANGAN SEMESTA
                     </div>
                     <ul style="margin-left: 10px; margin-top:10px;" class="nav nav-pills" role="tablist">
                         <li class="nav-item mt-3">
-                            <a class="nav-link active" data-toggle="tab" href="#m_tabs_3_1"><i class="flaticon2-box"></i>GABAH BASAH (UTARA)</a>
+                            <a class="nav-link active" id="notif_swal_utara" data-toggle="tab" href="#m_tabs_3_1"><i class="flaticon2-box"></i>GABAH BASAH (UTARA)</a>
                         </li>
                         <li class="nav-item mt-3">
-                            <a class="nav-link" data-toggle="tab" href="#m_tabs_3_2"><i class="flaticon2-box"></i>GABAH BASAH (SELATAN)</a>
+                            <a class="nav-link" id="notif_swal_selatan" data-toggle="tab" href="#m_tabs_3_2"><i class="flaticon2-box"></i>GABAH BASAH (SELATAN)</a>
                         </li>
                         <li class="nav-item mt-3">
                             <a class="nav-link" data-toggle="tab" href="#m_tabs_3_3"><i class="flaticon2-box"></i>BERAS PECAH KULIT</a>
@@ -76,6 +77,7 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:2%">No</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
+                                        <th style="text-align: center;width:auto">Tempat&nbsp;Bongkar</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;Nama&nbsp;Supplier&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Tanggal&nbsp;PO</th>
                                         <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkar</th>
@@ -83,7 +85,6 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">Keterangan&nbsp;Bongkar</th>
                                         <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkar</th>
                                         <th style="text-align: center;width:auto">Waktu&nbsp;Bongkar</th>
-                                        <th style="text-align: center;width:auto">Tempat&nbsp;Bongkar</th>
                                         <th style="text-align: center;width:auto">Karung&nbsp;Dibawa</th>
                                         <th style="text-align: center;width:auto">Karung&nbsp;Ditolak</th>
                                     </tr>
@@ -99,6 +100,7 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:2%">No</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kode&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:auto">Tempat&nbsp;Bongkar</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;Bongkar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
@@ -106,7 +108,6 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;Keterangan&nbsp;Bongkar&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;Bongkar&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;Waktu&nbsp;Bongkar&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:auto">Tempat&nbsp;Bongkar</th>
                                         <th style="text-align: center;width:auto">Karung&nbsp;Dibawa</th>
                                         <th style="text-align: center;width:auto">Karung&nbsp;Ditolak</th>
                                     </tr>
@@ -122,12 +123,12 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:2%">No</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kode&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;Bongkar&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;Bongkar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Surveyor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;Keterangan&nbsp;Bongkar&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;Bongkar&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;Waktu&nbsp;Bongkar&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Tempat&nbsp;Bongkar</th>
                                         <th style="text-align: center;width:auto">Karung&nbsp;Dibawa</th>
@@ -167,8 +168,8 @@ SURYA PANGAN SEMESTA
                 processing: true,
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -192,6 +193,9 @@ SURYA PANGAN SEMESTA
                         data: 'kode_po_bongkar'
                     },
                     {
+                        data: 'tempat_bongkar'
+                    },
+                    {
                         data: 'nama_vendor'
                     },
                     {
@@ -211,9 +215,6 @@ SURYA PANGAN SEMESTA
                     },
                     {
                         data: 'waktu_bongkar'
-                    },
-                    {
-                        data: 'tempat_bongkar'
                     },
                     {
                         data: 'z_yang_dibawa'
@@ -242,59 +243,14 @@ SURYA PANGAN SEMESTA
             $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
                 table1.columns.adjust().draw().responsive.recalc();
             })
-        }
-        $('#filter').click(function() {
-            var from_date = $('#from_date').val();
-            var to_date = $('#to_date').val();
-
-            if (from_date != '' && to_date != '') {
-                $('#datatable').DataTable().destroy();
-                // table.ajax.reload(from_date, to_date);
-                load_data(from_date, to_date);
-                Swal.fire({
-                    title: 'Berhasil',
-                    text: 'Sukses filter data',
-                    icon: 'success',
-                    timer: 1500
-                });
-            } else {
-                Swal.fire({
-                    title: 'Infoo!!',
-                    text: 'Mohon Isikan data',
-                    icon: 'warning',
-                    timer: 1500
-                });
-            }
-
-        });
-
-        $('#refresh').click(function() {
-            $('#from_date').val('');
-            $('#to_date').val('');
-            $('#datatable').DataTable().destroy();
-            load_data();
-        });
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        $('.input-daterange').datepicker({
-            todayBtn: 'linked',
-            format: 'yyyy-mm-dd',
-            autoclose: true
-        });
-
-        load_data();
-
-        function load_data(from_date = '', to_date = '') {
             var table2 = $('#datatable1').DataTable({
                 "scrollY": true,
                 "scrollX": true,
                 processing: true,
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -318,6 +274,9 @@ SURYA PANGAN SEMESTA
                         data: 'kode_po_bongkar'
                     },
                     {
+                        data: 'tempat_bongkar'
+                    },
+                    {
                         data: 'nama_vendor'
                     },
                     {
@@ -337,9 +296,6 @@ SURYA PANGAN SEMESTA
                     },
                     {
                         data: 'waktu_bongkar'
-                    },
-                    {
-                        data: 'tempat_bongkar'
                     },
                     {
                         data: 'z_yang_dibawa'
@@ -368,59 +324,14 @@ SURYA PANGAN SEMESTA
             $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
                 table2.columns.adjust().draw().responsive.recalc();
             })
-        }
-        $('#filter').click(function() {
-            var from_date = $('#from_date').val();
-            var to_date = $('#to_date').val();
-
-            if (from_date != '' && to_date != '') {
-                $('#datatable1').DataTable().destroy();
-                // table.ajax.reload(from_date, to_date);
-                load_data(from_date, to_date);
-                Swal.fire({
-                    title: 'Berhasil',
-                    text: 'Sukses filter data',
-                    icon: 'success',
-                    timer: 1500
-                });
-            } else {
-                Swal.fire({
-                    title: 'Infoo!!',
-                    text: 'Mohon Isikan data',
-                    icon: 'warning',
-                    timer: 1500
-                });
-            }
-
-        });
-
-        $('#refresh').click(function() {
-            $('#from_date').val('');
-            $('#to_date').val('');
-            $('#datatable1').DataTable().destroy();
-            load_data();
-        });
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        $('.input-daterange').datepicker({
-            todayBtn: 'linked',
-            format: 'yyyy-mm-dd',
-            autoclose: true
-        });
-
-        load_data();
-
-        function load_data(from_date = '', to_date = '') {
             var table = $('#datatable2').DataTable({
                 "scrollY": true,
                 "scrollX": true,
                 processing: true,
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -444,6 +355,9 @@ SURYA PANGAN SEMESTA
                         data: 'kode_po_bongkar'
                     },
                     {
+                        data: 'tempat_bongkar'
+                    },
+                    {
                         data: 'tanggal_po'
                     },
                     {
@@ -465,9 +379,6 @@ SURYA PANGAN SEMESTA
                         data: 'waktu_bongkar'
                     },
                     {
-                        data: 'tempat_bongkar'
-                    },
-                    {
                         data: 'z_yang_dibawa'
                     },
                     {
@@ -477,12 +388,17 @@ SURYA PANGAN SEMESTA
                 ],
                 "order": []
             });
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+                table.columns.adjust().draw().responsive.recalc();
+            })
         }
         $('#filter').click(function() {
             var from_date = $('#from_date').val();
             var to_date = $('#to_date').val();
 
             if (from_date != '' && to_date != '') {
+                $('#datatable').DataTable().destroy();
+                $('#datatable1').DataTable().destroy();
                 $('#datatable2').DataTable().destroy();
                 // table.ajax.reload(from_date, to_date);
                 load_data(from_date, to_date);
@@ -506,12 +422,96 @@ SURYA PANGAN SEMESTA
         $('#refresh').click(function() {
             $('#from_date').val('');
             $('#to_date').val('');
+            $('#datatable').DataTable().destroy();
+            $('#datatable1').DataTable().destroy();
             $('#datatable2').DataTable().destroy();
             load_data();
         });
     });
 </script>
-<script type="text/javascript">
-    $(function() {});
+<script>
+    $(window).on('load', function(e) {
+        var from_date = $('#from_date').val();
+        var to_date = $('#to_date').val();
+        var item = 'longgrain';
+        $.ajax({
+            type: "GET",
+            url: "{{route('qc.bongkar.count_bongkar_utara') }}",
+            data: {
+                item: item,
+            },
+            error: function() {
+                alert('Something is wrong');
+            },
+            success: function(data) {
+                console.log(data.count_utara);
+                if (from_date == '' || from_date == null) {
+                    if (data.count_utara >= 200) {
+                        Swal.fire({
+                            title: 'Data Limits 200 Row',
+                            text: 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu',
+                            icon: 'warning',
+                            // timer: 5000
+                        })
+                    }
+                }
+            }
+        })
+
+    });
+    $(document).on('click', '#notif_swal_utara', function(e) {
+        var from_date = $('#from_date').val();
+        var to_date = $('#to_date').val();
+        var item = 'longgrain';
+        $.ajax({
+            type: "GET",
+            url: "{{route('qc.bongkar.count_bongkar_utara') }}",
+            data: {
+                item: item,
+            },
+            error: function() {
+                alert('Something is wrong');
+            },
+            success: function(data) {
+                console.log(data.count_utara);
+                if (from_date == '' || from_date == null) {
+                    if (data.count_utara >= 200) {
+                        Swal.fire({
+                            title: 'Data Limits 200 Row',
+                            text: 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu',
+                            icon: 'warning',
+                            // timer: 5000
+                        })
+                    }
+                }
+            }
+        })
+
+    });
+    $(document).on('click', '#notif_swal_selatan', function(e) {
+        var from_date = $('#from_date').val();
+        var to_date = $('#to_date').val();
+        $.ajax({
+            type: "GET",
+            url: "{{route('qc.bongkar.count_bongkar_selatan') }}",
+            error: function() {
+                alert('Something is wrong');
+            },
+            success: function(data) {
+                console.log(data.count_selatan);
+                if (from_date == '' || from_date == null) {
+                    if (data.count_selatan >= 200) {
+                        Swal.fire({
+                            title: 'Data Limits 200 Row',
+                            text: 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu',
+                            icon: 'warning',
+                            // timer: 5000
+                        })
+                    }
+                }
+            }
+        })
+
+    });
 </script>
 @endsection

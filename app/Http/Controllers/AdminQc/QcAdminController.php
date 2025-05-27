@@ -1041,7 +1041,7 @@ class QcAdminController extends Controller
                         return $result;
                     })
                     ->addColumn('date_bid', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->date_biduser)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->date_biduser)->isoFormat('DD-MM-Y HH:mm:ss');
                         return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
                     })
                     ->addColumn('kode_po', function ($list) {
@@ -1129,7 +1129,7 @@ class QcAdminController extends Controller
                         return $result;
                     })
                     ->addColumn('date_bid', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->date_biduser)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->date_biduser)->isoFormat('DD-MM-Y HH:mm:ss');
                         return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
                     })
                     ->addColumn('kode_po', function ($list) {
@@ -1225,7 +1225,7 @@ class QcAdminController extends Controller
                         return $result;
                     })
                     ->addColumn('date_bid', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->date_biduser)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->date_biduser)->isoFormat('DD-MM-Y HH:mm:ss');
                         return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
                     })
                     ->addColumn('kode_po', function ($list) {
@@ -1313,7 +1313,7 @@ class QcAdminController extends Controller
                         return $result;
                     })
                     ->addColumn('date_bid', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->date_biduser)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->date_biduser)->isoFormat('DD-MM-Y HH:mm:ss');
                         return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
                     })
                     ->addColumn('kode_po', function ($list) {
@@ -1409,7 +1409,7 @@ class QcAdminController extends Controller
                         return $result;
                     })
                     ->addColumn('date_bid', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->date_biduser)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->date_biduser)->isoFormat('DD-MM-Y HH:mm:ss');
                         return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
                     })
                     ->addColumn('kode_po', function ($list) {
@@ -1497,7 +1497,7 @@ class QcAdminController extends Controller
                         return $result;
                     })
                     ->addColumn('date_bid', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->date_biduser)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->date_biduser)->isoFormat('DD-MM-Y HH:mm:ss');
                         return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
                     })
                     ->addColumn('kode_po', function ($list) {
@@ -3690,7 +3690,7 @@ class QcAdminController extends Controller
                 return $result;
             })
             ->addColumn('start_pengajuan', function ($list) {
-                $result = \Carbon\Carbon::parse($list->date_bid)->isoFormat('DD-MM-Y hh:mm:ss');
+                $result = \Carbon\Carbon::parse($list->date_bid)->isoFormat('DD-MM-Y HH:mm:ss');
                 return $result;
             })
             ->addColumn('close_po', function ($list) {
@@ -3832,7 +3832,7 @@ class QcAdminController extends Controller
                 return $result;
             })
             ->addColumn('start_pengajuan', function ($list) {
-                $result = \Carbon\Carbon::parse($list->date_bid)->isoFormat('DD-MM-Y hh:mm:ss');
+                $result = \Carbon\Carbon::parse($list->date_bid)->isoFormat('DD-MM-Y HH:mm:ss');
                 return $result;
             })
             ->addColumn('close_po', function ($list) {
@@ -3963,7 +3963,7 @@ class QcAdminController extends Controller
                 return $result;
             })
             ->addColumn('start_pengajuan', function ($list) {
-                $result = \Carbon\Carbon::parse($list->date_bid)->isoFormat('DD-MM-Y hh:mm:ss');
+                $result = \Carbon\Carbon::parse($list->date_bid)->isoFormat('DD-MM-Y HH:mm:ss');
                 return $result;
             })
             ->addColumn('close_po', function ($list) {

@@ -792,12 +792,12 @@ SURYA PANGAN SEMESTA
                 title: 'No HP harus Berisi angka',
                 showConfirmButton: true
             });
-        } else if (tlpNode.length > 12) {
-            $(this).val($(this).val().substr(0, 12));
+        } else if (tlpNode.length > 13) {
+            $(this).val($(this).val().substr(0, 13));
             Swal.fire({
                 position: 'top',
                 icon: 'warning',
-                title: 'Anda memasukan ' + tlpNode.length + ' digit, Maksimal 12 digit',
+                title: 'Anda memasukan ' + tlpNode.length + ' digit, Maksimal 13 digit',
                 showConfirmButton: false,
                 timer: 1500
             });

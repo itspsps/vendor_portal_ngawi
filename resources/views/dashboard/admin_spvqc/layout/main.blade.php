@@ -304,35 +304,35 @@
             url: "{{route('qc.spv.get_notifikasispvqc')}}",
             success: function(data) {
                 // console.log(data);
-                data.data.sort();
-                data.data.reverse();
-                var panjang = data.data.length;
-                $("#daftarnotif").empty();
-                if(panjang==10){
-                    $.each(data.data, function(item) {
-                        //desain notif
-                        var idnotif = data.data[item].id_notif;
-                        var not = '<a href="{{route('qc.spv.set_notifikasispvqc')}}?id=' + idnotif + '" class="kt-notification__item"><div class="kt-notification__item-details"><div class="kt-notification__item-title">' + data.data[item].judul + ' <span class="btn btn-label-success btn-sm ">' + data.data[item].created_at + '</span></div><div class="kt-notification__item-time">' + data.data[item].keterangan + '<br><br></div></div></div></a>';
-                        $("#daftarnotif").prepend(not);
-                        var length ='<span class="badge rounded-pill bg-danger" style="position: absolute; top: 10px; right: -10px; padding: 5px 3px; border-radius: 50%; color: white;">10++</span>';
-                        $("#count_notif").prepend(length);
-                    });
-                }else if(panjang<10){
-                    $.each(notif, function(item) {
-                        //desain notif
-                        var idnotif = data.data[item].id_notif;
-                        var not = '<a href="{{route('qc.spv.set_notifikasispvqc')}}?id=' + idnotif + '" class="kt-notification__item"><div class="kt-notification__item-details"><div class="kt-notification__item-title">' + data.data[item].judul + ' <span class="btn btn-label-success btn-sm ">' + data.data[item].created_at + '</span></div><div class="kt-notification__item-time">' + data.data[item].keterangan + '<br><br></div></div></div></a>';
-                        $("#daftarnotif").prepend(not);
-                        var length ='<span class="badge rounded-pill bg-danger" style="position: absolute; top: 10px; right: -10px; padding: 5px 3px; border-radius: 50%; color: white;">'+panjang+'</span>';
-                        $("#count_notif").prepend(length);
-                    });
-                }else{
-                    var not = '<div class="kt-notification__item-details" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);padding: 10px;"><p>Tidak Ada Notifikasi</p></div>';
-                    $("#daftarnotif").prepend(not);
-                    var length ='<span class="badge rounded-pill bg-danger" style="position: absolute; top: 10px; right: -10px; padding: 5px 3px; border-radius: 50%; color: white;">'+panjang+'</span>';
-                    $("#count_notif").prepend(length);
+                // data.data.sort();
+                // data.data.reverse();
+                // var panjang = data.data.length;
+                // $("#daftarnotif").empty();
+                // if(panjang==10){
+                //     $.each(data.data, function(item) {
+                //         //desain notif
+                //         var idnotif = data.data[item].id_notif;
+                //         var not = '<a href="{{route('qc.spv.set_notifikasispvqc')}}?id=' + idnotif + '" class="kt-notification__item"><div class="kt-notification__item-details"><div class="kt-notification__item-title">' + data.data[item].judul + ' <span class="btn btn-label-success btn-sm ">' + data.data[item].created_at + '</span></div><div class="kt-notification__item-time">' + data.data[item].keterangan + '<br><br></div></div></div></a>';
+                //         $("#daftarnotif").prepend(not);
+                //         var length ='<span class="badge rounded-pill bg-danger" style="position: absolute; top: 10px; right: -10px; padding: 5px 3px; border-radius: 50%; color: white;">10++</span>';
+                //         $("#count_notif").prepend(length);
+                //     });
+                // }else if(panjang<10){
+                //     $.each(notif, function(item) {
+                //         //desain notif
+                //         var idnotif = data.data[item].id_notif;
+                //         var not = '<a href="{{route('qc.spv.set_notifikasispvqc')}}?id=' + idnotif + '" class="kt-notification__item"><div class="kt-notification__item-details"><div class="kt-notification__item-title">' + data.data[item].judul + ' <span class="btn btn-label-success btn-sm ">' + data.data[item].created_at + '</span></div><div class="kt-notification__item-time">' + data.data[item].keterangan + '<br><br></div></div></div></a>';
+                //         $("#daftarnotif").prepend(not);
+                //         var length ='<span class="badge rounded-pill bg-danger" style="position: absolute; top: 10px; right: -10px; padding: 5px 3px; border-radius: 50%; color: white;">'+panjang+'</span>';
+                //         $("#count_notif").prepend(length);
+                //     });
+                // }else{
+                //     var not = '<div class="kt-notification__item-details" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);padding: 10px;"><p>Tidak Ada Notifikasi</p></div>';
+                //     $("#daftarnotif").prepend(not);
+                //     var length ='<span class="badge rounded-pill bg-danger" style="position: absolute; top: 10px; right: -10px; padding: 5px 3px; border-radius: 50%; color: white;">'+panjang+'</span>';
+                //     $("#count_notif").prepend(length);
 
-                }
+                // }
                 $("#count_nego").html(data.get_nego);
                 $("#count_revisiharga").html(data.get_revisiharga);
 

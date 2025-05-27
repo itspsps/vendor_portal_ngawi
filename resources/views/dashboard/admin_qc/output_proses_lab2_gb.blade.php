@@ -96,7 +96,7 @@ SURYA PANGAN SEMESTA
                                         <thead>
                                             <tr>
                                                 <th style="text-align: center;width:2%">No</th>
-                                                <th style="text-align: center;width:auto">Nama&nbsp;Item</th>
+                                                <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                                 <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
                                                 <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                                 <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
@@ -131,7 +131,7 @@ SURYA PANGAN SEMESTA
                                         <thead>
                                             <tr>
                                                 <th style="text-align: center;width:2%">No</th>
-                                                <th style="text-align: center;width:auto">Nama&nbsp;Item</th>
+                                                <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                                 <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
                                                 <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                                 <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
@@ -168,7 +168,7 @@ SURYA PANGAN SEMESTA
                                     <tr>
                                         <th style="text-align: center;width:2%">No</th>
                                         <th style="text-align: center;width:auto">No.&nbsp;Antrian</th>
-                                        <th style="text-align: center;width:auto">Nama&nbsp;Item</th>
+                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
@@ -238,7 +238,7 @@ SURYA PANGAN SEMESTA
                                         <thead>
                                             <tr>
                                                 <th style="text-align: center;width:2%">No</th>
-                                                <th style="text-align: center;width:auto">Nama&nbsp;Item</th>
+                                                <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                                 <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
                                                 <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                                 <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
@@ -273,7 +273,7 @@ SURYA PANGAN SEMESTA
                                         <thead>
                                             <tr>
                                                 <th style="text-align: center;width:2%">No</th>
-                                                <th style="text-align: center;width:auto">Nama&nbsp;Item</th>
+                                                <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                                 <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
                                                 <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                                 <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
@@ -310,7 +310,7 @@ SURYA PANGAN SEMESTA
                                     <tr>
                                         <th style="text-align: center;width:2%">No</th>
                                         <th style="text-align: center;width:auto">No.&nbsp;Antrian</th>
-                                        <th style="text-align: center;width:auto">Nama&nbsp;Item</th>
+                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
@@ -370,7 +370,7 @@ SURYA PANGAN SEMESTA
                                 <thead>
                                     <tr>
                                         <th style="text-align: center;width:2%">No</th>
-                                        <th style="text-align: center;width:auto">Nama&nbsp;Item</th>
+                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
@@ -405,7 +405,7 @@ SURYA PANGAN SEMESTA
                                     <tr>
                                         <th style="text-align: center;width:2%">No</th>
                                         <th style="text-align: center;width:auto">No.&nbsp;Antrian</th>
-                                        <th style="text-align: center;width:auto">Nama&nbsp;Item</th>
+                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
@@ -499,8 +499,8 @@ SURYA PANGAN SEMESTA
                 },
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -618,8 +618,8 @@ SURYA PANGAN SEMESTA
                 },
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -805,8 +805,8 @@ SURYA PANGAN SEMESTA
                 },
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -922,8 +922,8 @@ SURYA PANGAN SEMESTA
                 },
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -1107,8 +1107,8 @@ SURYA PANGAN SEMESTA
                 },
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -1224,8 +1224,8 @@ SURYA PANGAN SEMESTA
                 },
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -1409,8 +1409,8 @@ SURYA PANGAN SEMESTA
                 },
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -1528,8 +1528,8 @@ SURYA PANGAN SEMESTA
                 },
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -1800,44 +1800,59 @@ SURYA PANGAN SEMESTA
 
         });
         $(document).on('click', '#notif_swal_approved', function(e) {
+            var from_date = $('#from_date').val();
+            var to_date = $('#to_date').val();
+            var item = 'longgrain';
             $.ajax({
                 type: "GET",
                 url: "{{route('qc.lab.count_outputlab2_gb') }}",
+                data: {
+                    item: item,
+                },
                 error: function() {
                     alert('Something is wrong');
                 },
                 success: function(data) {
                     console.log(data.count_success);
-                    if (data.count_success >= 200) {
-
-                        Swal.fire({
-                            title: 'Data Limits 200 Row',
-                            text: 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu',
-                            icon: 'warning',
-                            // timer: 5000
-                        })
+                    if (from_date == null || from_date == '') {
+                        if (data.count_success >= 200) {
+                            Swal.fire({
+                                title: 'Data Limits 200 Row',
+                                text: 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu',
+                                icon: 'warning',
+                                // timer: 5000
+                            })
+                        }
                     }
                 }
             })
 
         });
         $(document).on('click', '#notif_swal_pw_approved', function(e) {
+            var from_date = $('#from_date').val();
+            var to_date = $('#to_date').val();
+            var item = 'pandanwangi';
             $.ajax({
                 type: "GET",
                 url: "{{route('qc.lab.count_outputlab2_gb') }}",
+                data: {
+                    item: item,
+                },
                 error: function() {
                     alert('Something is wrong');
                 },
                 success: function(data) {
                     console.log(data.count_pw_success);
-                    if (data.count_pw_success >= 200) {
+                    if (from_date == null || from_date == '') {
+                        if (data.count_pw_success >= 200) {
 
-                        Swal.fire({
-                            title: 'Data Limits 200 Row',
-                            text: 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu',
-                            icon: 'warning',
-                            // timer: 5000
-                        })
+                            Swal.fire({
+                                title: 'Data Limits 200 Row',
+                                text: 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu',
+                                icon: 'warning',
+                                // timer: 5000
+                            })
+                        }
                     }
                 }
             })

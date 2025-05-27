@@ -1297,7 +1297,8 @@
                                         </div>
                                     </div>
                                 </a>
-                                <a href="{{route('user.reset_password',2)}}">
+                                <a href="javascript:void(0);">
+                                    <!-- <a href="{{route('user.reset_password',2)}}"> -->
                                     <div class="card mt-3" style="box-shadow: 0px 1px 5px;">
                                         <div class="row">
                                             <div class="col-3 d-inline-flex align-items-center justify-content-center ml-3">
@@ -1322,6 +1323,7 @@
                                         </div>
                                     </div>
                                 </a>
+                                <a id="btn_klik" type="button" class="btn btn-sm btn-primary text-center text-white mt-3" style="background-color: rgb(139, 128, 224);" href="{{route('user.new_login')}}"><i class="fa fa-arrow-left"></i>&nbsp;Kembali</a>
                             </div>
                         </div>
                     </div>

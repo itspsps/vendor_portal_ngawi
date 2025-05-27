@@ -50,6 +50,7 @@ Route::post('/lab/save_proseslab1_pecah_kulit', [QcLab1Controller::class, 'save_
 Route::post('/lab/save_proseslab1_beras_ds', [QcLab1Controller::class, 'save_proseslab1_beras_ds'])->name('lab.save_proseslab1_beras_ds');
 
 // Unload View & Index
+Route::get('/lab/count_unload_gb', [QcLab1Controller::class, 'count_unload_gb'])->name('lab.count_unload_gb');
 Route::get('/lab/unload_lab1_gabah_basah', [QcLab1Controller::class, 'unload_lab1_gabah_basah'])->name('lab.unload_lab1_gabah_basah');
 Route::get('/lab/unload_lab1_gabah_basah_index', [QcLab1Controller::class, 'unload_lab1_gabah_basah_index'])->name('lab.unload_lab1_gabah_basah_index');
 Route::get('/lab/unload_lab1_gabah_kering', [QcLab1Controller::class, 'unload_lab1_gabah_kering'])->name('lab.unload_lab1_gabah_kering');

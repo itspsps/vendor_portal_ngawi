@@ -67,13 +67,14 @@ SURYA PANGAN SEMESTA
                                 <thead>
                                     <tr>
                                         <th style="text-align: center;width:2%">No</th>
-                                        <th style="text-align: center;width:auto">Nama&nbsp;Item</th>
+                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Jam&nbsp;Kedatangan</th>
                                         <th style="text-align: center;width:18%">Antrian</th>
                                         <th style="text-align: center;width:auto">Status</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Tanggal&nbsp;PO</th>
+                                        <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkar</th>
                                         <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
                                         <th style="text-align: center;width:auto">Action</th>
                                         <th style="text-align: center;width:auto">KA</th>
@@ -129,13 +130,14 @@ SURYA PANGAN SEMESTA
                                 <thead>
                                     <tr>
                                         <th style="text-align: center;width:2%">No</th>
-                                        <th style="text-align: center;width:auto">Nama&nbsp;Item</th>
+                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Jam&nbsp;Kedatangan</th>
                                         <th style="text-align: center;width:18%">Antrian</th>
                                         <th style="text-align: center;width:auto">Status</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Tanggal&nbsp;PO</th>
+                                        <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkar</th>
                                         <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
                                         <th style="text-align: center;width:auto">Action</th>
                                         <th style="text-align: center;width:auto">KA</th>
@@ -160,13 +162,14 @@ SURYA PANGAN SEMESTA
                                 <thead>
                                     <tr>
                                         <th style="text-align: center;width:2%">No</th>
-                                        <th style="text-align: center;width:auto">Nama&nbsp;Item</th>
+                                        <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Jam&nbsp;Kedatangan</th>
                                         <th style="text-align: center;width:18%">Antrian</th>
                                         <th style="text-align: center;width:auto">Status</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Tanggal&nbsp;PO</th>
+                                        <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkar</th>
                                         <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
                                         <th style="text-align: center;width:auto">Action</th>
                                         <th style="text-align: center;width:auto">KA</th>
@@ -197,6 +200,7 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;Status&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Tanggal&nbsp;PO</th>
+                                        <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkar</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kode&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Action&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;KA&nbsp;&nbsp;&nbsp;</th>
@@ -481,8 +485,8 @@ SURYA PANGAN SEMESTA
             processing: true,
             serverSide: true,
             "aLengthMenu": [
-                [25, 100, 300, -1],
-                [25, 100, 300, "All"]
+                [10, 25, 100, 300, -1],
+                [10, 25, 100, 300, "All"]
             ],
             "iDisplayLength": 10,
             ajax: "{{ route('qc.bongkar.antrian_qc_longgrain_index') }}",
@@ -513,6 +517,9 @@ SURYA PANGAN SEMESTA
                 },
                 {
                     data: 'tanggal_po'
+                },
+                {
+                    data: 'tanggal_bongkar'
                 },
                 {
                     data: 'kode_po'
@@ -581,8 +588,8 @@ SURYA PANGAN SEMESTA
             processing: true,
             serverSide: true,
             "aLengthMenu": [
-                [25, 100, 300, -1],
-                [25, 100, 300, "All"]
+                [10, 25, 100, 300, -1],
+                [10, 25, 100, 300, "All"]
             ],
             "iDisplayLength": 10,
             ajax: "{{ route('qc.bongkar.antrian_qc_pandan_wangi_index') }}",
@@ -613,6 +620,9 @@ SURYA PANGAN SEMESTA
                 },
                 {
                     data: 'tanggal_po'
+                },
+                {
+                    data: 'tanggal_bongkar'
                 },
                 {
                     data: 'kode_po'
@@ -678,8 +688,8 @@ SURYA PANGAN SEMESTA
             processing: true,
             serverSide: true,
             "aLengthMenu": [
-                [25, 100, 300, -1],
-                [25, 100, 300, "All"]
+                [10, 25, 100, 300, -1],
+                [10, 25, 100, 300, "All"]
             ],
             "iDisplayLength": 10,
             ajax: "{{ route('qc.bongkar.antrian_qc_ketan_putih_index') }}",
@@ -710,6 +720,9 @@ SURYA PANGAN SEMESTA
                 },
                 {
                     data: 'tanggal_po'
+                },
+                {
+                    data: 'tanggal_bongkar'
                 },
                 {
                     data: 'kode_po'
@@ -769,18 +782,14 @@ SURYA PANGAN SEMESTA
         $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
             table3.columns.adjust().draw().responsive.recalc();
         })
-    });
-</script>
-<script>
-    $(function() {
-        var table = $('#datatable2').DataTable({
+        var table4 = $('#datatable2').DataTable({
             "scrollY": true,
             "scrollX": true,
             processing: true,
             serverSide: true,
             "aLengthMenu": [
-                [25, 100, 300, -1],
-                [25, 100, 300, "All"]
+                [10, 25, 100, 300, -1],
+                [10, 25, 100, 300, "All"]
             ],
             "iDisplayLength": 10,
             ajax: "{{ route('qc.bongkar.antrian_qc_bongkar_pk_index') }}",
@@ -808,6 +817,9 @@ SURYA PANGAN SEMESTA
                 },
                 {
                     data: 'tanggal_po'
+                },
+                {
+                    data: 'tanggal_bongkar'
                 },
                 {
                     data: 'kode_po'
@@ -852,6 +864,9 @@ SURYA PANGAN SEMESTA
             ],
             "order": []
         });
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+            table4.columns.adjust().draw().responsive.recalc();
+        })
     });
 </script>
 <script type="text/javascript">

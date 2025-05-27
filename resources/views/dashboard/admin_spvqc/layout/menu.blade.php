@@ -336,8 +336,8 @@
                 <a href="{{route('qc.spv.nego')}}" class="kt-menu__link ">
                     <i class="kt-menu__link-icon flaticon2-writing kt-font-warning"></i>
                     <span class="kt-menu__link-text">Nego</span>
-                    <span id="count_nego" class="badge badge badge-info" style="position:absolute; margin-left:81%; width: 100%; text-align: left; background-color: #9f187c;">
-                       
+                    <span id="count_nego" class="badge badge badge-info" style="position:absolute; right: 0%; width: max-content; text-align: left; background-color: #9f187c;">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     </span>
                 </a>
             </li>
@@ -345,8 +345,8 @@
                 <a href="{{route('qc.spv.revisi_harga')}}" class="kt-menu__link ">
                     <i class="kt-menu__link-icon flaticon2-writing kt-font-danger"></i>
                     <span class="kt-menu__link-text">Revisi Harga</span>
-                    <span id="count_revisiharga" class="badge badge badge-info" style="position:absolute; margin-left:81%; width: 100%; text-align: left; background-color: #9f187c;">
-                       
+                    <span id="count_revisiharga" class="badge badge badge-info" style="position:absolute; right: 0%; width: max-content; text-align: left; background-color: #9f187c;">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     </span>
                 </a>
             </li>

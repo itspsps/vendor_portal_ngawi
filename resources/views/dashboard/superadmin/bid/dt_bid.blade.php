@@ -201,18 +201,21 @@ SURYA PANGAN SEMESTA
                         <li class="nav-item mt-3">
                             <a class="nav-link active" data-toggle="tab" href="#m_tabs_3_1"><i class="la la-database"></i>GABAH BASAH&nbsp;
                                 <span id="count_bid_gb" class="badge badge badge-info" style=" max-width: max-content; text-align: left; background-color: green;">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 </span>
                             </a>
                         </li>
                         <li class="nav-item mt-3">
                             <a class="nav-link" data-toggle="tab" href="#m_tabs_3_2"><i class="la la-database"></i>BERAS PECAH KULIT&nbsp;
                                 <span id="count_bid_pk" class="badge badge badge-info" style="margin-top: -15px; width: max-content; text-align: left; background-color: green;">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 </span>
                             </a>
                         </li>
                         <li class="nav-item mt-3">
                             <a class="nav-link" data-toggle="tab" href="#m_tabs_3_3"><i class="la la-database"></i>BERAS DS&nbsp;
                                 <span id="count_bid_ds" class="badge badge badge-info" style="margin-top: -15px; width: max-content; text-align: left; background-color: green;">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 </span>
                             </a>
                         </li>
@@ -359,18 +362,21 @@ SURYA PANGAN SEMESTA
                         <li class="nav-item mt-3">
                             <a class="nav-link active" data-toggle="tab" href="#m_tabs_3_1"><i class="la la-database"></i>GABAH BASAH&nbsp;
                                 <span id="count_bid_gb" class="badge badge badge-info" style=" max-width: max-content; text-align: left; background-color: green;">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 </span>
                             </a>
                         </li>
                         <li class="nav-item mt-3">
                             <a class="nav-link" data-toggle="tab" href="#m_tabs_3_2"><i class="la la-database"></i>BERAS PECAH KULIT&nbsp;
                                 <span id="count_bid_pk" class="badge badge badge-info" style="margin-top: -15px; width: max-content; text-align: left; background-color: green;">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 </span>
                             </a>
                         </li>
                         <li class="nav-item mt-3">
                             <a class="nav-link" data-toggle="tab" href="#m_tabs_3_3"><i class="la la-database"></i>BERAS DS&nbsp;
                                 <span id="count_bid_ds" class="badge badge badge-info" style="margin-top: -15px; width: max-content; text-align: left; background-color: green;">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 </span>
                             </a>
                         </li>
@@ -593,8 +599,8 @@ SURYA PANGAN SEMESTA
                 processing: true,
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 pageLength: 25,
                 ajax: {
@@ -672,8 +678,8 @@ SURYA PANGAN SEMESTA
                 processing: true,
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -749,8 +755,8 @@ SURYA PANGAN SEMESTA
                 processing: true,
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -826,8 +832,8 @@ SURYA PANGAN SEMESTA
                 processing: true,
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -906,8 +912,8 @@ SURYA PANGAN SEMESTA
                 processing: true,
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -971,8 +977,8 @@ SURYA PANGAN SEMESTA
                 processing: true,
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {

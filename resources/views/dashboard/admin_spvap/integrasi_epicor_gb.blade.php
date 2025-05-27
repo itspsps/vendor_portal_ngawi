@@ -216,8 +216,8 @@ SURYA PANGAN SEMESTA
                 processing: true,
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -316,8 +316,8 @@ SURYA PANGAN SEMESTA
                     "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"></div></div>'
                 },
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -443,6 +443,8 @@ SURYA PANGAN SEMESTA
             }
         })
         $(document).on('click', '#notif_swal_diterimaepicor', function(e) {
+            var from_date = $('#from_date').val();
+            var to_date = $('#to_date').val();
             $.ajax({
                 type: "GET",
                 url: "{{route('ap.spv.count_diterimaepicor') }}",
@@ -451,14 +453,15 @@ SURYA PANGAN SEMESTA
                 },
                 success: function(data) {
                     console.log(data.count_epicor);
-                    if (data.count_epicor >= 200) {
-
-                        Swal.fire({
-                            title: 'Data Limits 200 Row',
-                            text: 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu',
-                            icon: 'warning',
-                            // timer: 5000
-                        })
+                    if (from_date == '' || from_date == null) {
+                        if (data.count_epicor >= 200) {
+                            Swal.fire({
+                                title: 'Data Limits 200 Row',
+                                text: 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu',
+                                icon: 'warning',
+                                // timer: 5000
+                            })
+                        }
                     }
                 }
             })
@@ -669,6 +672,8 @@ SURYA PANGAN SEMESTA
                                         icon: 'error',
                                         timer: 1500
                                     })
+                                    $('#datatable').DataTable().ajax.reload();
+                                    $('#datatable1').DataTable().ajax.reload();
                                 },
                                 success: function(data) {
                                     Swal.fire({
@@ -678,6 +683,7 @@ SURYA PANGAN SEMESTA
                                         timer: 1500
                                     })
                                     $('#datatable').DataTable().ajax.reload();
+                                    $('#datatable1').DataTable().ajax.reload();
                                 }
                             });
                         },
@@ -719,6 +725,8 @@ SURYA PANGAN SEMESTA
                                         icon: 'error',
                                         timer: 1500
                                     })
+                                    $('#datatable').DataTable().ajax.reload();
+                                    $('#datatable1').DataTable().ajax.reload();
                                 },
                                 success: function(data) {
                                     Swal.fire({
@@ -728,6 +736,7 @@ SURYA PANGAN SEMESTA
                                         timer: 1500
                                     })
                                     $('#datatable').DataTable().ajax.reload();
+                                    $('#datatable1').DataTable().ajax.reload();
                                 }
                             });
                         },

@@ -79,6 +79,9 @@
 						<i class="flaticon2-box-1"></i>
 					</span>
 					<span class="kt-menu__link-text">Data Sourching</span></span>
+					<span id="count_onprocess" class="badge badge badge-info" style="position:absolute; right: 0%; width: max-content;  background-color: #9f187c;">
+						<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+					</span>
 					<i class="kt-menu__ver-arrow la la-angle-right"></i>
 				</a>
 				<div class="kt-menu__submenu " kt-hidden-height="200" style="">
@@ -89,6 +92,7 @@
 							<a href="{{route('sourching.data_sourching_onprocess')}}" class="kt-menu__link ">
 								<i class="kt-menu__link-icon  flaticon2-box kt-font-info"></i>
 								<span class="kt-menu__link-text">On Process</span>
+
 							</a>
 						</li>
 						<li class="kt-menu__item kt-menu__item--{{set_active('sourching/data_sourching_deal')}} " aria-haspopup="true">

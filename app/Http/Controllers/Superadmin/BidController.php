@@ -16,6 +16,7 @@ use App\Models\HargaAtas;
 use App\Models\HargaBawah;
 use App\Models\Item;
 use App\Models\Lab1GabahBasah;
+use App\Models\Lab2GabahBasah;
 use App\Models\LogAktivitySourching;
 use App\Models\Notif;
 use App\Models\NotifSecurity;
@@ -1019,10 +1020,10 @@ class BidController extends Controller
             ->addColumn('nopol', function ($list) {
                 if ($list->nopol == '') {
                     if ($list->status_bid == 5) {
-                        return '<span style="margin:2px;" class="btn btn-label-danger btn-sm">PO CLOSE</span>';
+                        return '<span style="margin:2px;" class="btn btn-label-danger btn-sm"><b>PO&nbsp;CLOSE</b></span>';
                     } else {
                         return '
-                        <span class="btn btn-label-warning btn-sm"><i class="flaticon2-information"></i> Belum Diinput Security</span>';
+                        <span class="btn btn-label-warning btn-sm"><i class="flaticon2-information"></i><b>Belum&nbsp;Diinput&nbsp;Security</b></span>';
                     }
                 } else {
                     $result = $list->nopol;
@@ -1032,35 +1033,40 @@ class BidController extends Controller
             ->addColumn('status', function ($list) {
                 if ($list->status_bid == 5) {
                     if ($list->nopol == '') {
-                        return '<span style="margin:2px;" class="btn btn-label-danger btn-sm">PO CLOSE</span>';
+                        return '<span style="margin:2px;" class="btn btn-label-danger btn-sm"><b>PO CLOSE</b></span>';
                     } else {
-                        return '<span style="margin:2px;" class="btn btn-label-danger btn-sm">TOLAK</span>';
+                        return '<span style="margin:2px;" class="btn btn-label-danger btn-sm"><b>TOLAK</b></span>';
                     }
                     // <span class="btn btn-label-info btn-sm "><i class="flaticon2-information"></i> Pastikan Nopol Terisi Dengan Benar</span>
                 } else if ($list->status_bid == 16) {
-                    return '<button type="button" id="btn_lihat_harga" data-id="' . $list->id_data_po . '" data-hp="' . $list->nomer_hp  . '" data-nopol="' . $list->nopol  . '" data-supplier="' . $list->nama_vendor  . '" data-ponum="' . $list->PONum . '"  class="btn btn-light"><span style="margin:2px;" title="Lihat Harga" class="badge badge-warning">Pending Harga</span></button>';
+                    return '<button type="button" id="btn_lihat_harga" data-id="' . $list->id_data_po . '" data-hp="' . $list->nomer_hp  . '" data-nopol="' . $list->nopol  . '" data-supplier="' . $list->nama_vendor  . '" data-ponum="' . $list->PONum . '"  class="btn btn-light"><span style="margin:2px;" title="Lihat Harga" class="badge badge-warning"><b>Pending Harga</b></span></button>';
                 } else if ($list->status_bid == 1) {
-                    return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm">Proses&nbsp;Pengiriman</span>';
+                    return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm"><b>Proses&nbsp;Pengiriman</b></span>';
                 } else if ($list->status_bid == 3) {
-                    return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm">Proses&nbsp;Lab&nbsp;1</span>';
+                    return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm"><b>Proses&nbsp;Lab&nbsp;1</b></span>';
                 } else if ($list->status_bid == 6) {
-                    return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm">Selesai&nbsp;Lab1</span>';
+                    return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm"><b>Selesai&nbsp;Lab1</b></span>';
                 } else if ($list->status_bid == 7) {
-                    return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm">Truk&nbsp;Parkir</span>';
+                    return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm"><b>Truk&nbsp;Parkir</b></span>';
                 } else if ($list->status_bid == 8) {
-                    return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm">Timbangan&nbsp;Masuk</span>';
+                    return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm"><b>Timbangan&nbsp;Masuk</b></span>';
                 } else if ($list->status_bid == 9) {
-                    return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm">Proses&nbsp;Bongkar</span>';
+                    return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm"><b>Proses&nbsp;Bongkar</b></span>';
                 } else if ($list->status_bid == 10) {
-                    return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm">Timbangan&nbsp;Keluar/Lab&nbsp;2</span>';
+                    return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm"><b>Timbangan&nbsp;Keluar/Lab&nbsp;2</b></span>';
                 } else if ($list->status_bid == 11) {
-                    return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm">Selesai Lab2 /Timbangan</span>';
+                    return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm"><b>Selesai Lab2 /Timbangan</b></span>';
                 } else if ($list->status_bid == 12) {
-                    return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm">Pengajuan Approve SPV QC</span>';
+                    return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm"><b>Pengajuan Approve SPV QC</b></span>';
                 } else if ($list->status_bid == 13) {
-                    return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm">Pembayaran</span>';
+                    $cek_lab2 = Lab2GabahBasah::where('lab2_kode_po_gb', $list->kode_po)->first();
+                    if ($cek_lab2->aksi_harga_gb == 'ON PROCESS') {
+                        return  '<span style="margin:2px;" class="btn btn-label-primary btn-sm"><b>Proses Deal</b></span>';
+                    } else {
+                        return  '<span style="margin:2px;" class="btn btn-label-success btn-sm"><b>Pembayaran</b></span>';
+                    }
                 } else {
-                    return  '<span style="margin:2px;" class="btn btn-label-success btn-sm">Bongkar</span>';
+                    return  '<span style="margin:2px;" class="btn btn-label-success btn-sm"><b>Bongkar</b></span>';
                 }
             })
             ->addColumn('cetak', function ($list) {

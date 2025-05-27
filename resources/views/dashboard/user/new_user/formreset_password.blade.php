@@ -1327,10 +1327,11 @@
     $(document).on('click', '#btn_send_otp', function(e) {
         e.preventDefault();
         $('#btn_save').html('Menyimpan...');
-        var nomor_hp = replace_titik($('#nomor_hp').val());
         var email = $('#email').val();
+        console.log(email);
         var id_kategori = $('#id_kategori').val();
         if ($('#id_kategori').val() == '1') {
+            var nomor_hp = replace_titik($('#nomor_hp').val());
             if ($('#nomor_hp').val() == '') {
                 $("#form_sendotp").trigger('reset');
                 $('#btn_save').html('Simpan');
@@ -1472,7 +1473,137 @@
                 });
             }
         } else {
+            if (email == '') {
+                $("#form_sendotp").trigger('reset');
+                $('#btn_save').html('Simpan');
+                $(".btn-close").trigger("click");
+                $('#content_notif').html('EMAIL HARUS DI ISI');
+                var newDiv = $('<div class="lottie-animation"></div>');
+                $("#icon").empty();
+                $('#icon').append(newDiv);
+                lottie.loadAnimation({
+                    container: newDiv[0], // Elemen target
+                    renderer: 'svg', // Bisa 'canvas' atau 'html'
+                    loop: true, // Animasi terus berjalan
+                    autoplay: true, // Mulai otomatis
+                    path: "{{ asset('assets_user/assets/animation/close.json') }}" // Path ke file JSON (harus ada di folder public)
+                });
+                $(".lottie-animation").css({
+                    "width": "100px",
+                    "height": "100px",
+                    "display": "inline-block",
+                });
+                offcanvasElement.show();
+            } else {
+                Swal.fire({
+                    allowOutsideClick: false,
+                    background: 'transparent',
+                    html: ' <div class="spinner-grow text-primary spinner-grow-sm me-2" role="status"></div><div class="spinner-grow text-primary spinner-grow-sm me-2" role="status"></div><div class="spinner-grow text-primary spinner-grow-sm me-2" role="status"></div>',
+                    showCancelButton: false,
+                    showConfirmButton: false,
+                    onBeforeOpen: () => {
+                        $.ajax({
+                            data: {
+                                "_token": "{{ csrf_token() }}",
+                                id_kategori: id_kategori,
+                                email: email,
+                                nomor_hp: nomor_hp,
+                            },
+                            url: "{{ route('user.sendOTP') }}",
+                            type: "POST",
+                            dataType: 'json',
+                            success: function(data) {
+                                console.log(data);
+                                if (data.code == 200) {
+                                    $('#content_notif').html(data.message);
+                                    var newDiv = $('<div class="lottie-animation"></div>');
+                                    $("#icon").empty();
+                                    $('#icon').append(newDiv);
+                                    lottie.loadAnimation({
+                                        container: newDiv[0], // Elemen target
+                                        renderer: 'svg', // Bisa 'canvas' atau 'html'
+                                        loop: true, // Animasi terus berjalan
+                                        autoplay: true, // Mulai otomatis
+                                        path: "{{ asset('assets_user/assets/animation/success.json') }}" // Path ke file JSON (harus ada di folder public)
+                                    });
+                                    $(".lottie-animation").css({
+                                        "width": "100px",
+                                        "height": "100px",
+                                        "display": "inline-block",
+                                    });
+                                    offcanvasElement.show();
+                                    window.location.href = "{{url('user/form_otp')}}/" + data.data;
+                                } else if (data.code == 400) {
+                                    $(".btn-close").trigger("click");
+                                    $("#form_sendotp").trigger('reset');
+                                    $('#content_notif').html(data.message);
+                                    var newDiv = $('<div class="lottie-animation"></div>');
+                                    $("#icon").empty();
+                                    $('#icon').append(newDiv);
+                                    lottie.loadAnimation({
+                                        container: newDiv[0], // Elemen target
+                                        renderer: 'svg', // Bisa 'canvas' atau 'html'
+                                        loop: true, // Animasi terus berjalan
+                                        autoplay: true, // Mulai otomatis
+                                        path: "{{ asset('assets_user/assets/animation/close.json') }}" // Path ke file JSON (harus ada di folder public)
+                                    });
+                                    $(".lottie-animation").css({
+                                        "width": "100px",
+                                        "height": "100px",
+                                        "display": "inline-block",
+                                    });
+                                    offcanvasElement.show();
+                                    Swal.close();
+                                } else {
+                                    $("#form_sendotp").trigger('reset');
+                                    $(".btn-close").trigger("click");
+                                    $('#content_notif').html('Gagal Disimpan');
+                                    var newDiv = $('<div class="lottie-animation"></div>');
+                                    $("#icon").empty();
+                                    $('#icon').append(newDiv);
+                                    lottie.loadAnimation({
+                                        container: newDiv[0], // Elemen target
+                                        renderer: 'svg', // Bisa 'canvas' atau 'html'
+                                        loop: true, // Animasi terus berjalan
+                                        autoplay: true, // Mulai otomatis
+                                        path: "{{ asset('assets_user/assets/animation/close.json') }}" // Path ke file JSON (harus ada di folder public)
+                                    });
+                                    $(".lottie-animation").css({
+                                        "width": "100px",
+                                        "height": "100px",
+                                        "display": "inline-block",
+                                    });
+                                    offcanvasElement.show();
 
+                                }
+
+                            },
+                            error: function(data) {
+                                $("#form_sendotp").trigger('reset');
+                                $(".btn-close").trigger("click");
+                                $('#content_notif').html('Gagal Disimpan');
+                                var newDiv = $('<div class="lottie-animation"></div>');
+                                $("#icon").empty();
+                                $('#icon').append(newDiv);
+                                lottie.loadAnimation({
+                                    container: newDiv[0], // Elemen target
+                                    renderer: 'svg', // Bisa 'canvas' atau 'html'
+                                    loop: true, // Animasi terus berjalan
+                                    autoplay: true, // Mulai otomatis
+                                    path: "{{ asset('assets_user/assets/animation/close.json') }}" // Path ke file JSON (harus ada di folder public)
+                                });
+                                $(".lottie-animation").css({
+                                    "width": "100px",
+                                    "height": "100px",
+                                    "display": "inline-block",
+                                });
+                                offcanvasElement.show();
+                                Swal.close();
+                            }
+                        });
+                    },
+                });
+            }
         }
     });
     $(document).on('click', '#btn_klik', function(e) {

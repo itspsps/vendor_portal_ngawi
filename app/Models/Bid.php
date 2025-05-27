@@ -10,4 +10,10 @@ class Bid extends Model
     protected $primaryKey = 'id_bid';
     public $timestamps = false;
     protected $fillable = ['id_bid', 'name_bid', 'open_po', 'unload_date', 'mulai_bid', 'date_bid', 'description_bid', 'image_bid'];
+
+
+    public function data_po()
+    {
+        return $this->hasOne(DataPO::class, 'bid_id');
+    }
 }

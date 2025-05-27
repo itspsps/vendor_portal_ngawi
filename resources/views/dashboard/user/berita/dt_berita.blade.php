@@ -1,4 +1,4 @@
-@extends('dashboard.user.layout.main')
+@extends('dashboard.user.layouts.main')
 @section('title')
 SURYA PANGAN SEMESTA
 @endsection
@@ -6,52 +6,45 @@ SURYA PANGAN SEMESTA
 @include('sweetalert::alert')
 
 <!--home section bg area start-->
-<div class="home_section_bg" style="background: rgb(178,172,226);
-background: linear-gradient(180deg, rgba(178,172,226,1) 7%, rgba(237,236,244,1) 100%);background-size: cover;  height: 100%; border-radius: 30px; margin-top: 10%;">
-    <div class="product_area deals_product ">
-        <div class="container">
-            <div class="blog_area">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="product_header">
-                                <h3 style="color: white; text-align: center; font-weight: bold;"> BERITA
-                                </h3>
+<div class="home_section_bg" style="background: rgb(178,172,226); background: linear-gradient(180deg, rgba(178,172,226,1) 7%, rgba(237,236,244,1) 100%);background-size: cover;  height: 100%; border-radius: 30px; margin-top: 10%;">
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            @foreach ($berita as $berita)
-                            <div class="card">
-                                <article class="single_blog">
-                                    <figure>
-                                        <a href="{{route('user.detailberita',['id'=> $berita->id_news])}}"><img class="mx-auto" src="{{asset('img/berita/'.$berita->gambar)}}" alt=""></a>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="product_header">
+                    <h3 style="color: white; text-align: center; font-weight: bold;"> BERITA
+                    </h3>
 
-                                        <figcaption class="blog_content">
-                                            <h4><a href="{{route('user.detailberita',['id'=> $berita->id_news])}}">{{$berita->judul_berita}}</a></h4>
-                                            <div class="post_meta">
-                                                <p>By <a href="#">admin</a> Date <a href="#">April 24, 2018</a></p>
-                                            </div>
-                                            {{-- <div class="post_desc">
-                                            <p>Donec vitae hendrerit arcu, sit amet faucibus nisl. Cras pretium arcu ex. Aenean posuere libero eu augue condimentum rhoncus. Praesent</p>
-                                        </div> --}}
-                                            <footer class="post_readmore">
-                                                <a href="{{route('user.detailberita',['id'=> $berita->id_news])}}">Read more</a>
-                                            </footer>
-                                        </figcaption>
-                                    </figure>
-                                </article>
-                            </div>
-                            @endforeach
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
-    </div>
+        <div class="row">
+            <div class="col-12">
+                @foreach ($berita as $berita)
+                <div class="card">
+                    <article class="single_blog tex-center">
+                        <figure>
+                            <a href="{{route('user.detailberita',['id'=> $berita->id_news])}}"><img class="mx-auto" src="{{asset('img/berita/'.$berita->gambar)}}" width="75%" alt=""></a>
 
+                            <figcaption class="blog_content">
+                                <h4><a href="{{route('user.detailberita',['id'=> $berita->id_news])}}">{{$berita->judul_berita}}</a></h4>
+                                <div class="post_meta">
+                                    <p>By <a href="#">admin</a> Date <a href="#">April 24, 2018</a></p>
+                                </div>
+                                {{-- <div class="post_desc">
+                                            <p>Donec vitae hendrerit arcu, sit amet faucibus nisl. Cras pretium arcu ex. Aenean posuere libero eu augue condimentum rhoncus. Praesent</p>
+                                        </div> --}}
+                                <footer class="post_readmore">
+                                    <a href="{{route('user.detailberita',['id'=> $berita->id_news])}}">Read more</a>
+                                </footer>
+                            </figcaption>
+                        </figure>
+                    </article>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
 
 </div>
 <!--home section bg area end-->

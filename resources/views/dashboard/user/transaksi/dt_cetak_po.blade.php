@@ -144,8 +144,8 @@
                             </td>
                         </tr>
                     </table>
-                    @endforeach
                 </div>
+                @endforeach
             </div>
         </div>
     </div>

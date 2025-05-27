@@ -70,7 +70,7 @@ class SuperadminController extends Controller
     {
         $fieldType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
         $array = $request->username;
-        // $oke = json_encode($array);
+        // $oke = json_encode($array);  
         // dd($array);
         if ($fieldType == "username") {
             $data = Superadmin::where('username', $array)->first();
@@ -280,30 +280,6 @@ class SuperadminController extends Controller
         }
         // dd($request->all());
         $rules = [
-            // 'vendorid'                      => 'required|max:255',
-            // 'name'                          => 'required|max:255',
-            // 'sps_alias_c'                   => 'nullable|max:255',
-            // 'address1'                      => 'required|max:255',
-            // 'address2'                      => 'required|max:255',
-            // 'address3'                      => 'required|max:255',
-            // 'city'                          => 'required|max:255',
-            // 'state'                         => 'required|max:255',
-            // 'zip'                           => 'required|max:255',
-            // 'taxpayerID'                    => 'required|max:255',
-            // 'SPS_NameNPWP_c'                => 'required|max:255',
-            // 'SPS_AlamatNPWP_c'              => 'required|max:255',
-            // 'SPS_ActiveDate_c'              => 'required|max:255',
-            // 'SPS_InactiveDate_c'            => 'required|max:255',
-            // 'faxnum'                        => 'required|max:255',
-            // 'SPS_phonenum_c'                => 'required|max:255',
-            // 'emailaddress'                  => 'required|max:255',
-            // 'shipviacode'                   => 'required|max:255',
-            // 'taxregioncode'                 => 'required|max:255',
-            // 'GroupCode'                     => 'required|max:255',
-            // 'BankAcctNumber'                => 'required|max:255',
-            // 'BankName'                      => 'required|max:255',
-            // 'BankBranchCode'                => 'required|max:255',
-            // 'SPS_niksupplier_c'             => 'required|max:255',
 
             'nama_npwp'                     => 'required|max:255',
             'npwp'                          => ['required', Rule::unique('users')->where(function ($query) use ($request) {
@@ -358,19 +334,19 @@ class SuperadminController extends Controller
         // dd($validatedData);
         $fileNPWP       = $request->file('gambar_npwp');
         $imageNameNPWP  = time() . '.' . $request->gambar_npwp->extension();
-        $moveNPWP       = $fileNPWP->move('public/img/npwp/profile_user', $imageNameNPWP);
+        $moveNPWP       = $fileNPWP->move('img/npwp/profile_user', $imageNameNPWP);
 
         $fileKTP       = $request->file('gambar_ktp');
         $imageNameKTP  = time() . '.' . $request->gambar_ktp->extension();
-        $moveKTP       = $fileKTP->move('public/img/ktp/profile_user', $imageNameKTP);
+        $moveKTP       = $fileKTP->move('img/ktp/profile_user', $imageNameKTP);
 
         $filePI       = $request->file('pakta_integritas');
         $imageNamePI   = time() . '.' . $request->pakta_integritas->extension();
-        $movePI        = $filePI->move('public/img/pakta_integritas/profile_user', $imageNamePI);
+        $movePI        = $filePI->move('img/pakta_integritas/profile_user', $imageNamePI);
 
         $fileFIS       = $request->file('fis');
         $imageNameFIS   = time() . '.' . $request->fis->extension();
-        $moveFIS        = $fileFIS->move('public/img/fis/profile_user', $imageNameFIS);
+        $moveFIS        = $fileFIS->move('img/fis/profile_user', $imageNameFIS);
 
 
 
@@ -394,17 +370,24 @@ class SuperadminController extends Controller
         // NPWP
         $npwp =  str_replace(' ', '', $validatedData['npwp']);
         // dd($validatedData);
+        if ($validatedData['badan_usaha'] == NULL) {
+            $badan_usaha = '-';
+        } else {
+            $badan_usaha = $validatedData['badan_usaha'];
+        }
+        if ($validatedData['email'] == NULL) {
+            $email = '-';
+        } else {
+            $email = $validatedData['email'];
+        }
         $client = new \GuzzleHttp\Client();
         // $url = 'https://sumberpangan.store/api/postman';
         $url = 'http://34.34.222.145:2022/api/Vendor/InsertVendor';
         $form_params = [
-            'vendor_id'         => '',
-            'name'              => $validatedData['nama_vendor'],
-            'password'          => $validatedData['password'],
+            'vendor_id'         => '0',
             'groupcode'         => '1PBB',
-            'nomer_hp'          => $validatedData['nomer_hp'],
             'name'              => $validatedData['nama_ktp'],
-            'sps_alias_c'       => $validatedData['badan_usaha'],
+            'sps_alias_c'       => $badan_usaha,
             'address1'          => $cek_address1->name,
             'address2'          => $cek_address2->name,
             'address3'          => $cek_address3->name,
@@ -415,47 +398,48 @@ class SuperadminController extends Controller
             'sps_alamatnpwp_c'  => $cek_address1->name . ', ' . $cek_address2->name . ', ' . $cek_address3->name . ' INDONESIA',
             'inactive'          => 'false',
             'sps_phonenum_c'    => $validatedData['nomer_hp'],
-            'emailaddress'      => $validatedData['email'],
+            'emailaddress'      => $email,
             'termscode'         => 'PT01',
             'bankacctnumber'    => $validatedData['nomer_rekening'],
+            'bankAccountID'     => 'BA101',
+            'BankName'          => $bank_name,
             'bankbranchcode'    => $bank_code,
             'sps_niksupplier_c' => $validatedData['ktp'],
-            'bankAccountID'     => 'BA101',
-            'BankName'          => $bank_name
+            'SPS_ActiveDate_c'  => date('Y-m-d')
         ];
         $response = $client->post($url, ['form_params' => $form_params]);
         $response = $response->getBody()->getContents();
         $result     = preg_replace("/[^a-zA-Z0-9]/", "", $response);
         $query = User::create([
-            // 'vendorid'           => Str::upper($request->vendor_id),
-            'vendorid'           => $result,
-            'name'               => $validatedData['nama_vendor'],
-            'sps_alias_c'        => $validatedData['badan_usaha'],
-            'address1'           => $cek_address1->name,
-            'address2'           => $cek_address2->name,
-            'address3'           => $cek_address3->name,
-            'city'               => $cek_address2->name,
-            'state'              => $cek_address3->name,
-            'zip'                => '-',
-            'taxpayerID'         => $npwp,
-            'SPS_NameNPWP_c'     => $validatedData['nama_npwp'],
-            'SPS_AlamatNPWP_c'   => $cek_address1->name . ', ' . $cek_address2->name . ', ' . $cek_address3->name . ' INDONESIA',
-            'SPS_ActiveDate_c'   => date('Y-m-d'),
-            'SPS_InactiveDate_c' => date('Y-m-d'),
-            'faxnum'             => '-',
-            'SPS_phonenum_c'     => $validatedData['nomer_hp'],
-            'emailaddress'       => $validatedData['email'],
-            'shipviacode'        => '-',
-            'taxregioncode'      => 'TX54',
-            'GroupCode'          => '1PBB',
-            'BankAcctNumber'     => $validatedData['nomer_rekening'],
-            'BankName'           => $bank_name,
-            'BankBranchCode'     => $bank_code,
-            'SPS_niksupplier_c'  => $validatedData['ktp'],
+            // 'vendorid'                   => Str::upper($request->vendor_id),
+            'vendorid'                      => $result,
+            'name'                          => $validatedData['nama_vendor'],
+            'sps_alias_c'                   => $badan_usaha,
+            'address1'                      => $cek_address1->name,
+            'address2'                      => $cek_address2->name,
+            'address3'                      => $cek_address3->name,
+            'city'                          => $cek_address2->name,
+            'state'                         => $cek_address3->name,
+            'zip'                           => '-',
+            'taxpayerID'                    => $npwp,
+            'SPS_NameNPWP_c'                => $validatedData['nama_npwp'],
+            'SPS_AlamatNPWP_c'              => $cek_address1->name . ', ' . $cek_address2->name . ', ' . $cek_address3->name . ' INDONESIA',
+            'SPS_ActiveDate_c'              => date('Y-m-d'),
+            'SPS_InactiveDate_c'            => date('Y-m-d'),
+            'faxnum'                        => '-',
+            'SPS_phonenum_c'                => $validatedData['nomer_hp'],
+            'emailaddress'                  => $email,
+            'shipviacode'                   => '-',
+            'taxregioncode'                 => 'TX54',
+            'GroupCode'                     => '1PBB',
+            'BankAcctNumber'                => $validatedData['nomer_rekening'],
+            'BankName'                      => $bank_name,
+            'BankBranchCode'                => $bank_code,
+            'SPS_niksupplier_c'             => $validatedData['ktp'],
 
             'nama_vendor'                   => $validatedData['nama_vendor'],
             'nama_npwp'                     => $validatedData['nama_npwp'],
-            'email'                         => $validatedData['email'],
+            'email'                         => $email,
             'npwp'                          => $npwp,
             'rt_npwp'                       => $validatedData['rt_npwp'],
             'rw_npwp'                       => $validatedData['rw_npwp'],
@@ -776,7 +760,7 @@ class SuperadminController extends Controller
         } else {
             // dd('b');
             if ($data_users->gambar_npwp != ''  && $data_users->gambar_npwp != null) {
-                $path = '/home/sumb1497/public_html/bid.com/public/img/npwp/profile_user/';
+                $path = '/home/sumb1497/public_html/ngawi.suryapangansemesta.store/public/img/npwp/profile_user/';
 
                 $file_old = $path . $data_users->gambar_npwp;
                 if (file_exists($file_old)) {
@@ -785,7 +769,7 @@ class SuperadminController extends Controller
             }
             $filenpwp       = $request->file('file_npwp');
             $imageNameNPWP  = time() . '.' . $request->file_npwp->extension();
-            $moveNPWP       = $filenpwp->move('public/img/npwp/profile_user', $imageNameNPWP);
+            $moveNPWP       = $filenpwp->move('img/npwp/profile_user', $imageNameNPWP);
             $data = User::where('id', $request->npwp_id_vendor)->first();
             $data->nama_npwp     = $request->nama_npwp;
             $data->npwp     = $request->npwp;
@@ -800,13 +784,19 @@ class SuperadminController extends Controller
             $data->SPS_NameNPWP_c        = $request->nama_npwp;
             $data->update();
         }
+        if ($data_users->emailaddress = '' || $data_users->email = '') {
+            $email = '-';
+        } else {
+            $email = $data_users->emailaddress;
+        }
+        // dd($data_users, $request->all(), $cek_address1->name . ', ' . $cek_address2->name . ', ' . $cek_address3->name . ' INDONESIA');
         // Integrasi Epicor
         $client = new \GuzzleHttp\Client();
         $url = 'http://34.34.222.145:2022/api/Vendor/UpdateVendor';
         $form_params = [
+            'vendorid'          => $data_users->vendorid,
             'name'           => $data_users->nama_vendor,
             'groupcode'         => '1PBB',
-            'vendorid'          => $data_users->vendorid,
             'sps_alias_c'       => $data_users->sps_alias_c,
             'address1'          => $data_users->address1,
             'address2'          => $data_users->address2,
@@ -818,13 +808,14 @@ class SuperadminController extends Controller
             'sps_alamatnpwp_c'  => $cek_address1->name . ', ' . $cek_address2->name . ', ' . $cek_address3->name . ' INDONESIA',
             'inactive'          => 'false',
             'sps_phonenum_c'    => $data_users->SPS_phonenum_c,
-            'emailaddress'      => $data_users->emailaddress,
+            'emailaddress'      => $email,
             'termscode'         => 'PT01',
             'bankAccountID'     => 'BA101',
             'BankName'          => $data_users->BankName,
             'bankacctnumber'    => $data_users->BankAcctNumber,
             'bankbranchcode'    => $data_users->BankBranchCode,
-            'sps_niksupplier_c' => $data_users->SPS_niksupplier_c
+            'sps_niksupplier_c' => $data_users->SPS_niksupplier_c,
+            'SPS_ActiveDate_c' => date('Y-m-d')
         ];
         $response = $client->post($url, ['form_params' => $form_params]);
         $response = $response->getBody()->getContents();
@@ -861,7 +852,7 @@ class SuperadminController extends Controller
         } else {
             // dd('b');
             if ($data_users->gambar_ktp != ''  && $data_users->gambar_ktp != null) {
-                $path = '/home/sumb1497/public_html/bid.com/public/img/ktp/profile_user/';
+                $path = '/home/sumb1497/public_html/ngawi.suryapangansemesta.store/public/img/ktp/profile_user/';
 
                 $file_old = $path . $data_users->gambar_ktp;
                 if (file_exists($file_old)) {
@@ -870,7 +861,7 @@ class SuperadminController extends Controller
             }
             $filektp       = $request->file('file_ktp');
             $imageNamektp  = time() . '.' . $request->file_ktp->extension();
-            $movektp       = $filektp->move('public/img/ktp/profile_user', $imageNamektp);
+            $movektp       = $filektp->move('img/ktp/profile_user', $imageNamektp);
             $data = User::where('id', $request->ktp_id_vendor)->first();
             $data->nama_ktp     = $request->nama_ktp;
             $data->ktp     = $request->ktp;
@@ -888,6 +879,12 @@ class SuperadminController extends Controller
             $data->state        = $cek_address3->name;
             $data->SPS_niksupplier_c        = $request->ktp;
             $data->update();
+        }
+
+        if ($data_users->emailaddress = '' || $data_users->email = '') {
+            $email = '-';
+        } else {
+            $email = $data_users->emailaddress;
         }
         // Integrasi Epicor
         $client = new \GuzzleHttp\Client();
@@ -907,13 +904,14 @@ class SuperadminController extends Controller
             'sps_alamatnpwp_c'  => $data_users->SPS_AlamatNPWP_c,
             'inactive'          => 'false',
             'sps_phonenum_c'    => $data_users->SPS_phonenum_c,
-            'emailaddress'      => $data_users->emailaddress,
+            'emailaddress'      => $email,
             'termscode'         => 'PT01',
             'bankAccountID'     => 'BA101',
             'BankName'          => $data_users->BankName,
             'bankacctnumber'    => $data_users->BankAcctNumber,
             'bankbranchcode'    => $data_users->BankBranchCode,
             'sps_niksupplier_c' => $request->ktp,
+            'SPS_ActiveDate_c' => date('Y-m-d'),
         ];
         $response = $client->post($url, ['form_params' => $form_params]);
         $response = $response->getBody()->getContents();
@@ -946,6 +944,11 @@ class SuperadminController extends Controller
         $data->BankBranchCode       = $bank_code;
         $data->update();
 
+        if ($data_users->emailaddress = '' || $data_users->email = '') {
+            $email = '-';
+        } else {
+            $email = $data_users->emailaddress;
+        }
         // Integrasi Epicor
         $client = new \GuzzleHttp\Client();
         $url = 'http://34.34.222.145:2022/api/Vendor/UpdateVendor';
@@ -964,13 +967,14 @@ class SuperadminController extends Controller
             'sps_alamatnpwp_c'  => $data_users->SPS_AlamatNPWP_c,
             'inactive'          => 'false',
             'sps_phonenum_c'    => $data_users->SPS_phonenum_c,
-            'emailaddress'      => $data_users->emailaddress,
+            'emailaddress'      => $email,
             'termscode'         => 'PT01',
             'bankAccountID'     => 'BA101',
             'BankName'          => $bank_name,
             'bankacctnumber'    => $request->nomer_rekening,
             'bankbranchcode'    => $bank_code,
             'sps_niksupplier_c' => $data_users->ktp,
+            'SPS_ActiveDate_c' => date('Y-m-d'),
         ];
         $response = $client->post($url, ['form_params' => $form_params]);
         $response = $response->getBody()->getContents();
@@ -1002,7 +1006,7 @@ class SuperadminController extends Controller
             $data->update();
         } else if ($request->file_pakta == null && $request->file_fis != null) {
             if ($data_users->fis != ''  && $data_users->fis != null) {
-                $path = '/home/sumb1497/public_html/bid.com/public/img/fis/profile_user/';
+                $path = '/home/sumb1497/public_html/ngawi.suryapangansemesta.store/public/img/fis/profile_user/';
 
                 $file_old = $path . $data_users->fis;
                 if (file_exists($file_old)) {
@@ -1011,7 +1015,7 @@ class SuperadminController extends Controller
             }
             $filefis       = $request->file('file_fis');
             $imageNamefis  = time() . '.' . $request->file_fis->extension();
-            $moveFIS       = $filefis->move('public/img/fis/profile_user', $imageNamefis);
+            $moveFIS       = $filefis->move('img/fis/profile_user', $imageNamefis);
 
             $data = User::where('id', $request->profil_id_vendor)->first();
             $data->vendorid          = $request->vendor_id;
@@ -1032,7 +1036,7 @@ class SuperadminController extends Controller
             $data->update();
         } else if ($request->file_pakta != null && $request->file_fis == null) {
             if ($data_users->pakta_integritas != ''  && $data_users->pakta_integritas != null) {
-                $path = '/home/sumb1497/public_html/bid.com/public/img/pakta_integritas/profile_user/';
+                $path = '/home/sumb1497/public_html/ngawi.suryapangansemesta.store/public/img/pakta_integritas/profile_user/';
 
                 $file_old = $path . $data_users->pakta_integritas;
                 if (file_exists($file_old)) {
@@ -1041,7 +1045,7 @@ class SuperadminController extends Controller
             }
             $filePakta       = $request->file('file_pakta');
             $imageNamePakta  = time() . '.' . $request->file_pakta->extension();
-            $movepakta_integritas      = $filePakta->move('public/img/pakta_integritas/profile_user', $imageNamePakta);
+            $movepakta_integritas      = $filePakta->move('img/pakta_integritas/profile_user', $imageNamePakta);
 
             $data = User::where('id', $request->profil_id_vendor)->first();
             $data->vendorid          = $request->vendor_id;
@@ -1062,8 +1066,8 @@ class SuperadminController extends Controller
             $data->update();
         } else {
             if ($data_users->pakta_integritas != ''  && $data_users->pakta_integritas != null && $data_users->fis != ''  && $data_users->fis != null) {
-                $path = '/home/sumb1497/public_html/bid.com/public/img/pakta_integritas/profile_user/';
-                $path1 = '/home/sumb1497/public_html/bid.com/public/img/fis/profile_user/';
+                $path = '/home/sumb1497/public_html/ngawi.suryapangansemesta.store/public/img/pakta_integritas/profile_user/';
+                $path1 = '/home/sumb1497/public_html/ngawi.suryapangansemesta.store/public/img/fis/profile_user/';
 
                 $file_old = $path . $data_users->pakta_integritas;
                 $file_old1 = $path1 . $data_users->fis;
@@ -1074,10 +1078,10 @@ class SuperadminController extends Controller
             }
             $filePakta                  = $request->file('file_pakta');
             $imageNamePakta             = time() . '.' . $request->file_pakta->extension();
-            $movePakta                  = $filePakta->move('public/img/pakta_integritas/profile_user', $imageNamePakta);
+            $movePakta                  = $filePakta->move('img/pakta_integritas/profile_user', $imageNamePakta);
             $filefis                    = $request->file('file_fis');
             $imageNamefis               = time() . '.' . $request->file_fis->extension();
-            $moveFIS                    = $filefis->move('public/img/fis/profile_user', $imageNamefis);
+            $moveFIS                    = $filefis->move('img/fis/profile_user', $imageNamefis);
 
             $data                       = User::where('id', $request->profil_id_vendor)->first();
             $data->vendorid             = $request->vendor_id;
@@ -1098,6 +1102,12 @@ class SuperadminController extends Controller
             $data->bankaccount_id       = 'BA101';
             $data->update();
         }
+
+        if ($data_users->email = '' || $data_users->email = '') {
+            $email = '-';
+        } else {
+            $email = $data_users->email;
+        }
         // Integrasi Epicor
         $client = new \GuzzleHttp\Client();
         $url = 'http://34.34.222.145:2022/api/Vendor/UpdateVendor';
@@ -1116,13 +1126,14 @@ class SuperadminController extends Controller
             'sps_alamatnpwp_c'  => $data_users->SPS_AlamatNPWP_c,
             'inactive'          => 'false',
             'sps_phonenum_c'    => $request->nomer_hp,
-            'emailaddress'      => $data_users->email,
+            'emailaddress'      => $email,
             'termscode'         => 'PT01',
             'bankAccountID'     => 'BA101',
             'BankName'          => $data_users->BankName,
             'bankacctnumber'    => $data_users->nomer_rekening,
             'bankbranchcode'    => $data_users->BankBranchCode,
             'sps_niksupplier_c' => $request->ktp,
+            'SPS_ActiveDate_c' => date('Y-m-d'),
         ];
         $response = $client->post($url, ['form_params' => $form_params]);
         $response = $response->getBody()->getContents();
@@ -1433,189 +1444,96 @@ class SuperadminController extends Controller
     }
     public function data_sourching_onprocess_gb_longgrain_index(Request $request)
     {
-        // $data = DataPO::
-        //     ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-        //     ->join('users', 'users.id', '=', 'data_po.user_idbid')
-        //     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-        //     ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
-        //     ->where('lab2_gb.status_lab2_gb', 13)
-        //     ->orWhere('lab2_gb.aksi_harga_gb', '=', 'ON PROCESS')
-        //     ->where('bid.name_bid', '=', 'GABAH BASAH LONG GRAIN')
-        //     ->orderBy('lab2_gb.id_lab2_gb', 'desc')
-        //     // ->whereBetween('lab2_gb.created_at', array($request->from_date, $request->to_date))
-        //     ->get();
-        // dd($data);
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
-
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
-                    ->where('data_po.kategory_po', ['REGULER', NULL])
-                    ->where('lab2_gb.aksi_harga_gb', '=', 'ON PROCESS')
-                    ->where('bid.name_bid', '=', 'GABAH BASAH LONG GRAIN')
-                    ->orderBy('lab2_gb.id_lab2_gb', 'desc')
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
-                    ->get())
+                $table = Lab2GabahBasah::With(['DataPO' => function ($query) use ($request) {
+                    $query->whereBetween('tanggal_po', array($request->from_date, $request->to_date));
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With('PenerimaanPo')
+                    ->whereHas('DataPO', function ($query) use ($request) {
+                        $query->whereBetween('tanggal_po', array($request->from_date, $request->to_date));
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                        });
+                    })
+                    // ->where('aksi_harga_gb', 'DEAL')
+                    ->where('aksi_harga_gb', 'ON PROCESS')
+                    ->orderBy('id_lab2_gb', 'desc')
+                    ->select(
+                        'id_lab2_gb',
+                        'lab2_kode_po_gb',
+                        'dtm_gb',
+                        'harga_akhir_gb',
+                        'harga_akhir_permintaan_gb',
+                        'keterangan_harga_akhir_gb',
+                        'reaksi_harga_gb',
+                        'lokasi_bongkar_gb',
+                        'plan_harga_beli_gabah_gb',
+                        'harga_berdasarkan_tempat_gb',
+                        'harga_berdasarkan_harga_atas_gb',
+                        'harga_awal_gb',
+                        'aksi_harga_gb',
+                    )
+                    ->get();
+                return Datatables::of($table)
                     ->addColumn('name_bid', function ($list) {
-                        $result = $list->name_bid;
+                        $result = $list->DataPO->Bid->name_bid;
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
+                        $result = $list->DataPO->User->nama_vendor;
                         return $result;
                     })
-                    ->addColumn('date_bid', function ($list) {
-                        $result = $list->date_bid;
-                        return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
-                    })
                     ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
+                        $result = $list->DataPO->kode_po;
+                        return $result;
+                    })
+                    ->addColumn('dtm_gb', function ($list) {
+                        $result = $list->dtm_gb;
                         return $result;
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y ');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y ');
                         return $result;
                     })
                     ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y ');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y ');
                         return $result;
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
+                        $result = $list->DataPO->nopol;
                         return $result;
                     })
                     ->addColumn('tonase_awal', function ($list) {
-                        $result = $list->tonase_awal;
-                        return $result;
-                    })
-                    ->addColumn('tonase_akhir', function ($list) {
-                        $result = $list->tonase_akhir;
-                        return $result;
-                    })
-                    ->addColumn('hasil_akhir_tonase', function ($list) {
-                        $result = $list->hasil_akhir_tonase;
-                        if ($result == '' && $result == null) {
-                            return '<span class="badge badge-pill badge-info">Proses Final Tonase</span>';
+                        if ($list->PenerimaanPo == '') {
+                            $result = '';
                         } else {
-                            return tonase($list->hasil_akhir_tonase);
-                        }
-                    })
-                    ->addColumn('plan_harga_beli_gabah', function ($list) {
-                        $result = rupiah($list->plan_harga_beli_gabah_gb) . '/Kg';
-                        return $result;
-                    })
-                    ->addColumn('harga_berdasarkan_tempat', function ($list) {
-                        $result = rupiah($list->harga_berdasarkan_tempat_gb) . '/Kg';
-                        return $result;
-                    })
-                    ->addColumn('harga_berdasarkan_harga_atas', function ($list) {
-                        $result = rupiah($list->harga_berdasarkan_harga_atas_gb) . '/Kg';
-                        return $result;
-                    })
-                    ->addColumn('harga_akhir', function ($list) {
-                        $result = $list->harga_akhir_permintaan_gb;
-                        if ($result == '' && $result == null) {
-                            $result = rupiah($list->harga_akhir_gb);
-                        } else {
-                            $result = rupiah($list->harga_akhir_permintaan_gb);
+                            $result = $list->PenerimaanPo->tonase_awal;
                         }
                         return $result;
                     })
-                    ->addColumn('aksi_harga', function ($list) {
-                        $result = $list->aksi_harga_gb;
-                        return '
-                    <div class="dropdown">
-    					<button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						    <i class="fa fa-spinner"></i>	ON PROCESS
-						</button>
-						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-							<button class="dropdown-item" id="btn_deal_gb" data-id="' . $list->id_penerimaan_po . '"><i class="fa fa-handshake"></i> DEAL</button>
-							<button class="dropdown-item" id="btn_nego_gb" data-id="' . $list->id_penerimaan_po . '"><i class="fa fa-hand-holding-usd"></i> NEGO</button>
-						</div>
-					</div>';
-                    })
-                    ->addColumn('surveyor', function ($list) {
-                        $result = $list->surveyor_gb;
-                        return $result;
-                    })
-                    ->addColumn('keterangan', function ($list) {
-                        $result = $list->keterangan_gb;
-                        return $result;
-                    })
-                    ->addColumn('waktu', function ($list) {
-                        $result = $list->waktu_gb;
-                        return $result;
-                    })
-                    ->addColumn('tempat', function ($list) {
-                        $result = $list->tempat_gb;
-                        return $result;
-                    })
-                    ->addColumn('z_yang_dibawa', function ($list) {
-                        $result = $list->z_yang_dibawa_gb;
-                        return $result;
-                    })
-                    ->addColumn('z_yang_ditolak', function ($list) {
-                        $result = $list->z_yang_ditolak_gb;
-                        return $result;
-                    })
-                    ->rawColumns(['name_bid', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'date_bid', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
-                    ->make(true);
-            } else {
-
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
-                    // ->where('data_po.kategory_po', ['REGULER', NULL])
-                    ->where('lab2_gb.aksi_harga_gb', '=', 'ON PROCESS')
-                    ->where('bid.name_bid', '=', 'GABAH BASAH LONG GRAIN')
-                    ->orderBy('lab2_gb.id_lab2_gb', 'desc')
-                    // ->whereBetween('lab2_gb.created_at', array($request->from_date, $request->to_date))
-                    ->get())
-                    ->addColumn('name_bid', function ($list) {
-                        $result = $list->name_bid;
-                        return $result;
-                    })
-                    ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
-                        return $result;
-                    })
-                    ->addColumn('date_bid', function ($list) {
-                        $result = $list->date_bid;
-                        return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
-                    })
-                    ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
-                        return $result;
-                    })
-                    ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y ');
-                        return $result;
-                    })
-                    ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y ');
-                        return $result;
-                    })
-                    ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
-                        return $result;
-                    })
-                    ->addColumn('tonase_awal', function ($list) {
-                        $result = $list->tonase_awal;
-                        return $result;
-                    })
                     ->addColumn('tonase_akhir', function ($list) {
-                        $result = $list->tonase_akhir;
+                        if ($list->PenerimaanPo == '') {
+                            $result = '';
+                        } else {
+                            $result = $list->PenerimaanPo->tonase_akhir;
+                        }
                         return $result;
                     })
                     ->addColumn('hasil_akhir_tonase', function ($list) {
-                        $result = $list->hasil_akhir_tonase;
-                        if ($result == '' && $result == null) {
-                            return '<span class="badge badge-pill badge-info">Proses Final Tonase</span>';
+                        if ($list->PenerimaanPo == '') {
+                            return  '';
                         } else {
-                            return tonase($list->hasil_akhir_tonase);
+                            $result = $list->PenerimaanPo->hasil_akhir_tonase;
+                            if ($result == '' && $result == null) {
+                                return '<span class="badge badge-pill badge-info">Proses Final Tonase</span>';
+                            } else {
+                                return tonase($list->PenerimaanPo->hasil_akhir_tonase);
+                            }
                         }
                     })
                     ->addColumn('plan_harga_beli_gabah', function ($list) {
@@ -1647,8 +1565,8 @@ class SuperadminController extends Controller
 						    <i class="fa fa-spinner"></i>	ON PROCESS
 						</button>
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-							<button class="dropdown-item" id="btn_deal_gb" data-id="' . $list->id_penerimaan_po . '"><i class="fa fa-handshake"></i> DEAL</button>
-							<button class="dropdown-item" id="btn_nego_gb" data-id="' . $list->id_penerimaan_po . '"><i class="fa fa-hand-holding-usd"></i> NEGO</button>
+							<button class="dropdown-item" id="btn_deal_gb" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '"><i class="fa fa-handshake"></i> DEAL</button>
+							<button class="dropdown-item" id="btn_nego_gb" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '"><i class="fa fa-hand-holding-usd"></i> NEGO</button>
 						</div>
 					</div>';
                     })
@@ -1676,7 +1594,166 @@ class SuperadminController extends Controller
                         $result = $list->z_yang_ditolak_gb;
                         return $result;
                     })
-                    ->rawColumns(['name_bid', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'date_bid', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
+                    ->addColumn('keterangan_harga_akhir_gb', function ($list) {
+                        $result = $list->keterangan_harga_akhir_gb;
+                        return $result;
+                    })
+                    ->rawColumns(['name_bid', 'dtm_gb', 'keterangan_harga_akhir_gb', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'date_bid', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
+                    ->make(true);
+            } else {
+                $table = Lab2GabahBasah::With(['DataPO' => function ($query) {
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With('PenerimaanPo')
+                    ->whereHas('DataPO', function ($query) {
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                        });
+                    })
+                    // ->where('aksi_harga_gb', 'DEAL')
+                    ->where('aksi_harga_gb', 'ON PROCESS')
+                    ->orderBy('id_lab2_gb', 'desc')
+                    ->select(
+                        'id_lab2_gb',
+                        'lab2_kode_po_gb',
+                        'dtm_gb',
+                        'harga_akhir_gb',
+                        'harga_akhir_permintaan_gb',
+                        'keterangan_harga_akhir_gb',
+                        'reaksi_harga_gb',
+                        'lokasi_bongkar_gb',
+                        'plan_harga_beli_gabah_gb',
+                        'harga_berdasarkan_tempat_gb',
+                        'harga_berdasarkan_harga_atas_gb',
+                        'harga_awal_gb',
+                        'aksi_harga_gb',
+                    )
+                    ->take(200)
+                    ->get();
+                // dd($table);
+                return Datatables::of($table)
+                    ->addColumn('name_bid', function ($list) {
+                        $result = $list->DataPO->Bid->name_bid;
+                        return $result;
+                    })
+                    ->addColumn('nama_vendor', function ($list) {
+                        $result = $list->DataPO->User->nama_vendor;
+                        return $result;
+                    })
+                    ->addColumn('kode_po', function ($list) {
+                        $result = $list->DataPO->kode_po;
+                        return $result;
+                    })
+                    ->addColumn('dtm_gb', function ($list) {
+                        $result = $list->dtm_gb;
+                        return $result;
+                    })
+                    ->addColumn('tanggal_po', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y ');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y ');
+                        return $result;
+                    })
+                    ->addColumn('plat_kendaraan', function ($list) {
+                        $result = $list->DataPO->nopol;
+                        return $result;
+                    })
+                    ->addColumn('tonase_awal', function ($list) {
+                        if ($list->PenerimaanPo == '') {
+                            $result = '';
+                        } else {
+                            $result = $list->PenerimaanPo->tonase_awal;
+                        }
+                        return $result;
+                    })
+                    ->addColumn('tonase_akhir', function ($list) {
+                        if ($list->PenerimaanPo == '') {
+                            $result = '';
+                        } else {
+                            $result = $list->PenerimaanPo->tonase_akhir;
+                        }
+                        return $result;
+                    })
+                    ->addColumn('hasil_akhir_tonase', function ($list) {
+                        if ($list->PenerimaanPo == '') {
+                            return  '';
+                        } else {
+                            $result = $list->PenerimaanPo->hasil_akhir_tonase;
+                            if ($result == '' && $result == null) {
+                                return '<span class="badge badge-pill badge-info">Proses Final Tonase</span>';
+                            } else {
+                                return tonase($list->PenerimaanPo->hasil_akhir_tonase);
+                            }
+                        }
+                    })
+                    ->addColumn('plan_harga_beli_gabah', function ($list) {
+                        $result = 'Rp. ' . $list->plan_harga_beli_gabah_gb . '/Kg';
+                        return $result;
+                    })
+                    ->addColumn('harga_berdasarkan_tempat', function ($list) {
+                        $result = 'Rp. ' . $list->harga_berdasarkan_tempat_gb . '/Kg';
+                        return $result;
+                    })
+                    ->addColumn('harga_berdasarkan_harga_atas', function ($list) {
+                        $result = 'Rp. ' . $list->harga_berdasarkan_harga_atas_gb . '/Kg';
+                        return $result;
+                    })
+                    ->addColumn('harga_akhir', function ($list) {
+                        $result = $list->harga_akhir_permintaan_gb;
+                        if ($result == '' && $result == null) {
+                            $result = 'Rp. ' . $list->harga_akhir_gb;
+                        } else {
+                            $result = 'Rp. ' . $list->harga_akhir_permintaan_gb;
+                        }
+                        return $result;
+                    })
+                    ->addColumn('aksi_harga', function ($list) {
+                        $result = $list->aksi_harga_gb;
+                        return '
+                    <div class="dropdown">
+    					<button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						    <i class="fa fa-spinner"></i>	ON PROCESS
+						</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+							<button class="dropdown-item" id="btn_deal_gb" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '"><i class="fa fa-handshake"></i> DEAL</button>
+							<button class="dropdown-item" id="btn_nego_gb" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '"><i class="fa fa-hand-holding-usd"></i> NEGO</button>
+						</div>
+					</div>';
+                    })
+                    ->addColumn('surveyor', function ($list) {
+                        $result = $list->surveyor_gb;
+                        return $result;
+                    })
+                    ->addColumn('keterangan', function ($list) {
+                        $result = $list->keterangan_gb;
+                        return $result;
+                    })
+                    ->addColumn('waktu', function ($list) {
+                        $result = $list->waktu_gb;
+                        return $result;
+                    })
+                    ->addColumn('tempat', function ($list) {
+                        $result = $list->tempat_gb;
+                        return $result;
+                    })
+                    ->addColumn('z_yang_dibawa', function ($list) {
+                        $result = $list->z_yang_dibawa_gb;
+                        return $result;
+                    })
+                    ->addColumn('z_yang_ditolak', function ($list) {
+                        $result = $list->z_yang_ditolak_gb;
+                        return $result;
+                    })
+                    ->addColumn('keterangan_harga_akhir_gb', function ($list) {
+                        $result = $list->keterangan_harga_akhir_gb;
+                        return $result;
+                    })
+                    ->rawColumns(['name_bid', 'dtm_gb', 'keterangan_harga_akhir_gb', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'date_bid', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
                     ->make(true);
             }
         }
@@ -2173,177 +2250,94 @@ class SuperadminController extends Controller
     {
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
-
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
-                    ->where('lab2_gb.aksi_harga_gb', '=', 'ON PROCESS')
-                    ->where('bid.name_bid', '=', 'GABAH BASAH PANDAN WANGI')
-                    ->orderBy('lab2_gb.id_lab2_gb', 'desc')
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
-                    ->get())
+                $table = Lab2GabahBasah::With(['DataPO' => function ($query) use ($request) {
+                    $query->whereBetween('tanggal_po', array($request->from_date, $request->to_date));
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH PANDAN WANGI');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With('PenerimaanPo')
+                    ->whereHas('DataPO', function ($query) use ($request) {
+                        $query->whereBetween('tanggal_po', array($request->from_date, $request->to_date));
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH PANDAN WANGI');
+                        });
+                    })
+                    // ->where('aksi_harga_gb', 'DEAL')
+                    ->where('aksi_harga_gb', 'ON PROCESS')
+                    ->orderBy('id_lab2_gb', 'desc')
+                    ->select(
+                        'id_lab2_gb',
+                        'lab2_kode_po_gb',
+                        'dtm_gb',
+                        'harga_akhir_gb',
+                        'harga_akhir_permintaan_gb',
+                        'keterangan_harga_akhir_gb',
+                        'reaksi_harga_gb',
+                        'lokasi_bongkar_gb',
+                        'plan_harga_beli_gabah_gb',
+                        'harga_berdasarkan_tempat_gb',
+                        'harga_berdasarkan_harga_atas_gb',
+                        'harga_awal_gb',
+                        'aksi_harga_gb',
+                    )
+                    ->get();
+                return Datatables::of($table)
                     ->addColumn('name_bid', function ($list) {
-                        $result = $list->name_bid;
+                        $result = $list->DataPO->Bid->name_bid;
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
+                        $result = $list->DataPO->User->nama_vendor;
                         return $result;
-                    })
-                    ->addColumn('date_bid', function ($list) {
-                        $result = $list->date_bid;
-                        return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
                     })
                     ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
+                        $result = $list->DataPO->kode_po;
+                        return $result;
+                    })
+                    ->addColumn('dtm_gb', function ($list) {
+                        $result = $list->dtm_gb;
                         return $result;
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y ');
-                        return $result;
-                    })
-                    ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y ');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y ');
                         return $result;
                     })
                     ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y ');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y ');
                         return $result;
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
+                        $result = $list->DataPO->nopol;
                         return $result;
                     })
                     ->addColumn('tonase_awal', function ($list) {
-                        $result = $list->tonase_awal;
-                        return $result;
-                    })
-                    ->addColumn('tonase_akhir', function ($list) {
-                        $result = $list->tonase_akhir;
-                        return $result;
-                    })
-                    ->addColumn('hasil_akhir_tonase', function ($list) {
-                        $result = $list->hasil_akhir_tonase;
-                        if ($result == '' && $result == null) {
-                            return '<span class="badge badge-pill badge-info">Proses Final Tonase</span>';
+                        if ($list->PenerimaanPo == '') {
+                            $result = '';
                         } else {
-                            return tonase($list->hasil_akhir_tonase);
-                        }
-                    })
-                    ->addColumn('plan_harga_beli_gabah', function ($list) {
-                        $result = rupiah($list->plan_harga_beli_gabah_gb) . '/Kg';
-                        return $result;
-                    })
-                    ->addColumn('harga_berdasarkan_tempat', function ($list) {
-                        $result = rupiah($list->harga_berdasarkan_tempat_gb) . '/Kg';
-                        return $result;
-                    })
-                    ->addColumn('harga_berdasarkan_harga_atas', function ($list) {
-                        $result = rupiah($list->harga_berdasarkan_harga_atas_gb) . '/Kg';
-                        return $result;
-                    })
-                    ->addColumn('harga_akhir', function ($list) {
-                        $result = $list->harga_akhir_permintaan_gb;
-                        if ($result == '' && $result == null) {
-                            $result = rupiah($list->harga_akhir_gb);
-                        } else {
-                            $result = rupiah($list->harga_akhir_permintaan_gb);
+                            $result = $list->PenerimaanPo->tonase_awal;
                         }
                         return $result;
                     })
-                    ->addColumn('aksi_harga', function ($list) {
-                        $result = $list->aksi_harga_gb;
-                        return '
-                    <div class="dropdown">
-    					<button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						    <i class="fa fa-spinner"></i>	ON PROCESS
-						</button>
-						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-							<button class="dropdown-item" id="btn_deal_gb" data-id="' . $list->id_penerimaan_po . '"><i class="fa fa-handshake"></i> DEAL</button>
-							<button class="dropdown-item" id="btn_nego_gb" data-id="' . $list->id_penerimaan_po . '"><i class="fa fa-hand-holding-usd"></i> NEGO</button>
-						</div>
-					</div>';
-                    })
-                    ->addColumn('surveyor', function ($list) {
-                        $result = $list->surveyor_gb;
-                        return $result;
-                    })
-                    ->addColumn('keterangan', function ($list) {
-                        $result = $list->keterangan_gb;
-                        return $result;
-                    })
-                    ->addColumn('waktu', function ($list) {
-                        $result = $list->waktu_gb;
-                        return $result;
-                    })
-                    ->addColumn('tempat', function ($list) {
-                        $result = $list->tempat_gb;
-                        return $result;
-                    })
-                    ->addColumn('z_yang_dibawa', function ($list) {
-                        $result = $list->z_yang_dibawa_gb;
-                        return $result;
-                    })
-                    ->addColumn('z_yang_ditolak', function ($list) {
-                        $result = $list->z_yang_ditolak_gb;
-                        return $result;
-                    })
-                    ->rawColumns(['name_bid', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'date_bid', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
-                    ->make(true);
-            } else {
-
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
-                    ->where('lab2_gb.aksi_harga_gb', '=', 'ON PROCESS')
-                    ->where('bid.name_bid', 'GABAH BASAH PANDAN WANGI')
-                    ->orderBy('lab2_gb.id_lab2_gb', 'desc')
-                    // ->whereBetween('lab2_gb.created_at', array($request->from_date, $request->to_date))
-                    ->get())
-                    ->addColumn('name_bid', function ($list) {
-                        $result = $list->name_bid;
-                        return $result;
-                    })
-                    ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
-                        return $result;
-                    })
-                    ->addColumn('date_bid', function ($list) {
-                        $result = $list->date_bid;
-                        return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
-                    })
-                    ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
-                        return $result;
-                    })
-                    ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y ');
-                        return $result;
-                    })
-                    ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y ');
-                        return $result;
-                    })
-                    ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
-                        return $result;
-                    })
-                    ->addColumn('tonase_awal', function ($list) {
-                        $result = $list->tonase_awal;
-                        return $result;
-                    })
                     ->addColumn('tonase_akhir', function ($list) {
-                        $result = $list->tonase_akhir;
+                        if ($list->PenerimaanPo == '') {
+                            $result = '';
+                        } else {
+                            $result = $list->PenerimaanPo->tonase_akhir;
+                        }
                         return $result;
                     })
                     ->addColumn('hasil_akhir_tonase', function ($list) {
-                        $result = $list->hasil_akhir_tonase;
-                        if ($result == '' && $result == null) {
-                            return '<span class="badge badge-pill badge-info">Proses Final Tonase</span>';
+                        if ($list->PenerimaanPo == '') {
+                            return  '';
                         } else {
-                            return tonase($list->hasil_akhir_tonase);
+                            $result = $list->PenerimaanPo->hasil_akhir_tonase;
+                            if ($result == '' && $result == null) {
+                                return '<span class="badge badge-pill badge-info">Proses Final Tonase</span>';
+                            } else {
+                                return tonase($list->PenerimaanPo->hasil_akhir_tonase);
+                            }
                         }
                     })
                     ->addColumn('plan_harga_beli_gabah', function ($list) {
@@ -2375,8 +2369,8 @@ class SuperadminController extends Controller
 						    <i class="fa fa-spinner"></i>	ON PROCESS
 						</button>
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-							<button class="dropdown-item" id="btn_deal_gb" data-id="' . $list->id_penerimaan_po . '"><i class="fa fa-handshake"></i> DEAL</button>
-							<button class="dropdown-item" id="btn_nego_gb" data-id="' . $list->id_penerimaan_po . '"><i class="fa fa-hand-holding-usd"></i> NEGO</button>
+							<button class="dropdown-item" id="btn_deal_gb" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '"><i class="fa fa-handshake"></i> DEAL</button>
+							<button class="dropdown-item" id="btn_nego_gb" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '"><i class="fa fa-hand-holding-usd"></i> NEGO</button>
 						</div>
 					</div>';
                     })
@@ -2404,7 +2398,166 @@ class SuperadminController extends Controller
                         $result = $list->z_yang_ditolak_gb;
                         return $result;
                     })
-                    ->rawColumns(['name_bid', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'date_bid', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
+                    ->addColumn('keterangan_harga_akhir_gb', function ($list) {
+                        $result = $list->keterangan_harga_akhir_gb;
+                        return $result;
+                    })
+                    ->rawColumns(['name_bid', 'dtm_gb', 'keterangan_harga_akhir_gb', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'date_bid', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
+                    ->make(true);
+            } else {
+                $table = Lab2GabahBasah::With(['DataPO' => function ($query) {
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH PANDAN WANGI');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With('PenerimaanPo')
+                    ->whereHas('DataPO', function ($query) {
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH PANDAN WANGI');
+                        });
+                    })
+                    // ->where('aksi_harga_gb', 'DEAL')
+                    ->where('aksi_harga_gb', 'ON PROCESS')
+                    ->orderBy('id_lab2_gb', 'desc')
+                    ->select(
+                        'id_lab2_gb',
+                        'lab2_kode_po_gb',
+                        'dtm_gb',
+                        'harga_akhir_gb',
+                        'harga_akhir_permintaan_gb',
+                        'keterangan_harga_akhir_gb',
+                        'reaksi_harga_gb',
+                        'lokasi_bongkar_gb',
+                        'plan_harga_beli_gabah_gb',
+                        'harga_berdasarkan_tempat_gb',
+                        'harga_berdasarkan_harga_atas_gb',
+                        'harga_awal_gb',
+                        'aksi_harga_gb',
+                    )
+                    ->take(200)
+                    ->get();
+                // dd($table);
+                return Datatables::of($table)
+                    ->addColumn('name_bid', function ($list) {
+                        $result = $list->DataPO->Bid->name_bid;
+                        return $result;
+                    })
+                    ->addColumn('nama_vendor', function ($list) {
+                        $result = $list->DataPO->User->nama_vendor;
+                        return $result;
+                    })
+                    ->addColumn('kode_po', function ($list) {
+                        $result = $list->DataPO->kode_po;
+                        return $result;
+                    })
+                    ->addColumn('dtm_gb', function ($list) {
+                        $result = $list->dtm_gb;
+                        return $result;
+                    })
+                    ->addColumn('tanggal_po', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y ');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y ');
+                        return $result;
+                    })
+                    ->addColumn('plat_kendaraan', function ($list) {
+                        $result = $list->DataPO->nopol;
+                        return $result;
+                    })
+                    ->addColumn('tonase_awal', function ($list) {
+                        if ($list->PenerimaanPo == '') {
+                            $result = '';
+                        } else {
+                            $result = $list->PenerimaanPo->tonase_awal;
+                        }
+                        return $result;
+                    })
+                    ->addColumn('tonase_akhir', function ($list) {
+                        if ($list->PenerimaanPo == '') {
+                            $result = '';
+                        } else {
+                            $result = $list->PenerimaanPo->tonase_akhir;
+                        }
+                        return $result;
+                    })
+                    ->addColumn('hasil_akhir_tonase', function ($list) {
+                        if ($list->PenerimaanPo == '') {
+                            return  '';
+                        } else {
+                            $result = $list->PenerimaanPo->hasil_akhir_tonase;
+                            if ($result == '' && $result == null) {
+                                return '<span class="badge badge-pill badge-info">Proses Final Tonase</span>';
+                            } else {
+                                return tonase($list->PenerimaanPo->hasil_akhir_tonase);
+                            }
+                        }
+                    })
+                    ->addColumn('plan_harga_beli_gabah', function ($list) {
+                        $result = 'Rp. ' . $list->plan_harga_beli_gabah_gb . '/Kg';
+                        return $result;
+                    })
+                    ->addColumn('harga_berdasarkan_tempat', function ($list) {
+                        $result = 'Rp. ' . $list->harga_berdasarkan_tempat_gb . '/Kg';
+                        return $result;
+                    })
+                    ->addColumn('harga_berdasarkan_harga_atas', function ($list) {
+                        $result = 'Rp. ' . $list->harga_berdasarkan_harga_atas_gb . '/Kg';
+                        return $result;
+                    })
+                    ->addColumn('harga_akhir', function ($list) {
+                        $result = $list->harga_akhir_permintaan_gb;
+                        if ($result == '' && $result == null) {
+                            $result = 'Rp. ' . $list->harga_akhir_gb;
+                        } else {
+                            $result = 'Rp. ' . $list->harga_akhir_permintaan_gb;
+                        }
+                        return $result;
+                    })
+                    ->addColumn('aksi_harga', function ($list) {
+                        $result = $list->aksi_harga_gb;
+                        return '
+                    <div class="dropdown">
+    					<button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						    <i class="fa fa-spinner"></i>	ON PROCESS
+						</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+							<button class="dropdown-item" id="btn_deal_gb" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '"><i class="fa fa-handshake"></i> DEAL</button>
+							<button class="dropdown-item" id="btn_nego_gb" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '"><i class="fa fa-hand-holding-usd"></i> NEGO</button>
+						</div>
+					</div>';
+                    })
+                    ->addColumn('surveyor', function ($list) {
+                        $result = $list->surveyor_gb;
+                        return $result;
+                    })
+                    ->addColumn('keterangan', function ($list) {
+                        $result = $list->keterangan_gb;
+                        return $result;
+                    })
+                    ->addColumn('waktu', function ($list) {
+                        $result = $list->waktu_gb;
+                        return $result;
+                    })
+                    ->addColumn('tempat', function ($list) {
+                        $result = $list->tempat_gb;
+                        return $result;
+                    })
+                    ->addColumn('z_yang_dibawa', function ($list) {
+                        $result = $list->z_yang_dibawa_gb;
+                        return $result;
+                    })
+                    ->addColumn('z_yang_ditolak', function ($list) {
+                        $result = $list->z_yang_ditolak_gb;
+                        return $result;
+                    })
+                    ->addColumn('keterangan_harga_akhir_gb', function ($list) {
+                        $result = $list->keterangan_harga_akhir_gb;
+                        return $result;
+                    })
+                    ->rawColumns(['name_bid', 'dtm_gb', 'keterangan_harga_akhir_gb', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'date_bid', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
                     ->make(true);
             }
         }
@@ -2413,173 +2566,94 @@ class SuperadminController extends Controller
     {
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
-
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
-                    ->where('lab2_gb.aksi_harga_gb', '=', 'ON PROCESS')
-                    ->where('bid.name_bid', 'GABAH BASAH KETAN PUTIH')
-                    ->orderBy('lab2_gb.id_lab2_gb', 'desc')
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
-                    ->get())
+                $table = Lab2GabahBasah::With(['DataPO' => function ($query) use ($request) {
+                    $query->whereBetween('tanggal_po', array($request->from_date, $request->to_date));
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH KETAN PUTIH');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With('PenerimaanPo')
+                    ->whereHas('DataPO', function ($query) use ($request) {
+                        $query->whereBetween('tanggal_po', array($request->from_date, $request->to_date));
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH KETAN PUTIH');
+                        });
+                    })
+                    // ->where('aksi_harga_gb', 'DEAL')
+                    ->where('aksi_harga_gb', 'ON PROCESS')
+                    ->orderBy('id_lab2_gb', 'desc')
+                    ->select(
+                        'id_lab2_gb',
+                        'lab2_kode_po_gb',
+                        'dtm_gb',
+                        'harga_akhir_gb',
+                        'harga_akhir_permintaan_gb',
+                        'keterangan_harga_akhir_gb',
+                        'reaksi_harga_gb',
+                        'lokasi_bongkar_gb',
+                        'plan_harga_beli_gabah_gb',
+                        'harga_berdasarkan_tempat_gb',
+                        'harga_berdasarkan_harga_atas_gb',
+                        'harga_awal_gb',
+                        'aksi_harga_gb',
+                    )
+                    ->get();
+                return Datatables::of($table)
                     ->addColumn('name_bid', function ($list) {
-                        $result = $list->name_bid;
+                        $result = $list->DataPO->Bid->name_bid;
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
+                        $result = $list->DataPO->User->nama_vendor;
                         return $result;
                     })
-                    ->addColumn('date_bid', function ($list) {
-                        $result = $list->date_bid;
-                        return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
-                    })
                     ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
+                        $result = $list->DataPO->kode_po;
+                        return $result;
+                    })
+                    ->addColumn('dtm_gb', function ($list) {
+                        $result = $list->dtm_gb;
                         return $result;
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y ');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y ');
                         return $result;
                     })
                     ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y ');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y ');
                         return $result;
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
+                        $result = $list->DataPO->nopol;
                         return $result;
                     })
                     ->addColumn('tonase_awal', function ($list) {
-                        $result = $list->tonase_awal;
-                        return $result;
-                    })
-                    ->addColumn('tonase_akhir', function ($list) {
-                        $result = $list->tonase_akhir;
-                        return $result;
-                    })
-                    ->addColumn('hasil_akhir_tonase', function ($list) {
-                        $result = $list->hasil_akhir_tonase;
-                        if ($result == '' && $result == null) {
-                            return '<span class="badge badge-pill badge-info">Proses Final Tonase</span>';
+                        if ($list->PenerimaanPo == '') {
+                            $result = '';
                         } else {
-                            return tonase($list->hasil_akhir_tonase);
-                        }
-                    })
-                    ->addColumn('plan_harga_beli_gabah', function ($list) {
-                        $result = rupiah($list->plan_harga_beli_gabah_gb) . '/Kg';
-                        return $result;
-                    })
-                    ->addColumn('harga_berdasarkan_tempat', function ($list) {
-                        $result = rupiah($list->harga_berdasarkan_tempat_gb) . '/Kg';
-                        return $result;
-                    })
-                    ->addColumn('harga_berdasarkan_harga_atas', function ($list) {
-                        $result = rupiah($list->harga_berdasarkan_harga_atas_gb) . '/Kg';
-                        return $result;
-                    })
-                    ->addColumn('harga_akhir', function ($list) {
-                        $result = $list->harga_akhir_permintaan_gb;
-                        if ($result == '' && $result == null) {
-                            $result = rupiah($list->harga_akhir_gb);
-                        } else {
-                            $result = rupiah($list->harga_akhir_permintaan_gb);
+                            $result = $list->PenerimaanPo->tonase_awal;
                         }
                         return $result;
                     })
-                    ->addColumn('aksi_harga', function ($list) {
-                        $result = $list->aksi_harga_gb;
-                        return '
-                    <div class="dropdown">
-    					<button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						    <i class="fa fa-spinner"></i>	ON PROCESS
-						</button>
-						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-							<button class="dropdown-item" id="btn_deal_gb" data-id="' . $list->id_penerimaan_po . '"><i class="fa fa-handshake"></i> DEAL</button>
-							<button class="dropdown-item" id="btn_nego_gb" data-id="' . $list->id_penerimaan_po . '"><i class="fa fa-hand-holding-usd"></i> NEGO</button>
-						</div>
-					</div>';
-                    })
-                    ->addColumn('surveyor', function ($list) {
-                        $result = $list->surveyor_gb;
-                        return $result;
-                    })
-                    ->addColumn('keterangan', function ($list) {
-                        $result = $list->keterangan_gb;
-                        return $result;
-                    })
-                    ->addColumn('waktu', function ($list) {
-                        $result = $list->waktu_gb;
-                        return $result;
-                    })
-                    ->addColumn('tempat', function ($list) {
-                        $result = $list->tempat_gb;
-                        return $result;
-                    })
-                    ->addColumn('z_yang_dibawa', function ($list) {
-                        $result = $list->z_yang_dibawa_gb;
-                        return $result;
-                    })
-                    ->addColumn('z_yang_ditolak', function ($list) {
-                        $result = $list->z_yang_ditolak_gb;
-                        return $result;
-                    })
-                    ->rawColumns(['name_bid', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'date_bid', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
-                    ->make(true);
-            } else {
-
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
-                    ->where('lab2_gb.aksi_harga_gb', '=', 'ON PROCESS')
-                    ->where('bid.name_bid', 'GABAH BASAH KETAN PUTIH')
-                    ->orderBy('lab2_gb.id_lab2_gb', 'desc')
-                    // ->whereBetween('lab2_gb.created_at', array($request->from_date, $request->to_date))
-                    ->get())
-                    ->addColumn('name_bid', function ($list) {
-                        $result = $list->name_bid;
-                        return $result;
-                    })
-                    ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
-                        return $result;
-                    })
-                    ->addColumn('date_bid', function ($list) {
-                        $result = $list->date_bid;
-                        return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
-                    })
-                    ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
-                        return $result;
-                    })
-                    ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y ');
-                        return $result;
-                    })
-                    ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y ');
-                        return $result;
-                    })
-                    ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
-                        return $result;
-                    })
-                    ->addColumn('tonase_awal', function ($list) {
-                        $result = $list->tonase_awal;
-                        return $result;
-                    })
                     ->addColumn('tonase_akhir', function ($list) {
-                        $result = $list->tonase_akhir;
+                        if ($list->PenerimaanPo == '') {
+                            $result = '';
+                        } else {
+                            $result = $list->PenerimaanPo->tonase_akhir;
+                        }
                         return $result;
                     })
                     ->addColumn('hasil_akhir_tonase', function ($list) {
-                        $result = $list->hasil_akhir_tonase;
-                        if ($result == '' && $result == null) {
-                            return '<span class="badge badge-pill badge-info">Proses Final Tonase</span>';
+                        if ($list->PenerimaanPo == '') {
+                            return  '';
                         } else {
-                            return tonase($list->hasil_akhir_tonase);
+                            $result = $list->PenerimaanPo->hasil_akhir_tonase;
+                            if ($result == '' && $result == null) {
+                                return '<span class="badge badge-pill badge-info">Proses Final Tonase</span>';
+                            } else {
+                                return tonase($list->PenerimaanPo->hasil_akhir_tonase);
+                            }
                         }
                     })
                     ->addColumn('plan_harga_beli_gabah', function ($list) {
@@ -2611,8 +2685,8 @@ class SuperadminController extends Controller
 						    <i class="fa fa-spinner"></i>	ON PROCESS
 						</button>
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-							<button class="dropdown-item" id="btn_deal_gb" data-id="' . $list->id_penerimaan_po . '"><i class="fa fa-handshake"></i> DEAL</button>
-							<button class="dropdown-item" id="btn_nego_gb" data-id="' . $list->id_penerimaan_po . '"><i class="fa fa-hand-holding-usd"></i> NEGO</button>
+							<button class="dropdown-item" id="btn_deal_gb" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '"><i class="fa fa-handshake"></i> DEAL</button>
+							<button class="dropdown-item" id="btn_nego_gb" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '"><i class="fa fa-hand-holding-usd"></i> NEGO</button>
 						</div>
 					</div>';
                     })
@@ -2640,7 +2714,166 @@ class SuperadminController extends Controller
                         $result = $list->z_yang_ditolak_gb;
                         return $result;
                     })
-                    ->rawColumns(['name_bid', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'date_bid', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
+                    ->addColumn('keterangan_harga_akhir_gb', function ($list) {
+                        $result = $list->keterangan_harga_akhir_gb;
+                        return $result;
+                    })
+                    ->rawColumns(['name_bid', 'dtm_gb', 'keterangan_harga_akhir_gb', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'date_bid', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
+                    ->make(true);
+            } else {
+                $table = Lab2GabahBasah::With(['DataPO' => function ($query) {
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH KETAN PUTIH');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With('PenerimaanPo')
+                    ->whereHas('DataPO', function ($query) {
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH KETAN PUTIH');
+                        });
+                    })
+                    // ->where('aksi_harga_gb', 'DEAL')
+                    ->where('aksi_harga_gb', 'ON PROCESS')
+                    ->orderBy('id_lab2_gb', 'desc')
+                    ->select(
+                        'id_lab2_gb',
+                        'lab2_kode_po_gb',
+                        'dtm_gb',
+                        'harga_akhir_gb',
+                        'harga_akhir_permintaan_gb',
+                        'keterangan_harga_akhir_gb',
+                        'reaksi_harga_gb',
+                        'lokasi_bongkar_gb',
+                        'plan_harga_beli_gabah_gb',
+                        'harga_berdasarkan_tempat_gb',
+                        'harga_berdasarkan_harga_atas_gb',
+                        'harga_awal_gb',
+                        'aksi_harga_gb',
+                    )
+                    ->take(200)
+                    ->get();
+                // dd($table);
+                return Datatables::of($table)
+                    ->addColumn('name_bid', function ($list) {
+                        $result = $list->DataPO->Bid->name_bid;
+                        return $result;
+                    })
+                    ->addColumn('nama_vendor', function ($list) {
+                        $result = $list->DataPO->User->nama_vendor;
+                        return $result;
+                    })
+                    ->addColumn('kode_po', function ($list) {
+                        $result = $list->DataPO->kode_po;
+                        return $result;
+                    })
+                    ->addColumn('dtm_gb', function ($list) {
+                        $result = $list->dtm_gb;
+                        return $result;
+                    })
+                    ->addColumn('tanggal_po', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y ');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y ');
+                        return $result;
+                    })
+                    ->addColumn('plat_kendaraan', function ($list) {
+                        $result = $list->DataPO->nopol;
+                        return $result;
+                    })
+                    ->addColumn('tonase_awal', function ($list) {
+                        if ($list->PenerimaanPo == '') {
+                            $result = '';
+                        } else {
+                            $result = $list->PenerimaanPo->tonase_awal;
+                        }
+                        return $result;
+                    })
+                    ->addColumn('tonase_akhir', function ($list) {
+                        if ($list->PenerimaanPo == '') {
+                            $result = '';
+                        } else {
+                            $result = $list->PenerimaanPo->tonase_akhir;
+                        }
+                        return $result;
+                    })
+                    ->addColumn('hasil_akhir_tonase', function ($list) {
+                        if ($list->PenerimaanPo == '') {
+                            return  '';
+                        } else {
+                            $result = $list->PenerimaanPo->hasil_akhir_tonase;
+                            if ($result == '' && $result == null) {
+                                return '<span class="badge badge-pill badge-info">Proses Final Tonase</span>';
+                            } else {
+                                return tonase($list->PenerimaanPo->hasil_akhir_tonase);
+                            }
+                        }
+                    })
+                    ->addColumn('plan_harga_beli_gabah', function ($list) {
+                        $result = 'Rp. ' . $list->plan_harga_beli_gabah_gb . '/Kg';
+                        return $result;
+                    })
+                    ->addColumn('harga_berdasarkan_tempat', function ($list) {
+                        $result = 'Rp. ' . $list->harga_berdasarkan_tempat_gb . '/Kg';
+                        return $result;
+                    })
+                    ->addColumn('harga_berdasarkan_harga_atas', function ($list) {
+                        $result = 'Rp. ' . $list->harga_berdasarkan_harga_atas_gb . '/Kg';
+                        return $result;
+                    })
+                    ->addColumn('harga_akhir', function ($list) {
+                        $result = $list->harga_akhir_permintaan_gb;
+                        if ($result == '' && $result == null) {
+                            $result = 'Rp. ' . $list->harga_akhir_gb;
+                        } else {
+                            $result = 'Rp. ' . $list->harga_akhir_permintaan_gb;
+                        }
+                        return $result;
+                    })
+                    ->addColumn('aksi_harga', function ($list) {
+                        $result = $list->aksi_harga_gb;
+                        return '
+                    <div class="dropdown">
+    					<button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						    <i class="fa fa-spinner"></i>	ON PROCESS
+						</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+							<button class="dropdown-item" id="btn_deal_gb" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '"><i class="fa fa-handshake"></i> DEAL</button>
+							<button class="dropdown-item" id="btn_nego_gb" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '"><i class="fa fa-hand-holding-usd"></i> NEGO</button>
+						</div>
+					</div>';
+                    })
+                    ->addColumn('surveyor', function ($list) {
+                        $result = $list->surveyor_gb;
+                        return $result;
+                    })
+                    ->addColumn('keterangan', function ($list) {
+                        $result = $list->keterangan_gb;
+                        return $result;
+                    })
+                    ->addColumn('waktu', function ($list) {
+                        $result = $list->waktu_gb;
+                        return $result;
+                    })
+                    ->addColumn('tempat', function ($list) {
+                        $result = $list->tempat_gb;
+                        return $result;
+                    })
+                    ->addColumn('z_yang_dibawa', function ($list) {
+                        $result = $list->z_yang_dibawa_gb;
+                        return $result;
+                    })
+                    ->addColumn('z_yang_ditolak', function ($list) {
+                        $result = $list->z_yang_ditolak_gb;
+                        return $result;
+                    })
+                    ->addColumn('keterangan_harga_akhir_gb', function ($list) {
+                        $result = $list->keterangan_harga_akhir_gb;
+                        return $result;
+                    })
+                    ->rawColumns(['name_bid', 'dtm_gb', 'keterangan_harga_akhir_gb', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'date_bid', 'kode_po', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
                     ->make(true);
             }
         }
@@ -3034,9 +3267,35 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
 
     public function data_sourching_deal()
     {
+
         return view('dashboard.superadmin.data_sourching.data_sourching_deal');
     }
 
+    public function count_deal_gb(Request $request)
+    {
+        $cek_deal_gb = Lab2GabahBasah::With(['DataPO' => function ($query) {
+            $query->With(['Bid' => function ($query) {
+                $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+            }]);
+            $query->With('User');
+        }])
+            ->With('PenerimaanPo')
+            ->whereHas('DataPO', function ($query) {
+                $query->whereHas('Bid', function ($query) {
+                    $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                });
+            })
+            ->where('aksi_harga_gb', 'DEAL')
+            ->orderBy('id_lab2_gb', 'desc')
+            ->select(
+                'id_lab2_gb',
+            )
+            ->take(200)
+            ->get();
+        return response()->json([
+            'cek_deal_gb' => $cek_deal_gb->count(),
+        ]);
+    }
     public function data_sourching_deal_gb_ciherang_index(Request $request)
     {
         if (request()->ajax()) {
@@ -3315,54 +3574,81 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
     {
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
-
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
-                    ->where('lab2_gb.aksi_harga_gb', 'DEAL')
-                    ->where('bid.name_bid', '=', 'GABAH BASAH LONG GRAIN')
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
-                    ->orderBy('id_lab2_gb', 'DESC')
-                    ->get())
+                $table = Lab2GabahBasah::With(['DataPO' => function ($query) use ($request) {
+                    $query->whereBetween('tanggal_po', array($request->from_date, $request->to_date));
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With('PenerimaanPo')
+                    ->whereHas('DataPO', function ($query) use ($request) {
+                        $query->whereBetween('tanggal_po', array($request->from_date, $request->to_date));
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                        });
+                    })
+                    ->where('aksi_harga_gb', 'DEAL')
+                    ->orderBy('id_lab2_gb', 'desc')
+                    ->select(
+                        'id_lab2_gb',
+                        'lab2_kode_po_gb',
+                        'dtm_gb',
+                        'harga_akhir_gb',
+                        'harga_akhir_permintaan_gb',
+                        'keterangan_harga_akhir_gb',
+                        'reaksi_harga_gb',
+                        'lokasi_bongkar_gb',
+                        'plan_harga_beli_gabah_gb',
+                        'harga_berdasarkan_tempat_gb',
+                        'harga_berdasarkan_harga_atas_gb',
+                        'harga_awal_gb',
+                        'aksi_harga_gb',
+                    )
+                    ->get();
+                return Datatables::of($table)
                     ->addColumn('name_bid', function ($list) {
-                        $result = $list->name_bid;
+                        $result = $list->DataPO->Bid->name_bid;
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
+                        $result = $list->DataPO->User->nama_vendor;
                         return $result;
-                    })
-                    ->addColumn('date_bid', function ($list) {
-                        $result = $list->date_bid;
-                        return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
                     })
                     ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
+                        $result = $list->DataPO->kode_po;
                         return $result;
                     })
-                    ->addColumn('date', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->created_at)->isoFormat('DD-MM-Y ');
+                    ->addColumn('keterangan_harga_akhir_gb', function ($list) {
+                        $result = $list->keterangan_harga_akhir_gb;
+                        return $result;
+                    })
+                    ->addColumn('lokasi_bongkar_gb', function ($list) {
+                        $result = $list->lokasi_bongkar_gb;
+                        return $result;
+                    })
+                    ->addColumn('dtm_gb', function ($list) {
+                        $result = $list->dtm_gb;
                         return $result;
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
+                        $result = $list->PenerimaanPo->plat_kendaraan;
                         return $result;
                     })
                     ->addColumn('tonase_awal', function ($list) {
-                        $result = tonase($list->tonase_awal);
+                        $result = tonase($list->PenerimaanPo->tonase_awal);
                         return $result;
                     })
                     ->addColumn('tonase_akhir', function ($list) {
-                        $result = tonase($list->tonase_akhir);
+                        $result = tonase($list->PenerimaanPo->tonase_akhir);
                         return $result;
                     })
                     ->addColumn('hasil_akhir_tonase', function ($list) {
-                        $result = $list->hasil_akhir_tonase;
+                        $result = $list->PenerimaanPo->hasil_akhir_tonase;
                         if ($result == '' && $result == null) {
                             return '<span class="badge badge-pill badge-info">Proses Final Tonase</span>';
                         } else {
-                            return tonase($list->hasil_akhir_tonase);
+                            return tonase($list->PenerimaanPo->hasil_akhir_tonase);
                         }
                     })
                     ->addColumn('plan_harga_beli_gabah', function ($list) {
@@ -3394,187 +3680,36 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
                         }
                         return $result;
                     })
-                    ->addColumn('reaksi_harga', function ($list) {
-                        $result = rupiah($list->reaksi_harga_gb);
-                        return $result;
-                    })
                     ->addColumn('aksi_harga', function ($list) {
                         $result = $list->aksi_harga_gb;
-                        if ($list->status_epicor == 1) {
+                        if ($list->PenerimaanPo->status_epicor == 1) {
                             return
                                 '<div class="dropdown">
-                    <button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-exclamation"></i>' . $result . '
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                        <button id="btn_nego_info_gb" class="dropdown-item"  title="Information"><i class="fas fa-edit"></i>&nbsp;Nego</button>
-                    </div>
-                </div>';
+                                <button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-exclamation"></i>' . $result . '
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                                <button id="btn_nego_info_gb" class="dropdown-item"  title="Information"><i class="fas fa-edit"></i>&nbsp;Nego</button>
+                                </div>
+                                </div>';
                         } else {
                             return
                                 '<div class="dropdown">
-    					<button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-exclamation"></i>' . $result . '
-						</button>
-						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-							<button id="btn_nego_gb" data-id="' . $list->id_penerimaan_po . '" class="dropdown-item"  title="Information"><i class="fas fa-edit"></i>&nbsp;Nego</button>
-						</div>
-					</div>';
+                                <button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-exclamation"></i>' . $result . '
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+							    <button id="btn_nego_gb" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" class="dropdown-item"  title="Information"><i class="fas fa-edit"></i>&nbsp;Nego</button>
+						        </div>
+					            </div>';
                         }
                     })
                     ->addColumn('kirim_harga', function ($list) {
-                        $str_hp = $list->nomer_hp;
+                        $str_hp = $list->DataPO->User->nomer_hp;
                         $no_hp = preg_replace('/^0/', '62', $str_hp);
-                        $nama = $list->name;
-                        $nopol = $list->nopol;
-                        $tonase = tonase($list->hasil_akhir_tonase);
-                        $kode_po = $list->kode_po;
-                        $harga = rupiah($list->harga_akhir_gb) . '/Kg';
-                        return
-                            // $no_hp;
-                            '<a href="https://api.whatsapp.com/send?phone=' . $no_hp . '&text=Hallo!!%20Supplier%20:%20' . $nama . '.%20Ingin%20menyampaikan%20harga%20bongkaran%20gabah%20Nopol:%20' . $nopol . '%20Tonase:%20' . $tonase . '%20dengan%20PO:%20' . $kode_po . '%20Yaitu%20:%20*' . $harga . '*.%20Terimakasih." target="_blank" class="btn btn-block btn-success" id="btn_kirim_harga"><i class="fi fi-brands-whatsapp"></i>Kirim&nbsp;Harga&nbsp;Supplier</a>';
-                    })
-                    ->addColumn('surveyor', function ($list) {
-                        $result = $list->surveyor_gb;
-                        return $result;
-                    })
-                    ->addColumn('keterangan', function ($list) {
-                        $result = $list->keterangan_gb;
-                        return $result;
-                    })
-                    ->addColumn('waktu', function ($list) {
-                        $result = $list->waktu_gb;
-                        return $result;
-                    })
-                    ->addColumn('tempat', function ($list) {
-                        $result = $list->tempat_gb;
-                        return $result;
-                    })
-                    ->addColumn('z_yang_dibawa', function ($list) {
-                        $result = $list->z_yang_dibawa_gb;
-                        return $result;
-                    })
-                    ->addColumn('z_yang_ditolak', function ($list) {
-                        $result = $list->z_yang_ditolak_gb;
-                        return $result;
-                    })
-                    ->rawColumns(['name_bid', 'kirim_harga', 'reaksi_harga', 'nama_vendor', "date", 'date_bid', 'kode_po', 'harga_akhir', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
-                    ->make(true);
-            } else {
-
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
-                    // ->where('data_po.kategory_po', '!=', 'BULOG')
-                    ->where('lab2_gb.aksi_harga_gb', '=', 'DEAL')
-                    ->Where('bid.name_bid', '=', 'GABAH BASAH LONG GRAIN')
-                    // ->whereBetween('lab2_gb.created_at', array($request->from_date, $request->to_date))
-                    ->orderBy('id_lab2_gb', 'DESC')
-                    ->get())
-                    ->addColumn('name_bid', function ($list) {
-                        $result = $list->name_bid;
-                        return $result;
-                    })
-                    ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
-                        return $result;
-                    })
-                    ->addColumn('date_bid', function ($list) {
-                        $result = $list->date_bid;
-                        return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
-                    })
-                    ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
-                        return $result;
-                    })
-                    ->addColumn('date', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->created_at)->isoFormat('DD-MM-Y ');
-                        return $result;
-                    })
-                    ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
-                        return $result;
-                    })
-                    ->addColumn('tonase_awal', function ($list) {
-                        $result = tonase($list->tonase_awal);
-                        return $result;
-                    })
-                    ->addColumn('tonase_akhir', function ($list) {
-                        $result = tonase($list->tonase_akhir);
-                        return $result;
-                    })
-                    ->addColumn('hasil_akhir_tonase', function ($list) {
-                        $result = $list->hasil_akhir_tonase;
-                        if ($result == '' && $result == null) {
-                            return '<span class="badge badge-pill badge-info">Proses Final Tonase</span>';
-                        } else {
-                            return tonase($list->hasil_akhir_tonase);
-                        }
-                    })
-                    ->addColumn('plan_harga_beli_gabah', function ($list) {
-                        $result = $list->plan_harga_beli_gabah_gb . '/Kg';
-                        return $result;
-                    })
-                    ->addColumn('harga_berdasarkan_tempat', function ($list) {
-                        $result = $list->harga_berdasarkan_tempat_gb . ' /Kg';
-                        return $result;
-                    })
-                    ->addColumn('harga_berdasarkan_harga_atas', function ($list) {
-                        $result = rupiah($list->harga_berdasarkan_harga_atas_gb) . ' /Kg';
-                        return $result;
-                    })
-                    ->addColumn('harga_awal', function ($list) {
-                        $result = rupiah($list->harga_awal_gb) . '/Kg';
-                        return $result;
-                    })
-                    ->addColumn('reaksi_harga', function ($list) {
-                        $result = rupiah($list->reaksi_harga_gb);
-                        return $result;
-                    })
-                    ->addColumn('harga_akhir', function ($list) {
-                        $result = $list->harga_akhir_permintaan_gb;
-                        if ($result == '' && $result == null) {
-                            $result = rupiah($list->harga_akhir_gb) . '/Kg';
-                        } else {
-                            $result = rupiah($list->harga_akhir_permintaan_gb) . '/Kg';
-                        }
-                        return $result;
-                    })
-                    ->addColumn('reaksi_harga', function ($list) {
-                        $result = rupiah($list->reaksi_harga_gb);
-                        return $result;
-                    })
-                    ->addColumn('aksi_harga', function ($list) {
-                        $result = $list->aksi_harga_gb;
-                        if ($list->status_epicor == 1) {
-                            return
-                                '<div class="dropdown">
-                    <button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-exclamation"></i>' . $result . '
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                        <button id="btn_nego_info_gb" class="dropdown-item"  title="Information"><i class="fas fa-edit"></i>&nbsp;Nego</button>
-                    </div>
-                </div>';
-                        } else {
-                            return
-                                '<div class="dropdown">
-    					<button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-exclamation"></i>' . $result . '
-						</button>
-						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-							<button id="btn_nego_gb" data-id="' . $list->id_penerimaan_po . '" class="dropdown-item"  title="Information"><i class="fas fa-edit"></i>&nbsp;Nego</button>
-						</div>
-					</div>';
-                        }
-                    })
-                    ->addColumn('kirim_harga', function ($list) {
-                        $str_hp = $list->nomer_hp;
-                        $no_hp = preg_replace('/^0/', '62', $str_hp);
-                        $nama = $list->name;
-                        $nopol = $list->nopol;
-                        $tonase = tonase($list->hasil_akhir_tonase);
+                        $nama = $list->DataPO->User->nama_vendor;
+                        $nopol = $list->PenerimaanPo->plat_kendaraan;
+                        $tonase = tonase($list->PenerimaanPo->hasil_akhir_tonase);
                         $kode_po = $list->kode_po;
                         $harga = rupiah($list->harga_akhir_gb) . '/Kg';
                         return
@@ -3582,31 +3717,155 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
                             // '<a href="' . route('sourching.kirim_harga') . '" data-no="'.'"></a>';
                             '<a href="https://api.whatsapp.com/send?phone=' . $no_hp . '&text=Hallo!!%20Supplier%20:%20' . $nama . '.%20Ingin%20menyampaikan%20harga%20bongkaran%20gabah%20Nopol:%20' . $nopol . '%20Tonase:%20' . $tonase . '%20dengan%20PO:%20' . $kode_po . '%20Yaitu%20:%20*' . $harga . '*.%20Terimakasih." target="_blank" class="btn btn-block btn-success" id="btn_kirim_harga"><i class="fi fi-brands-whatsapp"></i>Kirim&nbsp;Harga&nbsp;Supplier</a>';
                     })
-                    ->addColumn('surveyor', function ($list) {
-                        $result = $list->surveyor_gb;
+
+                    ->rawColumns(['name_bid', 'kirim_harga', 'dtm_gb', 'keterangan_harga_akhir_gb', 'lokasi_bongkar_gb', 'reaksi_harga', 'nama_vendor', "date", 'date_bid', 'kode_po', 'harga_akhir', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga'])
+                    ->make(true);
+            } else {
+                $table = Lab2GabahBasah::With(['DataPO' => function ($query) {
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With('PenerimaanPo')
+                    ->whereHas('DataPO', function ($query) {
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                        });
+                    })
+                    ->where('aksi_harga_gb', 'DEAL')
+                    ->orderBy('id_lab2_gb', 'desc')
+                    ->select(
+                        'id_lab2_gb',
+                        'lab2_kode_po_gb',
+                        'dtm_gb',
+                        'harga_akhir_gb',
+                        'harga_akhir_permintaan_gb',
+                        'keterangan_harga_akhir_gb',
+                        'reaksi_harga_gb',
+                        'lokasi_bongkar_gb',
+                        'plan_harga_beli_gabah_gb',
+                        'harga_berdasarkan_tempat_gb',
+                        'harga_berdasarkan_harga_atas_gb',
+                        'harga_awal_gb',
+                        'aksi_harga_gb',
+                    )
+                    ->take(200)
+                    ->get();
+                // dd($table);
+                return Datatables::of($table)
+                    ->addColumn('name_bid', function ($list) {
+                        $result = $list->DataPO->Bid->name_bid;
                         return $result;
                     })
-                    ->addColumn('keterangan', function ($list) {
-                        $result = $list->keterangan_gb;
+                    ->addColumn('nama_vendor', function ($list) {
+                        $result = $list->DataPO->User->nama_vendor;
                         return $result;
                     })
-                    ->addColumn('waktu', function ($list) {
-                        $result = $list->waktu_gb;
+                    ->addColumn('kode_po', function ($list) {
+                        $result = $list->DataPO->kode_po;
                         return $result;
                     })
-                    ->addColumn('tempat', function ($list) {
-                        $result = $list->tempat_gb;
+                    ->addColumn('keterangan_harga_akhir_gb', function ($list) {
+                        $result = $list->keterangan_harga_akhir_gb;
                         return $result;
                     })
-                    ->addColumn('z_yang_dibawa', function ($list) {
-                        $result = $list->z_yang_dibawa_gb;
+                    ->addColumn('lokasi_bongkar_gb', function ($list) {
+                        $result = $list->lokasi_bongkar_gb;
                         return $result;
                     })
-                    ->addColumn('z_yang_ditolak', function ($list) {
-                        $result = $list->z_yang_ditolak_gb;
+                    ->addColumn('dtm_gb', function ($list) {
+                        $result = $list->dtm_gb;
                         return $result;
                     })
-                    ->rawColumns(['name_bid', 'kirim_harga', 'reaksi_harga', 'nama_vendor', "date", 'date_bid', 'kode_po', 'harga_akhir', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
+                    ->addColumn('plat_kendaraan', function ($list) {
+                        $result = $list->PenerimaanPo->plat_kendaraan;
+                        return $result;
+                    })
+                    ->addColumn('tonase_awal', function ($list) {
+                        $result = tonase($list->PenerimaanPo->tonase_awal);
+                        return $result;
+                    })
+                    ->addColumn('tonase_akhir', function ($list) {
+                        $result = tonase($list->PenerimaanPo->tonase_akhir);
+                        return $result;
+                    })
+                    ->addColumn('hasil_akhir_tonase', function ($list) {
+                        $result = $list->PenerimaanPo->hasil_akhir_tonase;
+                        if ($result == '' && $result == null) {
+                            return '<span class="badge badge-pill badge-info">Proses Final Tonase</span>';
+                        } else {
+                            return tonase($list->PenerimaanPo->hasil_akhir_tonase);
+                        }
+                    })
+                    ->addColumn('plan_harga_beli_gabah', function ($list) {
+                        $result = $list->plan_harga_beli_gabah_gb . '/Kg';
+                        return $result;
+                    })
+                    ->addColumn('harga_berdasarkan_tempat', function ($list) {
+                        $result = $list->harga_berdasarkan_tempat_gb . ' /Kg';
+                        return $result;
+                    })
+                    ->addColumn('harga_berdasarkan_harga_atas', function ($list) {
+                        $result = rupiah($list->harga_berdasarkan_harga_atas_gb) . ' /Kg';
+                        return $result;
+                    })
+                    ->addColumn('harga_awal', function ($list) {
+                        $result = rupiah($list->harga_awal_gb) . '/Kg';
+                        return $result;
+                    })
+                    ->addColumn('reaksi_harga', function ($list) {
+                        $result = rupiah($list->reaksi_harga_gb);
+                        return $result;
+                    })
+                    ->addColumn('harga_akhir', function ($list) {
+                        $result = $list->harga_akhir_permintaan_gb;
+                        if ($result == '' && $result == null) {
+                            $result = rupiah($list->harga_akhir_gb) . '/Kg';
+                        } else {
+                            $result = rupiah($list->harga_akhir_permintaan_gb) . '/Kg';
+                        }
+                        return $result;
+                    })
+                    ->addColumn('aksi_harga', function ($list) {
+                        $result = $list->aksi_harga_gb;
+                        if ($list->PenerimaanPo->status_epicor == 1) {
+                            return
+                                '<div class="dropdown">
+                                <button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-exclamation"></i>' . $result . '
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                                <button id="btn_nego_info_gb" class="dropdown-item"  title="Information"><i class="fas fa-edit"></i>&nbsp;Nego</button>
+                                </div>
+                                </div>';
+                        } else {
+                            return
+                                '<div class="dropdown">
+                                <button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-exclamation"></i>' . $result . '
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+							    <button id="btn_nego_gb" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" class="dropdown-item"  title="Information"><i class="fas fa-edit"></i>&nbsp;Nego</button>
+						        </div>
+					            </div>';
+                        }
+                    })
+                    ->addColumn('kirim_harga', function ($list) {
+                        $str_hp = $list->DataPO->User->nomer_hp;
+                        $no_hp = preg_replace('/^0/', '62', $str_hp);
+                        $nama = $list->DataPO->User->nama_vendor;
+                        $nopol = $list->PenerimaanPo->plat_kendaraan;
+                        $tonase = tonase($list->PenerimaanPo->hasil_akhir_tonase);
+                        $kode_po = $list->kode_po;
+                        $harga = rupiah($list->harga_akhir_gb) . '/Kg';
+                        return
+                            // $no_hp;
+                            // '<a href="' . route('sourching.kirim_harga') . '" data-no="'.'"></a>';
+                            '<a href="https://api.whatsapp.com/send?phone=' . $no_hp . '&text=Hallo!!%20Supplier%20:%20' . $nama . '.%20Ingin%20menyampaikan%20harga%20bongkaran%20gabah%20Nopol:%20' . $nopol . '%20Tonase:%20' . $tonase . '%20dengan%20PO:%20' . $kode_po . '%20Yaitu%20:%20*' . $harga . '*.%20Terimakasih." target="_blank" class="btn btn-block btn-success" id="btn_kirim_harga"><i class="fi fi-brands-whatsapp"></i>Kirim&nbsp;Harga&nbsp;Supplier</a>';
+                    })
+
+                    ->rawColumns(['name_bid', 'kirim_harga', 'dtm_gb', 'keterangan_harga_akhir_gb', 'lokasi_bongkar_gb', 'reaksi_harga', 'nama_vendor', "date", 'date_bid', 'kode_po', 'harga_akhir', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga'])
                     ->make(true);
             }
         }
@@ -3916,54 +4175,81 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
     {
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
-
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
-                    ->where('lab2_gb.aksi_harga_gb', 'DEAL')
-                    ->where('bid.name_bid', '=', 'GABAH BASAH PANDAN WANGI')
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
-                    ->orderBy('id_lab2_gb', 'DESC')
-                    ->get())
+                $table = Lab2GabahBasah::With(['DataPO' => function ($query) use ($request) {
+                    $query->whereBetween('tanggal_po', array($request->from_date, $request->to_date));
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH PANDAN WANGI');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With('PenerimaanPo')
+                    ->whereHas('DataPO', function ($query) use ($request) {
+                        $query->whereBetween('tanggal_po', array($request->from_date, $request->to_date));
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH PANDAN WANGI');
+                        });
+                    })
+                    ->where('aksi_harga_gb', 'DEAL')
+                    ->orderBy('id_lab2_gb', 'desc')
+                    ->select(
+                        'id_lab2_gb',
+                        'lab2_kode_po_gb',
+                        'dtm_gb',
+                        'harga_akhir_gb',
+                        'harga_akhir_permintaan_gb',
+                        'keterangan_harga_akhir_gb',
+                        'reaksi_harga_gb',
+                        'lokasi_bongkar_gb',
+                        'plan_harga_beli_gabah_gb',
+                        'harga_berdasarkan_tempat_gb',
+                        'harga_berdasarkan_harga_atas_gb',
+                        'harga_awal_gb',
+                        'aksi_harga_gb',
+                    )
+                    ->get();
+                return Datatables::of($table)
                     ->addColumn('name_bid', function ($list) {
-                        $result = $list->name_bid;
+                        $result = $list->DataPO->Bid->name_bid;
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
+                        $result = $list->DataPO->User->nama_vendor;
                         return $result;
-                    })
-                    ->addColumn('date_bid', function ($list) {
-                        $result = $list->date_bid;
-                        return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
                     })
                     ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
+                        $result = $list->DataPO->kode_po;
                         return $result;
                     })
-                    ->addColumn('date', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->created_at)->isoFormat('DD-MM-Y ');
+                    ->addColumn('keterangan_harga_akhir_gb', function ($list) {
+                        $result = $list->keterangan_harga_akhir_gb;
+                        return $result;
+                    })
+                    ->addColumn('lokasi_bongkar_gb', function ($list) {
+                        $result = $list->lokasi_bongkar_gb;
+                        return $result;
+                    })
+                    ->addColumn('dtm_gb', function ($list) {
+                        $result = $list->dtm_gb;
                         return $result;
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
+                        $result = $list->PenerimaanPo->plat_kendaraan;
                         return $result;
                     })
                     ->addColumn('tonase_awal', function ($list) {
-                        $result = tonase($list->tonase_awal);
+                        $result = tonase($list->PenerimaanPo->tonase_awal);
                         return $result;
                     })
                     ->addColumn('tonase_akhir', function ($list) {
-                        $result = tonase($list->tonase_akhir);
+                        $result = tonase($list->PenerimaanPo->tonase_akhir);
                         return $result;
                     })
                     ->addColumn('hasil_akhir_tonase', function ($list) {
-                        $result = $list->hasil_akhir_tonase;
+                        $result = $list->PenerimaanPo->hasil_akhir_tonase;
                         if ($result == '' && $result == null) {
                             return '<span class="badge badge-pill badge-info">Proses Final Tonase</span>';
                         } else {
-                            return tonase($list->hasil_akhir_tonase);
+                            return tonase($list->PenerimaanPo->hasil_akhir_tonase);
                         }
                     })
                     ->addColumn('plan_harga_beli_gabah', function ($list) {
@@ -3995,121 +4281,122 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
                         }
                         return $result;
                     })
-                    ->addColumn('reaksi_harga', function ($list) {
-                        $result = rupiah($list->reaksi_harga_gb);
-                        return $result;
-                    })
                     ->addColumn('aksi_harga', function ($list) {
                         $result = $list->aksi_harga_gb;
-                        if ($list->status_epicor == 1) {
+                        if ($list->PenerimaanPo->status_epicor == 1) {
                             return
                                 '<div class="dropdown">
-                    <button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-exclamation"></i>' . $result . '
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                        <button id="btn_nego_info_gb" class="dropdown-item"  title="Information"><i class="fas fa-edit"></i>&nbsp;Nego</button>
-                    </div>
-                </div>';
+                                <button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-exclamation"></i>' . $result . '
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                                <button id="btn_nego_info_gb" class="dropdown-item"  title="Information"><i class="fas fa-edit"></i>&nbsp;Nego</button>
+                                </div>
+                                </div>';
                         } else {
                             return
                                 '<div class="dropdown">
-    					<button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-exclamation"></i>' . $result . '
-						</button>
-						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-							<button id="btn_nego_gb" data-id="' . $list->id_penerimaan_po . '" class="dropdown-item"  title="Information"><i class="fas fa-edit"></i>&nbsp;Nego</button>
-						</div>
-					</div>';
+                                <button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-exclamation"></i>' . $result . '
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+							    <button id="btn_nego_gb" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" class="dropdown-item"  title="Information"><i class="fas fa-edit"></i>&nbsp;Nego</button>
+						        </div>
+					            </div>';
                         }
                     })
                     ->addColumn('kirim_harga', function ($list) {
-                        $str_hp = $list->nomer_hp;
+                        $str_hp = $list->DataPO->User->nomer_hp;
                         $no_hp = preg_replace('/^0/', '62', $str_hp);
-                        $nama = $list->name;
-                        $nopol = $list->nopol;
-                        $tonase = tonase($list->hasil_akhir_tonase);
+                        $nama = $list->DataPO->User->nama_vendor;
+                        $nopol = $list->PenerimaanPo->plat_kendaraan;
+                        $tonase = tonase($list->PenerimaanPo->hasil_akhir_tonase);
                         $kode_po = $list->kode_po;
                         $harga = rupiah($list->harga_akhir_gb) . '/Kg';
                         return
                             // $no_hp;
+                            // '<a href="' . route('sourching.kirim_harga') . '" data-no="'.'"></a>';
                             '<a href="https://api.whatsapp.com/send?phone=' . $no_hp . '&text=Hallo!!%20Supplier%20:%20' . $nama . '.%20Ingin%20menyampaikan%20harga%20bongkaran%20gabah%20Nopol:%20' . $nopol . '%20Tonase:%20' . $tonase . '%20dengan%20PO:%20' . $kode_po . '%20Yaitu%20:%20*' . $harga . '*.%20Terimakasih." target="_blank" class="btn btn-block btn-success" id="btn_kirim_harga"><i class="fi fi-brands-whatsapp"></i>Kirim&nbsp;Harga&nbsp;Supplier</a>';
                     })
-                    ->addColumn('surveyor', function ($list) {
-                        $result = $list->surveyor_gb;
-                        return $result;
-                    })
-                    ->addColumn('keterangan', function ($list) {
-                        $result = $list->keterangan_gb;
-                        return $result;
-                    })
-                    ->addColumn('waktu', function ($list) {
-                        $result = $list->waktu_gb;
-                        return $result;
-                    })
-                    ->addColumn('tempat', function ($list) {
-                        $result = $list->tempat_gb;
-                        return $result;
-                    })
-                    ->addColumn('z_yang_dibawa', function ($list) {
-                        $result = $list->z_yang_dibawa_gb;
-                        return $result;
-                    })
-                    ->addColumn('z_yang_ditolak', function ($list) {
-                        $result = $list->z_yang_ditolak_gb;
-                        return $result;
-                    })
-                    ->rawColumns(['name_bid', 'kirim_harga', 'reaksi_harga', 'nama_vendor', "date", 'date_bid', 'kode_po', 'harga_akhir', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
+
+                    ->rawColumns(['name_bid', 'kirim_harga', 'dtm_gb', 'keterangan_harga_akhir_gb', 'lokasi_bongkar_gb', 'reaksi_harga', 'nama_vendor', "date", 'date_bid', 'kode_po', 'harga_akhir', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga'])
                     ->make(true);
             } else {
-
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
-                    ->where('lab2_gb.aksi_harga_gb', 'DEAL')
-                    ->where('bid.name_bid', '=', 'GABAH BASAH PANDAN WANGI')
-                    // ->whereBetween('lab2_gb.created_at', array($request->from_date, $request->to_date))
-                    ->orderBy('id_lab2_gb', 'DESC')
-                    ->get())
+                $table = Lab2GabahBasah::With(['DataPO' => function ($query) {
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH PANDAN WANGI');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With('PenerimaanPo')
+                    ->whereHas('DataPO', function ($query) {
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH PANDAN WANGI');
+                        });
+                    })
+                    ->where('aksi_harga_gb', 'DEAL')
+                    ->orderBy('id_lab2_gb', 'desc')
+                    ->select(
+                        'id_lab2_gb',
+                        'lab2_kode_po_gb',
+                        'dtm_gb',
+                        'harga_akhir_gb',
+                        'harga_akhir_permintaan_gb',
+                        'keterangan_harga_akhir_gb',
+                        'reaksi_harga_gb',
+                        'lokasi_bongkar_gb',
+                        'plan_harga_beli_gabah_gb',
+                        'harga_berdasarkan_tempat_gb',
+                        'harga_berdasarkan_harga_atas_gb',
+                        'harga_awal_gb',
+                        'aksi_harga_gb',
+                    )
+                    ->take(200)
+                    ->get();
+                // dd($table);
+                return Datatables::of($table)
                     ->addColumn('name_bid', function ($list) {
-                        $result = $list->name_bid;
+                        $result = $list->DataPO->Bid->name_bid;
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
+                        $result = $list->DataPO->User->nama_vendor;
                         return $result;
-                    })
-                    ->addColumn('date_bid', function ($list) {
-                        $result = $list->date_bid;
-                        return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
                     })
                     ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
+                        $result = $list->DataPO->kode_po;
                         return $result;
                     })
-                    ->addColumn('date', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->created_at)->isoFormat('DD-MM-Y ');
+                    ->addColumn('keterangan_harga_akhir_gb', function ($list) {
+                        $result = $list->keterangan_harga_akhir_gb;
+                        return $result;
+                    })
+                    ->addColumn('lokasi_bongkar_gb', function ($list) {
+                        $result = $list->lokasi_bongkar_gb;
+                        return $result;
+                    })
+                    ->addColumn('dtm_gb', function ($list) {
+                        $result = $list->dtm_gb;
                         return $result;
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
+                        $result = $list->PenerimaanPo->plat_kendaraan;
                         return $result;
                     })
                     ->addColumn('tonase_awal', function ($list) {
-                        $result = tonase($list->tonase_awal);
+                        $result = tonase($list->PenerimaanPo->tonase_awal);
                         return $result;
                     })
                     ->addColumn('tonase_akhir', function ($list) {
-                        $result = tonase($list->tonase_akhir);
+                        $result = tonase($list->PenerimaanPo->tonase_akhir);
                         return $result;
                     })
                     ->addColumn('hasil_akhir_tonase', function ($list) {
-                        $result = $list->hasil_akhir_tonase;
+                        $result = $list->PenerimaanPo->hasil_akhir_tonase;
                         if ($result == '' && $result == null) {
                             return '<span class="badge badge-pill badge-info">Proses Final Tonase</span>';
                         } else {
-                            return tonase($list->hasil_akhir_tonase);
+                            return tonase($list->PenerimaanPo->hasil_akhir_tonase);
                         }
                     })
                     ->addColumn('plan_harga_beli_gabah', function ($list) {
@@ -4141,71 +4428,45 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
                         }
                         return $result;
                     })
-                    ->addColumn('reaksi_harga', function ($list) {
-                        $result = rupiah($list->reaksi_harga_gb);
-                        return $result;
-                    })
                     ->addColumn('aksi_harga', function ($list) {
                         $result = $list->aksi_harga_gb;
-                        if ($list->status_epicor == 1) {
+                        if ($list->PenerimaanPo->status_epicor == 1) {
                             return
                                 '<div class="dropdown">
-                    <button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-exclamation"></i>' . $result . '
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                        <button id="btn_nego_info_gb" class="dropdown-item"  title="Information"><i class="fas fa-edit"></i>&nbsp;Nego</button>
-                    </div>
-                </div>';
+                                <button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-exclamation"></i>' . $result . '
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                                <button id="btn_nego_info_gb" class="dropdown-item"  title="Information"><i class="fas fa-edit"></i>&nbsp;Nego</button>
+                                </div>
+                                </div>';
                         } else {
                             return
                                 '<div class="dropdown">
-    					<button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-exclamation"></i>' . $result . '
-						</button>
-						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-							<button id="btn_nego_gb" data-id="' . $list->id_penerimaan_po . '" class="dropdown-item"  title="Information"><i class="fas fa-edit"></i>&nbsp;Nego</button>
-						</div>
-					</div>';
+                                <button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-exclamation"></i>' . $result . '
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+							    <button id="btn_nego_gb" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" class="dropdown-item"  title="Information"><i class="fas fa-edit"></i>&nbsp;Nego</button>
+						        </div>
+					            </div>';
                         }
                     })
                     ->addColumn('kirim_harga', function ($list) {
-                        $str_hp = $list->nomer_hp;
+                        $str_hp = $list->DataPO->User->nomer_hp;
                         $no_hp = preg_replace('/^0/', '62', $str_hp);
-                        $nama = $list->name;
-                        $nopol = $list->nopol;
-                        $tonase = tonase($list->hasil_akhir_tonase);
+                        $nama = $list->DataPO->User->nama_vendor;
+                        $nopol = $list->PenerimaanPo->plat_kendaraan;
+                        $tonase = tonase($list->PenerimaanPo->hasil_akhir_tonase);
                         $kode_po = $list->kode_po;
                         $harga = rupiah($list->harga_akhir_gb) . '/Kg';
                         return
                             // $no_hp;
+                            // '<a href="' . route('sourching.kirim_harga') . '" data-no="'.'"></a>';
                             '<a href="https://api.whatsapp.com/send?phone=' . $no_hp . '&text=Hallo!!%20Supplier%20:%20' . $nama . '.%20Ingin%20menyampaikan%20harga%20bongkaran%20gabah%20Nopol:%20' . $nopol . '%20Tonase:%20' . $tonase . '%20dengan%20PO:%20' . $kode_po . '%20Yaitu%20:%20*' . $harga . '*.%20Terimakasih." target="_blank" class="btn btn-block btn-success" id="btn_kirim_harga"><i class="fi fi-brands-whatsapp"></i>Kirim&nbsp;Harga&nbsp;Supplier</a>';
                     })
-                    ->addColumn('surveyor', function ($list) {
-                        $result = $list->surveyor_gb;
-                        return $result;
-                    })
-                    ->addColumn('keterangan', function ($list) {
-                        $result = $list->keterangan_gb;
-                        return $result;
-                    })
-                    ->addColumn('waktu', function ($list) {
-                        $result = $list->waktu_gb;
-                        return $result;
-                    })
-                    ->addColumn('tempat', function ($list) {
-                        $result = $list->tempat_gb;
-                        return $result;
-                    })
-                    ->addColumn('z_yang_dibawa', function ($list) {
-                        $result = $list->z_yang_dibawa_gb;
-                        return $result;
-                    })
-                    ->addColumn('z_yang_ditolak', function ($list) {
-                        $result = $list->z_yang_ditolak_gb;
-                        return $result;
-                    })
-                    ->rawColumns(['name_bid', 'kirim_harga', 'reaksi_harga', 'nama_vendor', "date", 'date_bid', 'kode_po', 'harga_akhir', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
+
+                    ->rawColumns(['name_bid', 'kirim_harga', 'dtm_gb', 'keterangan_harga_akhir_gb', 'lokasi_bongkar_gb', 'reaksi_harga', 'nama_vendor', "date", 'date_bid', 'kode_po', 'harga_akhir', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga'])
                     ->make(true);
             }
         }
@@ -4214,54 +4475,81 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
     {
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
-
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
-                    ->where('lab2_gb.aksi_harga_gb', 'DEAL')
-                    ->where('bid.name_bid', '=', 'GABAH BASAH KETAN PUTIH')
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
-                    ->orderBy('id_lab2_gb', 'DESC')
-                    ->get())
+                $table = Lab2GabahBasah::With(['DataPO' => function ($query) use ($request) {
+                    $query->whereBetween('tanggal_po', array($request->from_date, $request->to_date));
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH KETAN PUTIH');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With('PenerimaanPo')
+                    ->whereHas('DataPO', function ($query) use ($request) {
+                        $query->whereBetween('tanggal_po', array($request->from_date, $request->to_date));
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH KETAN PUTIH');
+                        });
+                    })
+                    ->where('aksi_harga_gb', 'DEAL')
+                    ->orderBy('id_lab2_gb', 'desc')
+                    ->select(
+                        'id_lab2_gb',
+                        'lab2_kode_po_gb',
+                        'dtm_gb',
+                        'harga_akhir_gb',
+                        'harga_akhir_permintaan_gb',
+                        'keterangan_harga_akhir_gb',
+                        'reaksi_harga_gb',
+                        'lokasi_bongkar_gb',
+                        'plan_harga_beli_gabah_gb',
+                        'harga_berdasarkan_tempat_gb',
+                        'harga_berdasarkan_harga_atas_gb',
+                        'harga_awal_gb',
+                        'aksi_harga_gb',
+                    )
+                    ->get();
+                return Datatables::of($table)
                     ->addColumn('name_bid', function ($list) {
-                        $result = $list->name_bid;
+                        $result = $list->DataPO->Bid->name_bid;
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
+                        $result = $list->DataPO->User->nama_vendor;
                         return $result;
-                    })
-                    ->addColumn('date_bid', function ($list) {
-                        $result = $list->date_bid;
-                        return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
                     })
                     ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
+                        $result = $list->DataPO->kode_po;
                         return $result;
                     })
-                    ->addColumn('date', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->created_at)->isoFormat('DD-MM-Y ');
+                    ->addColumn('keterangan_harga_akhir_gb', function ($list) {
+                        $result = $list->keterangan_harga_akhir_gb;
+                        return $result;
+                    })
+                    ->addColumn('lokasi_bongkar_gb', function ($list) {
+                        $result = $list->lokasi_bongkar_gb;
+                        return $result;
+                    })
+                    ->addColumn('dtm_gb', function ($list) {
+                        $result = $list->dtm_gb;
                         return $result;
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
+                        $result = $list->PenerimaanPo->plat_kendaraan;
                         return $result;
                     })
                     ->addColumn('tonase_awal', function ($list) {
-                        $result = tonase($list->tonase_awal);
+                        $result = tonase($list->PenerimaanPo->tonase_awal);
                         return $result;
                     })
                     ->addColumn('tonase_akhir', function ($list) {
-                        $result = tonase($list->tonase_akhir);
+                        $result = tonase($list->PenerimaanPo->tonase_akhir);
                         return $result;
                     })
                     ->addColumn('hasil_akhir_tonase', function ($list) {
-                        $result = $list->hasil_akhir_tonase;
+                        $result = $list->PenerimaanPo->hasil_akhir_tonase;
                         if ($result == '' && $result == null) {
                             return '<span class="badge badge-pill badge-info">Proses Final Tonase</span>';
                         } else {
-                            return tonase($list->hasil_akhir_tonase);
+                            return tonase($list->PenerimaanPo->hasil_akhir_tonase);
                         }
                     })
                     ->addColumn('plan_harga_beli_gabah', function ($list) {
@@ -4293,121 +4581,122 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
                         }
                         return $result;
                     })
-                    ->addColumn('reaksi_harga', function ($list) {
-                        $result = rupiah($list->reaksi_harga_gb);
-                        return $result;
-                    })
                     ->addColumn('aksi_harga', function ($list) {
                         $result = $list->aksi_harga_gb;
-                        if ($list->status_epicor == 1) {
+                        if ($list->PenerimaanPo->status_epicor == 1) {
                             return
                                 '<div class="dropdown">
-                    <button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-exclamation"></i>' . $result . '
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                        <button id="btn_nego_info_gb" class="dropdown-item"  title="Information"><i class="fas fa-edit"></i>&nbsp;Nego</button>
-                    </div>
-                </div>';
+                                <button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-exclamation"></i>' . $result . '
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                                <button id="btn_nego_info_gb" class="dropdown-item"  title="Information"><i class="fas fa-edit"></i>&nbsp;Nego</button>
+                                </div>
+                                </div>';
                         } else {
                             return
                                 '<div class="dropdown">
-    					<button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-exclamation"></i>' . $result . '
-						</button>
-						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-							<button id="btn_nego_gb" data-id="' . $list->id_penerimaan_po . '" class="dropdown-item"  title="Information"><i class="fas fa-edit"></i>&nbsp;Nego</button>
-						</div>
-					</div>';
+                                <button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-exclamation"></i>' . $result . '
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+							    <button id="btn_nego_gb" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" class="dropdown-item"  title="Information"><i class="fas fa-edit"></i>&nbsp;Nego</button>
+						        </div>
+					            </div>';
                         }
                     })
                     ->addColumn('kirim_harga', function ($list) {
-                        $str_hp = $list->nomer_hp;
+                        $str_hp = $list->DataPO->User->nomer_hp;
                         $no_hp = preg_replace('/^0/', '62', $str_hp);
-                        $nama = $list->name;
-                        $nopol = $list->nopol;
-                        $tonase = tonase($list->hasil_akhir_tonase);
+                        $nama = $list->DataPO->User->nama_vendor;
+                        $nopol = $list->PenerimaanPo->plat_kendaraan;
+                        $tonase = tonase($list->PenerimaanPo->hasil_akhir_tonase);
                         $kode_po = $list->kode_po;
                         $harga = rupiah($list->harga_akhir_gb) . '/Kg';
                         return
                             // $no_hp;
+                            // '<a href="' . route('sourching.kirim_harga') . '" data-no="'.'"></a>';
                             '<a href="https://api.whatsapp.com/send?phone=' . $no_hp . '&text=Hallo!!%20Supplier%20:%20' . $nama . '.%20Ingin%20menyampaikan%20harga%20bongkaran%20gabah%20Nopol:%20' . $nopol . '%20Tonase:%20' . $tonase . '%20dengan%20PO:%20' . $kode_po . '%20Yaitu%20:%20*' . $harga . '*.%20Terimakasih." target="_blank" class="btn btn-block btn-success" id="btn_kirim_harga"><i class="fi fi-brands-whatsapp"></i>Kirim&nbsp;Harga&nbsp;Supplier</a>';
                     })
-                    ->addColumn('surveyor', function ($list) {
-                        $result = $list->surveyor_gb;
-                        return $result;
-                    })
-                    ->addColumn('keterangan', function ($list) {
-                        $result = $list->keterangan_gb;
-                        return $result;
-                    })
-                    ->addColumn('waktu', function ($list) {
-                        $result = $list->waktu_gb;
-                        return $result;
-                    })
-                    ->addColumn('tempat', function ($list) {
-                        $result = $list->tempat_gb;
-                        return $result;
-                    })
-                    ->addColumn('z_yang_dibawa', function ($list) {
-                        $result = $list->z_yang_dibawa_gb;
-                        return $result;
-                    })
-                    ->addColumn('z_yang_ditolak', function ($list) {
-                        $result = $list->z_yang_ditolak_gb;
-                        return $result;
-                    })
-                    ->rawColumns(['name_bid', 'kirim_harga', 'reaksi_harga', 'nama_vendor', "date", 'date_bid', 'kode_po', 'harga_akhir', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
+
+                    ->rawColumns(['name_bid', 'kirim_harga', 'dtm_gb', 'keterangan_harga_akhir_gb', 'lokasi_bongkar_gb', 'reaksi_harga', 'nama_vendor', "date", 'date_bid', 'kode_po', 'harga_akhir', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga'])
                     ->make(true);
             } else {
-
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('lab2_gb', 'lab2_gb.lab2_kode_po_gb', '=', 'data_po.kode_po')
-                    ->where('lab2_gb.aksi_harga_gb', 'DEAL')
-                    ->where('bid.name_bid', '=', 'GABAH BASAH KETAN PUTIH')
-                    // ->whereBetween('lab2_gb.created_at', array($request->from_date, $request->to_date))
-                    ->orderBy('id_lab2_gb', 'DESC')
-                    ->get())
+                $table = Lab2GabahBasah::With(['DataPO' => function ($query) {
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH KETAN PUTIH');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With('PenerimaanPo')
+                    ->whereHas('DataPO', function ($query) {
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH KETAN PUTIH');
+                        });
+                    })
+                    ->where('aksi_harga_gb', 'DEAL')
+                    ->orderBy('id_lab2_gb', 'desc')
+                    ->select(
+                        'id_lab2_gb',
+                        'lab2_kode_po_gb',
+                        'dtm_gb',
+                        'harga_akhir_gb',
+                        'harga_akhir_permintaan_gb',
+                        'keterangan_harga_akhir_gb',
+                        'reaksi_harga_gb',
+                        'lokasi_bongkar_gb',
+                        'plan_harga_beli_gabah_gb',
+                        'harga_berdasarkan_tempat_gb',
+                        'harga_berdasarkan_harga_atas_gb',
+                        'harga_awal_gb',
+                        'aksi_harga_gb',
+                    )
+                    ->take(200)
+                    ->get();
+                // dd($table);
+                return Datatables::of($table)
                     ->addColumn('name_bid', function ($list) {
-                        $result = $list->name_bid;
+                        $result = $list->DataPO->Bid->name_bid;
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
+                        $result = $list->DataPO->User->nama_vendor;
                         return $result;
-                    })
-                    ->addColumn('date_bid', function ($list) {
-                        $result = $list->date_bid;
-                        return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
                     })
                     ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
+                        $result = $list->DataPO->kode_po;
                         return $result;
                     })
-                    ->addColumn('date', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->created_at)->isoFormat('DD-MM-Y ');
+                    ->addColumn('keterangan_harga_akhir_gb', function ($list) {
+                        $result = $list->keterangan_harga_akhir_gb;
+                        return $result;
+                    })
+                    ->addColumn('lokasi_bongkar_gb', function ($list) {
+                        $result = $list->lokasi_bongkar_gb;
+                        return $result;
+                    })
+                    ->addColumn('dtm_gb', function ($list) {
+                        $result = $list->dtm_gb;
                         return $result;
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
+                        $result = $list->PenerimaanPo->plat_kendaraan;
                         return $result;
                     })
                     ->addColumn('tonase_awal', function ($list) {
-                        $result = tonase($list->tonase_awal);
+                        $result = tonase($list->PenerimaanPo->tonase_awal);
                         return $result;
                     })
                     ->addColumn('tonase_akhir', function ($list) {
-                        $result = tonase($list->tonase_akhir);
+                        $result = tonase($list->PenerimaanPo->tonase_akhir);
                         return $result;
                     })
                     ->addColumn('hasil_akhir_tonase', function ($list) {
-                        $result = $list->hasil_akhir_tonase;
+                        $result = $list->PenerimaanPo->hasil_akhir_tonase;
                         if ($result == '' && $result == null) {
                             return '<span class="badge badge-pill badge-info">Proses Final Tonase</span>';
                         } else {
-                            return tonase($list->hasil_akhir_tonase);
+                            return tonase($list->PenerimaanPo->hasil_akhir_tonase);
                         }
                     })
                     ->addColumn('plan_harga_beli_gabah', function ($list) {
@@ -4439,71 +4728,45 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
                         }
                         return $result;
                     })
-                    ->addColumn('reaksi_harga', function ($list) {
-                        $result = rupiah($list->reaksi_harga_gb);
-                        return $result;
-                    })
                     ->addColumn('aksi_harga', function ($list) {
                         $result = $list->aksi_harga_gb;
-                        if ($list->status_epicor == 1) {
+                        if ($list->PenerimaanPo->status_epicor == 1) {
                             return
                                 '<div class="dropdown">
-                    <button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-exclamation"></i>' . $result . '
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                        <button id="btn_nego_info_gb" class="dropdown-item"  title="Information"><i class="fas fa-edit"></i>&nbsp;Nego</button>
-                    </div>
-                </div>';
+                                <button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-exclamation"></i>' . $result . '
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                                <button id="btn_nego_info_gb" class="dropdown-item"  title="Information"><i class="fas fa-edit"></i>&nbsp;Nego</button>
+                                </div>
+                                </div>';
                         } else {
                             return
                                 '<div class="dropdown">
-    					<button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-exclamation"></i>' . $result . '
-						</button>
-						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-							<button id="btn_nego_gb" data-id="' . $list->id_penerimaan_po . '" class="dropdown-item"  title="Information"><i class="fas fa-edit"></i>&nbsp;Nego</button>
-						</div>
-					</div>';
+                                <button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-exclamation"></i>' . $result . '
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+							    <button id="btn_nego_gb" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" class="dropdown-item"  title="Information"><i class="fas fa-edit"></i>&nbsp;Nego</button>
+						        </div>
+					            </div>';
                         }
                     })
                     ->addColumn('kirim_harga', function ($list) {
-                        $str_hp = $list->nomer_hp;
+                        $str_hp = $list->DataPO->User->nomer_hp;
                         $no_hp = preg_replace('/^0/', '62', $str_hp);
-                        $nama = $list->name;
-                        $nopol = $list->nopol;
-                        $tonase = tonase($list->hasil_akhir_tonase);
+                        $nama = $list->DataPO->User->nama_vendor;
+                        $nopol = $list->PenerimaanPo->plat_kendaraan;
+                        $tonase = tonase($list->PenerimaanPo->hasil_akhir_tonase);
                         $kode_po = $list->kode_po;
                         $harga = rupiah($list->harga_akhir_gb) . '/Kg';
                         return
                             // $no_hp;
+                            // '<a href="' . route('sourching.kirim_harga') . '" data-no="'.'"></a>';
                             '<a href="https://api.whatsapp.com/send?phone=' . $no_hp . '&text=Hallo!!%20Supplier%20:%20' . $nama . '.%20Ingin%20menyampaikan%20harga%20bongkaran%20gabah%20Nopol:%20' . $nopol . '%20Tonase:%20' . $tonase . '%20dengan%20PO:%20' . $kode_po . '%20Yaitu%20:%20*' . $harga . '*.%20Terimakasih." target="_blank" class="btn btn-block btn-success" id="btn_kirim_harga"><i class="fi fi-brands-whatsapp"></i>Kirim&nbsp;Harga&nbsp;Supplier</a>';
                     })
-                    ->addColumn('surveyor', function ($list) {
-                        $result = $list->surveyor_gb;
-                        return $result;
-                    })
-                    ->addColumn('keterangan', function ($list) {
-                        $result = $list->keterangan_gb;
-                        return $result;
-                    })
-                    ->addColumn('waktu', function ($list) {
-                        $result = $list->waktu_gb;
-                        return $result;
-                    })
-                    ->addColumn('tempat', function ($list) {
-                        $result = $list->tempat_gb;
-                        return $result;
-                    })
-                    ->addColumn('z_yang_dibawa', function ($list) {
-                        $result = $list->z_yang_dibawa_gb;
-                        return $result;
-                    })
-                    ->addColumn('z_yang_ditolak', function ($list) {
-                        $result = $list->z_yang_ditolak_gb;
-                        return $result;
-                    })
-                    ->rawColumns(['name_bid', 'kirim_harga', 'reaksi_harga', 'nama_vendor', "date", 'date_bid', 'kode_po', 'harga_akhir', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga', 'surveyor', 'keterangan', 'waktu', 'tempat', 'z_yang_dibawa', 'z_yang_ditolak'])
+
+                    ->rawColumns(['name_bid', 'kirim_harga', 'dtm_gb', 'keterangan_harga_akhir_gb', 'lokasi_bongkar_gb', 'reaksi_harga', 'nama_vendor', "date", 'date_bid', 'kode_po', 'harga_akhir', 'plat_kendaraan', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'plan_harga_beli_gabah', 'harga_berdasarkan_tempat', 'harga_berdasarkan_harga_atas', 'harga_awal', 'aksi_harga'])
                     ->make(true);
             }
         }
@@ -6047,7 +6310,7 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
     {
         $filetagihan       = $request->file('tagihan_file');
         $imageNamebroadcast  = time() . '.' . $request->tagihan_file->extension();
-        $movetagihan       = $filetagihan->move('public/dokumen/tagihan/', $imageNamebroadcast);
+        $movetagihan       = $filetagihan->move('dokumen/tagihan/', $imageNamebroadcast);
         if ($request->bulan == 'lalu') {
             $query = DB::table('broadcast')
                 ->insert([
@@ -6090,7 +6353,7 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
         unlink($file_old);
         $filetagihan       = $request->file('tagihan_file_update');
         $imageNametagihan  = time() . '.' . $request->tagihan_file_update->extension();
-        $movetagihan       = $filetagihan->move('public/dokumen/tagihan/', $imageNametagihan);
+        $movetagihan       = $filetagihan->move('dokumen/tagihan/', $imageNametagihan);
         $query = DB::table('broadcast')
             ->where('id_broadcast', $request->id_tagihan)
             ->update([
@@ -6321,8 +6584,42 @@ _Sent Via *PT SURYA PANGAN SEMESTA NGAWI*_",
     }
     public function get_notifikasisourching()
     {
+        $on_proses  = Lab2GabahBasah::With(['DataPO' => function ($query) {
+            $query->With(['Bid' => function ($query) {
+                $query->where('name_bid', 'LIKE', '%GABAH BASAH%');
+                $query->select(
+                    'id_bid',
+                );
+            }]);
+            $query->select(
+                'id_data_po',
+            );
+            $query->With(['User' => function ($query) {
+                $query->select(
+                    'id',
+                );
+            }]);
+        }])
+            ->With('PenerimaanPo')
+            ->whereHas('DataPO', function ($query) {
+                $query->whereHas('Bid', function ($query) {
+                    $query->where('name_bid', 'LIKE', '%GABAH BASAH%');
+                });
+            })
+            // ->where('aksi_harga_gb', 'DEAL')
+            ->where('aksi_harga_gb', 'ON PROCESS')
+            ->orderBy('id_lab2_gb', 'DESC')
+            ->select(
+                'id_lab2_gb',
+            )
+            ->take(200)
+            ->get();
+
         $data = NotifSourching::where('status', 0)->take(10)->orderBy('id_notif', 'DESC')->get();
-        return json_encode($data);
+        return response()->json([
+            'on_proses' => $on_proses->count(),
+            'data' => $data
+        ]);
     }
     public function get_notif_sourching_all()
     {

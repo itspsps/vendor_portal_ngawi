@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::get('/', [UserController::class, 'home'])->name('home');
+Route::get('/', [UserController::class, 'getViewLogin'])->name('login');
 
 Auth::routes();
 
@@ -86,16 +86,16 @@ Route::prefix('user')->name('user.')->group(function () {
         Route::get('/reset_password/{id}', [UserController::class, 'reset_password'])->name('reset_password');
         Route::post('/sendOTP', [UserController::class, 'sendOTP'])->name('sendOTP');
         Route::post('/send_verified_otp', [UserController::class, 'send_verified_otp'])->name('send_verified_otp');
+        Route::get('/new_password/{id}', [UserController::class, 'new_password'])->name('new_password');
+        Route::post('/update_newpassword', [UserController::class, 'update_newpassword'])->name('update_newpassword');
     });
     Route::get('/site_kediri', [UserController::class, 'site_kediri'])->name('site_kediri');
 
     Route::get('/getkabupaten', [UserController::class, 'getkabupaten'])->name('getkabupaten');
     Route::get('/getkecamatan', [UserController::class, 'getkecamatan'])->name('getkecamatan');
     Route::get('/getdesa', [UserController::class, 'getdesa'])->name('getdesa');
-    Route::get('/home', [UserController::class, 'home'])->name('home');
     Route::get('/search', [UserController::class, 'search'])->name('search');
     Route::get('/lelang_show/{id?}', [UserController::class, 'lelang_show'])->name('lelang_show');
-    Route::get('/lelang_detail/{id?}', [UserController::class, 'lelang_detail'])->name('lelang_detail');
     Route::post('/lelang_storeuser', [UserController::class, 'lelang_storeuser'])->name('lelang_storeuser');
     Route::get('/pangan_pertanian', [UserController::class, 'pangan_pertanian'])->name('pangan_pertanian');
     Route::get('/teknologi_inovasi', [UserController::class, 'teknologi_inovasi'])->name('teknologi_inovasi');
@@ -105,44 +105,61 @@ Route::prefix('user')->name('user.')->group(function () {
     Route::get('/terbaru', [UserController::class, 'terbaru'])->name('terbaru');
     Route::get('/update_home', [UserController::class, 'update_home'])->name('update_home');
     Route::get('/detailberita/{id?}', [UserController::class, 'detailberita'])->name('detailberita');
-    Route::get('/cetak_po/{id?}', [UserController::class, 'cetak_po'])->name('cetak_po');
     Route::middleware(['auth:web', 'PreventBackHistory'])->group(function () {
+        Route::get('/home', [UserController::class, 'home'])->name('home');
         Route::post('/logout', [UserController::class, 'logout'])->name('logout');
+
+        // DAFTAR LELANG
+        Route::get('/daftar_lelang', [UserController::class, 'daftar_lelang'])->name('daftar_lelang');
+        Route::get('/lelang_detail/{id?}', [UserController::class, 'lelang_detail'])->name('lelang_detail');
+
+        // TRANSAKSI
         Route::get('/transaksi', [UserController::class, 'transaksi'])->name('transaksi');
-        Route::get('/riwayat_transaksi', [UserController::class, 'riwayat_transaksi'])->name('riwayat_transaksi');
-        Route::get('/potong_pajak', [UserController::class, 'potong_pajak'])->name('potong_pajak');
+        Route::get('/cetak_po/{id?}', [UserController::class, 'cetak_po'])->name('cetak_po');
         Route::get('/scan_po/{id?}', [UserController::class, 'scan_po'])->name('cetak_po');
+
+        // HISTORY
+        Route::get('/history', [UserController::class, 'history'])->name('history');
         Route::get('/data_list_po/{id?}', [UserController::class, 'data_list_po'])->name('data_list_po');
+
+
+        // NOTIFIKASI
+        Route::get('/notif', [UserController::class, 'notif'])->name('notif');
+
+        // PAJAK
+        Route::get('/potong_pajak', [UserController::class, 'potong_pajak'])->name('potong_pajak');
+
+        // EDIT PASSWORD
+        Route::get('/edit_password/{id}', [UserController::class, 'edit_password'])->name('edit_password');
+        Route::post('/sendOTPEditPassword', [UserController::class, 'sendOTPEditPassword'])->name('sendOTPEditPassword');
+        Route::get('/input_otp/{id}', [UserController::class, 'input_otp'])->name('input_otp');
+        Route::post('/send_verified_otpEditPassword', [UserController::class, 'send_verified_otpEditPassword'])->name('send_verified_otpEditPassword');
+        Route::get('/input_editpassword/{id}', [UserController::class, 'input_editpassword'])->name('input_editpassword');
+        Route::post('/update_neweditpassword', [UserController::class, 'update_neweditpassword'])->name('update_neweditpassword');
+
+        // BERITA
         Route::get('/update_statusbaca/{id?}', [UserController::class, 'update_statusbaca'])->name('update_statusbaca');
-        Route::get('/akun', [UserController::class, 'akun'])->name('akun');
-        Route::get('/listbid', [UserController::class, 'listbid'])->name('listbid');
         Route::get('/news', [UserController::class, 'news'])->name('news');
-        Route::get('/bid', [UserController::class, 'bid'])->name('bid');
-        Route::get('/notification', [UserController::class, 'notif'])->name('notification');
+        // AKUN
+        Route::get('/account', [UserController::class, 'account'])->name('account');
+
+        Route::get('/listbid', [UserController::class, 'listbid'])->name('listbid');
         Route::get('/setting_profile', [UserController::class, 'setting_profile'])->name('setting_profile');
         Route::get('/setting_bank', [UserController::class, 'setting_bank'])->name('setting_bank');
         Route::get('/help', [UserController::class, 'help'])->name('help');
         Route::get('/more_menu', [UserController::class, 'more_menu'])->name('more_menu');
-        Route::get('/account', [UserController::class, 'account'])->name('account');
         Route::get('/about', [UserController::class, 'about'])->name('about');
         Route::get('/procedure', [UserController::class, 'procedure'])->name('procedure');
         Route::get('/status_pending/{id?}', [UserController::class, 'status_pending'])->name('status_pending');
 
         // New User
-        // New User
         Route::get('/new_home', [UserController::class, 'new_home'])->name('new_home');
         Route::post('/new_akun_update', [UserController::class, 'new_update_akun'])->name('new_akun_update');
-        Route::get('/new_daftar_lelang', [UserController::class, 'new_daftar_lelang'])->name('new_daftar_lelang');
         Route::get('/new_lelang_detail/{id?}', [UserController::class, 'new_lelang_detail'])->name('new_lelang_detail');
         Route::post('/new_logout', [UserController::class, 'new_logout'])->name('new_logout');
         Route::post('/new_lelang_storeuser', [UserController::class, 'new_lelang_storeuser'])->name('new_lelang_storeuser');
-        Route::get('/new_transaksi', [UserController::class, 'new_transaksi'])->name('new_transaksi');
-        Route::get('/new_history', [UserController::class, 'new_history'])->name('new_history');
         Route::get('/new_data_list_po/{id?}', [UserController::class, 'new_data_list_po'])->name('new_data_list_po');
-        Route::get('/new_notif', [UserController::class, 'new_notif'])->name('new_notif');
-        Route::get('/new_potong_pajak', [UserController::class, 'new_potong_pajak'])->name('new_potong_pajak');
         Route::get('/new_berita', [UserController::class, 'new_berita'])->name('new_berita');
-        Route::get('/new_account', [UserController::class, 'new_account'])->name('new_account');
         Route::get('/new_about', [UserController::class, 'new_about'])->name('new_about');
         Route::get('/new_video_panduan', [UserController::class, 'new_video_panduan'])->name('new_video_panduan');
 
@@ -905,6 +922,7 @@ Route::prefix('qc')->name('qc.')->group(function () {
         //Route::view('/home', 'dashboard.admin_qc_bongkar.home')->name('bongkar.home');
         Route::get('/bongkar/home', [QcAdminBongkarController::class, 'home'])->name('bongkar.home');
         Route::get('/bongkar/data_bongkar', [QcAdminBongkarController::class, 'data_bongkar'])->name('bongkar.data_bongkar');
+        Route::get('/bongkar/count_data_bongkar', [QcAdminBongkarController::class, 'count_data_bongkar'])->name('bongkar.count_data_bongkar');
         // get notif
         Route::get('/bongkar/getcountnotif_antrianbongkar', [QcAdminBongkarController::class, 'getcountnotif_antrianbongkar'])->name('bongkar.getcountnotif_antrianbongkar');
         Route::get('/bongkar/getcountnotif_prosesbongkar', [QcAdminBongkarController::class, 'getcountnotif_prosesbongkar'])->name('bongkar.getcountnotif_prosesbongkar');
@@ -923,6 +941,8 @@ Route::prefix('qc')->name('qc.')->group(function () {
         Route::get('/bongkar/data_antrian_bongkar_pending_index', [QcAdminBongkarController::class, 'data_antrian_bongkar_pending_index'])->name('bongkar.data_antrian_bongkar_pending_index');
         Route::get('/bongkar/data_antrian_bongkar_pk_index', [QcAdminBongkarController::class, 'data_antrian_bongkar_pk_index'])->name('bongkar.data_antrian_bongkar_pk_index');
         Route::get('/bongkar/data_antrian_bongkar_selatan_index', [QcAdminBongkarController::class, 'data_antrian_bongkar_selatan_index'])->name('bongkar.data_antrian_bongkar_selatan_index');
+        Route::get('/bongkar/count_bongkar_selatan', [QcAdminBongkarController::class, 'count_bongkar_selatan'])->name('bongkar.count_bongkar_selatan');
+        Route::get('/bongkar/count_bongkar_utara', [QcAdminBongkarController::class, 'count_bongkar_utara'])->name('bongkar.count_bongkar_utara');
         // Data Revisi
         Route::get('/bongkar/data_revisi_gb', [QcAdminBongkarController::class, 'data_revisi_gb'])->name('bongkar.data_revisi_gb');
         Route::get('/bongkar/data_revisi_gb_longgrain_index', [QcAdminBongkarController::class, 'data_revisi_gb_longgrain_index'])->name('bongkar.data_revisi_gb_longgrain_index');
@@ -982,6 +1002,7 @@ Route::prefix('ap')->name('ap.')->group(function () {
         Route::get('/data_pembelian_gb_ketan_putih_index', [AdminAPController::class, 'data_pembelian_gb_ketan_putih_index'])->name('data_pembelian_gb_ketan_putih_index');
         Route::get('/data_pembelian_pk_index', [AdminAPController::class, 'data_pembelian_pk_index'])->name('data_pembelian_pk_index');
         Route::get('/getcount_notifmenuall', [AdminAPController::class, 'getcount_notifmenuall'])->name('getcount_notifmenuall');
+        Route::get('/count_data_verified', [AdminAPController::class, 'count_data_verified'])->name('count_data_verified');
         Route::get('/getcount_verified', [AdminAPController::class, 'getcount_verified'])->name('getcount_verified');
 
         Route::get('/data_pembelian_show/{id?}', [AdminAPController::class, 'data_pembelian_show'])->name('data_pembelian_show');
@@ -1092,6 +1113,7 @@ Route::prefix('timbangan')->name('timbangan.')->group(function () {
         // Timbangan Akhir
         Route::get('/total_tonase', [AdminTimbanganController::class, 'total_tonase'])->name('total_tonase');
         Route::get('/timbangan_akhir', [AdminTimbanganController::class, 'timbangan_akhir'])->name('timbangan_akhir');
+        Route::get('/count_timbangan_akhir', [AdminTimbanganController::class, 'count_timbangan_akhir'])->name('count_timbangan_akhir');
         Route::get('/timbangan_akhir_gb_longgrain_index', [AdminTimbanganController::class, 'timbangan_akhir_gb_longgrain_index'])->name('timbangan_akhir_gb_longgrain_index');
         Route::get('/timbangan_akhir_gb_ciherang_index', [AdminTimbanganController::class, 'timbangan_akhir_gb_ciherang_index'])->name('timbangan_akhir_gb_ciherang_index');
         Route::get('/timbangan_akhir_gb_pandan_wangi_index', [AdminTimbanganController::class, 'timbangan_akhir_gb_pandan_wangi_index'])->name('timbangan_akhir_gb_pandan_wangi_index');
@@ -1254,6 +1276,7 @@ Route::prefix('sourching')->name('sourching.')->group(function () {
         Route::get('/data_sourching_onprocess_pk_index', [SuperadminController::class, 'data_sourching_onprocess_pk_index'])->name('data_sourching_onprocess_pk_index');
 
         // On Deal
+        Route::get('/count_deal_gb', [SuperadminController::class, 'count_deal_gb'])->name('count_deal_gb');
         Route::get('/data_sourching_deal', [SuperadminController::class, 'data_sourching_deal'])->name('data_sourching_deal');
         Route::get('/data_sourching_deal_gb_longgrain_index', [SuperadminController::class, 'data_sourching_deal_gb_longgrain_index'])->name('data_sourching_deal_gb_longgrain_index');
         Route::get('/data_sourching_deal_bulog_index', [SuperadminController::class, 'data_sourching_deal_bulog_index'])->name('data_sourching_deal_bulog_index');

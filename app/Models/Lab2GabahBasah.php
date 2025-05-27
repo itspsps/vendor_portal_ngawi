@@ -11,4 +11,13 @@ class Lab2GabahBasah extends Model
     protected $primaryKey = 'id_lab2_gb';
     public $timestamps = false;
     protected $guarded = ['id_lab2_gb '];
+
+    public function DataPO()
+    {
+        return $this->hasOne(DataPO::class, 'kode_po', 'lab2_kode_po_gb');
+    }
+    public function PenerimaanPo()
+    {
+        return $this->hasOne(PenerimaanPO::class, 'penerimaan_kode_po', 'lab2_kode_po_gb');
+    }
 }

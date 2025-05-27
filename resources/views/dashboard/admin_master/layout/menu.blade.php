@@ -19,14 +19,15 @@
         <h4 class="kt-menu__section-text">List User</h4>
         <i class="kt-menu__section-icon flaticon-more-v2"></i>
       </li>
-      <li class="kt-menu__item kt-menu__item--submenu {{ Request::is('master/bid*') ? 'kt-menu__item--open' : '' }}
-      {{ Request::is('master/bid*') ? 'kt-menu__item--open' : '' }}
-       {{ Request::is('master/data_sourching_onprocess*') ? 'kt-menu__item--open' : '' }}
-        {{ Request::is('master/data_sourching_deal*') ? 'kt-menu__item--open' : '' }}
-         {{ Request::is('master/data_sourching_nego*') ? 'kt-menu__item--open' : '' }}
-         {{ Request::is('master/data_sourching_output_nego*') ? 'kt-menu__item--open' : '' }}
-          {{ Request::is('master/broadcast*') ? 'kt-menu__item--open' : '' }}
-           {{ Request::is('master/vendor*') ? 'kt-menu__item--open' : '' }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+      <li class="kt-menu__item kt-menu__item--submenu {{ Request::is('master/sourching/bid*') ? 'kt-menu__item--open' : '' }}
+      {{ Request::is('master/sourching/bid*') ? 'kt-menu__item--open' : '' }}
+      {{ Request::is('master/sourching/list_approve_po*') ? 'kt-menu__item--open' : '' }}
+       {{ Request::is('master/sourching/data_sourching_onprocess*') ? 'kt-menu__item--open' : '' }}
+        {{ Request::is('master/sourching/data_sourching_deal*') ? 'kt-menu__item--open' : '' }}
+         {{ Request::is('master/sourching/data_sourching_nego*') ? 'kt-menu__item--open' : '' }}
+         {{ Request::is('master/sourching/data_sourching_output_nego*') ? 'kt-menu__item--open' : '' }}
+          {{ Request::is('master/sourching/broadcast*') ? 'kt-menu__item--open' : '' }}
+           {{ Request::is('master/sourching/vendor*') ? 'kt-menu__item--open' : '' }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
         <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
           <span class="kt-menu__link-icon">
             <i class="flaticon2-user kt-font-dark"></i>
@@ -37,17 +38,17 @@
         <div class="kt-menu__submenu " kt-hidden-height="200" style="">
           <span class="kt-menu__arrow"></span>
           <ul class="kt-menu__subnav">
-            <li class="kt-menu__item  kt-menu__item--{{set_active('master/bid')}}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-              <a href="{{ url('master/bid') }}" class="kt-menu__link kt-menu__toggle">
+            <li class="kt-menu__item  kt-menu__item--{{set_active('master/sourching/bid')}}  kt-menu__item--{{set_active('master/sourching/bid_response*')}} kt-menu__item--{{set_active('master/sourching/list_approve_po*')}}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+              <a href="{{ url('master/sourching/bid') }}" class="kt-menu__link kt-menu__toggle">
                 <i class="kt-menu__link-icon  flaticon2-list kt-font-dark"></i>
                 <span class="kt-menu__link-text">E-Procurement</span>
               </a>
             </li>
             <li class="kt-menu__item kt-menu__item--submenu 
-            {{ Request::is('master/data_sourching_onprocess*') ? 'kt-menu__item--open' : '' }}
-        {{ Request::is('master/data_sourching_deal*') ? 'kt-menu__item--open' : '' }}
-         {{ Request::is('master/data_sourching_nego*') ? 'kt-menu__item--open' : '' }}
-         {{ Request::is('master/data_sourching_output_nego*') ? 'kt-menu__item--open' : '' }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+            {{ Request::is('master/sourching/data_sourching_onprocess*') ? 'kt-menu__item--open' : '' }}
+        {{ Request::is('master/sourching/data_sourching_deal*') ? 'kt-menu__item--open' : '' }}
+         {{ Request::is('master/sourching/data_sourching_nego*') ? 'kt-menu__item--open' : '' }}
+         {{ Request::is('master/sourching/data_sourching_output_nego*') ? 'kt-menu__item--open' : '' }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
               <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
                 <span class="kt-menu__link-icon">
                   <i class="flaticon2-box-1"></i>
@@ -59,26 +60,26 @@
                 <span class="kt-menu__arrow"></span>
                 <ul class="kt-menu__subnav">
 
-                  <li class="kt-menu__item kt-menu__item--{{set_active('master/data_sourching_onprocess')}} " aria-haspopup="true">
-                    <a href="{{route('master.data_sourching_onprocess')}}" class="kt-menu__link ">
+                  <li class="kt-menu__item kt-menu__item--{{set_active('master/sourching/data_sourching_onprocess')}} " aria-haspopup="true">
+                    <a href="{{route('master.sourching.data_sourching_onprocess')}}" class="kt-menu__link ">
                       <i class="kt-menu__link-icon  flaticon2-box kt-font-dark"></i>
                       <span class="kt-menu__link-text">On Process</span>
                     </a>
                   </li>
-                  <li class="kt-menu__item kt-menu__item--{{set_active('master/data_sourching_deal')}} " aria-haspopup="true">
-                    <a href="{{route('master.data_sourching_deal')}}" class="kt-menu__link ">
+                  <li class="kt-menu__item kt-menu__item--{{set_active('master/sourching/data_sourching_deal')}} " aria-haspopup="true">
+                    <a href="{{route('master.sourching.data_sourching_deal')}}" class="kt-menu__link ">
                       <i class="kt-menu__link-icon  flaticon2-box kt-font-dark"></i>
                       <span class="kt-menu__link-text">Deal</span>
                     </a>
                   </li>
-                  <li class="kt-menu__item kt-menu__item--{{set_active('master/data_sourching_nego')}} " aria-haspopup="true">
-                    <a href="{{route('master.data_sourching_nego')}}" class="kt-menu__link ">
+                  <li class="kt-menu__item kt-menu__item--{{set_active('master/sourching/data_sourching_nego')}} " aria-haspopup="true">
+                    <a href="{{route('master.sourching.data_sourching_nego')}}" class="kt-menu__link ">
                       <i class="kt-menu__link-icon   flaticon2-box kt-font-dark"></i>
                       <span class="kt-menu__link-text">Nego</span>
                     </a>
                   </li>
-                  <li class="kt-menu__item kt-menu__item--{{set_active('master/data_sourching_output_nego')}} " aria-haspopup="true">
-                    <a href="{{route('master.data_sourching_output_nego')}}" class="kt-menu__link ">
+                  <li class="kt-menu__item kt-menu__item--{{set_active('master/sourching/data_sourching_output_nego')}} " aria-haspopup="true">
+                    <a href="{{route('master.sourching.data_sourching_output_nego')}}" class="kt-menu__link ">
                       <i class="kt-menu__link-icon  flaticon2-box kt-font-dark"></i>
                       <span class="kt-menu__link-text">Result Nego</span>
                     </a>
@@ -86,14 +87,14 @@
                 </ul>
               </div>
             </li>
-            <li class="kt-menu__item  kt-menu__item--{{set_active('master/broadcast')}}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-              <a href="{{route('master.broadcast')}}" class="kt-menu__link kt-menu__toggle">
+            <li class="kt-menu__item  kt-menu__item--{{set_active('master/sourching/broadcast')}}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+              <a href="{{route('master.sourching.broadcast')}}" class="kt-menu__link kt-menu__toggle">
                 <i class="kt-menu__link-icon flaticon2-email kt-font-dark"></i>
                 <span class="kt-menu__link-text">Pesan Broadcast</span>
               </a>
             </li>
-            <li class="kt-menu__item  kt-menu__item--{{set_active('master/vendor')}}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-              <a href="{{ route('master.vendor') }}" class="kt-menu__link kt-menu__toggle">
+            <li class="kt-menu__item  kt-menu__item--{{set_active('master/sourching/vendor*')}}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+              <a href="{{ route('master.sourching.vendor') }}" class="kt-menu__link kt-menu__toggle">
                 <i class="kt-menu__link-icon flaticon2-group kt-font-dark"></i>
                 <span class="kt-menu__link-text">Data Vendor</span>
               </a>
@@ -101,7 +102,7 @@
           </ul>
         </div>
       </li>
-      <li class="kt-menu__item kt-menu__item--submenu kt-menu__item" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+      <li class="kt-menu__item kt-menu__item--submenu {{ Request::is('master/security*') ? 'kt-menu__item--open' : '' }}" aria-haspopup=" true" data-ktmenu-submenu-toggle="hover">
         <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
           <span class="kt-menu__link-icon">
             <i class="flaticon2-user kt-font-dark"></i>
@@ -112,7 +113,7 @@
         <div class="kt-menu__submenu " kt-hidden-height="200" style="">
           <span class="kt-menu__arrow"></span>
           <ul class="kt-menu__subnav">
-            <li class="kt-menu__item kt-menu__item--submenu kt-menu__item" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+            <li class="kt-menu__item kt-menu__item--submenu {{ Request::is('master/security/gabah_basah*') ? 'kt-menu__item--open' : '' }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
               <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
                 <span class="kt-menu__link-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
@@ -126,23 +127,23 @@
                 <span class="kt-menu__link-text">PLAN PO</span></span>
                 <i class="kt-menu__ver-arrow la la-angle-right"></i>
               </a>
-              <div class="kt-menu__submenu " kt-hidden-height="200" style="">
+              <div class="kt-menu__submenu" kt-hidden-height="200" style="">
                 <span class="kt-menu__arrow"></span>
                 <ul class="kt-menu__subnav">
-                  <li class="kt-menu__item kt-menu__item--{{set_active('master/gabah_basah')}} " aria-haspopup="true">
-                    <a href="{{route('master.gabah_basah')}}" class="kt-menu__link ">
+                  <li class="kt-menu__item kt-menu__item--{{set_active('master/security/gabah_basah')}} " aria-haspopup="true">
+                    <a href="{{route('master.security.gabah_basah')}}" class="kt-menu__link ">
                       <i class="kt-menu__link-icon    fa fa-tasks"></i>
                       <span class="kt-menu__link-text">Gabah Basah</span>
                     </a>
                   </li>
-                  <li class="kt-menu__item  kt-menu__item--{{set_active('master/gabah_kering')}}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-                    <a href="{{ route('master.gabah_kering') }}" class="kt-menu__link kt-menu__toggle">
+                  <li class="kt-menu__item  kt-menu__item--{{set_active('master/security/gabah_kering')}}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                    <a href="{{ route('master.security.gabah_kering') }}" class="kt-menu__link kt-menu__toggle">
                       <i class="kt-menu__link-icon    fa fa-tasks"></i>
                       <span class="kt-menu__link-text">Gabah Kering</span>
                     </a>
                   </li>
-                  <li class="kt-menu__item kt-menu__item--{{set_active('master/beras_pk')}} " aria-haspopup="true">
-                    <a href="{{route('master.beras_pk')}}" class="kt-menu__link ">
+                  <li class="kt-menu__item kt-menu__item--{{set_active('master/security/beras_pk')}} " aria-haspopup="true">
+                    <a href="{{route('master.security.beras_pk')}}" class="kt-menu__link ">
                       <i class="kt-menu__link-icon    fa fa-tasks"></i>
                       <span class="kt-menu__link-text">Beras PK</span>
                     </a>
@@ -164,14 +165,14 @@
                     <div class="kt-menu__submenu " kt-hidden-height="200" style="">
                       <span class="kt-menu__arrow"></span>
                       <ul class="kt-menu__subnav">
-                        <li class="kt-menu__item kt-menu__item--{{set_active('master/beras_ds_urgent')}} " aria-haspopup="true">
-                          <a href="{{route('master.beras_ds_urgent')}}" class="kt-menu__link ">
+                        <li class="kt-menu__item kt-menu__item--{{set_active('master/security/beras_ds_urgent')}} " aria-haspopup="true">
+                          <a href="{{route('master.security.beras_ds_urgent')}}" class="kt-menu__link ">
                             <i class="kt-menu__link-icon    fa fa-tasks"></i>
                             <span class="kt-menu__link-text">Urgent</span>
                           </a>
                         </li>
-                        <li class="kt-menu__item kt-menu__item--{{set_active('master/beras_ds_noturgent')}} " aria-haspopup="true">
-                          <a href="{{route('master.beras_ds_noturgent')}}" class="kt-menu__link ">
+                        <li class="kt-menu__item kt-menu__item--{{set_active('master/security/beras_ds_noturgent')}} " aria-haspopup="true">
+                          <a href="{{route('master.security.beras_ds_noturgent')}}" class="kt-menu__link ">
                             <i class="kt-menu__link-icon    fa fa-tasks"></i>
                             <span class="kt-menu__link-text">Not Urgent</span>
                           </a>
@@ -182,29 +183,8 @@
                 </ul>
               </div>
             </li>
-            <li class="kt-menu__item  kt-menu__item--{{set_active('master/data_revisi')}}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-              <a href="{{ url('master/data_revisi') }}" class="kt-menu__link kt-menu__toggle" style="position:relative;">
-                <i class="kt-menu__link-icon    fa fa-tasks"></i>
-                <span class="kt-menu__link-text ">Data&nbsp;Revisi
-                </span>
-                <span id="count_notif" class="badge badge badge-info" style="position:absolute; margin-left:80%; background-color: #9f187c;">
-                  <?php $data = DB::table('data_po')->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
-                    ->where('penerimaan_po.status_penerimaan', '=', 13)
-                    ->where('penerimaan_po.analisa', 'revisi')
-                    ->where('penerimaan_po.id_adminanalisa', 1)
-                    ->where('penerimaan_po.status_analisa', 2)
-                    ->where('penerimaan_po.status_revisi', 0)
-                    ->orderBy('penerimaan_po.id_penerimaan_po', 'DESC')
-                    ->count();
-                  echo $data; ?>
-                </span>
-              </a>
-            </li>
-            <li class="kt-menu__item  kt-menu__item--{{set_active('master/po_parkir')}}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-              <a href="{{url('master/po_parkir')}}" class="kt-menu__link ">
+            <li class="kt-menu__item  kt-menu__item--{{set_active('master/security/po_parkir')}}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+              <a href="{{url('master/security/po_parkir')}}" class="kt-menu__link ">
                 <i class="kt-menu__link-icon fa fa-calendar-check"></i>
                 <span class="kt-menu__link-text">PO Datang
                 </span>
@@ -214,8 +194,8 @@
                 </span>
               </a>
             </li>
-            <li class="kt-menu__item  kt-menu__item--{{set_active('master/po_diterima')}}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-              <a href="{{ url('master/po_diterima') }}" class="kt-menu__link kt-menu__toggle">
+            <li class="kt-menu__item  kt-menu__item--{{set_active('master/security/po_diterima')}}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+              <a href="{{ url('master/security/po_diterima') }}" class="kt-menu__link kt-menu__toggle">
                 <i class="kt-menu__link-icon    fa fa-layer-group"></i>
                 <span class="kt-menu__link-text">PO Parkir
                 </span>
@@ -230,8 +210,8 @@
               </a>
             </li>
 
-            <li class="kt-menu__item  kt-menu__item--{{set_active('master/po_on_call')}}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-              <a href="{{url('master/po_on_call')}}" class="kt-menu__link ">
+            <li class="kt-menu__item  kt-menu__item--{{set_active('master/security/po_on_call')}}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+              <a href="{{url('master/security/po_on_call')}}" class="kt-menu__link ">
                 <i class="kt-menu__link-icon    fa fa-microphone-alt"></i>
                 <span class="kt-menu__link-text">PO On Call
                 </span>
@@ -241,8 +221,8 @@
                 </span>
               </a>
             </li>
-            <li class="kt-menu__item  kt-menu__item--{{set_active('master/po_pending')}}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-              <a href="{{ url('master/po_pending') }}" class="kt-menu__link kt-menu__toggle">
+            <li class="kt-menu__item  kt-menu__item--{{set_active('master/security/po_pending')}}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+              <a href="{{ url('master/security/po_pending') }}" class="kt-menu__link kt-menu__toggle">
                 <i class="kt-menu__link-icon    fa fa-user-clock"></i>
                 <span class="kt-menu__link-text">PO Pending
                 </span>
@@ -253,13 +233,13 @@
               </a>
             </li>
             <!--<li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">-->
-            <!--    <a href="{{ url('master/unloading_location') }}" class="kt-menu__link kt-menu__toggle">-->
+            <!--    <a href="{{ url('master/security/unloading_location') }}" class="kt-menu__link kt-menu__toggle">-->
             <!--        <i class="kt-menu__link-icon    fa fa-server"></i>-->
             <!--        <span class="kt-menu__link-text">Lokasi Bongkar</span>-->
             <!--    </a>-->
             <!--</li>-->
-            <li class="kt-menu__item  kt-menu__item--{{set_active('master/po_bongkar')}}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-              <a href="{{url('master/po_bongkar')}}" class="kt-menu__link ">
+            <li class="kt-menu__item  kt-menu__item--{{set_active('master/security/po_bongkar')}}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+              <a href="{{url('master/security/po_bongkar')}}" class="kt-menu__link ">
                 <i class="kt-menu__link-icon    fa fa-flag-checkered"></i>
                 <span class="kt-menu__link-text">PO Bongkar
                 </span>
@@ -269,8 +249,8 @@
                 </span>
               </a>
             </li>
-            <li class="kt-menu__item  kt-menu__item--{{set_active('master/po_ditolak')}}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-              <a href="{{ url('master/po_ditolak') }}" class="kt-menu__link kt-menu__toggle">
+            <li class="kt-menu__item  kt-menu__item--{{set_active('master/security/po_ditolak')}}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+              <a href="{{ url('master/security/po_ditolak') }}" class="kt-menu__link kt-menu__toggle">
                 <i class="kt-menu__link-icon    fa fa-ban"></i>
                 <span class="kt-menu__link-text">PO Ditolak
                 </span>
@@ -283,7 +263,12 @@
           </ul>
         </div>
       </li>
-      <li class="kt-menu__item kt-menu__item--submenu kt-menu__item" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+      <li class="kt-menu__item kt-menu__item--submenu  
+      {{ Request::is('master/lab/proses_lab1*') ? 'kt-menu__item--open' : '' }}
+      {{ Request::is('master/lab/output_proses_lab1*') ? 'kt-menu__item--open' : '' }}
+      {{ Request::is('master/lab/unload_lab1*') ? 'kt-menu__item--open' : '' }}
+      {{ Request::is('master/lab/proses_lab1_gabah_basah*') ? 'kt-menu__item--open' : '' }}
+       " aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
         <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
           <span class="kt-menu__link-icon">
             <i class="flaticon2-user kt-font-dark"></i>
@@ -298,7 +283,7 @@
               <h4 class="kt-menu__section-text">Data Lab</h4>
               <i class="kt-menu__section-icon flaticon-more-v2"></i>
             </li>
-            <li class="kt-menu__item kt-menu__item--submenu kt-menu__item" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+            <li class="kt-menu__item kt-menu__item--submenu  {{ Request::is('master/lab/proses_lab1*') ? 'kt-menu__item--open' : '' }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
               <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
                 <span class="kt-menu__link-icon">
                   <i class="flaticon2-hourglass kt-font-dark"></i>
@@ -309,26 +294,26 @@
               <div class="kt-menu__submenu " kt-hidden-height="200" style="">
                 <span class="kt-menu__arrow"></span>
                 <ul class="kt-menu__subnav">
-                  <li class="kt-menu__item  kt-menu__item--{{ set_active('master/proses_lab1_gabah_basah') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-                    <a href="{{ route('master.proses_lab1_gabah_basah') }}" class="kt-menu__link kt-menu__toggle">
+                  <li class="kt-menu__item  kt-menu__item--{{ set_active('master/lab/proses_lab1_gabah_basah') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                    <a href="{{ route('master.lab.proses_lab1_gabah_basah') }}" class="kt-menu__link kt-menu__toggle">
                       <i class="kt-menu__link-icon   flaticon2-laptop kt-font-dark"></i>
                       <span class="kt-menu__link-text">Gabah Basah</span>
                     </a>
                   </li>
-                  <li class="kt-menu__item  kt-menu__item--{{ set_active('master/proses_lab1_gabah_kering') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-                    <a href="{{ route('master.proses_lab1_gabah_kering') }}" class="kt-menu__link kt-menu__toggle">
+                  <li class="kt-menu__item  kt-menu__item--{{ set_active('master/lab/proses_lab1_gabah_kering') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                    <a href="{{ route('master.lab.proses_lab1_gabah_kering') }}" class="kt-menu__link kt-menu__toggle">
                       <i class="kt-menu__link-icon    flaticon2-laptop kt-font-dark"></i>
                       <span class="kt-menu__link-text">Gabah Kering</span>
                     </a>
                   </li>
-                  <li class="kt-menu__item  kt-menu__item--{{ set_active('master/proses_lab1_pecah_kulit') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-                    <a href="{{ route('master.proses_lab1_pecah_kulit') }}" class="kt-menu__link kt-menu__toggle">
+                  <li class="kt-menu__item  kt-menu__item--{{ set_active('master/lab/proses_lab1_pecah_kulit') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                    <a href="{{ route('master.lab.proses_lab1_pecah_kulit') }}" class="kt-menu__link kt-menu__toggle">
                       <i class="kt-menu__link-icon    flaticon2-laptop kt-font-dark"></i>
                       <span class="kt-menu__link-text">Pecah Kulit</span>
                     </a>
                   </li>
-                  <li class="kt-menu__item  kt-menu__item--{{ set_active('master/proses_lab1_beras_ds') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-                    <a href="{{ route('master.proses_lab1_beras_ds') }}" class="kt-menu__link kt-menu__toggle">
+                  <li class="kt-menu__item  kt-menu__item--{{ set_active('master/lab/proses_lab1_beras_ds') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                    <a href="{{ route('master.lab.proses_lab1_beras_ds') }}" class="kt-menu__link kt-menu__toggle">
                       <i class="kt-menu__link-icon    flaticon2-laptop kt-font-dark"></i>
                       <span class="kt-menu__link-text">Beras DS</span>
                     </a>
@@ -337,7 +322,7 @@
               </div>
             </li>
 
-            <li class="kt-menu__item kt-menu__item kt-menu__item " aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+            <li class="kt-menu__item kt-menu__item  {{ Request::is('master/lab/output_proses_lab1*') ? 'kt-menu__item--open' : '' }} {{ Request::is('master/lab/unload_lab1*') ? 'kt-menu__item--open' : '' }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
               <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
                 <span class="kt-menu__link-icon">
                   <i class="flaticon2-checking kt-font-dark"></i>
@@ -348,7 +333,7 @@
               <div class="kt-menu__submenu " kt-hidden-height="200" style="">
                 <span class="kt-menu__arrow"></span>
                 <ul class="kt-menu__subnav">
-                  <li class="kt-menu__item kt-menu__item kt-menu__item " aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                  <li class="kt-menu__item kt-menu__item  {{ Request::is('master/lab/output_proses_lab1*') ? 'kt-menu__item--open' : '' }} " aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                     <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
                       <span class="kt-menu__link-icon">
                         <i class="flaticon2-checking kt-font-dark"></i>
@@ -359,14 +344,14 @@
                     <div class="kt-menu__submenu " kt-hidden-height="200" style="">
                       <span class="kt-menu__arrow"></span>
                       <ul class="kt-menu__subnav">
-                        <li class="kt-menu__item  kt-menu__item--{{ set_active('master/output_proses_lab1_gb') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-                          <a href="{{ route('master.output_proses_lab1_gb') }}" class="kt-menu__link kt-menu__toggle">
+                        <li class="kt-menu__item  kt-menu__item--{{ set_active('master/lab/output_proses_lab1_gb') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                          <a href="{{ route('master.lab.output_proses_lab1_gb') }}" class="kt-menu__link kt-menu__toggle">
                             <i class="kt-menu__link-icon flaticon2-box-1 kt-font-dark"></i>
                             <span class="kt-menu__link-text">gabah Basah</span>
                           </a>
                         </li>
-                        <li class="kt-menu__item kt-menu__item--{{ set_active('master/output_proses_lab1_pk') }} " aria-haspopup="true">
-                          <a href="{{route('master.output_proses_lab1_pk')}}" class="kt-menu__link kt-menu__toggle">
+                        <li class="kt-menu__item kt-menu__item--{{ set_active('master/lab/output_proses_lab1_pk') }} " aria-haspopup="true">
+                          <a href="{{route('master.lab.output_proses_lab1_pk')}}" class="kt-menu__link kt-menu__toggle">
                             <i class="kt-menu__link-icon flaticon2-box-1 kt-font-dark"></i>
                             <span class="kt-menu__link-text">Beras Pecah Kulit(PK)</span>
                           </a>
@@ -374,7 +359,7 @@
                       </ul>
                     </div>
                   </li>
-                  <li class="kt-menu__item kt-menu__item kt-menu__item " aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                  <li class="kt-menu__item kt-menu__item {{ Request::is('master/lab/unload_lab1*') ? 'kt-menu__item--open' : '' }} " aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                     <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
                       <span class="kt-menu__link-icon">
                         <i class="flaticon2-checking kt-font-dark"></i>
@@ -385,14 +370,14 @@
                     <div class="kt-menu__submenu " kt-hidden-height="200" style="">
                       <span class="kt-menu__arrow"></span>
                       <ul class="kt-menu__subnav">
-                        <li class="kt-menu__item  kt-menu__item--{{ set_active('master/unload_lab1_gabah_basah') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-                          <a href="{{ route('master.unload_lab1_gabah_basah') }}" class="kt-menu__link kt-menu__toggle">
+                        <li class="kt-menu__item  kt-menu__item--{{ set_active('master/lab/unload_lab1_gabah_basah') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                          <a href="{{ route('master.lab.unload_lab1_gabah_basah') }}" class="kt-menu__link kt-menu__toggle">
                             <i class="kt-menu__link-icon flaticon2-box-1 kt-font-dark"></i>
                             <span class="kt-menu__link-text">gabah Basah</span>
                           </a>
                         </li>
-                        <li class="kt-menu__item kt-menu__item--{{ set_active('master/unload_lab1_pecah_kulit') }} " aria-haspopup="true">
-                          <a href="{{route('master.unload_lab1_pecah_kulit')}}" class="kt-menu__link kt-menu__toggle">
+                        <li class="kt-menu__item kt-menu__item--{{ set_active('master/lab/unload_lab1_pecah_kulit') }} " aria-haspopup="true">
+                          <a href="{{route('master.lab.unload_lab1_pecah_kulit')}}" class="kt-menu__link kt-menu__toggle">
                             <i class="kt-menu__link-icon flaticon2-box-1 kt-font-dark"></i>
                             <span class="kt-menu__link-text">Beras Pecah Kulit(PK)</span>
                           </a>
@@ -411,14 +396,14 @@
                     <div class="kt-menu__submenu " kt-hidden-height="200" style="">
                       <span class="kt-menu__arrow"></span>
                       <ul class="kt-menu__subnav">
-                        <li class="kt-menu__item  kt-menu__item--{{ set_active('master/pending_lab1_gabah_basah') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-                          <a href="{{ route('master.pending_lab1_gabah_basah') }}" class="kt-menu__link kt-menu__toggle">
+                        <li class="kt-menu__item  kt-menu__item--{{ set_active('master/lab/pending_lab1_gabah_basah') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                          <a href="{{ route('master.lab.pending_lab1_gabah_basah') }}" class="kt-menu__link kt-menu__toggle">
                             <i class="kt-menu__link-icon flaticon2-box-1 kt-font-dark"></i>
                             <span class="kt-menu__link-text">gabah Basah</span>
                           </a>
                         </li>
-                        <li class="kt-menu__item kt-menu__item--{{ set_active('master/pending_lab1_pecah_kulit') }} " aria-haspopup="true">
-                          <a href="{{route('master.pending_lab1_pecah_kulit')}}" class="kt-menu__link kt-menu__toggle">
+                        <li class="kt-menu__item kt-menu__item--{{ set_active('master/lab/pending_lab1_pecah_kulit') }} " aria-haspopup="true">
+                          <a href="{{route('master.lab.pending_lab1_pecah_kulit')}}" class="kt-menu__link kt-menu__toggle">
                             <i class="kt-menu__link-icon flaticon2-box-1 kt-font-dark"></i>
                             <span class="kt-menu__link-text">Beras Pecah Kulit(PK)</span>
                           </a>
@@ -437,14 +422,14 @@
                     <div class="kt-menu__submenu " kt-hidden-height="200" style="">
                       <span class="kt-menu__arrow"></span>
                       <ul class="kt-menu__subnav">
-                        <li class="kt-menu__item  kt-menu__item--{{ set_active('master/reject_lab1_gabah_basah') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-                          <a href="{{ route('master.reject_lab1_gabah_basah') }}" class="kt-menu__link kt-menu__toggle">
+                        <li class="kt-menu__item  kt-menu__item--{{ set_active('master/lab/reject_lab1_gabah_basah') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                          <a href="{{ route('master.lab.reject_lab1_gabah_basah') }}" class="kt-menu__link kt-menu__toggle">
                             <i class="kt-menu__link-icon flaticon2-box-1 kt-font-dark"></i>
                             <span class="kt-menu__link-text">gabah Basah</span>
                           </a>
                         </li>
-                        <li class="kt-menu__item kt-menu__item--{{ set_active('master/reject_lab1_pecah_kulit') }} " aria-haspopup="true">
-                          <a href="{{route('master.reject_lab1_pecah_kulit')}}" class="kt-menu__link kt-menu__toggle">
+                        <li class="kt-menu__item kt-menu__item--{{ set_active('master/lab/reject_lab1_pecah_kulit') }} " aria-haspopup="true">
+                          <a href="{{route('master.lab.reject_lab1_pecah_kulit')}}" class="kt-menu__link kt-menu__toggle">
                             <i class="kt-menu__link-icon flaticon2-box-1 kt-font-dark"></i>
                             <span class="kt-menu__link-text">Beras Pecah Kulit(PK)</span>
                           </a>
@@ -467,25 +452,25 @@
               <div class="kt-menu__submenu " kt-hidden-height="200" style="">
                 <span class="kt-menu__arrow"></span>
                 <ul class="kt-menu__subnav">
-                  <li class="kt-menu__item  kt-menu__item--{{ set_active('master/proses_lab2_gabah_basah') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-                    <a href="{{ route('master.proses_lab2_gabah_basah') }}" class="kt-menu__link kt-menu__toggle">
+                  <li class="kt-menu__item  kt-menu__item--{{ set_active('master/lab/proses_lab2_gabah_basah') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                    <a href="{{ route('master.lab.proses_lab2_gabah_basah') }}" class="kt-menu__link kt-menu__toggle">
                       <i class="kt-menu__link-icon flaticon2-analytics-2 kt-font-dark"></i>
                       <span class="kt-menu__link-text">Gabah Basah</span>
                     </a>
                   </li>
-                  <li class="kt-menu__item  kt-menu__item--{{ set_active('master/proses_lab2_gabah_kering') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                  <li class="kt-menu__item  kt-menu__item--{{ set_active('master/lab/proses_lab2_gabah_kering') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                     <a href="javascript:void(0)" class="kt-menu__link kt-menu__toggle">
                       <i class="kt-menu__link-icon flaticon2-analytics-2 kt-font-dark"></i>
                       <span class="kt-menu__link-text">Gabah Kering</span>
                     </a>
                   </li>
-                  <li class="kt-menu__item  kt-menu__item--{{ set_active('master/proses_lab2_pecah_kulit') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-                    <a href="{{ route('master.proses_lab2_pecah_kulit') }}" class="kt-menu__link kt-menu__toggle">
+                  <li class="kt-menu__item  kt-menu__item--{{ set_active('master/lab/proses_lab2_pecah_kulit') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                    <a href="{{ route('master.lab.proses_lab2_pecah_kulit') }}" class="kt-menu__link kt-menu__toggle">
                       <i class="kt-menu__link-icon flaticon2-analytics-2 kt-font-dark"></i>
                       <span class="kt-menu__link-text">Pecah Kulit</span>
                     </a>
                   </li>
-                  <li class="kt-menu__item  kt-menu__item--{{ set_active('master/proses_lab2_beras_ds') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                  <li class="kt-menu__item  kt-menu__item--{{ set_active('master/lab/proses_lab2_beras_ds') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                     <a href="javascript:void(0)" class="kt-menu__link kt-menu__toggle">
                       <i class="kt-menu__link-icon flaticon2-analytics-2 kt-font-dark"></i>
                       <span class="kt-menu__link-text">Beras DS</span>
@@ -517,14 +502,14 @@
                     <div class="kt-menu__submenu " kt-hidden-height="200" style="">
                       <span class="kt-menu__arrow"></span>
                       <ul class="kt-menu__subnav">
-                        <li class="kt-menu__item  kt-menu__item--{{ set_active('master/output_proses_lab2_gb') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-                          <a href="{{ route('master.output_proses_lab2_gb') }}" class="kt-menu__link kt-menu__toggle">
+                        <li class="kt-menu__item  kt-menu__item--{{ set_active('master/lab/output_proses_lab2_gb') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                          <a href="{{ route('master.lab.output_proses_lab2_gb') }}" class="kt-menu__link kt-menu__toggle">
                             <i class="kt-menu__link-icon flaticon2-box-1 kt-font-dark"></i>
                             <span class="kt-menu__link-text">Gabah Basah</span>
                           </a>
                         </li>
-                        <li class="kt-menu__item kt-menu__item--{{ set_active('master/output_proses_lab2_pk') }} " aria-haspopup="true">
-                          <a href="{{route('master.output_proses_lab2_pk')}}" class="kt-menu__link kt-menu__toggle">
+                        <li class="kt-menu__item kt-menu__item--{{ set_active('master/lab/output_proses_lab2_pk') }} " aria-haspopup="true">
+                          <a href="{{route('master.lab.output_proses_lab2_pk')}}" class="kt-menu__link kt-menu__toggle">
                             <i class="kt-menu__link-icon flaticon2-box-1 kt-font-dark"></i>
                             <span class="kt-menu__link-text">Pecah Kulit</span>
                           </a>
@@ -544,14 +529,14 @@
                     <div class="kt-menu__submenu " kt-hidden-height="200" style="">
                       <span class="kt-menu__arrow"></span>
                       <ul class="kt-menu__subnav">
-                        <li class="kt-menu__item  kt-menu__item--{{ set_active('master/output_deal_lab2_gb') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-                          <a href="{{ route('master.output_deal_lab2_gb') }}" class="kt-menu__link kt-menu__toggle">
+                        <li class="kt-menu__item  kt-menu__item--{{ set_active('master/lab/output_deal_lab2_gb') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                          <a href="{{ route('master.lab.output_deal_lab2_gb') }}" class="kt-menu__link kt-menu__toggle">
                             <i class="kt-menu__link-icon flaticon2-box-1 kt-font-dark"></i>
                             <span class="kt-menu__link-text">Gabah Basah</span>
                           </a>
                         </li>
-                        <li class="kt-menu__item kt-menu__item--{{ set_active('master/output_deal_lab2_pk') }} " aria-haspopup="true">
-                          <a href="{{route('master.output_deal_lab2_pk')}}" class="kt-menu__link kt-menu__toggle">
+                        <li class="kt-menu__item kt-menu__item--{{ set_active('master/lab/output_deal_lab2_pk') }} " aria-haspopup="true">
+                          <a href="{{route('master.lab.output_deal_lab2_pk')}}" class="kt-menu__link kt-menu__toggle">
                             <i class="kt-menu__link-icon flaticon2-box-1 kt-font-dark"></i>
                             <span class="kt-menu__link-text">Pecah Kulit</span>
                           </a>
@@ -570,8 +555,8 @@
                     <div class="kt-menu__submenu " kt-hidden-height="200" style="">
                       <span class="kt-menu__arrow"></span>
                       <ul class="kt-menu__subnav">
-                        <li class="kt-menu__item  kt-menu__item--{{ set_active('master/output_nego_lab2_gb') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-                          <a href="{{ route('master.output_nego_lab2_gb') }}" class="kt-menu__link kt-menu__toggle">
+                        <li class="kt-menu__item  kt-menu__item--{{ set_active('master/lab/output_nego_lab2_gb') }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                          <a href="{{ route('master.lab.output_nego_lab2_gb') }}" class="kt-menu__link kt-menu__toggle">
                             <i class="kt-menu__link-icon flaticon2-box-1 kt-font-dark"></i>
                             <span class="kt-menu__link-text">Gabah Basah</span>
                           </a>

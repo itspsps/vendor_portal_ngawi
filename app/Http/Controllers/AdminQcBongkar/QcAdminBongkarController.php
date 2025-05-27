@@ -244,7 +244,7 @@ class QcAdminBongkarController extends Controller
                 return $result;
             })
             ->addColumn('waktu_penerimaan', function ($list) {
-                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                 return $result;
             })
             ->addColumn('nama_penerima_po', function ($list) {
@@ -292,7 +292,7 @@ class QcAdminBongkarController extends Controller
             ->where('lab1_gb.status_lab1_gb', '=', '9')
             ->get())
             ->addColumn('waktu_penerimaan', function ($list) {
-                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                 return $result;
             })
             ->addColumn('antrian_bongkar', function ($list) {
@@ -312,7 +312,11 @@ class QcAdminBongkarController extends Controller
                 return $result;
             })
             ->addColumn('tanggal_po', function ($list) {
-                $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                return $result;
+            })
+            ->addColumn('tanggal_bongkar', function ($list) {
+                $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                 return $result;
             })
             ->addColumn('kode_po', function ($list) {
@@ -376,7 +380,7 @@ class QcAdminBongkarController extends Controller
                 $result = $list->broken_gb;
                 return $result;
             })
-            ->rawColumns(['waktu_penerimaan', 'antrian_bongkar', 'lokasi_bongkar', 'status', 'plat_kendaraan', 'tanggal_po', 'kode_po', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'randoman', 'wh', 'tp', 'md', 'broken'])
+            ->rawColumns(['waktu_penerimaan', 'antrian_bongkar', 'lokasi_bongkar', 'status', 'plat_kendaraan', 'tanggal_po', 'tanggal_bongkar', 'kode_po', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'randoman', 'wh', 'tp', 'md', 'broken'])
             ->make(true);
     }
     public function antrian_qc_pandan_wangi_index()
@@ -391,7 +395,7 @@ class QcAdminBongkarController extends Controller
             ->where('lab1_gb.status_lab1_gb', '=', '9')
             ->get())
             ->addColumn('waktu_penerimaan', function ($list) {
-                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                 return $result;
             })
             ->addColumn('antrian_bongkar', function ($list) {
@@ -413,7 +417,11 @@ class QcAdminBongkarController extends Controller
                 return $result;
             })
             ->addColumn('tanggal_po', function ($list) {
-                $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                return $result;
+            })
+            ->addColumn('tanggal_bongkar', function ($list) {
+                $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                 return $result;
             })
             ->addColumn('kode_po', function ($list) {
@@ -477,7 +485,7 @@ class QcAdminBongkarController extends Controller
                 $result = $list->broken_gb;
                 return $result;
             })
-            ->rawColumns(['waktu_penerimaan', 'antrian_bongkar', 'lokasi_bongkar', 'status', 'plat_kendaraan', 'tanggal_po', 'kode_po', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'randoman', 'wh', 'tp', 'md', 'broken'])
+            ->rawColumns(['waktu_penerimaan', 'antrian_bongkar', 'lokasi_bongkar', 'status', 'plat_kendaraan', 'tanggal_po', 'tanggal_bongkar', 'kode_po', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'randoman', 'wh', 'tp', 'md', 'broken'])
             ->make(true);
     }
     public function antrian_qc_ketan_putih_index()
@@ -492,7 +500,7 @@ class QcAdminBongkarController extends Controller
             ->where('lab1_gb.status_lab1_gb', '=', '9')
             ->get())
             ->addColumn('waktu_penerimaan', function ($list) {
-                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                 return $result;
             })
             ->addColumn('antrian_bongkar', function ($list) {
@@ -514,7 +522,11 @@ class QcAdminBongkarController extends Controller
                 return $result;
             })
             ->addColumn('tanggal_po', function ($list) {
-                $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                return $result;
+            })
+            ->addColumn('tanggal_bongkar', function ($list) {
+                $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                 return $result;
             })
             ->addColumn('kode_po', function ($list) {
@@ -578,7 +590,7 @@ class QcAdminBongkarController extends Controller
                 $result = $list->broken_gb;
                 return $result;
             })
-            ->rawColumns(['waktu_penerimaan', 'antrian_bongkar', 'lokasi_bongkar', 'status', 'plat_kendaraan', 'tanggal_po', 'kode_po', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'randoman', 'wh', 'tp', 'md', 'broken'])
+            ->rawColumns(['waktu_penerimaan', 'antrian_bongkar', 'lokasi_bongkar', 'status', 'plat_kendaraan', 'tanggal_po', 'tanggal_bongkar', 'kode_po', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'randoman', 'wh', 'tp', 'md', 'broken'])
             ->make(true);
     }
     public function antrian_qc_bongkar_pk_index()
@@ -594,7 +606,7 @@ class QcAdminBongkarController extends Controller
             ->where('lab1_pk.status_lab1_pk', '=', '9')
             ->get())
             ->addColumn('waktu_penerimaan', function ($list) {
-                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                 return $result;
             })
             ->addColumn('status', function ($list) {
@@ -608,7 +620,11 @@ class QcAdminBongkarController extends Controller
                 return 'Rp. ' . $result;
             })
             ->addColumn('tanggal_po', function ($list) {
-                $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                return $result;
+            })
+            ->addColumn('tanggal_bongkar', function ($list) {
+                $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
                 return $result;
             })
             ->addColumn('ckelola', function ($list) {
@@ -625,7 +641,7 @@ class QcAdminBongkarController extends Controller
                 }
             })
 
-            ->rawColumns(['waktu_penerimaan', 'antrian_bongkar', 'lokasi_bongkar', 'status', 'plat_kendaraan', 'tanggal_po', 'kode_po', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'randoman', 'wh', 'tp', 'md', 'broken'])
+            ->rawColumns(['waktu_penerimaan', 'antrian_bongkar', 'lokasi_bongkar', 'status', 'plat_kendaraan', 'tanggal_po', 'tanggal_bongkar', 'kode_po', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'randoman', 'wh', 'tp', 'md', 'broken'])
             ->make(true);
     }
     public function antrian_bongkar()
@@ -638,53 +654,8 @@ class QcAdminBongkarController extends Controller
 
     public function data_antrian_bongkar()
     {
-        $panggil = Lab1GabahBasah::where('status_lab1_gb', "7")->where('lokasi_bongkar_gb', 'UTARA')->orderBy('id_lab1_gb', 'asc')->first();
-        $panggil1 = Lab1GabahBasah::where('status_lab1_gb', "7")->where('lokasi_bongkar_gb', 'SELATAN')->orderBy('id_lab1_gb', 'asc')->first();
-        $panggil_pk = Lab1Pecahkulit::where('status_lab1_pk', "7")->orderBy('created_at_pk', 'asc')->first();
-        // dd($panggil);
-        $data_utara = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-            ->join('users', 'users.id', '=', 'data_po.user_idbid')
-            ->join('lab1_gb', 'lab1_gb.lab1_kode_po_gb', '=', 'data_po.kode_po')
-            ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-            ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
-            ->where('data_po.status_bid', 7)
-            ->where('lab1_gb.lokasi_bongkar_gb', 'UTARA')
-            ->where('lab1_gb.output_lab_gb', 'Unload')
-            ->orderBy('lab1_gb.id_lab1_gb', 'asc')
-            ->get();
 
-        // dd($data_utara);
-        $data_selatan = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-            ->join('users', 'users.id', '=', 'data_po.user_idbid')
-            ->join('lab1_gb', 'lab1_gb.lab1_kode_po_gb', '=', 'data_po.kode_po')
-            ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-            ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
-            ->where('data_po.status_bid', 7)
-            ->where('lab1_gb.lokasi_bongkar_gb', 'SELATAN')
-            ->where('lab1_gb.output_lab_gb', 'Unload')
-            ->orderBy('lab1_gb.id_lab1_gb', 'asc')
-            ->get();
-        $data_pk = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-            ->join('users', 'users.id', '=', 'data_po.user_idbid')
-            ->join('lab1_pk', 'lab1_pk.lab1_kode_po_pk', '=', 'data_po.kode_po')
-            ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-            ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
-            ->where('data_po.status_bid', 7)
-            ->where('lab1_pk.output_lab_pk', 'Unload')
-            ->orderBy('lab1_pk.id_lab1_pk', 'asc')
-            ->get();
-        // dd($data_pk);
-        $data_pending = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-            ->join('users', 'users.id', '=', 'data_po.user_idbid')
-            ->join('lab1_gb', 'lab1_gb.lab1_kode_po_gb', '=', 'data_po.kode_po')
-            ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-            ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
-            ->where('data_po.status_bid', 16)
-            ->where('lab1_gb.lokasi_bongkar_gb', NULL)
-            ->where('lab1_gb.output_lab_gb', 'Pending')
-            ->orderBy('lab1_gb.id_lab1_gb', 'asc')
-            ->get();
-        return view('dashboard.admin_qc_bongkar.data_antrian_bongkar', ['data_utara' => $data_utara, 'data_pk' => $data_pk, 'data_selatan' => $data_selatan, 'data_pending' => $data_pending, 'panggil' => $panggil, 'panggil1' => $panggil1, 'panggil_pk' => $panggil_pk]);
+        return view('dashboard.admin_qc_bongkar.data_antrian_bongkar');
     }
 
     public function data_antrian_bongkar_index()
@@ -1019,6 +990,22 @@ class QcAdminBongkarController extends Controller
         return response()->json($data);
     }
 
+    public function count_data_bongkar()
+    {
+
+        $cek_data_bongkar = DataQcBongkar::With(['DataPO' => function ($query) {
+            $query->With(['Bid' => function ($query) {
+                $query->where('name_bid', 'LIKE', '%GABAH BASAH%');
+            }]);
+            $query->With('User');
+        }])
+            ->orderBy('id_data_qc_bongkar', 'desc')
+            ->take(200)
+            ->get();
+        return response()->json([
+            'cek_data_bongkar' => $cek_data_bongkar->count(),
+        ]);
+    }
     public function data_bongkar()
     {
         return view('dashboard.admin_qc_bongkar.data_bongkar');
@@ -1028,33 +1015,62 @@ class QcAdminBongkarController extends Controller
     {
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
-                return Datatables::of(DataQcBongkar::join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')
-                    ->join('bid', 'data_po.bid_id', '=', 'bid.id_bid')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->whereBetween('data_qc_bongkar.tanggal_bongkar', array($request->from_date, $request->to_date))
-                    ->where('bid.name_bid', 'LIKE', '%GABAH BASAH%')
-                    ->where('data_qc_bongkar.tempat_bongkar', 'UTARA')
+                $table  = DataQcBongkar::With(['DataPO' => function ($query) use ($request) {
+                    $query->whereBetween('tanggal_po', [$request->from_date, $request->to_date]);
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'LIKE', '%GABAH BASAH%');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->whereHas('DataPO', function ($query) use ($request) {
+                        $query->whereBetween('tanggal_po', [$request->from_date, $request->to_date]);
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'LIKE', '%GABAH BASAH%');
+                        });
+                    })
+                    ->where('tempat_bongkar', 'UTARA')
                     ->orderBy('id_data_qc_bongkar', 'desc')
-                    ->get())
+                    ->select(
+                        'id_data_qc_bongkar',
+                        'kode_po_bongkar',
+                        'surveyor_bongkar',
+                        'status_bongkar',
+                        'tempat_bongkar',
+                        'tanggal_bongkar',
+                        'keterangan_bongkar',
+                        'z_yang_dibawa',
+                        'z_yang_ditolak',
+                        'waktu_bongkar',
+                    )
+                    ->get();
+                return Datatables::of($table)
                     ->addColumn('kode_po_bongkar', function ($list) {
                         $result = $list->kode_po_bongkar;
                         return $result;
                     })
-                    ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
+                    ->addColumn('name_bid', function ($list) {
+                        $result = $list->DataPO->Bid->name_bid;
                         return $result;
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('nama_vendor', function ($list) {
+                        $result = $list->DataPO->User->nama_vendor;
                         return $result;
                     })
                     ->addColumn('surveyor_bongkar', function ($list) {
                         $result = $list->surveyor_bongkar;
                         return $result;
+                    })
+                    ->addColumn('tempat_bongkar', function ($list) {
+                        $result = $list->tempat_bongkar;
+                        return '<span class="btn btn-label-primary"><b>' . $result . '</b></span>';
                     })
                     ->addColumn('keterangan_bongkar', function ($list) {
                         $result = $list->keterangan_bongkar;
@@ -1062,10 +1078,6 @@ class QcAdminBongkarController extends Controller
                     })
                     ->addColumn('waktu_bongkar', function ($list) {
                         $result = $list->waktu_bongkar;
-                        return $result;
-                    })
-                    ->addColumn('tempat_bongkar', function ($list) {
-                        $result = $list->tempat_bongkar;
                         return $result;
                     })
                     ->addColumn('z_yang_dibawa', function ($list) {
@@ -1076,35 +1088,64 @@ class QcAdminBongkarController extends Controller
                         $result = $list->z_yang_ditolak;
                         return $result;
                     })
-                    ->rawColumns(['kode_po_bongkar', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'surveyor_bongkar', 'keterangan_bongkar', 'waktu_bongkar', 'tempat_bongkar', 'z_yang_dibawa', 'z_yang_ditolak'])
+                    ->rawColumns(['kode_po_bongkar', 'name_bid', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'surveyor_bongkar', 'keterangan_bongkar', 'waktu_bongkar', 'tempat_bongkar', 'z_yang_dibawa', 'z_yang_ditolak'])
                     ->make(true);
             } else {
-                return Datatables::of(DataQcBongkar::join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')
-                    ->join('bid', 'data_po.bid_id', '=', 'bid.id_bid')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->where('bid.name_bid', 'LIKE', '%GABAH BASAH%')
-                    ->where('data_qc_bongkar.tempat_bongkar', 'UTARA')
+                $table  = DataQcBongkar::With(['DataPO' => function ($query) {
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'LIKE', '%GABAH BASAH%');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->whereHas('DataPO', function ($query) {
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'LIKE', '%GABAH BASAH%');
+                        });
+                    })
+                    ->where('tempat_bongkar', 'UTARA')
                     ->orderBy('id_data_qc_bongkar', 'desc')
-                    ->get())
+                    ->select(
+                        'id_data_qc_bongkar',
+                        'kode_po_bongkar',
+                        'surveyor_bongkar',
+                        'status_bongkar',
+                        'tempat_bongkar',
+                        'tanggal_bongkar',
+                        'keterangan_bongkar',
+                        'z_yang_dibawa',
+                        'z_yang_ditolak',
+                        'waktu_bongkar',
+                    )
+                    ->take(200)
+                    ->get();
+                return Datatables::of($table)
                     ->addColumn('kode_po_bongkar', function ($list) {
                         $result = $list->kode_po_bongkar;
                         return $result;
                     })
+                    ->addColumn('name_bid', function ($list) {
+                        $result = $list->DataPO->Bid->name_bid;
+                        return $result;
+                    })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
+                        $result = $list->DataPO->User->nama_vendor;
                         return $result;
                     })
                     ->addColumn('surveyor_bongkar', function ($list) {
                         $result = $list->surveyor_bongkar;
                         return $result;
+                    })
+                    ->addColumn('tempat_bongkar', function ($list) {
+                        $result = $list->tempat_bongkar;
+                        return '<span class="btn btn-label-primary"><b>' . $result . '</b></span>';
                     })
                     ->addColumn('keterangan_bongkar', function ($list) {
                         $result = $list->keterangan_bongkar;
@@ -1112,10 +1153,6 @@ class QcAdminBongkarController extends Controller
                     })
                     ->addColumn('waktu_bongkar', function ($list) {
                         $result = $list->waktu_bongkar;
-                        return $result;
-                    })
-                    ->addColumn('tempat_bongkar', function ($list) {
-                        $result = $list->tempat_bongkar;
                         return $result;
                     })
                     ->addColumn('z_yang_dibawa', function ($list) {
@@ -1126,7 +1163,7 @@ class QcAdminBongkarController extends Controller
                         $result = $list->z_yang_ditolak;
                         return $result;
                     })
-                    ->rawColumns(['kode_po_bongkar', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'surveyor_bongkar', 'keterangan_bongkar', 'waktu_bongkar', 'tempat_bongkar', 'z_yang_dibawa', 'z_yang_ditolak'])
+                    ->rawColumns(['kode_po_bongkar', 'name_bid', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'surveyor_bongkar', 'keterangan_bongkar', 'waktu_bongkar', 'tempat_bongkar', 'z_yang_dibawa', 'z_yang_ditolak'])
                     ->make(true);
             }
         }
@@ -1135,35 +1172,62 @@ class QcAdminBongkarController extends Controller
     {
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
-                $data = DataQcBongkar::join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')->join('users', 'users.id', '=', 'data_po.user_idbid')->orderBy('id_data_qc_bongkar', 'desc')->get();
-
-                return Datatables::of(DataQcBongkar::join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')
-                    ->join('bid', 'data_po.bid_id', '=', 'bid.id_bid')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->whereBetween('data_qc_bongkar.tanggal_bongkar', array($request->from_date, $request->to_date))
-                    ->where('bid.name_bid', 'LIKE', '%GABAH BASAH%')
-                    ->where('data_qc_bongkar.tempat_bongkar', 'SELATAN')
+                $table  = DataQcBongkar::With(['DataPO' => function ($query) use ($request) {
+                    $query->whereBetween('tanggal_po', [$request->from_date, $request->to_date]);
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'LIKE', '%GABAH BASAH%');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->whereHas('DataPO', function ($query) use ($request) {
+                        $query->whereBetween('tanggal_po', [$request->from_date, $request->to_date]);
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'LIKE', '%GABAH BASAH%');
+                        });
+                    })
+                    ->where('tempat_bongkar', 'SELATAN')
                     ->orderBy('id_data_qc_bongkar', 'desc')
-                    ->get())
+                    ->select(
+                        'id_data_qc_bongkar',
+                        'kode_po_bongkar',
+                        'surveyor_bongkar',
+                        'status_bongkar',
+                        'tempat_bongkar',
+                        'tanggal_bongkar',
+                        'keterangan_bongkar',
+                        'z_yang_dibawa',
+                        'z_yang_ditolak',
+                        'waktu_bongkar',
+                    )
+                    ->get();
+                return Datatables::of($table)
                     ->addColumn('kode_po_bongkar', function ($list) {
                         $result = $list->kode_po_bongkar;
                         return $result;
                     })
-                    ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
+                    ->addColumn('name_bid', function ($list) {
+                        $result = $list->DataPO->Bid->name_bid;
                         return $result;
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('nama_vendor', function ($list) {
+                        $result = $list->DataPO->User->nama_vendor;
                         return $result;
                     })
                     ->addColumn('surveyor_bongkar', function ($list) {
                         $result = $list->surveyor_bongkar;
                         return $result;
+                    })
+                    ->addColumn('tempat_bongkar', function ($list) {
+                        $result = $list->tempat_bongkar;
+                        return '<span class="btn btn-label-success"><b>' . $result . '</b></span>';
                     })
                     ->addColumn('keterangan_bongkar', function ($list) {
                         $result = $list->keterangan_bongkar;
@@ -1171,10 +1235,6 @@ class QcAdminBongkarController extends Controller
                     })
                     ->addColumn('waktu_bongkar', function ($list) {
                         $result = $list->waktu_bongkar;
-                        return $result;
-                    })
-                    ->addColumn('tempat_bongkar', function ($list) {
-                        $result = $list->tempat_bongkar;
                         return $result;
                     })
                     ->addColumn('z_yang_dibawa', function ($list) {
@@ -1185,48 +1245,71 @@ class QcAdminBongkarController extends Controller
                         $result = $list->z_yang_ditolak;
                         return $result;
                     })
-                    ->rawColumns(['kode_po_bongkar', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'surveyor_bongkar', 'keterangan_bongkar', 'waktu_bongkar', 'tempat_bongkar', 'z_yang_dibawa', 'z_yang_ditolak'])
+                    ->rawColumns(['kode_po_bongkar', 'name_bid', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'surveyor_bongkar', 'keterangan_bongkar', 'waktu_bongkar', 'tempat_bongkar', 'z_yang_dibawa', 'z_yang_ditolak'])
                     ->make(true);
             } else {
-                $data = DataQcBongkar::join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')->join('users', 'users.id', '=', 'data_po.user_idbid')->orderBy('id_data_qc_bongkar', 'desc')->get();
-
-                return Datatables::of(DataQcBongkar::join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')
-                    ->join('bid', 'data_po.bid_id', '=', 'bid.id_bid')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->where('bid.name_bid', 'LIKE', '%GABAH BASAH%')
-                    ->where('data_qc_bongkar.tempat_bongkar', 'SELATAN')
+                $table  = DataQcBongkar::With(['DataPO' => function ($query) {
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'LIKE', '%GABAH BASAH%');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->whereHas('DataPO', function ($query) {
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'LIKE', '%GABAH BASAH%');
+                        });
+                    })
+                    ->where('tempat_bongkar', 'SELATAN')
                     ->orderBy('id_data_qc_bongkar', 'desc')
-                    ->get())
+                    ->select(
+                        'id_data_qc_bongkar',
+                        'kode_po_bongkar',
+                        'surveyor_bongkar',
+                        'status_bongkar',
+                        'tempat_bongkar',
+                        'tanggal_bongkar',
+                        'keterangan_bongkar',
+                        'z_yang_dibawa',
+                        'z_yang_ditolak',
+                        'waktu_bongkar',
+                    )
+                    ->take(200)
+                    ->get();
+                return Datatables::of($table)
                     ->addColumn('kode_po_bongkar', function ($list) {
                         $result = $list->kode_po_bongkar;
                         return $result;
                     })
+                    ->addColumn('name_bid', function ($list) {
+                        $result = $list->DataPO->Bid->name_bid;
+                        return $result;
+                    })
+                    ->addColumn('tanggal_po', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
                     ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
+                        $result = $list->DataPO->User->nama_vendor;
                         return $result;
                     })
                     ->addColumn('surveyor_bongkar', function ($list) {
                         $result = $list->surveyor_bongkar;
                         return $result;
                     })
+                    ->addColumn('tempat_bongkar', function ($list) {
+                        $result = $list->tempat_bongkar;
+                        return '<span class="btn btn-label-success"><b>' . $result . '</b></span>';
+                    })
                     ->addColumn('keterangan_bongkar', function ($list) {
                         $result = $list->keterangan_bongkar;
                         return $result;
                     })
-                    ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
-                        return $result;
-                    })
-                    ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
-                        return $result;
-                    })
                     ->addColumn('waktu_bongkar', function ($list) {
                         $result = $list->waktu_bongkar;
-                        return $result;
-                    })
-                    ->addColumn('tempat_bongkar', function ($list) {
-                        $result = $list->tempat_bongkar;
                         return $result;
                     })
                     ->addColumn('z_yang_dibawa', function ($list) {
@@ -1237,17 +1320,63 @@ class QcAdminBongkarController extends Controller
                         $result = $list->z_yang_ditolak;
                         return $result;
                     })
-                    ->rawColumns(['kode_po_bongkar', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'surveyor_bongkar', 'keterangan_bongkar', 'waktu_bongkar', 'tempat_bongkar', 'z_yang_dibawa', 'z_yang_ditolak'])
+                    ->rawColumns(['kode_po_bongkar', 'name_bid', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'surveyor_bongkar', 'keterangan_bongkar', 'waktu_bongkar', 'tempat_bongkar', 'z_yang_dibawa', 'z_yang_ditolak'])
                     ->make(true);
             }
         }
+    }
+    public function count_bongkar_selatan(Request $request)
+    {
+        $count_selatan  = DataQcBongkar::With(['DataPO' => function ($query) {
+            $query->With(['Bid' => function ($query) {
+                $query->where('name_bid', 'LIKE', '%GABAH BASAH%');
+            }]);
+            $query->With('User');
+        }])
+            ->whereHas('DataPO', function ($query) {
+                $query->whereHas('Bid', function ($query) {
+                    $query->where('name_bid', 'LIKE', '%GABAH BASAH%');
+                });
+            })
+            ->where('tempat_bongkar', 'SELATAN')
+            ->orderBy('id_data_qc_bongkar', 'desc')
+            ->select(
+                'id_data_qc_bongkar',
+            )
+            ->take(200)
+            ->get();
+        return response()->json([
+            'count_selatan' => $count_selatan->count(),
+        ]);
+    }
+    public function count_bongkar_utara(Request $request)
+    {
+        $count_utara  = DataQcBongkar::With(['DataPO' => function ($query) {
+            $query->With(['Bid' => function ($query) {
+                $query->where('name_bid', 'LIKE', '%GABAH BASAH%');
+            }]);
+            $query->With('User');
+        }])
+            ->whereHas('DataPO', function ($query) {
+                $query->whereHas('Bid', function ($query) {
+                    $query->where('name_bid', 'LIKE', '%GABAH BASAH%');
+                });
+            })
+            ->where('tempat_bongkar', 'UTARA')
+            ->orderBy('id_data_qc_bongkar', 'desc')
+            ->select(
+                'id_data_qc_bongkar',
+            )
+            ->take(200)
+            ->get();
+        return response()->json([
+            'count_utara' => $count_utara->count(),
+        ]);
     }
     public function data_bongkar_pk_index(Request $request)
     {
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
-                $data = DataQcBongkar::join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')->join('users', 'users.id', '=', 'data_po.user_idbid')->orderBy('id_data_qc_bongkar', 'desc')->get();
-
                 return Datatables::of(DataQcBongkar::join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')
                     ->join('bid', 'data_po.bid_id', '=', 'bid.id_bid')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
@@ -1290,8 +1419,6 @@ class QcAdminBongkarController extends Controller
                     ->rawColumns(['kode_po_bongkar', 'nama_vendor', 'surveyor_bongkar', 'keterangan_bongkar', 'waktu_bongkar', 'tempat_bongkar', 'z_yang_dibawa', 'z_yang_ditolak'])
                     ->make(true);
             } else {
-                $data = DataQcBongkar::join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')->join('users', 'users.id', '=', 'data_po.user_idbid')->orderBy('id_data_qc_bongkar', 'desc')->get();
-
                 return Datatables::of(DataQcBongkar::join('data_po', 'data_po.kode_po', '=', 'data_qc_bongkar.kode_po_bongkar')
                     ->join('bid', 'data_po.bid_id', '=', 'bid.id_bid')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
@@ -1444,7 +1571,7 @@ class QcAdminBongkarController extends Controller
                 return $result;
             })
             ->addColumn('waktu_penerimaan', function ($list) {
-                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                 return $result;
             })
             ->addColumn('nama_penerima_po', function ($list) {
@@ -1505,7 +1632,7 @@ class QcAdminBongkarController extends Controller
                 return $result;
             })
             ->addColumn('waktu_penerimaan', function ($list) {
-                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                 return $result;
             })
             ->addColumn('nama_penerima_po', function ($list) {
@@ -1566,7 +1693,7 @@ class QcAdminBongkarController extends Controller
                 return $result;
             })
             ->addColumn('waktu_penerimaan', function ($list) {
-                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                 return $result;
             })
             ->addColumn('nama_penerima_po', function ($list) {
@@ -1627,7 +1754,7 @@ class QcAdminBongkarController extends Controller
                 return $result;
             })
             ->addColumn('waktu_penerimaan', function ($list) {
-                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                 return $result;
             })
             ->addColumn('nama_penerima_po', function ($list) {

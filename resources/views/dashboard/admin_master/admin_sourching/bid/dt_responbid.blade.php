@@ -791,7 +791,7 @@ SURYA PANGAN SEMESTA
         });
         $(document).on('click', '.toapprove', function() {
             var id = $(this).attr("name");
-            var url = "{{ route('master.bid_user') }}" + "/" + id;
+            var url = "{{ route('master.sourching.bid_user') }}" + "/" + id;
             console.log(url);
 
             $.ajax({
@@ -854,7 +854,7 @@ SURYA PANGAN SEMESTA
     $(function() {
         $(document).on('click', '.tofinish', function() {
             var id = $(this).attr("name");
-            var url = "{{ route('master.bid_user') }}" + "/" + id;
+            var url = "{{ route('master.sourching.bid_user') }}" + "/" + id;
             $.ajax({
                 type: "GET",
                 url: url,
@@ -875,7 +875,7 @@ SURYA PANGAN SEMESTA
     $(function() {
         $(document).on('click', '.toedit', function() {
             var id = $(this).attr("name");
-            var url = "{{ route('master.bid_show') }}" + "/" + id;
+            var url = "{{ route('master.sourching.bid_show') }}" + "/" + id;
 
             $.ajax({
                 type: "GET",

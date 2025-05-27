@@ -74,7 +74,7 @@ SURYA PANGAN SEMESTA
                                     <tr>
                                         <th style="text-align: center;width:2%">No</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:auto">Aksi&nbsp;Harga</th>
+                                        <th style="text-align: center;width:auto">Status&nbsp;Harga</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
@@ -95,7 +95,7 @@ SURYA PANGAN SEMESTA
                                 <thead>
                                     <tr>
                                         <th style="text-align: center;width:2%">No</th>
-                                        <th style="text-align: center;width:auto">Aksi&nbsp;Harga</th>
+                                        <th style="text-align: center;width:auto">Status&nbsp;Harga</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
@@ -118,7 +118,7 @@ SURYA PANGAN SEMESTA
                                     <tr>
                                         <th style="text-align: center;width:2%">No</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:auto">Aksi&nbsp;Harga</th>
+                                        <th style="text-align: center;width:auto">Status&nbsp;Harga</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
@@ -140,7 +140,7 @@ SURYA PANGAN SEMESTA
                                     <tr>
                                         <th style="text-align: center;width:2%">No</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                        <th style="text-align: center;width:auto">Aksi&nbsp;Harga</th>
+                                        <th style="text-align: center;width:auto">Status&nbsp;Harga</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Vendor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tanggal&nbsp;PO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
@@ -172,7 +172,7 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">&nbsp;Hasil&nbsp;Akhir&nbsp;Tonase</th>
                                         <th style="text-align: center;width:auto">Aktual&nbsp;Kualitas</th>
                                         <th style="text-align: center;width:auto">Harga&nbsp;Awal&nbsp;Incoming</th>
-                                        <th style="text-align: center;width:auto">Aksi&nbsp;Harga</th>
+                                        <th style="text-align: center;width:auto">Status&nbsp;Harga</th>
                                         <th style="text-align: center;width:auto">Harga&nbsp;Akhir&nbsp;Incoming</th>
                                         <th style="text-align: center;width:auto">Harga&nbsp;Bongkaran</th>
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Keterangan&nbsp;Harga&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
@@ -211,12 +211,12 @@ SURYA PANGAN SEMESTA
                 processing: true,
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
-                    url: "{{ route('master.data_sourching_onprocess_gb_longgrain_index') }}",
+                    url: "{{ route('master.sourching.data_sourching_onprocess_gb_longgrain_index') }}",
                     data: {
                         from_date: from_date,
                         to_date: to_date
@@ -233,7 +233,7 @@ SURYA PANGAN SEMESTA
                         data: 'name_bid'
                     },
                     {
-                        data: 'aksi_harga'
+                        data: 'status_onproses'
                     },
                     {
                         data: 'nama_vendor'
@@ -293,7 +293,7 @@ SURYA PANGAN SEMESTA
             //     ],
             //     "iDisplayLength": 10,
             //     ajax: {
-            //         url: "{{ route('master.data_sourching_onprocess_gb_ciherang_index') }}",
+            //         url: "{{ route('master.sourching.data_sourching_onprocess_gb_ciherang_index') }}",
             //         data: {
             //             from_date: from_date,
             //             to_date: to_date
@@ -307,7 +307,7 @@ SURYA PANGAN SEMESTA
             //             }
             //         },
             //         {
-            //             data: 'aksi_harga'
+            //             data: 'status_onproses'
             //         },
             //         {
             //             data: 'name_bid'
@@ -365,12 +365,12 @@ SURYA PANGAN SEMESTA
                 processing: true,
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
-                    url: "{{ route('master.data_sourching_onprocess_gb_pandan_wangi_index') }}",
+                    url: "{{ route('master.sourching.data_sourching_onprocess_gb_pandan_wangi_index') }}",
                     data: {
                         from_date: from_date,
                         to_date: to_date
@@ -387,7 +387,7 @@ SURYA PANGAN SEMESTA
                         data: 'name_bid'
                     },
                     {
-                        data: 'aksi_harga'
+                        data: 'status_onproses'
                     },
                     {
                         data: 'nama_vendor'
@@ -442,12 +442,12 @@ SURYA PANGAN SEMESTA
                 processing: true,
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
-                    url: "{{ route('master.data_sourching_onprocess_gb_ketan_putih_index') }}",
+                    url: "{{ route('master.sourching.data_sourching_onprocess_gb_ketan_putih_index') }}",
                     data: {
                         from_date: from_date,
                         to_date: to_date
@@ -464,7 +464,7 @@ SURYA PANGAN SEMESTA
                         data: 'name_bid'
                     },
                     {
-                        data: 'aksi_harga'
+                        data: 'status_onproses'
                     },
                     {
                         data: 'nama_vendor'
@@ -519,12 +519,12 @@ SURYA PANGAN SEMESTA
                 processing: true,
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
-                    url: "{{ route('master.data_sourching_onprocess_pk_index') }}",
+                    url: "{{ route('master.sourching.data_sourching_onprocess_pk_index') }}",
                     data: {
                         from_date: from_date,
                         to_date: to_date
@@ -671,7 +671,7 @@ SURYA PANGAN SEMESTA
                         onBeforeOpen: () => {
                             Swal.showLoading()
                             $.ajax({
-                                url: "{{route('master.status_deal_gb')}}/" + cek,
+                                url: "{{route('master.sourching.status_deal_gb')}}/" + cek,
                                 type: "GET",
                                 error: function() {
                                     alert('Something is wrong');
@@ -719,7 +719,7 @@ SURYA PANGAN SEMESTA
                         onBeforeOpen: () => {
                             Swal.showLoading()
                             $.ajax({
-                                url: "{{route('master.status_deal_pk')}}/" + cek,
+                                url: "{{route('master.sourching.status_deal_pk')}}/" + cek,
                                 type: "GET",
                                 error: function() {
                                     alert('Something is wrong');
@@ -760,7 +760,7 @@ SURYA PANGAN SEMESTA
             }).then((result) => {
                 if (result.value) {
                     $.ajax({
-                        url: "{{route('master.status_nego_gb')}}/" + cek,
+                        url: "{{route('master.sourching.status_nego_gb')}}/" + cek,
                         type: "GET",
                         error: function() {
                             alert('Something is wrong');
@@ -799,7 +799,7 @@ SURYA PANGAN SEMESTA
             }).then((result) => {
                 if (result.value) {
                     $.ajax({
-                        url: "{{route('master.status_nego_pk')}}/" + cek,
+                        url: "{{route('master.sourching.status_nego_pk')}}/" + cek,
                         type: "GET",
                         error: function() {
                             alert('Something is wrong');

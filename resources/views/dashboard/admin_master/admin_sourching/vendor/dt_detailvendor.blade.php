@@ -68,292 +68,276 @@ SURYA PANGAN SEMESTA
                                 </ul>
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="m_tabs_1_1" role="tabpanel">
-                                        <form id="form_update_npwp" action="{{route('master.vendor_update_npwp')}}" method="POST" enctype="multipart/form-data">
-                                            @csrf
-                                            <div class="m-portlet__body">
-                                                <div class="form-group m-form__group row">
-                                                    <input type="hidden" value="{{$data->id}}" id="npwp_id_vendor" name="npwp_id_vendor">
-                                                    <label for="example-text-input" class="col-2 col-form-label">Nama NPWP</label>
-                                                    <div class="col-10">
-                                                        <input class="form-control m-input" type="text" id="nama_npwp" name="nama_npwp" value="{{$data->nama_npwp}}" id="example-text-input">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group m-form__group row">
-                                                    <label for="example-search-input" class="col-2 col-form-label">Nomer NPWP</label>
-                                                    <div class="col-10">
-                                                        <input class="form-control m-input" type="text" id="npwp" name="npwp" value="{{$data->npwp}}" id="example-search-input">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group m-form__group row">
-                                                    <label for="example-email-input" class="col-2 col-form-label">Provinsi</label>
-                                                    <div class="col-10">
-                                                        <select class="form-control m-input" name="id_provinsinpwp" required="required" id="provinsi_npwp">
-                                                            <option value="">Pilih Provinsi...</option>
-                                                            <?php
-                                                            $prov = App\Models\Province::all();
-                                                            ?>
-                                                            @foreach ($prov as $provinsi)
-                                                            <option value="{{$provinsi->id}}" {{($provinsi->id == $data->id_provinsinpwp) ? 'selected' : ''}}>{{$provinsi->name}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group m-form__group row">
-                                                    <label for="example-url-input" class="col-2 col-form-label">Kabupaten</label>
-                                                    <div class="col-10">
-                                                        <?php
-                                                        $kab = App\Models\Regency::Where('province_id', $data->id_provinsinpwp)->get();
-                                                        // echo $kab;
-                                                        ?>
-                                                        <select class="form-control m-input" required="required" name="id_kabupatennpwp" id="kabupaten_npwp">
-                                                            <option>Pilih Kabupaten...</option>
-                                                            @foreach ($kab as $kabupaten)
-                                                            <option value="{{$kabupaten->id}}" {{($kabupaten->id == $data->id_kabupatennpwp) ? 'selected' : ''}}>{{$kabupaten->name}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group m-form__group row">
-                                                    <label for="example-tel-input" class="col-2 col-form-label">Kecamatan</label>
-                                                    <div class="col-10">
-                                                        <?php
-                                                        $kec = App\Models\District::Where('regency_id', $data->id_kabupatennpwp)->get();
-                                                        // echo $kec;
-                                                        ?>
-                                                        <select class="form-control m-input " required="required" name="id_kecamatannpwp" id="kecamatan_npwp">
-                                                            <option>Pilih Kecamatan...</option>
-                                                            @foreach ($kec as $kecamatan)
-                                                            <option value="{{$kecamatan->id}}" {{($kecamatan->id == $data->id_kecamatannpwp) ? 'selected' : ''}}>{{$kecamatan->name}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group m-form__group row">
-                                                    <label for="example-tel-input" class="col-2 col-form-label">Desa/Kelurahan</label>
-                                                    <div class="col-10">
-                                                        <?php
-                                                        $desa = App\Models\Village::Where('district_id', $data->id_kecamatannpwp)->get();
-                                                        // echo $kec;
-                                                        ?>
-                                                        <select class="form-control m-input " required="required" name="id_desanpwp" id="desa_npwp">
-                                                            <option>Pilih Desa...</option>
-                                                            @foreach ($desa as $desa)
-                                                            <option value="{{$desa->id}}" {{($desa->id == $data->id_desanpwp) ? 'selected' : ''}}>{{$desa->name}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group m-form__group row">
-                                                    <label class="col-2 col-form-label">RT/RW</label>
-                                                    <div class="col-5">
-                                                        <label for="rt_npwp" class="col-2 col-form-label">RT</label>
-                                                        <input class="form-control m-input" type="text" name="rt_npwp" value="{{$data->rt_npwp}}" id="rt_npwp">
-                                                    </div>
-                                                    <div class="col-5">
-                                                        <label for="rw_npwp" class="col-2 col-form-label">RW</label>
-                                                        <input class="form-control m-input" type="text" name="rw_npwp" value="{{$data->rw_npwp}}" id="rw_npwp">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group m-form__group row">
-                                                    <label for="example-password-input" class="col-2 col-form-label">Foto NPWP</label>
-                                                    <div class="col-10">
-                                                        <input type="file" accept="image/*" class="form-control m-input" name="file_npwp" id="file_npwp"><br>
-                                                        <img id="file_gambar_npwp" src="{{asset('img/npwp/profile_user/'.$data->gambar_npwp)}}" width="75%" alt="">
-                                                    </div>
+                                        <div class="m-portlet__body">
+                                            <div class="form-group m-form__group row">
+                                                <input type="hidden" value="{{$data->id}}" id="npwp_id_vendor" name="npwp_id_vendor">
+                                                <label for="example-text-input" class="col-2 col-form-label">Nama NPWP</label>
+                                                <div class="col-10">
+                                                    <input class="form-control m-input" type="text" id="nama_npwp" name="nama_npwp" value="{{$data->nama_npwp}}" id="example-text-input">
                                                 </div>
                                             </div>
-                                            <button id="btn_updatenpwp" class="btn btn-info btn-sm pull-right">UPDATE NPWP</button>
-                                        </form>
+                                            <div class="form-group m-form__group row">
+                                                <label for="example-search-input" class="col-2 col-form-label">Nomer NPWP</label>
+                                                <div class="col-10">
+                                                    <input class="form-control m-input" type="text" id="npwp" name="npwp" value="{{$data->npwp}}" id="example-search-input">
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-form__group row">
+                                                <label for="example-email-input" class="col-2 col-form-label">Provinsi</label>
+                                                <div class="col-10">
+                                                    <select class="form-control m-input" name="id_provinsinpwp" required="required" id="provinsi_npwp">
+                                                        <option value="">Pilih Provinsi...</option>
+                                                        <?php
+                                                        $prov = App\Models\Province::all();
+                                                        ?>
+                                                        @foreach ($prov as $provinsi)
+                                                        <option value="{{$provinsi->id}}" {{($provinsi->id == $data->id_provinsinpwp) ? 'selected' : ''}}>{{$provinsi->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-form__group row">
+                                                <label for="example-url-input" class="col-2 col-form-label">Kabupaten</label>
+                                                <div class="col-10">
+                                                    <?php
+                                                    $kab = App\Models\Regency::Where('province_id', $data->id_provinsinpwp)->get();
+                                                    // echo $kab;
+                                                    ?>
+                                                    <select class="form-control m-input" required="required" name="id_kabupatennpwp" id="kabupaten_npwp">
+                                                        <option>Pilih Kabupaten...</option>
+                                                        @foreach ($kab as $kabupaten)
+                                                        <option value="{{$kabupaten->id}}" {{($kabupaten->id == $data->id_kabupatennpwp) ? 'selected' : ''}}>{{$kabupaten->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-form__group row">
+                                                <label for="example-tel-input" class="col-2 col-form-label">Kecamatan</label>
+                                                <div class="col-10">
+                                                    <?php
+                                                    $kec = App\Models\District::Where('regency_id', $data->id_kabupatennpwp)->get();
+                                                    // echo $kec;
+                                                    ?>
+                                                    <select class="form-control m-input " required="required" name="id_kecamatannpwp" id="kecamatan_npwp">
+                                                        <option>Pilih Kecamatan...</option>
+                                                        @foreach ($kec as $kecamatan)
+                                                        <option value="{{$kecamatan->id}}" {{($kecamatan->id == $data->id_kecamatannpwp) ? 'selected' : ''}}>{{$kecamatan->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-form__group row">
+                                                <label for="example-tel-input" class="col-2 col-form-label">Desa/Kelurahan</label>
+                                                <div class="col-10">
+                                                    <?php
+                                                    $desa = App\Models\Village::Where('district_id', $data->id_kecamatannpwp)->get();
+                                                    // echo $kec;
+                                                    ?>
+                                                    <select class="form-control m-input " required="required" name="id_desanpwp" id="desa_npwp">
+                                                        <option>Pilih Desa...</option>
+                                                        @foreach ($desa as $desa)
+                                                        <option value="{{$desa->id}}" {{($desa->id == $data->id_desanpwp) ? 'selected' : ''}}>{{$desa->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-form__group row">
+                                                <label class="col-2 col-form-label">RT/RW</label>
+                                                <div class="col-5">
+                                                    <label for="rt_npwp" class="col-2 col-form-label">RT</label>
+                                                    <input class="form-control m-input" type="text" name="rt_npwp" value="{{$data->rt_npwp}}" id="rt_npwp">
+                                                </div>
+                                                <div class="col-5">
+                                                    <label for="rw_npwp" class="col-2 col-form-label">RW</label>
+                                                    <input class="form-control m-input" type="text" name="rw_npwp" value="{{$data->rw_npwp}}" id="rw_npwp">
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-form__group row">
+                                                <label for="example-password-input" class="col-2 col-form-label">Foto NPWP</label>
+                                                <div class="col-10">
+                                                    <input type="file" accept="image/*" class="form-control m-input" name="file_npwp" id="file_npwp"><br>
+                                                    <img id="file_gambar_npwp" src="{{asset('img/npwp/profile_user/'.$data->gambar_npwp)}}" width="75%" alt="">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="tab-pane" id="m_tabs_1_2" role="tabpanel">
                                         <div class="m-portlet__body">
-                                            <form id="form_update_ktp" action="{{route('master.vendor_update_ktp')}}" method="POST" enctype="multipart/form-data">
-                                                @csrf
-                                                <div class="form-group m-form__group row">
-                                                    <input type="hidden" name="ktp_id_vendor" id="ktp_id_vendor" value="{{$data->id}}">
-                                                    <label for="example-text-input" class="col-2 col-form-label">Nama KTP</label>
-                                                    <div class="col-10">
-                                                        <input class="form-control m-input" type="text" name="nama_ktp" id="nama_ktp" value="{{$data->nama_ktp}}" id="example-text-input">
-                                                    </div>
+                                            <div class="form-group m-form__group row">
+                                                <input type="hidden" name="ktp_id_vendor" id="ktp_id_vendor" value="{{$data->id}}">
+                                                <label for="example-text-input" class="col-2 col-form-label">Nama KTP</label>
+                                                <div class="col-10">
+                                                    <input class="form-control m-input" type="text" name="nama_ktp" id="nama_ktp" value="{{$data->nama_ktp}}" id="example-text-input">
                                                 </div>
-                                                <div class="form-group m-form__group row">
-                                                    <label for="example-search-input" class="col-2 col-form-label">Nomer KTP</label>
-                                                    <div class="col-10">
-                                                        <input class="form-control m-input" type="text" name="ktp" value="{{$data->ktp}}" id="ktp">
-                                                    </div>
+                                            </div>
+                                            <div class="form-group m-form__group row">
+                                                <label for="example-search-input" class="col-2 col-form-label">Nomer KTP</label>
+                                                <div class="col-10">
+                                                    <input class="form-control m-input" type="text" name="ktp" value="{{$data->ktp}}" id="ktp">
                                                 </div>
-                                                <div class="form-group m-form__group row">
-                                                    <label for="example-email-input" class="col-2 col-form-label">Provinsi</label>
-                                                    <div class="col-10">
-                                                        <select class="form-control m-input" name="id_provinsiktp" required="required" id="provinsi_ktp">
-                                                            <option value="">Pilih Provinsi...</option>
-                                                            <?php
-                                                            $prov = App\Models\Province::all();
-                                                            ?>
-                                                            @foreach ($prov as $provinsi)
-                                                            <option value="{{$provinsi->id}}" {{($provinsi->id == $data->id_provinsiktp) ? 'selected' : ''}}>{{$provinsi->name}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group m-form__group row">
-                                                    <label for="example-url-input" class="col-2 col-form-label">Kabupaten</label>
-                                                    <div class="col-10">
+                                            </div>
+                                            <div class="form-group m-form__group row">
+                                                <label for="example-email-input" class="col-2 col-form-label">Provinsi</label>
+                                                <div class="col-10">
+                                                    <select class="form-control m-input" name="id_provinsiktp" required="required" id="provinsi_ktp">
+                                                        <option value="">Pilih Provinsi...</option>
                                                         <?php
-                                                        $kab = App\Models\Regency::Where('province_id', $data->id_provinsiktp)->get();
-                                                        // echo $kab;
+                                                        $prov = App\Models\Province::all();
                                                         ?>
-                                                        <select class="form-control m-input" required="required" name="id_kabupatenktp" id="kabupaten_ktp">
-                                                            <option>Pilih Kabupaten...</option>
-                                                            @foreach ($kab as $kabupaten)
-                                                            <option value="{{$kabupaten->id}}" {{($kabupaten->id == $data->id_kabupatenktp) ? 'selected' : ''}}>{{$kabupaten->name}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
+                                                        @foreach ($prov as $provinsi)
+                                                        <option value="{{$provinsi->id}}" {{($provinsi->id == $data->id_provinsiktp) ? 'selected' : ''}}>{{$provinsi->name}}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
-                                                <div class="form-group m-form__group row">
-                                                    <label for="example-tel-input" class="col-2 col-form-label">Kecamatan</label>
-                                                    <div class="col-10">
-                                                        <?php
-                                                        $kec = App\Models\District::Where('regency_id', $data->id_kabupatenktp)->get();
-                                                        // echo $kec;
-                                                        ?>
-                                                        <select class="form-control m-input " required="required" name="id_kecamatanktp" id="kecamatan_ktp">
-                                                            <option>Pilih Kecamatan...</option>
-                                                            @foreach ($kec as $kecamatan)
-                                                            <option value="{{$kecamatan->id}}" {{($kecamatan->id == $data->id_kecamatanktp) ? 'selected' : ''}}>{{$kecamatan->name}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
+                                            </div>
+                                            <div class="form-group m-form__group row">
+                                                <label for="example-url-input" class="col-2 col-form-label">Kabupaten</label>
+                                                <div class="col-10">
+                                                    <?php
+                                                    $kab = App\Models\Regency::Where('province_id', $data->id_provinsiktp)->get();
+                                                    // echo $kab;
+                                                    ?>
+                                                    <select class="form-control m-input" required="required" name="id_kabupatenktp" id="kabupaten_ktp">
+                                                        <option>Pilih Kabupaten...</option>
+                                                        @foreach ($kab as $kabupaten)
+                                                        <option value="{{$kabupaten->id}}" {{($kabupaten->id == $data->id_kabupatenktp) ? 'selected' : ''}}>{{$kabupaten->name}}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
-                                                <div class="form-group m-form__group row">
-                                                    <label for="example-tel-input" class="col-2 col-form-label">Desa/Kelurahan</label>
-                                                    <div class="col-10">
-                                                        <?php
-                                                        $desa = App\Models\Village::Where('district_id', $data->id_kecamatanktp)->get();
-                                                        // echo $kec;
-                                                        ?>
-                                                        <select class="form-control m-input " required="required" name="id_desaktp" id="desa_ktp">
-                                                            <option>Pilih Desa...</option>
-                                                            @foreach ($desa as $desa)
-                                                            <option value="{{$desa->id}}" {{($desa->id == $data->id_desaktp) ? 'selected' : ''}}>{{$desa->name}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
+                                            </div>
+                                            <div class="form-group m-form__group row">
+                                                <label for="example-tel-input" class="col-2 col-form-label">Kecamatan</label>
+                                                <div class="col-10">
+                                                    <?php
+                                                    $kec = App\Models\District::Where('regency_id', $data->id_kabupatenktp)->get();
+                                                    // echo $kec;
+                                                    ?>
+                                                    <select class="form-control m-input " required="required" name="id_kecamatanktp" id="kecamatan_ktp">
+                                                        <option>Pilih Kecamatan...</option>
+                                                        @foreach ($kec as $kecamatan)
+                                                        <option value="{{$kecamatan->id}}" {{($kecamatan->id == $data->id_kecamatanktp) ? 'selected' : ''}}>{{$kecamatan->name}}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
-                                                <div class="form-group m-form__group row">
-                                                    <label class="col-2 col-form-label">RT/RW</label>
-                                                    <div class="col-5">
-                                                        <label for="rt_ktp" class="col-2 col-form-label">RT</label>
-                                                        <input class="form-control m-input" type="text" name="rt_ktp" value="{{$data->rt_ktp}}" id="rt_ktp">
-                                                    </div>
-                                                    <div class="col-5">
-                                                        <label for="rw_ktp" class="col-2 col-form-label">RW</label>
-                                                        <input class="form-control m-input" type="text" name="rw_ktp" value="{{$data->rw_ktp}}" id="rw_ktp">
-                                                    </div>
+                                            </div>
+                                            <div class="form-group m-form__group row">
+                                                <label for="example-tel-input" class="col-2 col-form-label">Desa/Kelurahan</label>
+                                                <div class="col-10">
+                                                    <?php
+                                                    $desa = App\Models\Village::Where('district_id', $data->id_kecamatanktp)->get();
+                                                    // echo $kec;
+                                                    ?>
+                                                    <select class="form-control m-input " required="required" name="id_desaktp" id="desa_ktp">
+                                                        <option>Pilih Desa...</option>
+                                                        @foreach ($desa as $desa)
+                                                        <option value="{{$desa->id}}" {{($desa->id == $data->id_desaktp) ? 'selected' : ''}}>{{$desa->name}}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
-                                                <div class="form-group m-form__group row">
-                                                    <label for="example-password-input" class="col-2 col-form-label">Image KTP</label>
-                                                    <div class="col-10">
-                                                        <input type="file" accept="image/*" class="form-control m-input" name="file_ktp" id="file_ktp"><br>
-                                                        <img id="file_gambar_ktp" src="{{asset('img/ktp/profile_user/'.$data->gambar_ktp)}}" width="75%" alt="">
-                                                    </div>
+                                            </div>
+                                            <div class="form-group m-form__group row">
+                                                <label class="col-2 col-form-label">RT/RW</label>
+                                                <div class="col-5">
+                                                    <label for="rt_ktp" class="col-2 col-form-label">RT</label>
+                                                    <input class="form-control m-input" type="text" name="rt_ktp" value="{{$data->rt_ktp}}" id="rt_ktp">
                                                 </div>
-                                                <button id="btn_updatektp" class="btn btn-info btn-sm pull-right">UPDATE KTP</button>
-                                            </form>
+                                                <div class="col-5">
+                                                    <label for="rw_ktp" class="col-2 col-form-label">RW</label>
+                                                    <input class="form-control m-input" type="text" name="rw_ktp" value="{{$data->rw_ktp}}" id="rw_ktp">
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-form__group row">
+                                                <label for="example-password-input" class="col-2 col-form-label">Image KTP</label>
+                                                <div class="col-10">
+                                                    <input type="file" accept="image/*" class="form-control m-input" name="file_ktp" id="file_ktp"><br>
+                                                    <img id="file_gambar_ktp" src="{{asset('img/ktp/profile_user/'.$data->gambar_ktp)}}" width="75%" alt="">
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="tab-pane" id="m_tabs_1_3" role="tabpanel">
-                                        <form id="form_update_pembayaran" action="{{route('master.vendor_update_pembayaran')}}" method="POST" enctype="multipart/form-data">
-                                            @csrf
-                                            <div class="m-portlet__body">
-                                                <div class="form-group m-form__group row">
-                                                    <input type="hidden" name="pembayaran_id_vendor" id="pembayaran_id_vendor" value="{{$data->id}}">
-                                                    <label for="nama_bank" class="col-2 col-form-label">Nama Bank</label>
-                                                    <div class="col-10">
-                                                        <select class="form-control" onchange="bankCheck(this);" name="nama_bank" id="nama_bank" required="required">
-                                                            <option disabled>~Pilih BANK~</option>
-                                                            <option value="BBRI" @if(old('nama_bank', $data->nama_bank) === 'BBRI') selected @endif >BANK BRI</option>
-                                                            <option value="BMRI" @if(old('nama_bank', $data->nama_bank) === 'BMRI') selected @endif >BANK MANDIRI</option>
-                                                            <option value="BBCA" @if(old('nama_bank', $data->nama_bank) === 'BBCA') selected @endif >BANK BCA</option>
-                                                        </select>
-                                                        <!-- <input class="form-control m-input" type="text" name="nama_bank" value="{{$data->nama_bank}}" id="nama_bank"> -->
-                                                    </div>
-                                                </div>
-                                                <div class="form-group m-form__group row">
-                                                    <label for="nomer_rekening" class="col-2 col-form-label">Nomer Rekening</label>
-                                                    <div class="col-10">
-                                                        <input class="form-control m-input" type="text" name="nomer_rekening" value="{{$data->nomer_rekening}}" id="nomer_rekening">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group m-form__group row">
-                                                    <label for="nama_penerima_bank" class="col-2 col-form-label">Nama Penerima</label>
-                                                    <div class="col-10">
-                                                        <input class="form-control m-input" type="text" name="nama_penerima_bank" value="{{$data->nama_penerima_bank}}" id="nama_penerima_bank">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group m-form__group row">
-                                                    <label for="cabang_bank" class="col-2 col-form-label">Cabang</label>
-                                                    <div class="col-10">
-                                                        <input class="form-control m-input" type="text" name="cabang_bank" value="{{$data->cabang_bank}}" id="cabang_bank">
-                                                    </div>
+                                        <div class="m-portlet__body">
+                                            <div class="form-group m-form__group row">
+                                                <input type="hidden" name="pembayaran_id_vendor" id="pembayaran_id_vendor" value="{{$data->id}}">
+                                                <label for="nama_bank" class="col-2 col-form-label">Nama Bank</label>
+                                                <div class="col-10">
+                                                    <select class="form-control" onchange="bankCheck(this);" name="nama_bank" id="nama_bank" required="required">
+                                                        <option disabled>~Pilih BANK~</option>
+                                                        <option value="BBRI" @if(old('nama_bank', $data->nama_bank) === 'BBRI') selected @endif >BANK BRI</option>
+                                                        <option value="BMRI" @if(old('nama_bank', $data->nama_bank) === 'BMRI') selected @endif >BANK MANDIRI</option>
+                                                        <option value="BBCA" @if(old('nama_bank', $data->nama_bank) === 'BBCA') selected @endif >BANK BCA</option>
+                                                    </select>
+                                                    <!-- <input class="form-control m-input" type="text" name="nama_bank" value="{{$data->nama_bank}}" id="nama_bank"> -->
                                                 </div>
                                             </div>
-                                            <button id="btn_updatepembeyaran" class="btn btn-info btn-sm pull-right">UPDATE PEMBAYARAN</button>
-                                        </form>
+                                            <div class="form-group m-form__group row">
+                                                <label for="nomer_rekening" class="col-2 col-form-label">Nomer Rekening</label>
+                                                <div class="col-10">
+                                                    <input class="form-control m-input" type="text" name="nomer_rekening" value="{{$data->nomer_rekening}}" id="nomer_rekening">
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-form__group row">
+                                                <label for="nama_penerima_bank" class="col-2 col-form-label">Nama Penerima</label>
+                                                <div class="col-10">
+                                                    <input class="form-control m-input" type="text" name="nama_penerima_bank" value="{{$data->nama_penerima_bank}}" id="nama_penerima_bank">
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-form__group row">
+                                                <label for="cabang_bank" class="col-2 col-form-label">Cabang</label>
+                                                <div class="col-10">
+                                                    <input class="form-control m-input" type="text" name="cabang_bank" value="{{$data->cabang_bank}}" id="cabang_bank">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="tab-pane" id="m_tabs_1_4" role="tabpanel">
-                                        <form id="form_update_profil" action="{{route('master.vendor_update_profil')}}" method="POST" enctype="multipart/form-data">
-                                            @csrf
-                                            <div class="m-portlet__body">
-                                                <div class="form-group m-form__group row">
-                                                    <label for="nama_vendor" class="col-2 col-form-label">Nama Vendor</label>
-                                                    <div class="col-10">
-                                                        <input type="hidden" name="profil_id_vendor" id="profil_id_vendor" value="{{$data->id}}">
-                                                        <input class="form-control m-input" type="text" name="nama_vendor" value="{{$data->nama_vendor}}" id="nama_vendor">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group m-form__group row">
-                                                    <label for="nomer_hp" class="col-2 col-form-label">No. Telp</label>
-                                                    <div class="col-10">
-                                                        <input class="form-control m-input" type="text" name="nomer_hp" value="{{$data->nomer_hp}}" id="nomer_hp">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group m-form__group row">
-                                                    <label for="username" class="col-2 col-form-label">Username</label>
-                                                    <div class="col-10">
-                                                        <input class="form-control m-input" type="text" onkeyup="nospaces(this)" name="username" value="{{$data->username}}" id="username">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group m-form__group row">
-                                                    <label for="email" class="col-2 col-form-label">Email Vendor</label>
-                                                    <div class="col-10">
-                                                        <input class="form-control m-input" type="email" onkeyup="nospacesemail(this)" name="email" value="{{$data->email}}" id="email">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group m-form__group row">
-                                                    <label for="password_show" class="col-2 col-form-label">Password</label>
-                                                    <div class="col-10">
-                                                        <input class="form-control m-input" type="text" name="password_show" value="{{$data->password_show}}" id="password_show">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group m-form__group row">
-                                                    <label for="example-password-input" class="col-2 col-form-label">Document Pakta Integritas</label>
-                                                    <div class="col-10">
-                                                        <input type="file" accept="image/*" class="form-control m-input" name="file_pakta" id="file_pakta"><br>
-                                                        <img id="file_gambar_pakta" src="{{asset('img/pakta_integritas/profile_user/'.$data->pakta_integritas)}}" width="75%" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group m-form__group row">
-                                                    <label for="example-password-input" class="col-2 col-form-label">Document FIS</label>
-                                                    <div class="col-10">
-                                                        <input type="file" accept="image/*" class="form-control m-input" name="file_fis" id="file_fis"><br>
-                                                        <img id="file_gambar_fis" src="{{asset('img/fis/profile_user/'.$data->fis)}}" width="75%" alt="">
-                                                    </div>
+                                        <div class="m-portlet__body">
+                                            <div class="form-group m-form__group row">
+                                                <label for="nama_vendor" class="col-2 col-form-label">Nama Vendor</label>
+                                                <div class="col-10">
+                                                    <input type="hidden" name="profil_id_vendor" id="profil_id_vendor" value="{{$data->id}}">
+                                                    <input class="form-control m-input" type="text" name="nama_vendor" value="{{$data->nama_vendor}}" id="nama_vendor">
                                                 </div>
                                             </div>
-                                            <button id="btn_updateprofil" class="btn btn-info btn-sm pull-right">UPDATE PROFIL</button>
-                                        </form>
+                                            <div class="form-group m-form__group row">
+                                                <label for="nomer_hp" class="col-2 col-form-label">No. Telp</label>
+                                                <div class="col-10">
+                                                    <input class="form-control m-input" type="text" name="nomer_hp" value="{{$data->nomer_hp}}" id="nomer_hp">
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-form__group row">
+                                                <label for="username" class="col-2 col-form-label">Username</label>
+                                                <div class="col-10">
+                                                    <input class="form-control m-input" type="text" onkeyup="nospaces(this)" name="username" value="{{$data->username}}" id="username">
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-form__group row">
+                                                <label for="email" class="col-2 col-form-label">Email Vendor</label>
+                                                <div class="col-10">
+                                                    <input class="form-control m-input" type="email" onkeyup="nospacesemail(this)" name="email" value="{{$data->email}}" id="email">
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-form__group row">
+                                                <label for="password_show" class="col-2 col-form-label">Password</label>
+                                                <div class="col-10">
+                                                    <input class="form-control m-input" type="text" name="password_show" value="{{$data->password_show}}" id="password_show">
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-form__group row">
+                                                <label for="example-password-input" class="col-2 col-form-label">Document Pakta Integritas</label>
+                                                <div class="col-10">
+                                                    <input type="file" accept="image/*" class="form-control m-input" name="file_pakta" id="file_pakta"><br>
+                                                    <img id="file_gambar_pakta" src="{{asset('img/pakta_integritas/profile_user/'.$data->pakta_integritas)}}" width="75%" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-form__group row">
+                                                <label for="example-password-input" class="col-2 col-form-label">Document FIS</label>
+                                                <div class="col-10">
+                                                    <input type="file" accept="image/*" class="form-control m-input" name="file_fis" id="file_fis"><br>
+                                                    <img id="file_gambar_fis" src="{{asset('img/fis/profile_user/'.$data->fis)}}" width="75%" alt="">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -383,11 +367,11 @@ SURYA PANGAN SEMESTA
                 processing: true,
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
-                ajax: "{{ route('master.vendor_index') }}",
+                ajax: "{{ route('master.sourching.vendor_index') }}",
                 columns: [{
                         data: "id",
 
@@ -648,7 +632,7 @@ SURYA PANGAN SEMESTA
             }, 1000));
             $(document).on('click', '.toedit', function() {
                 var id = $(this).attr("name");
-                var url = "{{ route('master.vendor_show') }}" + "/" + id;
+                var url = "{{ route('master.sourching.vendor_show') }}" + "/" + id;
 
                 $.ajax({
                     type: "GET",

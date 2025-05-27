@@ -53,7 +53,7 @@ SURYA PANGAN SEMESTA
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1"><i class="fa fa-lock"></i></span>
                                 </div>
-                                <input type="password" class="form-control" placeholder="Password" id="password" aria-label="Username" aria-describedby="basic-addon1" name="password" @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                <input type="password" class="form-control @error('password') is-invalid @enderror" placeholder=" Password" id="password" aria-label="Username" aria-describedby="basic-addon1" name="password" name="password" required autocomplete="current-password">
                                 @error('password')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>

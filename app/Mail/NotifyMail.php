@@ -30,7 +30,7 @@ class NotifyMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('itspskediri@gmail.com')
-                    ->view('emails.email');
+        return $this->subject('VERIFIED ACCOUNT VIA EMAIL')
+            ->view('emails.email');
     }
 }

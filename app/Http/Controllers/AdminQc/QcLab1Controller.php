@@ -157,7 +157,7 @@ class QcLab1Controller extends Controller
                 return $result;
             })
             ->addColumn('waktu_penerimaan', function ($list) {
-                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                 return $result;
             })
             ->addColumn('nama_penerima_po', function ($list) {
@@ -227,7 +227,7 @@ class QcLab1Controller extends Controller
                 return $result;
             })
             ->addColumn('waktu_penerimaan', function ($list) {
-                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                 return $result;
             })
             ->addColumn('nama_penerima_po', function ($list) {
@@ -287,7 +287,7 @@ class QcLab1Controller extends Controller
                 return $result;
             })
             ->addColumn('waktu_penerimaan', function ($list) {
-                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                 return $result;
             })
             ->addColumn('nama_penerima_po', function ($list) {
@@ -356,7 +356,7 @@ class QcLab1Controller extends Controller
                 return $result;
             })
             ->addColumn('waktu_penerimaan', function ($list) {
-                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                 return $result;
             })
             ->addColumn('nama_penerima_po', function ($list) {
@@ -411,7 +411,7 @@ class QcLab1Controller extends Controller
                 return $result;
             })
             ->addColumn('waktu_penerimaan', function ($list) {
-                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                 return $result;
             })
             ->addColumn('nama_penerima_po', function ($list) {
@@ -504,7 +504,7 @@ class QcLab1Controller extends Controller
                 return $result;
             })
             ->addColumn('waktu_penerimaan', function ($list) {
-                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                 return $result;
             })
             ->addColumn('nama_penerima_po', function ($list) {
@@ -554,7 +554,7 @@ class QcLab1Controller extends Controller
                 return $result;
             })
             ->addColumn('waktu_penerimaan', function ($list) {
-                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                 return $result;
             })
             ->addColumn('nama_penerima_po', function ($list) {
@@ -639,7 +639,7 @@ class QcLab1Controller extends Controller
                     ->orderBy('penerimaan_po.id_penerimaan_po', 'DESC')
                     ->get())
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
@@ -667,7 +667,7 @@ class QcLab1Controller extends Controller
                     </a>';
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('nama_penerima_po', function ($list) {
@@ -1049,7 +1049,7 @@ class QcLab1Controller extends Controller
                     ->orderBy('penerimaan_po.id_penerimaan_po', 'DESC')
                     ->get())
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
@@ -1077,7 +1077,7 @@ class QcLab1Controller extends Controller
                 </a>';
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('nama_penerima_po', function ($list) {
@@ -1474,7 +1474,7 @@ class QcLab1Controller extends Controller
                     ->orderBy('lab1_gb.created_at_gb', 'DESC')
                     ->get())
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
@@ -1502,7 +1502,7 @@ class QcLab1Controller extends Controller
                     </a>';
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('nama_penerima_po', function ($list) {
@@ -1873,12 +1873,18 @@ class QcLab1Controller extends Controller
                     ->rawColumns(['waktu_penerimaan', 'tanggal_bongkar', 'antrian', 'kode_po', 'nama_vendor', 'lokasi_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'ckelola_manager', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             } else {
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
-                    ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
-                    ->where('bid.name_bid', 'GABAH BASAH LONG GRAIN')
+                $table = Lab1GabahBasah::With(['DataPO' => function ($query) {
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With('PenerimaanPo')
+                    ->whereHas('DataPO', function ($query) {
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                        });
+                    })
                     ->where(function ($query) {
                         $query->where('lab1_gb.status_lab1_gb', '=', 5)
                             ->orWhere('lab1_gb.status_lab1_gb', '=', 6)
@@ -1887,54 +1893,92 @@ class QcLab1Controller extends Controller
                     ->where(function ($query) {
                         $query->where('lab1_gb.status_approved', '=', 0)
                             ->orWhere('lab1_gb.status_approved', '=', 2)
+                            ->orWhere('lab1_gb.status_approved', '=', 3)
                             ->orWhereNull('lab1_gb.status_approved');
                     })
-                    // ->where('lab1_gb.status_approved', '=', 0)
-                    // ->where('lab1_gb.status_approved', '=', 2)
                     ->orderBy('lab1_gb.created_at_gb', 'DESC')
-                    ->get())
+                    ->select(
+                        'lab1_gb.id_lab1_gb',
+                        'lab1_gb.lab1_id_data_po_gb',
+                        'lab1_gb.lab1_id_penerimaan_po_gb',
+                        'lab1_gb.status_lab1_gb',
+                        'lab1_gb.status_approved',
+                        'lab1_gb.output_lab_gb',
+                        'lab1_gb.plan_harga_gb',
+                        'lab1_gb.lokasi_bongkar_gb',
+                        'lab1_gb.created_at_approved',
+                        'lab1_gb.kadar_air_gb',
+                        'lab1_gb.ka_kg_gb',
+                        'lab1_gb.berat_sample_awal_ks_gb',
+                        'lab1_gb.berat_sample_awal_kg_gb',
+                        'lab1_gb.berat_sample_akhir_kg_gb',
+                        'lab1_gb.berat_sample_pk_gb',
+                        'lab1_gb.randoman_gb',
+                        'lab1_gb.wh_gb',
+                        'lab1_gb.tp_gb',
+                        'lab1_gb.md_gb',
+                        'lab1_gb.broken_gb',
+                        'lab1_gb.hampa_gb',
+                        'lab1_gb.kg_after_adjust_hampa_gb',
+                        'lab1_gb.prosentasi_kg_gb',
+                        'lab1_gb.susut_gb',
+                        'lab1_gb.adjust_susut_gb',
+                        'lab1_gb.prsentase_ks_kg_after_adjust_susut_gb',
+                        'lab1_gb.prsentase_kg_pk_gb',
+                        'lab1_gb.adjust_prosentase_kg_pk_gb',
+                        'lab1_gb.presentase_ks_pk_gb',
+                        'lab1_gb.presentase_putih_gb',
+                        'lab1_gb.adjust_prosentase_kg_ke_putih_gb',
+                        'lab1_gb.plan_rend_dari_ks_beras_gb',
+                        'lab1_gb.katul_gb',
+                        'lab1_gb.refraksi_broken_gb',
+                        'lab1_gb.plan_harga_gabah_gb',
+                        'lab1_gb.plan_harga_gabah_gb',
+                    )
+                    ->get();
+                return Datatables::of($table)
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->PenerimaanPo->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
+                        return $result;
+                    })
+                    ->addColumn('name_bid', function ($list) {
+                        $result = $list->DataPO->Bid->name_bid;
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
+                        $result = $list->DataPO->kode_po;
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
+                        $result = $list->DataPO->User->nama_vendor;
                         return '
                             <span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>
                             ';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('antrian', function ($list) {
-                        $result = $list->no_antrian;
+                        $result = $list->PenerimaanPo->no_antrian;
                         return '<a style="margin:2px;"  title="Informasi" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                     ' . $result . '
                     </a>';
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
-                        return $result;
-                    })
-                    ->addColumn('nama_penerima_po', function ($list) {
-                        $result = $list->name;
+                        $result = \Carbon\Carbon::parse($list->PenerimaanPo->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
+                        $result = $list->PenerimaanPo->plat_kendaraan;
                         return $result;
                     })
                     ->addColumn('asal_gabah', function ($list) {
-                        $result = $list->keterangan_penerimaan_po;
+                        $result = $list->PenerimaanPo->keterangan_penerimaan_po;
                         return $result;
                     })
                     ->addColumn('lokasi_bongkar', function ($list) {
@@ -1949,51 +1993,51 @@ class QcLab1Controller extends Controller
                         if ($list->status_lab1_gb == 6) {
                             if ($list->status_approved == '' || $list->status_approved == 'NULL') {
                                 return
-                                    '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                                 <i class="fa fa-spinner"></i>&nbsp;Pengajuan&nbsp;Approve&nbsp;Bongkar&nbsp;SPV 
                                 </a>';
                                 // <button class="dropdown-item" id="btn_approve_bongkar" data-id="' . $list->id_lab1_gb . '"><i class="fas fa-check"></i>Ajukan&nbsp;Approve&nbsp;Bongkar</button>
                             } else if ($list->status_approved == 0) {
                                 return
-                                    '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                                 <i class="fa fa-spinner"></i>&nbsp;Pengajuan&nbsp;Approve&nbsp;Bongkar&nbsp;SPV 
                                 </a>';
                             } else if ($list->status_approved == 2) {
                                 return
-                                    '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                                 <i class="fa fa-spinner"></i>&nbsp;Tolak&nbsp;Approve&nbsp;SPV 
                                 </a>';
                             } else if ($list->status_approved == 1) {
                                 return
-                                    '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-spinner"></i>&nbsp;Pengajuan&nbsp;Approve&nbsp;Bongkar&nbsp;SPV 
                             </a>';
                             }
                         } elseif ($list->status_lab1_gb == 7) {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-flask"></i>&nbsp;Selesai&nbsp;Lab&nbsp;1 
                             </a>';
                         } elseif ($list->status_lab1_gb == 5) {
                             if ($list->status_approved == 0) {
                                 return
-                                    '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-spinner">&nbsp;Pengajuan&nbsp;Approve&nbsp;Tolak&nbsp;SPV</i>
                             </a>';
                             } else if ($list->status_approved == 1) {
                                 return
-                                    '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '"  title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '"  title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-times"></i>&nbsp;Reject
                             </a>';
                             } else if ($list->status_approved == 2) {
                                 return
-                                    '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-check"></i>&nbsp;Bongkar
                             </a>';
                             }
                         } elseif ($list->status_lab1_gb == 8) {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-phone"></i>&nbsp;PO&nbsp;On&nbsp;Call
                             </a>';
                         } elseif ($list->status_lab1_gb == 9) {
@@ -2008,33 +2052,33 @@ class QcLab1Controller extends Controller
                                 </div>
                                 </div>';
                             } elseif ($list->output_lab_gb == 'Unload') {
-                                return '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                return '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                                 <i class="fa fa-truck"></i>&nbsp;Proses&nbsp;Bongkar&nbsp;1
                                 </a>';
                             }
                         } elseif ($list->status_lab1_gb == 10) {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                                 <i class="fa fa-flask"></i>&nbsp;Proses&nbsp;Lab&nbsp;2
                                 </a>';
                         } elseif ($list->status_lab1_gb == 11) {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                                 <i class="fa fa-flask"></i>&nbsp;Proses&nbsp;Lab&nbsp;2
                                 </a>';
                         } elseif ($list->status_lab1_gb == 12) {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                                 <i class="fa fa-flask"></i>&nbsp;Selesai&nbsp;Lab&nbsp;2
                                 </a>';
                         } elseif ($list->status_lab1_gb == 13) {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                                 <i class="fa fa-credit-card"></i>&nbsp;Proses&nbsp;Pembayaran
                                 </a>';
                         } elseif ($list->status_lab1_gb == 16) {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                                 <i class="fa fa-credit-card"></i>&nbsp;Pending&nbsp;Harga
                                 </a>';
                         } else {
@@ -2054,46 +2098,46 @@ class QcLab1Controller extends Controller
                             if ($list->status_approved == '' || $list->status_approved == 'NULL') {
                                 return
                                     '<div class="dropdown">
-                        <button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-question"></i> Cek&nbsp;Bongkar
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                        <button class="dropdown-item" id="btn_approve_bongkar" data-id="' . $list->id_lab1_gb . '"><i class="fas fa-check"></i>Ajukan&nbsp;Approve&nbsp;Bongkar</button>
-                       <a type="button" href="' . route('qc.lab.output_edit_proses_lab1_gb', ['id' => $list->id_lab1_gb]) . '" id="btn_edit" class="dropdown-item"  title="Information"><i class="fas fa-edit"></i>Edit</a>
-                        </div>
-                        </div>';
+                                <button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-question"></i> Cek&nbsp;Bongkar
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                                <button class="dropdown-item" id="btn_approve_bongkar" data-id="' . $list->id_lab1_gb . '"><i class="fas fa-check"></i>Ajukan&nbsp;Approve&nbsp;Bongkar</button>
+                                <a type="button" href="' . route('qc.lab.output_edit_proses_lab1_gb', ['id' => $list->id_lab1_gb]) . '" id="btn_edit" class="dropdown-item"  title="Information"><i class="fas fa-edit"></i>Edit</a>
+                                </div>
+                                </div>';
                             } else if ($list->status_approved == 0) {
                                 return
                                     '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
-                            <i class="fa fa-spinner"></i>&nbsp;Pengajuan&nbsp;Approve&nbsp;Bongkar&nbsp;SPV 
-                        </a>';
+                                <i class="fa fa-spinner"></i>&nbsp;Pengajuan&nbsp;Approve&nbsp;Bongkar&nbsp;SPV 
+                                </a>';
                             } else if ($list->status_approved == 2) {
                                 return
                                     '<div class="dropdown">
-                        <button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Tolak&nbsp;Approve <i class="fa fa-exclamation"></i> <br> (Cek&nbsp;Analisa&nbsp;Lab)
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                              <a href="' . route('qc.lab.output_edit_proses_lab1_gb', ['id' => $list->id_lab1_gb]) . '" id="to_edit" class="dropdown-item" name="' . $list->id_lab1_gb . '" title="Edit Data"><i class="fas fa-edit"></i>Cek&nbsp;Analisa</a>
-                            </div>
-                            </div>';
+                                <button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Tolak&nbsp;Approve <i class="fa fa-exclamation"></i> <br> (Cek&nbsp;Analisa&nbsp;Lab)
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                                <a href="' . route('qc.lab.output_edit_proses_lab1_gb', ['id' => $list->id_lab1_gb]) . '" id="to_edit" class="dropdown-item" name="' . $list->id_lab1_gb . '" title="Edit Data"><i class="fas fa-edit"></i>Cek&nbsp;Analisa</a>
+                                </div>
+                                </div>';
                             } else if ($list->status_approved == 1) {
                                 return
                                     '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
-                            <i class="fa fa-spinner"></i>&nbsp;Pengajuan&nbsp;Approve&nbsp;Bongkar&nbsp;SPV 
-                        </a>';
+                                <i class="fa fa-spinner"></i>&nbsp;Pengajuan&nbsp;Approve&nbsp;Bongkar&nbsp;SPV 
+                                </a>';
                             }
                         } elseif ($list->status_lab1_gb == 7) {
                             return
                                 '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-flask"></i>&nbsp;Selesai&nbsp;Lab&nbsp;1 
-                        </a>';
+                            </a>';
                         } elseif ($list->status_lab1_gb == 5) {
                             if ($list->status_approved == 0) {
                                 return
                                     '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-spinner">&nbsp;Pengajuan&nbsp;Approve&nbsp;Tolak&nbsp;SPV</i>
-                        </a>';
+                            </a>';
                             } else if ($list->status_approved == 1) {
                                 return
                                     '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '"  title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
@@ -2107,19 +2151,19 @@ class QcLab1Controller extends Controller
                             } else if ($list->status_approved == 3) {
                                 return
                                     '<div class="dropdown">
-                        <button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-question"></i> Cek&nbsp;Tolak
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                           <a href="' . route('qc.lab.output_edit_proses_lab1_gb', ['id' => $list->id_lab1_gb]) . '" id="to_edit" class="dropdown-item" name="' . $list->id_lab1_gb . '" title="Edit Data"><i class="fas fa-edit"></i>Analisa&nbsp;Ulang</a>
-                        </div>
-                        </div>';
+                            <button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-question"></i> Cek&nbsp;Tolak
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                            <a href="' . route('qc.lab.output_edit_proses_lab1_gb', ['id' => $list->id_lab1_gb]) . '" id="to_edit" class="dropdown-item" name="' . $list->id_lab1_gb . '" title="Edit Data"><i class="fas fa-edit"></i>Analisa&nbsp;Ulang</a>
+                            </div>
+                            </div>';
                             }
                         } elseif ($list->status_lab1_gb == 8) {
                             return
                                 '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-phone"></i>&nbsp;PO&nbsp;On&nbsp;Call
-                        </a>';
+                            </a>';
                         } elseif ($list->status_lab1_gb == 9) {
                             if ($list->output_lab_gb == 'Pending') {
                                 return
@@ -2290,7 +2334,7 @@ class QcLab1Controller extends Controller
                         return $result . '/Kg';
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'antrian', 'tanggal_bongkar', 'kode_po', 'nama_vendor', 'lokasi_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'ckelola_manager', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'name_bid', 'antrian', 'tanggal_bongkar', 'kode_po', 'nama_vendor', 'lokasi_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'ckelola_manager', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             }
         }
@@ -2300,379 +2344,106 @@ class QcLab1Controller extends Controller
         if (request()->ajax()) {
 
             if (!empty($request->from_date)) {
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
-                    ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
+                $table = Lab1GabahBasah::With(['DataPO' => function ($query) use ($request) {
+                    $query->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date));
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With('PenerimaanPo')
                     ->where('lab1_gb.status_approved', '=', 1)
                     ->where('lab1_gb.status_lab1_gb', '>=', 6)
-                    ->where('bid.name_bid', 'GABAH BASAH LONG GRAIN')
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
-                    ->select('lab1_gb.*', 'users.nama_vendor', 'bid.name_bid', 'data_po.kode_po', 'data_po.tanggal_po', 'data_po.tanggal_bongkar', 'penerimaan_po.waktu_penerimaan', 'penerimaan_po.keterangan_penerimaan_po', 'penerimaan_po.plat_kendaraan', 'penerimaan_po.no_antrian')
+                    ->whereHas('DataPO', function ($query) use ($request) {
+                        $query->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date));
+                    })
+                    ->whereHas('DataPO', function ($query) {
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                        });
+                    })
                     ->orderBy('lab1_gb.created_at_gb', 'DESC')
-                    ->get())
+                    ->select(
+                        'lab1_gb.lab1_id_data_po_gb',
+                        'lab1_gb.lab1_id_penerimaan_po_gb',
+                        'lab1_gb.status_lab1_gb',
+                        'lab1_gb.status_approved',
+                        'lab1_gb.output_lab_gb',
+                        'lab1_gb.plan_harga_gb',
+                        'lab1_gb.lokasi_bongkar_gb',
+                        'lab1_gb.created_at_approved',
+                        'lab1_gb.kadar_air_gb',
+                        'lab1_gb.ka_kg_gb',
+                        'lab1_gb.berat_sample_awal_ks_gb',
+                        'lab1_gb.berat_sample_awal_kg_gb',
+                        'lab1_gb.berat_sample_akhir_kg_gb',
+                        'lab1_gb.berat_sample_pk_gb',
+                        'lab1_gb.randoman_gb',
+                        'lab1_gb.wh_gb',
+                        'lab1_gb.tp_gb',
+                        'lab1_gb.md_gb',
+                        'lab1_gb.broken_gb',
+                        'lab1_gb.hampa_gb',
+                        'lab1_gb.kg_after_adjust_hampa_gb',
+                        'lab1_gb.prosentasi_kg_gb',
+                        'lab1_gb.susut_gb',
+                        'lab1_gb.adjust_susut_gb',
+                        'lab1_gb.prsentase_ks_kg_after_adjust_susut_gb',
+                        'lab1_gb.prsentase_kg_pk_gb',
+                        'lab1_gb.adjust_prosentase_kg_pk_gb',
+                        'lab1_gb.presentase_ks_pk_gb',
+                        'lab1_gb.presentase_putih_gb',
+                        'lab1_gb.adjust_prosentase_kg_ke_putih_gb',
+                        'lab1_gb.plan_rend_dari_ks_beras_gb',
+                        'lab1_gb.katul_gb',
+                        'lab1_gb.refraksi_broken_gb',
+                        'lab1_gb.plan_harga_gabah_gb',
+                        'lab1_gb.plan_harga_gabah_gb',
+                    )
+                    ->get();
+                return Datatables::of($table)
+                    ->addColumn('name_bid', function ($list) {
+                        $result = $list->DataPO->Bid->name_bid;
+                        return $result;
+                    })
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->PenerimaanPo->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
+                        $result = $list->DataPO->kode_po;
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
+                        $result = $list->DataPO->User->nama_vendor;
                         return '
                             <span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>
                             ';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('antrian', function ($list) {
-                        $result = $list->no_antrian;
+                        $result = $list->PenerimaanPo->no_antrian;
                         return '<a style="margin:2px;"  title="Informasi" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                     ' . $result . '
                     </a>';
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
-                        return $result;
-                    })
-                    ->addColumn('nama_penerima_po', function ($list) {
-                        $result = $list->name;
+                        $result = \Carbon\Carbon::parse($list->PenerimaanPo->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
+                        $result = $list->PenerimaanPo->plat_kendaraan;
                         return $result;
                     })
                     ->addColumn('asal_gabah', function ($list) {
-                        $result = $list->keterangan_penerimaan_po;
-                        return $result;
-                    })
-                    ->addColumn('lokasi_bongkar', function ($list) {
-                        $result = $list->lokasi_bongkar_gb;
-                        return $result;
-                    })
-                    ->addColumn('plan_harga', function ($list) {
-                        $result = rupiah($list->plan_harga_gb) . '/Kg';
-                        return $result;
-                    })
-                    ->addColumn('ckelola_manager', function ($list) {
-                        if ($list->status_lab1_gb == 6) {
-                            if ($list->status_approved == 1) {
-                                return
-                                    '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
-                                <i class="fa fa-spinner"></i>&nbsp;Pengajuan&nbsp;Approve&nbsp;Bongkar&nbsp;SPV 
-                            </a>';
-                            }
-                        } elseif ($list->status_lab1_gb == 7) {
-                            return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
-                                <i class="fa fa-flask"></i>&nbsp;Selesai&nbsp;Lab&nbsp;1 
-                            </a>';
-                        } elseif ($list->status_lab1_gb == 8) {
-                            return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
-                            <i class="fa fa-phone"></i>&nbsp;PO&nbsp;On&nbsp;Call
-                        </a>';
-                        } elseif ($list->status_lab1_gb == 9) {
-                            if ($list->output_lab_gb == 'Pending') {
-                                return
-                                    '<div class="dropdown">
-                                <button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-question"></i> Cek&nbsp;Status
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                                    <button id="to_edit" class="dropdown-item to_edit" name="' . $list->id_lab1_gb . '" data-id="' . $list->id_penerimaan_po . '" data-tanggal_po="' . $list->tanggal_po . '" title="Information"><i class="fas fa-edit"></i>Edit</button>
-                                </div>
-                            </div>';
-                            } elseif ($list->output_lab_gb == 'Unload') {
-                                return '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
-                            <i class="fa fa-truck"></i>&nbsp;Proses&nbsp;Bongkar&nbsp;1
-                            </a>';
-                            }
-                        } elseif ($list->status_lab1_gb == 10) {
-                            return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
-                            <i class="fa fa-flask"></i>&nbsp;Proses&nbsp;Lab&nbsp;2
-                        </a>';
-                        } elseif ($list->status_lab1_gb == 11) {
-                            return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
-                            <i class="fa fa-flask"></i>&nbsp;Proses&nbsp;Lab&nbsp;2
-                        </a>';
-                        } elseif ($list->status_lab1_gb == 12) {
-                            return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
-                            <i class="fa fa-flask"></i>&nbsp;Selesai&nbsp;Lab&nbsp;2
-                        </a>';
-                        } elseif ($list->status_lab1_gb == 13) {
-                            return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
-                            <i class="fa fa-credit-card"></i>&nbsp;Proses&nbsp;Pembayaran
-                        </a>';
-                        } else {
-                            return
-                                '<div class="dropdown">
-                            <button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-exclamation"></i>&nbsp;Cek&nbsp;Pending
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                                <a class="dropdown-item" href="' . route('qc.approve_lab1_gb', ['id' => $list->id_lab1_gb]) . '"  style="color:red"><i class="fas fa-check" style="color:red"></i>Bongkar</a>
-                            </div>
-                        </div>';
-                        }
-                    })
-                    ->addColumn('ckelola', function ($list) {
-                        if ($list->status_lab1_gb == 6) {
-                            if ($list->status_approved == 1) {
-                                return
-                                    '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
-                            <i class="fa fa-spinner"></i>&nbsp;Pengajuan&nbsp;Approve&nbsp;Bongkar&nbsp;SPV 
-                        </a>';
-                            }
-                        } elseif ($list->status_lab1_gb == 7) {
-                            return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
-                            <i class="fa fa-flask"></i>&nbsp;Selesai&nbsp;Lab&nbsp;1 
-                        </a>';
-                        } elseif ($list->status_lab1_gb == 8) {
-                            return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
-                            <i class="fa fa-phone"></i>&nbsp;PO&nbsp;On&nbsp;Call
-                        </a>';
-                        } elseif ($list->status_lab1_gb == 9) {
-                            if ($list->output_lab_gb == 'Pending') {
-                                return
-                                    '<div class="dropdown">
-                                <button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-question"></i> Cek&nbsp;Status
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                                      <a href="' . route('qc.lab.output_edit_proses_lab1_gb', ['id' => $list->id_lab1_gb]) . '" id="to_edit" class="dropdown-item" name="' . $list->id_lab1_gb . '" title="Edit Data"><i class="fas fa-edit"></i>Edit</a>
-                                </div>
-                            </div>';
-                            } elseif ($list->output_lab_gb == 'Unload') {
-                                return '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
-                            <i class="fa fa-truck"></i>&nbsp;Proses&nbsp;Bongkar&nbsp;1
-                            </a>';
-                            }
-                        } elseif ($list->status_lab1_gb == 10) {
-                            return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
-                            <i class="fa fa-flask"></i>&nbsp;Proses&nbsp;Lab&nbsp;2
-                        </a>';
-                        } elseif ($list->status_lab1_gb == 11) {
-                            return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
-                            <i class="fa fa-flask"></i>&nbsp;Proses&nbsp;Lab&nbsp;2
-                        </a>';
-                        } elseif ($list->status_lab1_gb == 12) {
-                            return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
-                            <i class="fa fa-flask"></i>&nbsp;Selesai&nbsp;Lab&nbsp;2
-                        </a>';
-                        } elseif ($list->status_lab1_gb == 13) {
-                            return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
-                            <i class="fa fa-credit-card"></i>&nbsp;Proses&nbsp;Pembayaran
-                        </a>';
-                        } else {
-                            return
-                                '<div class="dropdown">
-                            <button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-exclamation"></i>&nbsp;Cek&nbsp;Pending
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                                <a class="dropdown-item" href="' . route('qc.approve_lab1_gb', ['id' => $list->id_lab1_gb]) . '"  style="color:red"><i class="fas fa-check" style="color:red"></i>Bongkar</a>
-                            </div>
-                        </div>';
-                        }
-                    })
-                    ->addColumn('approved', function ($list) {
-                        $time_approved = \Carbon\Carbon::parse($list->created_at_approved)->isoFormat('DD-MM-Y hh:mm:ss');
-                        if ($list->status_approved == '1') {
-                            $approved = '<span class="btn btn-sm btn-label-success">Approve&nbsp;Bongkar</span><br>' . $time_approved;
-                        } else {
-                            $approved = '<span class="btn btn-sm btn-label-danger">Not&nbsp;Approve</span>';
-                        }
-                        return $approved;
-                    })
-                    //add
-                    ->addColumn('kadar_air', function ($list) {
-                        $result = $list->kadar_air_gb;
-                        return $result;
-                    })
-                    ->addColumn('ka_kg', function ($list) {
-                        $result = $list->ka_kg_gb;
-                        return $result;
-                    })
-                    ->addColumn('berat_sample_awal_ks', function ($list) {
-                        $result = $list->berat_sample_awal_ks_gb;
-                        return $result;
-                    })
-                    ->addColumn('berat_sample_awal_kg', function ($list) {
-                        $result = $list->berat_sample_awal_kg_gb;
-                        return $result;
-                    })
-                    ->addColumn('berat_sample_akhir_kg', function ($list) {
-                        $result = $list->berat_sample_akhir_kg_gb;
-                        return $result;
-                    })
-                    ->addColumn('berat_sample_pk', function ($list) {
-                        $result = $list->berat_sample_pk_gb;
-                        return $result;
-                    })
-                    ->addColumn('berat_sample_beras', function ($list) {
-                        $result = $list->randoman_gb;
-                        return $result;
-                    })
-                    ->addColumn('wh', function ($list) {
-                        $result = $list->wh_gb;
-                        return $result;
-                    })
-                    ->addColumn('tp', function ($list) {
-                        $result = $list->tp_gb;
-                        return $result;
-                    })
-                    ->addColumn('md', function ($list) {
-                        $result = $list->md_gb;
-                        return $result;
-                    })
-                    ->addColumn('broken', function ($list) {
-                        $result = $list->broken_gb;
-                        return $result;
-                    })
-
-                    //add
-                    ->addColumn('hampa', function ($list) {
-                        $result = $list->hampa_gb;
-                        return $result . '%';
-                    })
-                    ->addColumn('kg_after_adjust_hampa', function ($list) {
-                        $result = $list->kg_after_adjust_hampa_gb;
-                        return $result . ' %';
-                    })
-                    ->addColumn('prosentasi_kg', function ($list) {
-                        $result = $list->prosentasi_kg_gb;
-                        return $result . ' %';
-                    })
-                    ->addColumn('susut', function ($list) {
-                        $result = $list->susut_gb;
-                        return $result . '%';
-                    })
-                    ->addColumn('adjust_susut', function ($list) {
-                        $result = $list->adjust_susut_gb;
-                        return $result;
-                    })
-                    ->addColumn('prsentase_ks_kg_after_adjust_susut', function ($list) {
-                        $result = $list->prsentase_ks_kg_after_adjust_susut_gb;
-                        return $result . '%';
-                    })
-                    ->addColumn('prsentase_kg_pk', function ($list) {
-                        $result = $list->prsentase_kg_pk_gb;
-                        return $result . '%';
-                    })
-                    ->addColumn('adjust_prosentase_kg_pk', function ($list) {
-                        $result = $list->adjust_prosentase_kg_pk_gb;
-                        return $result . '%';
-                    })
-                    ->addColumn('presentase_ks_pk', function ($list) {
-                        $result = $list->presentase_ks_pk_gb;
-                        return $result . '%';
-                    })
-                    ->addColumn('presentase_putih', function ($list) {
-                        $result = $list->presentase_putih_gb;
-                        return $result . '%';
-                    })
-                    ->addColumn('adjust_prosentase_kg_ke_putih', function ($list) {
-                        $result = $list->adjust_prosentase_kg_ke_putih_gb;
-                        return $result . '%';
-                    })
-                    ->addColumn('plan_rend_dari_ks_beras', function ($list) {
-                        $result = $list->plan_rend_dari_ks_beras_gb;
-                        return $result;
-                    })
-                    ->addColumn('katul', function ($list) {
-                        $result = $list->katul_gb;
-                        return $result;
-                    })
-                    ->addColumn('refraksi_broken', function ($list) {
-                        $result = $list->refraksi_broken_gb;
-                        return $result;
-                    })
-                    ->addColumn('plan_harga_gabah', function ($list) {
-                        $result = rupiah($list->plan_harga_gabah_gb);
-                        return $result . '/Kg';
-                    })
-                    ->addColumn('plan_harga_beli_gabah', function ($list) {
-                        $result = rupiah($list->plan_harga_gabah_gb);
-                        return $result . '/Kg';
-                    })
-
-                    ->rawColumns(['waktu_penerimaan', 'approved', 'tanggal_bongkar', 'antrian', 'kode_po', 'nama_vendor', 'lokasi_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'ckelola_manager', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
-                    ->make(true);
-            } else {
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
-                    ->where('lab1_gb.status_approved', '=', 1)
-                    ->where('lab1_gb.status_lab1_gb', '>=', 6)
-                    ->where('bid.name_bid', 'GABAH BASAH LONG GRAIN')
-                    ->select('lab1_gb.*', 'users.nama_vendor', 'bid.name_bid', 'data_po.kode_po', 'data_po.tanggal_po', 'data_po.tanggal_bongkar', 'penerimaan_po.waktu_penerimaan', 'penerimaan_po.keterangan_penerimaan_po', 'penerimaan_po.plat_kendaraan', 'penerimaan_po.no_antrian')
-                    ->orderBy('lab1_gb.created_at_gb', 'DESC')
-                    ->limit(200)
-                    ->get())
-                    ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
-                        return $result;
-                    })
-                    ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
-                        return $result;
-                    })
-                    ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
-                        return '
-                            <span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>
-                            ';
-                    })
-                    ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
-                        return $result;
-                    })
-                    ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
-                        return $result;
-                    })
-                    ->addColumn('antrian', function ($list) {
-                        $result = $list->no_antrian;
-                        return '<a style="margin:2px;"  title="Informasi" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
-                    ' . $result . '
-                    </a>';
-                    })
-                    ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
-                        return $result;
-                    })
-                    ->addColumn('nama_penerima_po', function ($list) {
-                        $result = $list->name;
-                        return $result;
-                    })
-                    ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
-                        return $result;
-                    })
-                    ->addColumn('asal_gabah', function ($list) {
-                        $result = $list->keterangan_penerimaan_po;
+                        $result = $list->PenerimaanPo->keterangan_penerimaan_po;
                         return $result;
                     })
                     ->addColumn('lokasi_bongkar', function ($list) {
@@ -2687,51 +2458,51 @@ class QcLab1Controller extends Controller
                         if ($list->status_lab1_gb == 6) {
                             if ($list->status_approved == '' || $list->status_approved == 'NULL') {
                                 return
-                                    '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                                 <i class="fa fa-spinner"></i>&nbsp;Pengajuan&nbsp;Approve&nbsp;Bongkar&nbsp;SPV 
                                 </a>';
                                 // <button class="dropdown-item" id="btn_approve_bongkar" data-id="' . $list->id_lab1_gb . '"><i class="fas fa-check"></i>Ajukan&nbsp;Approve&nbsp;Bongkar</button>
                             } else if ($list->status_approved == 0) {
                                 return
-                                    '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                                 <i class="fa fa-spinner"></i>&nbsp;Pengajuan&nbsp;Approve&nbsp;Bongkar&nbsp;SPV 
                                 </a>';
                             } else if ($list->status_approved == 2) {
                                 return
-                                    '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                                 <i class="fa fa-spinner"></i>&nbsp;Tolak&nbsp;Approve&nbsp;SPV 
                                 </a>';
                             } else if ($list->status_approved == 1) {
                                 return
-                                    '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-spinner"></i>&nbsp;Pengajuan&nbsp;Approve&nbsp;Bongkar&nbsp;SPV 
                         </a>';
                             }
                         } elseif ($list->status_lab1_gb == 7) {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-flask"></i>&nbsp;Selesai&nbsp;Lab&nbsp;1 
                         </a>';
                         } elseif ($list->status_lab1_gb == 5) {
                             if ($list->status_approved == 0) {
                                 return
-                                    '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-spinner">&nbsp;Pengajuan&nbsp;Approve&nbsp;Tolak&nbsp;SPV</i>
                         </a>';
                             } else if ($list->status_approved == 1) {
                                 return
-                                    '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '"  title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '"  title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-times"></i>&nbsp;Reject
                             </a>';
                             } else if ($list->status_approved == 2) {
                                 return
-                                    '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-check"></i>&nbsp;Bongkar
                             </a>';
                             }
                         } elseif ($list->status_lab1_gb == 8) {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-phone"></i>&nbsp;PO&nbsp;On&nbsp;Call
                         </a>';
                         } elseif ($list->status_lab1_gb == 9) {
@@ -2746,33 +2517,33 @@ class QcLab1Controller extends Controller
                                 </div>
                             </div>';
                             } elseif ($list->output_lab_gb == 'Unload') {
-                                return '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                return '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-truck"></i>&nbsp;Proses&nbsp;Bongkar&nbsp;1
                             </a>';
                             }
                         } elseif ($list->status_lab1_gb == 10) {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-flask"></i>&nbsp;Proses&nbsp;Lab&nbsp;2
                         </a>';
                         } elseif ($list->status_lab1_gb == 11) {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-flask"></i>&nbsp;Proses&nbsp;Lab&nbsp;2
                         </a>';
                         } elseif ($list->status_lab1_gb == 12) {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-flask"></i>&nbsp;Selesai&nbsp;Lab&nbsp;2
                         </a>';
                         } elseif ($list->status_lab1_gb == 13) {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-credit-card"></i>&nbsp;Proses&nbsp;Pembayaran
                         </a>';
                         } elseif ($list->status_lab1_gb == 16) {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                         <i class="fa fa-credit-card"></i>&nbsp;Pending&nbsp;Harga
                         </a>';
                         } else {
@@ -2802,7 +2573,7 @@ class QcLab1Controller extends Controller
                         </div>';
                             } else if ($list->status_approved == 0) {
                                 return
-                                    '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-spinner"></i>&nbsp;Pengajuan&nbsp;Approve&nbsp;Bongkar&nbsp;SPV 
                         </a>';
                             } else if ($list->status_approved == 2) {
@@ -2817,29 +2588,29 @@ class QcLab1Controller extends Controller
                             </div>';
                             } else if ($list->status_approved == 1) {
                                 return
-                                    '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-spinner"></i>&nbsp;Pengajuan&nbsp;Approve&nbsp;Bongkar&nbsp;SPV 
                         </a>';
                             }
                         } elseif ($list->status_lab1_gb == 7) {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-flask"></i>&nbsp;Selesai&nbsp;Lab&nbsp;1 
                         </a>';
                         } elseif ($list->status_lab1_gb == 5) {
                             if ($list->status_approved == 0) {
                                 return
-                                    '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-spinner">&nbsp;Pengajuan&nbsp;Approve&nbsp;Tolak&nbsp;SPV</i>
                         </a>';
                             } else if ($list->status_approved == 1) {
                                 return
-                                    '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '"  title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '"  title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-times"></i>&nbsp;Reject
                             </a>';
                             } else if ($list->status_approved == 2) {
                                 return
-                                    '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-check"></i>&nbsp;Bongkar
                             </a>';
                             } else if ($list->status_approved == 3) {
@@ -2855,7 +2626,7 @@ class QcLab1Controller extends Controller
                             }
                         } elseif ($list->status_lab1_gb == 8) {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-phone"></i>&nbsp;PO&nbsp;On&nbsp;Call
                         </a>';
                         } elseif ($list->status_lab1_gb == 9) {
@@ -2870,28 +2641,28 @@ class QcLab1Controller extends Controller
                                 </div>
                             </div>';
                             } elseif ($list->output_lab_gb == 'Unload') {
-                                return '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                return '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-truck"></i>&nbsp;Proses&nbsp;Bongkar&nbsp;1
                             </a>';
                             }
                         } elseif ($list->status_lab1_gb == 10) {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-flask"></i>&nbsp;Proses&nbsp;Lab&nbsp;2
                         </a>';
                         } elseif ($list->status_lab1_gb == 11) {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-flask"></i>&nbsp;Proses&nbsp;Lab&nbsp;2
                         </a>';
                         } elseif ($list->status_lab1_gb == 12) {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-flask"></i>&nbsp;Selesai&nbsp;Lab&nbsp;2
                         </a>';
                         } elseif ($list->status_lab1_gb == 13) {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-credit-card"></i>&nbsp;Proses&nbsp;Pembayaran
                         </a>';
                         } elseif ($list->status_lab1_gb == 16) {
@@ -2917,7 +2688,7 @@ class QcLab1Controller extends Controller
                         }
                     })
                     ->addColumn('approved', function ($list) {
-                        $time_approved = \Carbon\Carbon::parse($list->created_at_approved)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $time_approved = \Carbon\Carbon::parse($list->created_at_approved)->isoFormat('DD-MM-Y HH:mm:ss');
                         if ($list->status_approved == '1') {
                             $approved = '<span class="btn btn-sm btn-label-success">Approve&nbsp;Bongkar</span><br>' . $time_approved;
                         } else {
@@ -3037,7 +2808,473 @@ class QcLab1Controller extends Controller
                         return $result . '/Kg';
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'approved', 'antrian', 'tanggal_bongkar', 'kode_po', 'nama_vendor', 'lokasi_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'ckelola_manager', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'approved', 'name_bid', 'antrian', 'tanggal_bongkar', 'kode_po', 'nama_vendor', 'lokasi_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'ckelola_manager', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->make(true);
+            } else {
+
+                $table = Lab1GabahBasah::With(['DataPO' => function ($query) {
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With('PenerimaanPo')
+                    ->where('lab1_gb.status_approved', '=', 1)
+                    ->where('lab1_gb.status_lab1_gb', '>=', 6)
+                    ->whereHas('DataPO', function ($query) {
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                        });
+                    })
+                    ->orderBy('lab1_gb.created_at_gb', 'DESC')
+                    ->select(
+                        'lab1_gb.lab1_id_data_po_gb',
+                        'lab1_gb.lab1_id_penerimaan_po_gb',
+                        'lab1_gb.status_lab1_gb',
+                        'lab1_gb.status_approved',
+                        'lab1_gb.output_lab_gb',
+                        'lab1_gb.plan_harga_gb',
+                        'lab1_gb.lokasi_bongkar_gb',
+                        'lab1_gb.created_at_approved',
+                        'lab1_gb.kadar_air_gb',
+                        'lab1_gb.ka_kg_gb',
+                        'lab1_gb.berat_sample_awal_ks_gb',
+                        'lab1_gb.berat_sample_awal_kg_gb',
+                        'lab1_gb.berat_sample_akhir_kg_gb',
+                        'lab1_gb.berat_sample_pk_gb',
+                        'lab1_gb.randoman_gb',
+                        'lab1_gb.wh_gb',
+                        'lab1_gb.tp_gb',
+                        'lab1_gb.md_gb',
+                        'lab1_gb.broken_gb',
+                        'lab1_gb.hampa_gb',
+                        'lab1_gb.kg_after_adjust_hampa_gb',
+                        'lab1_gb.prosentasi_kg_gb',
+                        'lab1_gb.susut_gb',
+                        'lab1_gb.adjust_susut_gb',
+                        'lab1_gb.prsentase_ks_kg_after_adjust_susut_gb',
+                        'lab1_gb.prsentase_kg_pk_gb',
+                        'lab1_gb.adjust_prosentase_kg_pk_gb',
+                        'lab1_gb.presentase_ks_pk_gb',
+                        'lab1_gb.presentase_putih_gb',
+                        'lab1_gb.adjust_prosentase_kg_ke_putih_gb',
+                        'lab1_gb.plan_rend_dari_ks_beras_gb',
+                        'lab1_gb.katul_gb',
+                        'lab1_gb.refraksi_broken_gb',
+                        'lab1_gb.plan_harga_gabah_gb',
+                        'lab1_gb.plan_harga_gabah_gb',
+                    )
+                    ->take(200)
+                    ->get();
+
+                return Datatables::of($table)
+                    ->addColumn('name_bid', function ($list) {
+                        $result = $list->DataPO->Bid->name_bid;
+                        return $result;
+                    })
+                    ->addColumn('waktu_penerimaan', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->PenerimaanPo->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
+                        return $result;
+                    })
+                    ->addColumn('kode_po', function ($list) {
+                        $result = $list->DataPO->kode_po;
+                        return $result;
+                    })
+                    ->addColumn('nama_vendor', function ($list) {
+                        $result = $list->DataPO->User->nama_vendor;
+                        return '
+                            <span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>
+                            ';
+                    })
+                    ->addColumn('tanggal_po', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('antrian', function ($list) {
+                        $result = $list->PenerimaanPo->no_antrian;
+                        return '<a style="margin:2px;"  title="Informasi" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                    ' . $result . '
+                    </a>';
+                    })
+                    ->addColumn('waktu_penerimaan', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->PenerimaanPo->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
+                        return $result;
+                    })
+                    ->addColumn('plat_kendaraan', function ($list) {
+                        $result = $list->PenerimaanPo->plat_kendaraan;
+                        return $result;
+                    })
+                    ->addColumn('asal_gabah', function ($list) {
+                        $result = $list->PenerimaanPo->keterangan_penerimaan_po;
+                        return $result;
+                    })
+                    ->addColumn('lokasi_bongkar', function ($list) {
+                        $result = $list->lokasi_bongkar_gb;
+                        return $result;
+                    })
+                    ->addColumn('plan_harga', function ($list) {
+                        $result = rupiah($list->plan_harga_gb) . '/Kg';
+                        return $result;
+                    })
+                    ->addColumn('ckelola_manager', function ($list) {
+                        if ($list->status_lab1_gb == 6) {
+                            if ($list->status_approved == '' || $list->status_approved == 'NULL') {
+                                return
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                <i class="fa fa-spinner"></i>&nbsp;Pengajuan&nbsp;Approve&nbsp;Bongkar&nbsp;SPV 
+                                </a>';
+                                // <button class="dropdown-item" id="btn_approve_bongkar" data-id="' . $list->id_lab1_gb . '"><i class="fas fa-check"></i>Ajukan&nbsp;Approve&nbsp;Bongkar</button>
+                            } else if ($list->status_approved == 0) {
+                                return
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                <i class="fa fa-spinner"></i>&nbsp;Pengajuan&nbsp;Approve&nbsp;Bongkar&nbsp;SPV 
+                                </a>';
+                            } else if ($list->status_approved == 2) {
+                                return
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                <i class="fa fa-spinner"></i>&nbsp;Tolak&nbsp;Approve&nbsp;SPV 
+                                </a>';
+                            } else if ($list->status_approved == 1) {
+                                return
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <i class="fa fa-spinner"></i>&nbsp;Pengajuan&nbsp;Approve&nbsp;Bongkar&nbsp;SPV 
+                        </a>';
+                            }
+                        } elseif ($list->status_lab1_gb == 7) {
+                            return
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <i class="fa fa-flask"></i>&nbsp;Selesai&nbsp;Lab&nbsp;1 
+                        </a>';
+                        } elseif ($list->status_lab1_gb == 5) {
+                            if ($list->status_approved == 0) {
+                                return
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <i class="fa fa-spinner">&nbsp;Pengajuan&nbsp;Approve&nbsp;Tolak&nbsp;SPV</i>
+                        </a>';
+                            } else if ($list->status_approved == 1) {
+                                return
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '"  title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <i class="fa fa-times"></i>&nbsp;Reject
+                            </a>';
+                            } else if ($list->status_approved == 2) {
+                                return
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <i class="fa fa-check"></i>&nbsp;Bongkar
+                            </a>';
+                            }
+                        } elseif ($list->status_lab1_gb == 8) {
+                            return
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <i class="fa fa-phone"></i>&nbsp;PO&nbsp;On&nbsp;Call
+                        </a>';
+                        } elseif ($list->status_lab1_gb == 9) {
+                            if ($list->output_lab_gb == 'Pending') {
+                                return
+                                    '<div class="dropdown">
+                                <button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-question"></i> Cek&nbsp;Status
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                                      <a href="' . route('qc.lab.output_edit_proses_lab1_gb', ['id' => $list->id_lab1_gb]) . '" id="to_edit" class="dropdown-item" name="' . $list->id_lab1_gb . '" title="Edit Data"><i class="fas fa-edit"></i>Edit</a>
+                                </div>
+                            </div>';
+                            } elseif ($list->output_lab_gb == 'Unload') {
+                                return '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <i class="fa fa-truck"></i>&nbsp;Proses&nbsp;Bongkar&nbsp;1
+                            </a>';
+                            }
+                        } elseif ($list->status_lab1_gb == 10) {
+                            return
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <i class="fa fa-flask"></i>&nbsp;Proses&nbsp;Lab&nbsp;2
+                        </a>';
+                        } elseif ($list->status_lab1_gb == 11) {
+                            return
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <i class="fa fa-flask"></i>&nbsp;Proses&nbsp;Lab&nbsp;2
+                        </a>';
+                        } elseif ($list->status_lab1_gb == 12) {
+                            return
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <i class="fa fa-flask"></i>&nbsp;Selesai&nbsp;Lab&nbsp;2
+                        </a>';
+                        } elseif ($list->status_lab1_gb == 13) {
+                            return
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <i class="fa fa-credit-card"></i>&nbsp;Proses&nbsp;Pembayaran
+                        </a>';
+                        } elseif ($list->status_lab1_gb == 16) {
+                            return
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                        <i class="fa fa-credit-card"></i>&nbsp;Pending&nbsp;Harga
+                        </a>';
+                        } else {
+                            return
+                                '<div class="dropdown">
+                            <button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-exclamation"></i>&nbsp;Cek&nbsp;Pending
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                                <a class="dropdown-item" href="' . route('qc.approve_lab1_gb', ['id' => $list->id_lab1_gb]) . '"  style="color:red"><i class="fas fa-check" style="color:red"></i>Bongkar</a>
+                            </div>
+                        </div>';
+                        }
+                    })
+                    ->addColumn('ckelola', function ($list) {
+                        if ($list->status_lab1_gb == 6) {
+                            if ($list->status_approved == '' || $list->status_approved == 'NULL') {
+                                return
+                                    '<div class="dropdown">
+                        <button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-question"></i> Cek&nbsp;Bongkar
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                        <button class="dropdown-item" id="btn_approve_bongkar" data-id="' . $list->id_lab1_gb . '"><i class="fas fa-check"></i>Ajukan&nbsp;Approve&nbsp;Bongkar</button>
+                       <a type="button" href="' . route('qc.lab.output_edit_proses_lab1_gb', ['id' => $list->id_lab1_gb]) . '" id="btn_edit" class="dropdown-item"  title="Information"><i class="fas fa-edit"></i>Edit</a>
+                        </div>
+                        </div>';
+                            } else if ($list->status_approved == 0) {
+                                return
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <i class="fa fa-spinner"></i>&nbsp;Pengajuan&nbsp;Approve&nbsp;Bongkar&nbsp;SPV 
+                        </a>';
+                            } else if ($list->status_approved == 2) {
+                                return
+                                    '<div class="dropdown">
+                        <button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Tolak&nbsp;Approve <i class="fa fa-exclamation"></i> <br> (Cek&nbsp;Analisa&nbsp;Lab)
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                              <a href="' . route('qc.lab.output_edit_proses_lab1_gb', ['id' => $list->id_lab1_gb]) . '" id="to_edit" class="dropdown-item" name="' . $list->id_lab1_gb . '" title="Edit Data"><i class="fas fa-edit"></i>Cek&nbsp;Analisa</a>
+                            </div>
+                            </div>';
+                            } else if ($list->status_approved == 1) {
+                                return
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <i class="fa fa-spinner"></i>&nbsp;Pengajuan&nbsp;Approve&nbsp;Bongkar&nbsp;SPV 
+                        </a>';
+                            }
+                        } elseif ($list->status_lab1_gb == 7) {
+                            return
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <i class="fa fa-flask"></i>&nbsp;Selesai&nbsp;Lab&nbsp;1 
+                        </a>';
+                        } elseif ($list->status_lab1_gb == 5) {
+                            if ($list->status_approved == 0) {
+                                return
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <i class="fa fa-spinner">&nbsp;Pengajuan&nbsp;Approve&nbsp;Tolak&nbsp;SPV</i>
+                        </a>';
+                            } else if ($list->status_approved == 1) {
+                                return
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '"  title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <i class="fa fa-times"></i>&nbsp;Reject
+                            </a>';
+                            } else if ($list->status_approved == 2) {
+                                return
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <i class="fa fa-check"></i>&nbsp;Bongkar
+                            </a>';
+                            } else if ($list->status_approved == 3) {
+                                return
+                                    '<div class="dropdown">
+                        <button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-question"></i> Cek&nbsp;Tolak
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                           <a href="' . route('qc.lab.output_edit_proses_lab1_gb', ['id' => $list->id_lab1_gb]) . '" id="to_edit" class="dropdown-item" name="' . $list->id_lab1_gb . '" title="Edit Data"><i class="fas fa-edit"></i>Analisa&nbsp;Ulang</a>
+                        </div>
+                        </div>';
+                            }
+                        } elseif ($list->status_lab1_gb == 8) {
+                            return
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <i class="fa fa-phone"></i>&nbsp;PO&nbsp;On&nbsp;Call
+                        </a>';
+                        } elseif ($list->status_lab1_gb == 9) {
+                            if ($list->output_lab_gb == 'Pending') {
+                                return
+                                    '<div class="dropdown">
+                                <button class="btn btn-brand dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-question"></i> Cek&nbsp;Status
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                                     <a href="' . route('qc.lab.output_edit_proses_lab1_gb', ['id' => $list->id_lab1_gb]) . '" id="to_edit" class="dropdown-item" name="' . $list->id_lab1_gb . '" title="Edit Data"><i class="fas fa-edit"></i>Edit</a>
+                                </div>
+                            </div>';
+                            } elseif ($list->output_lab_gb == 'Unload') {
+                                return '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <i class="fa fa-truck"></i>&nbsp;Proses&nbsp;Bongkar&nbsp;1
+                            </a>';
+                            }
+                        } elseif ($list->status_lab1_gb == 10) {
+                            return
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <i class="fa fa-flask"></i>&nbsp;Proses&nbsp;Lab&nbsp;2
+                        </a>';
+                        } elseif ($list->status_lab1_gb == 11) {
+                            return
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <i class="fa fa-flask"></i>&nbsp;Proses&nbsp;Lab&nbsp;2
+                        </a>';
+                        } elseif ($list->status_lab1_gb == 12) {
+                            return
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <i class="fa fa-flask"></i>&nbsp;Selesai&nbsp;Lab&nbsp;2
+                        </a>';
+                        } elseif ($list->status_lab1_gb == 13) {
+                            return
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" data-target="#to_pending" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <i class="fa fa-credit-card"></i>&nbsp;Proses&nbsp;Pembayaran
+                        </a>';
+                        } elseif ($list->status_lab1_gb == 16) {
+                            return
+                                '<div class="dropdown">
+                            <button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-exclamation"></i> Pending&nbsp;Harga <br> (Konfirmasi&nbsp;Supplier)
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                                <a href="' . route('qc.lab.output_edit_proses_lab1_gb', ['id' => $list->id_lab1_gb]) . '" id="to_edit" class="dropdown-item" name="' . $list->id_lab1_gb . '" title="Edit Data"><i class="fas fa-edit"></i>Edit</a>
+                            </div>
+                        </div>';
+                        } else {
+                            return
+                                '<div class="dropdown">
+                            <button class="btn btn-brand dropdown-toggle" style="background-color:white; color:#9f187c" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-exclamation"></i>&nbsp;Cek&nbsp;Pending
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                                <a class="dropdown-item" href="' . route('qc.approve_lab1_gb', ['id' => $list->id_lab1_gb]) . '"  style="color:red"><i class="fas fa-check" style="color:red"></i>Bongkar</a>
+                            </div>
+                        </div>';
+                        }
+                    })
+                    ->addColumn('approved', function ($list) {
+                        $time_approved = \Carbon\Carbon::parse($list->created_at_approved)->isoFormat('DD-MM-Y HH:mm:ss');
+                        if ($list->status_approved == '1') {
+                            $approved = '<span class="btn btn-sm btn-label-success">Approve&nbsp;Bongkar</span><br>' . $time_approved;
+                        } else {
+                            $approved = '<span class="btn btn-sm btn-label-danger">Not&nbsp;Approve</span>';
+                        }
+                        return $approved;
+                    })
+                    //add
+                    ->addColumn('kadar_air', function ($list) {
+                        $result = $list->kadar_air_gb;
+                        return $result;
+                    })
+                    ->addColumn('ka_kg', function ($list) {
+                        $result = $list->ka_kg_gb;
+                        return $result;
+                    })
+                    ->addColumn('berat_sample_awal_ks', function ($list) {
+                        $result = $list->berat_sample_awal_ks_gb;
+                        return $result;
+                    })
+                    ->addColumn('berat_sample_awal_kg', function ($list) {
+                        $result = $list->berat_sample_awal_kg_gb;
+                        return $result;
+                    })
+                    ->addColumn('berat_sample_akhir_kg', function ($list) {
+                        $result = $list->berat_sample_akhir_kg_gb;
+                        return $result;
+                    })
+                    ->addColumn('berat_sample_pk', function ($list) {
+                        $result = $list->berat_sample_pk_gb;
+                        return $result;
+                    })
+                    ->addColumn('berat_sample_beras', function ($list) {
+                        $result = $list->randoman_gb;
+                        return $result;
+                    })
+                    ->addColumn('wh', function ($list) {
+                        $result = $list->wh_gb;
+                        return $result;
+                    })
+                    ->addColumn('tp', function ($list) {
+                        $result = $list->tp_gb;
+                        return $result;
+                    })
+                    ->addColumn('md', function ($list) {
+                        $result = $list->md_gb;
+                        return $result;
+                    })
+                    ->addColumn('broken', function ($list) {
+                        $result = $list->broken_gb;
+                        return $result;
+                    })
+
+                    //add
+                    ->addColumn('hampa', function ($list) {
+                        $result = $list->hampa_gb;
+                        return $result . '%';
+                    })
+                    ->addColumn('kg_after_adjust_hampa', function ($list) {
+                        $result = $list->kg_after_adjust_hampa_gb;
+                        return $result . ' %';
+                    })
+                    ->addColumn('prosentasi_kg', function ($list) {
+                        $result = $list->prosentasi_kg_gb;
+                        return $result . ' %';
+                    })
+                    ->addColumn('susut', function ($list) {
+                        $result = $list->susut_gb;
+                        return $result . '%';
+                    })
+                    ->addColumn('adjust_susut', function ($list) {
+                        $result = $list->adjust_susut_gb;
+                        return $result;
+                    })
+                    ->addColumn('prsentase_ks_kg_after_adjust_susut', function ($list) {
+                        $result = $list->prsentase_ks_kg_after_adjust_susut_gb;
+                        return $result . '%';
+                    })
+                    ->addColumn('prsentase_kg_pk', function ($list) {
+                        $result = $list->prsentase_kg_pk_gb;
+                        return $result . '%';
+                    })
+                    ->addColumn('adjust_prosentase_kg_pk', function ($list) {
+                        $result = $list->adjust_prosentase_kg_pk_gb;
+                        return $result . '%';
+                    })
+                    ->addColumn('presentase_ks_pk', function ($list) {
+                        $result = $list->presentase_ks_pk_gb;
+                        return $result . '%';
+                    })
+                    ->addColumn('presentase_putih', function ($list) {
+                        $result = $list->presentase_putih_gb;
+                        return $result . '%';
+                    })
+                    ->addColumn('adjust_prosentase_kg_ke_putih', function ($list) {
+                        $result = $list->adjust_prosentase_kg_ke_putih_gb;
+                        return $result . '%';
+                    })
+                    ->addColumn('plan_rend_dari_ks_beras', function ($list) {
+                        $result = $list->plan_rend_dari_ks_beras_gb;
+                        return $result;
+                    })
+                    ->addColumn('katul', function ($list) {
+                        $result = $list->katul_gb;
+                        return $result;
+                    })
+                    ->addColumn('refraksi_broken', function ($list) {
+                        $result = $list->refraksi_broken_gb;
+                        return $result;
+                    })
+                    ->addColumn('plan_harga_gabah', function ($list) {
+                        $result = rupiah($list->plan_harga_gabah_gb);
+                        return $result . '/Kg';
+                    })
+                    ->addColumn('plan_harga_beli_gabah', function ($list) {
+                        $result = rupiah($list->plan_harga_gabah_gb);
+                        return $result . '/Kg';
+                    })
+
+                    ->rawColumns(['waktu_penerimaan', 'approved', 'name_bid', 'antrian', 'tanggal_bongkar', 'kode_po', 'nama_vendor', 'lokasi_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'ckelola_manager', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             }
         }
@@ -3047,59 +3284,104 @@ class QcLab1Controller extends Controller
         if (request()->ajax()) {
 
             if (!empty($request->from_date)) {
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
+                $table = Lab1GabahBasah::With(['DataPO' => function ($query) use ($request) {
+                    $query->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date));
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With('PenerimaanPo')
                     ->where('lab1_gb.status_approved', '=', 1)
                     ->where('lab1_gb.status_lab1_gb', '=', 5)
-                    ->where('bid.name_bid', 'GABAH BASAH LONG GRAIN')
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
-                    ->select('lab1_gb.*', 'users.nama_vendor', 'bid.name_bid', 'data_po.kode_po', 'data_po.tanggal_po', 'data_po.tanggal_bongkar', 'penerimaan_po.waktu_penerimaan', 'penerimaan_po.keterangan_penerimaan_po', 'penerimaan_po.plat_kendaraan', 'penerimaan_po.no_antrian')
+                    ->whereHas('DataPO', function ($query) use ($request) {
+                        $query->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date));
+                    })
+                    ->whereHas('DataPO', function ($query) {
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                        });
+                    })
                     ->orderBy('lab1_gb.created_at_gb', 'DESC')
-                    ->get())
+                    ->select(
+                        'lab1_gb.lab1_id_data_po_gb',
+                        'lab1_gb.lab1_id_penerimaan_po_gb',
+                        'lab1_gb.status_lab1_gb',
+                        'lab1_gb.status_approved',
+                        'lab1_gb.output_lab_gb',
+                        'lab1_gb.plan_harga_gb',
+                        'lab1_gb.lokasi_bongkar_gb',
+                        'lab1_gb.created_at_approved',
+                        'lab1_gb.kadar_air_gb',
+                        'lab1_gb.ka_kg_gb',
+                        'lab1_gb.berat_sample_awal_ks_gb',
+                        'lab1_gb.berat_sample_awal_kg_gb',
+                        'lab1_gb.berat_sample_akhir_kg_gb',
+                        'lab1_gb.berat_sample_pk_gb',
+                        'lab1_gb.randoman_gb',
+                        'lab1_gb.wh_gb',
+                        'lab1_gb.tp_gb',
+                        'lab1_gb.md_gb',
+                        'lab1_gb.broken_gb',
+                        'lab1_gb.hampa_gb',
+                        'lab1_gb.kg_after_adjust_hampa_gb',
+                        'lab1_gb.prosentasi_kg_gb',
+                        'lab1_gb.susut_gb',
+                        'lab1_gb.adjust_susut_gb',
+                        'lab1_gb.prsentase_ks_kg_after_adjust_susut_gb',
+                        'lab1_gb.prsentase_kg_pk_gb',
+                        'lab1_gb.adjust_prosentase_kg_pk_gb',
+                        'lab1_gb.presentase_ks_pk_gb',
+                        'lab1_gb.presentase_putih_gb',
+                        'lab1_gb.adjust_prosentase_kg_ke_putih_gb',
+                        'lab1_gb.plan_rend_dari_ks_beras_gb',
+                        'lab1_gb.katul_gb',
+                        'lab1_gb.refraksi_broken_gb',
+                        'lab1_gb.plan_harga_gabah_gb',
+                        'lab1_gb.plan_harga_gabah_gb',
+                    )
+                    ->get();
+                return Datatables::of($table)
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->PenerimaanPo->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
+                        $result = $list->DataPO->kode_po;
+                        return $result;
+                    })
+                    ->addColumn('name_bid', function ($list) {
+                        $result = $list->DataPO->Bid->name_bid;
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
-                        return '
-                            <span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>
-                            ';
+                        $result = $list->DataPO->User->nama_vendor;
+                        return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('antrian', function ($list) {
-                        $result = $list->no_antrian;
+                        $result = $list->PenerimaanPo->no_antrian;
                         return '<a style="margin:2px;"  title="Informasi" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                     ' . $result . '
                     </a>';
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
-                        return $result;
-                    })
-                    ->addColumn('nama_penerima_po', function ($list) {
-                        $result = $list->name;
+                        $result = \Carbon\Carbon::parse($list->PenerimaanPo->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
+                        $result = $list->PenerimaanPo->plat_kendaraan;
                         return $result;
                     })
                     ->addColumn('asal_gabah', function ($list) {
-                        $result = $list->keterangan_penerimaan_po;
+                        $result = $list->PenerimaanPo->keterangan_penerimaan_po;
                         return $result;
                     })
                     ->addColumn('lokasi_bongkar', function ($list) {
@@ -3111,21 +3393,15 @@ class QcLab1Controller extends Controller
                         return $result;
                     })
                     ->addColumn('ckelola_manager', function ($list) {
-
                         if ($list->status_lab1_gb == 5) {
-                            if ($list->status_approved == 0) {
+                            if ($list->status_approved == 1) {
                                 return
-                                    '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
-                            <i class="fa fa-spinner">&nbsp;Pengajuan&nbsp;Approve&nbsp;Tolak&nbsp;SPV</i>
-                            </a>';
-                            } else if ($list->status_approved == 1) {
-                                return
-                                    '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '"  title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '"  title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-times"></i>&nbsp;Reject
                             </a>';
                             } else if ($list->status_approved == 2) {
                                 return
-                                    '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-check"></i>&nbsp;Bongkar
                             </a>';
                             }
@@ -3135,14 +3411,14 @@ class QcLab1Controller extends Controller
                         if ($list->status_lab1_gb == 5) {
                             if ($list->status_approved == 1) {
                                 return
-                                    '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '"  title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
-                                <i class="fa fa-times"></i>&nbsp;Reject
-                                </a>';
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '"  title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                            <i class="fa fa-times"></i>&nbsp;Reject
+                            </a>';
                             }
                         }
                     })
                     ->addColumn('approved', function ($list) {
-                        $time_approved = \Carbon\Carbon::parse($list->created_at_approved)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $time_approved = \Carbon\Carbon::parse($list->created_at_approved)->isoFormat('DD-MM-Y HH:mm:ss');
                         if ($list->status_approved == '1') {
                             $approved = '<span class="btn btn-sm btn-label-danger">Approve&nbsp;Tolak</span><br>' . $time_approved;
                         } else {
@@ -3262,62 +3538,104 @@ class QcLab1Controller extends Controller
                         return $result . '/Kg';
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'approved', 'tanggal_bongkar', 'antrian', 'kode_po', 'nama_vendor', 'lokasi_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'ckelola_manager', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'name_bid', 'approved', 'antrian', 'tanggal_bongkar', 'kode_po', 'nama_vendor', 'lokasi_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'ckelola_manager', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             } else {
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
+                $table = Lab1GabahBasah::With(['DataPO' => function ($query) use ($request) {
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With('PenerimaanPo')
                     ->where('lab1_gb.status_approved', '=', 1)
                     ->where('lab1_gb.status_lab1_gb', '=', 5)
-                    ->where('bid.name_bid', 'GABAH BASAH LONG GRAIN')
-                    ->select('lab1_gb.*', 'users.nama_vendor', 'bid.name_bid', 'data_po.kode_po', 'data_po.tanggal_po', 'data_po.tanggal_bongkar', 'penerimaan_po.waktu_penerimaan', 'penerimaan_po.keterangan_penerimaan_po', 'penerimaan_po.plat_kendaraan', 'penerimaan_po.no_antrian')
+                    ->whereHas('DataPO', function ($query) {
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                        });
+                    })
                     ->orderBy('lab1_gb.created_at_gb', 'DESC')
-                    ->limit(200)
-                    ->get())
+                    ->select(
+                        'lab1_gb.lab1_id_data_po_gb',
+                        'lab1_gb.lab1_id_penerimaan_po_gb',
+                        'lab1_gb.status_lab1_gb',
+                        'lab1_gb.status_approved',
+                        'lab1_gb.output_lab_gb',
+                        'lab1_gb.plan_harga_gb',
+                        'lab1_gb.lokasi_bongkar_gb',
+                        'lab1_gb.created_at_approved',
+                        'lab1_gb.kadar_air_gb',
+                        'lab1_gb.ka_kg_gb',
+                        'lab1_gb.berat_sample_awal_ks_gb',
+                        'lab1_gb.berat_sample_awal_kg_gb',
+                        'lab1_gb.berat_sample_akhir_kg_gb',
+                        'lab1_gb.berat_sample_pk_gb',
+                        'lab1_gb.randoman_gb',
+                        'lab1_gb.wh_gb',
+                        'lab1_gb.tp_gb',
+                        'lab1_gb.md_gb',
+                        'lab1_gb.broken_gb',
+                        'lab1_gb.hampa_gb',
+                        'lab1_gb.kg_after_adjust_hampa_gb',
+                        'lab1_gb.prosentasi_kg_gb',
+                        'lab1_gb.susut_gb',
+                        'lab1_gb.adjust_susut_gb',
+                        'lab1_gb.prsentase_ks_kg_after_adjust_susut_gb',
+                        'lab1_gb.prsentase_kg_pk_gb',
+                        'lab1_gb.adjust_prosentase_kg_pk_gb',
+                        'lab1_gb.presentase_ks_pk_gb',
+                        'lab1_gb.presentase_putih_gb',
+                        'lab1_gb.adjust_prosentase_kg_ke_putih_gb',
+                        'lab1_gb.plan_rend_dari_ks_beras_gb',
+                        'lab1_gb.katul_gb',
+                        'lab1_gb.refraksi_broken_gb',
+                        'lab1_gb.plan_harga_gabah_gb',
+                        'lab1_gb.plan_harga_gabah_gb',
+                    )
+                    ->take(200)
+                    ->get();
+                return Datatables::of($table)
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->PenerimaanPo->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
+                        $result = $list->DataPO->kode_po;
+                        return $result;
+                    })
+                    ->addColumn('name_bid', function ($list) {
+                        $result = $list->DataPO->Bid->name_bid;
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
-                        return '
-                            <span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>
-                            ';
+                        $result = $list->DataPO->User->nama_vendor;
+                        return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('antrian', function ($list) {
-                        $result = $list->no_antrian;
+                        $result = $list->PenerimaanPo->no_antrian;
                         return '<a style="margin:2px;"  title="Informasi" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
                     ' . $result . '
                     </a>';
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
-                        return $result;
-                    })
-                    ->addColumn('nama_penerima_po', function ($list) {
-                        $result = $list->name;
+                        $result = \Carbon\Carbon::parse($list->PenerimaanPo->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
+                        $result = $list->PenerimaanPo->plat_kendaraan;
                         return $result;
                     })
                     ->addColumn('asal_gabah', function ($list) {
-                        $result = $list->keterangan_penerimaan_po;
+                        $result = $list->PenerimaanPo->keterangan_penerimaan_po;
                         return $result;
                     })
                     ->addColumn('lokasi_bongkar', function ($list) {
@@ -3332,12 +3650,12 @@ class QcLab1Controller extends Controller
                         if ($list->status_lab1_gb == 5) {
                             if ($list->status_approved == 1) {
                                 return
-                                    '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '"  title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '"  title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-times"></i>&nbsp;Reject
                             </a>';
                             } else if ($list->status_approved == 2) {
                                 return
-                                    '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '" data-toggle="modal" title="Information" class="btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-check"></i>&nbsp;Bongkar
                             </a>';
                             }
@@ -3347,14 +3665,14 @@ class QcLab1Controller extends Controller
                         if ($list->status_lab1_gb == 5) {
                             if ($list->status_approved == 1) {
                                 return
-                                    '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" data-id="' . $list->id_penerimaan_po . '"  title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                    '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" data-id="' . $list->PenerimaanPo->id_penerimaan_po . '"  title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                             <i class="fa fa-times"></i>&nbsp;Reject
                             </a>';
                             }
                         }
                     })
                     ->addColumn('approved', function ($list) {
-                        $time_approved = \Carbon\Carbon::parse($list->created_at_approved)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $time_approved = \Carbon\Carbon::parse($list->created_at_approved)->isoFormat('DD-MM-Y HH:mm:ss');
                         if ($list->status_approved == '1') {
                             $approved = '<span class="btn btn-sm btn-label-danger">Approve&nbsp;Tolak</span><br>' . $time_approved;
                         } else {
@@ -3474,27 +3792,43 @@ class QcLab1Controller extends Controller
                         return $result . '/Kg';
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'approved', 'antrian', 'tanggal_bongkar', 'kode_po', 'nama_vendor', 'lokasi_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'ckelola_manager', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'name_bid', 'approved', 'antrian', 'tanggal_bongkar', 'kode_po', 'nama_vendor', 'lokasi_bongkar', 'tanggal_po', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'ckelola_manager', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             }
         }
     }
     public function count_outputlab1_gb()
     {
-        $count_success = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-            ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-            ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
+        $count_success = $table = Lab1GabahBasah::With(['DataPO' => function ($query) {
+            $query->With(['Bid' => function ($query) {
+                $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+            }]);
+            $query->With('User');
+        }])
+            ->With('PenerimaanPo')
             ->where('lab1_gb.status_approved', '=', 1)
             ->where('lab1_gb.status_lab1_gb', '>=', 6)
-            ->where('bid.name_bid', 'GABAH BASAH LONG GRAIN')
+            ->whereHas('DataPO', function ($query) {
+                $query->whereHas('Bid', function ($query) {
+                    $query->where('name_bid', 'LIKE', '%GABAH BASAH%');
+                });
+            })
+            ->orderBy('lab1_gb.created_at_gb', 'DESC')
             ->count();
-        $count_tolak = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-            ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-            ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
+        $count_tolak = Lab1GabahBasah::With(['DataPO' => function ($query) {
+            $query->With(['Bid' => function ($query) {
+                $query->where('name_bid', 'LIKE', '%GABAH BASAH%');
+            }]);
+            $query->With('User');
+        }])
+            ->With('PenerimaanPo')
             ->where('lab1_gb.status_approved', '=', 1)
             ->where('lab1_gb.status_lab1_gb', '=', 5)
-            ->where('bid.name_bid', 'GABAH BASAH LONG GRAIN')
-            ->orderBy('lab1_gb.created_at_gb', 'DESC')
+            ->whereHas('DataPO', function ($query) {
+                $query->whereHas('Bid', function ($query) {
+                    $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                });
+            })
             ->count();
         return response()->json(
             [
@@ -3515,7 +3849,7 @@ class QcLab1Controller extends Controller
             ->orderBy('lab1_gb.id_lab1_gb', 'DESC')
             ->get())
             ->addColumn('waktu_penerimaan', function ($list) {
-                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                 return $result;
             })
             ->addColumn('kode_po', function ($list) {
@@ -3543,7 +3877,7 @@ class QcLab1Controller extends Controller
                 </a>';
             })
             ->addColumn('waktu_penerimaan', function ($list) {
-                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                 return $result;
             })
             ->addColumn('nama_penerima_po', function ($list) {
@@ -3812,7 +4146,7 @@ class QcLab1Controller extends Controller
                     ->orderBy('penerimaan_po.id_penerimaan_po', 'DESC')
                     ->get())
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
@@ -3840,7 +4174,7 @@ class QcLab1Controller extends Controller
                     </a>';
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('nama_penerima_po', function ($list) {
@@ -4221,7 +4555,7 @@ class QcLab1Controller extends Controller
                     ->orderBy('penerimaan_po.id_penerimaan_po', 'DESC')
                     ->get())
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
@@ -4249,7 +4583,7 @@ class QcLab1Controller extends Controller
                     </a>';
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('nama_penerima_po', function ($list) {
@@ -5986,34 +6320,65 @@ class QcLab1Controller extends Controller
 
     public function unload_lab1_gabah_basah()
     {
-        $cek = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-            ->join('users', 'users.id', '=', 'data_po.user_idbid')
-            ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-            ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
 
-            ->where('bid.name_bid', 'LIKE', '%GABAH BASAH%')
+        return view('dashboard.admin_qc.unload_lab1_gabah_basah');
+    }
+    public function count_unload_gb(Request $request)
+    {
+        $cek = Lab1GabahBasah::With(['DataPO' => function ($query) {
+            $query->With(['Bid' => function ($query) {
+                $query->where('name_bid', 'LIKE', '%GABAH BASAH%');
+            }]);
+            $query->With('User');
+        }])
+            ->With('PenerimaanPo')
+            ->whereHas('DataPO', function ($query) {
+                $query->whereHas('Bid', function ($query) {
+                    $query->where('name_bid', 'LIKE', '%GABAH BASAH%');
+                });
+            })
             ->where(function ($query) {
                 $query->where('lab1_gb.output_lab_gb', '=', 'Unload')
                     ->where('lab1_gb.status_approved', '=', 1);
             })
-
-            ->where('lab1_gb.output_lab_gb', '=', 'Unload')
-            ->orderBy('id_lab1_gb', 'desc')
-            ->select('lab1_gb.*', 'penerimaan_po.waktu_penerimaan', 'penerimaan_po.plat_kendaraan', 'penerimaan_po.keterangan_penerimaan_po', 'users.nama_vendor', 'bid.name_bid', 'data_po.kode_po', 'data_po.tanggal_po', 'data_po.tanggal_bongkar')
-            ->limit(200)
             ->count();
         if ($cek >= 200) {
-            // dd('a');
-            Alert::info('Data Limits 200 Row', 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu', 3500);
-            return view('dashboard.admin_qc.unload_lab1_gabah_basah')->with('info', 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu', 3000);
+            return response()->json([
+                'code' => 200,
+                'title' => 'Data Limits 200 Row',
+                'message' => 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu',
+            ]);
         } else {
-            return view('dashboard.admin_qc.unload_lab1_gabah_basah');
+            return response()->json([
+                'code' => 400,
+            ]);
         }
     }
     public function unload_lab1_gabah_basah_index(Request $request)
     {
         if (request()->ajax()) {
             if (!empty($request->from_date)) {
+                $table = Lab1GabahBasah::With(['DataPO' => function ($query) use ($request) {
+                    $query->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date));
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'LIKE', '%GABAH BASAH%');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With('PenerimaanPo')
+                    ->whereHas('DataPO', function ($query) {
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'LIKE', '%GABAH BASAH%');
+                        });
+                    })
+                    ->whereHas('DataPO', function ($query) use ($request) {
+                        $query->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date));
+                    })
+                    ->where(function ($query) {
+                        $query->where('lab1_gb.output_lab_gb', '=', 'Unload')
+                            ->where('lab1_gb.status_approved', '=', 1);
+                    })
+                    ->get();
                 return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
                     ->join('users', 'users.id', '=', 'data_po.user_idbid')
                     ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
@@ -6031,7 +6396,7 @@ class QcLab1Controller extends Controller
                     ->select('lab1_gb.*', 'penerimaan_po.waktu_penerimaan', 'penerimaan_po.plat_kendaraan', 'penerimaan_po.keterangan_penerimaan_po', 'users.nama_vendor', 'bid.name_bid', 'data_po.kode_po', 'data_po.tanggal_po', 'data_po.tanggal_bongkar')
                     ->get())
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
@@ -6200,40 +6565,47 @@ class QcLab1Controller extends Controller
                     ->rawColumns(['waktu_penerimaan', 'waktu_approved', 'kode_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             } else {
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('lab1_gb', 'lab1_gb.lab1_id_data_po_gb', '=', 'data_po.id_data_po')
-
-                    ->where('bid.name_bid', 'LIKE', '%GABAH BASAH%')
+                $table = Lab1GabahBasah::With(['DataPO' => function ($query) {
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'LIKE', '%GABAH BASAH%');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->With('PenerimaanPo')
+                    ->whereHas('DataPO', function ($query) {
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'LIKE', '%GABAH BASAH%');
+                        });
+                    })
                     ->where(function ($query) {
                         $query->where('lab1_gb.output_lab_gb', '=', 'Unload')
                             ->where('lab1_gb.status_approved', '=', 1);
                     })
-
-                    ->where('lab1_gb.output_lab_gb', '=', 'Unload')
-                    ->orderBy('id_lab1_gb', 'desc')
-                    ->select('lab1_gb.*', 'penerimaan_po.waktu_penerimaan', 'penerimaan_po.plat_kendaraan', 'penerimaan_po.keterangan_penerimaan_po', 'users.nama_vendor', 'bid.name_bid', 'data_po.kode_po', 'data_po.tanggal_po', 'data_po.tanggal_bongkar')
-                    ->limit(200)
-                    ->get())
+                    ->take(200)
+                    ->get();
+                return Datatables::of($table)
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = $list->waktu_penerimaan;
+                        $result = $list->PenerimaanPo->waktu_penerimaan;
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
+                        $result = $list->DataPO->kode_po;
+                        return $result;
+                    })
+                    ->addColumn('name_bid', function ($list) {
+                        $result = $list->DataPO->Bid->name_bid;
                         return $result;
                     })
                     ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
+                        $result = $list->DataPO->User->nama_vendor;
                         return '<span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>';
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_po)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('tanggal_bongkar', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('waktu_approved', function ($list) {
@@ -6243,19 +6615,15 @@ class QcLab1Controller extends Controller
                         return $result . '<br><span class="btn btn-sm btn-label-info">' . $time . '</span>';
                     })
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = $list->waktu_penerimaan;
-                        return $result;
-                    })
-                    ->addColumn('nama_penerima_po', function ($list) {
-                        $result = $list->name;
+                        $result = $list->PenerimaanPo->waktu_penerimaan;
                         return $result;
                     })
                     ->addColumn('plat_kendaraan', function ($list) {
-                        $result = $list->plat_kendaraan;
+                        $result = $list->PenerimaanPo->plat_kendaraan;
                         return $result;
                     })
                     ->addColumn('asal_gabah', function ($list) {
-                        $result = $list->keterangan_penerimaan_po;
+                        $result = $list->PenerimaanPo->keterangan_penerimaan_po;
                         return $result;
                     })
                     ->addColumn('plan_harga', function ($list) {
@@ -6265,12 +6633,12 @@ class QcLab1Controller extends Controller
                     ->addColumn('ckelola', function ($list) {
                         if ($list->output_lab_gb == 'Unload') {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_bongkar btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" title="Information" class="to_bongkar btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
                         BONGKAR 
                     </a>';
                         } else {
                             return
-                                '<a style="margin:2px;" name="' . $list->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
+                                '<a style="margin:2px;" name="' . $list->PenerimaanPo->id_penerimaan_po . '" title="Information" class="to_pending btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
                         Pending 
                     </a>';
                         }
@@ -6387,7 +6755,7 @@ class QcLab1Controller extends Controller
                         return $result;
                     })
 
-                    ->rawColumns(['waktu_penerimaan', 'kode_po', 'waktu_approved', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
+                    ->rawColumns(['waktu_penerimaan', 'name_bid', 'kode_po', 'waktu_approved', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'waktu_penerimaan', 'nama_penerima_po', 'plat_kendaraan', 'asal_gabah', 'ckelola', 'kadar_air', 'ka_kg', 'berat_sample_awal_ks', 'berat_sample_awal_kg', 'berat_sample_akhir_kg', 'berat_sample_pk', 'berat_sample_beras', 'wh', 'tp', 'md', 'broken', 'hampa', 'kg_after_adjust_hampa', 'prosentasi_kg', 'susut', 'adjust_susut', 'prsentase_ks_kg_after_adjust_susut', 'prsentase_kg_pk', 'adjust_prosentase_kg_pk', 'presentase_ks_pk', 'presentase_putih', 'adjust_prosentase_kg_ke_putih', 'plan_rend_dari_ks_beras', 'katul', 'refraksi_broken', 'plan_harga_gabah', 'plan_harga_beli_gabah'])
                     ->make(true);
             }
         }
@@ -6980,7 +7348,7 @@ class QcLab1Controller extends Controller
                     ->orderBy('id_lab1_gb', 'desc')
                     ->get())
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
@@ -7348,7 +7716,7 @@ class QcLab1Controller extends Controller
                     ->orderBy('id_lab1_gb', 'desc')
                     ->get())
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
@@ -7723,7 +8091,7 @@ class QcLab1Controller extends Controller
                     ->orderBy('id_lab1_gb', 'desc')
                     ->get())
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
@@ -8091,7 +8459,7 @@ class QcLab1Controller extends Controller
                     ->orderBy('id_lab1_gb', 'desc')
                     ->get())
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
@@ -8463,7 +8831,7 @@ class QcLab1Controller extends Controller
                     ->orderBy('id_lab1_pk', 'desc')
                     ->get())
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
@@ -8940,7 +9308,7 @@ class QcLab1Controller extends Controller
                     ->select('lab1_gb.*', 'penerimaan_po.waktu_penerimaan', 'penerimaan_po.plat_kendaraan', 'penerimaan_po.keterangan_penerimaan_po', 'users.nama_vendor', 'bid.name_bid', 'data_po.kode_po', 'data_po.tanggal_po', 'data_po.tanggal_bongkar')
                     ->get())
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
@@ -9312,7 +9680,7 @@ class QcLab1Controller extends Controller
                     ->orderBy('id_lab1_gb', 'desc')
                     ->get())
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
@@ -9665,7 +10033,7 @@ class QcLab1Controller extends Controller
                     ->orderBy('id_lab1_gb', 'desc')
                     ->get())
                     ->addColumn('waktu_penerimaan', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y hh:mm:ss');
+                        $result = \Carbon\Carbon::parse($list->waktu_penerimaan)->isoFormat('DD-MM-Y HH:mm:ss');
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {

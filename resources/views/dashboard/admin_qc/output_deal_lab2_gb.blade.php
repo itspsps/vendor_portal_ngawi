@@ -69,13 +69,13 @@ SURYA PANGAN SEMESTA
                 <div class="kt-portlet__body">
                     <ul class="nav nav-pills" role="tablist">
                         <li class="nav-item mt-3">
-                            <a class="nav-link active" data-toggle="tab" href="#m_tabs_3_1"><i class="la la-database"></i>GABAH BASAH LONG GRAIN</a>
+                            <a class="nav-link active" data-toggle="tab" href="#m_tabs_3_1" id="notif_deal_longgrain"><i class="la la-database"></i>GABAH BASAH LONG GRAIN</a>
                         </li>
                         <li class="nav-item mt-3">
-                            <a class="nav-link" data-toggle="tab" href="#m_tabs_3_2"><i class="la la-database"></i>GABAH BASAH PANDAN WANGI</a>
+                            <a class="nav-link" data-toggle="tab" href="#m_tabs_3_2" id="notif_deal_pw"><i class="la la-database"></i>GABAH BASAH PANDAN WANGI</a>
                         </li>
                         <li class="nav-item mt-3">
-                            <a class="nav-link" data-toggle="tab" href="#m_tabs_3_3"><i class="la la-database"></i>GABAH BASAH KETAN PUTIH</a>
+                            <a class="nav-link" data-toggle="tab" href="#m_tabs_3_3" id="notif_deal_kp"><i class="la la-database"></i>GABAH BASAH KETAN PUTIH</a>
                         </li>
                     </ul>
                     <div class="tab-content">
@@ -218,9 +218,12 @@ SURYA PANGAN SEMESTA
                 "scrollX": true,
                 processing: true,
                 serverSide: true,
+                language: {
+                    "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"></div></div>'
+                },
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -329,9 +332,12 @@ SURYA PANGAN SEMESTA
                 "scrollX": true,
                 processing: true,
                 serverSide: true,
+                language: {
+                    "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"></div></div>'
+                },
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -440,9 +446,12 @@ SURYA PANGAN SEMESTA
                 "scrollX": true,
                 processing: true,
                 serverSide: true,
+                language: {
+                    "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"></div></div>'
+                },
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -612,6 +621,98 @@ SURYA PANGAN SEMESTA
 
                 }
             });
+        });
+        $(window).on("load", function() {
+            var url = "{{ route('qc.lab.count_deal_lab2') }}";
+            var item = 'longgrain';
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: {
+                    item: item,
+                },
+                success: function(response) {
+                    console.log(response.cek_deal);
+                    if (response.cek_deal >= 200) {
+                        Swal.fire({
+                            title: 'Data Limits 200 Row',
+                            text: 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu',
+                            icon: 'warning',
+                            // timer: 5000
+                        })
+                    }
+                }
+            });
+
+        });
+        $(document).on('click', '#notif_deal_longgrain', function() {
+            var url = "{{ route('qc.lab.count_deal_lab2') }}";
+            var item = 'longgrain';
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: {
+                    item: item,
+                },
+                success: function(response) {
+                    console.log(response.cek_deal);
+                    if (response.cek_deal >= 200) {
+                        Swal.fire({
+                            title: 'Data Limits 200 Row',
+                            text: 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu',
+                            icon: 'warning',
+                            // timer: 2000
+                        })
+                    }
+                }
+            });
+
+        });
+        $(document).on('click', '#notif_deal_pw', function() {
+            var url = "{{ route('qc.lab.count_deal_lab2') }}";
+            var item = 'pandanwangi';
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: {
+                    item: item,
+                },
+                success: function(response) {
+                    console.log(response.cek_pw_deal);
+                    if (response.cek_pw_deal >= 200) {
+                        Swal.fire({
+                            title: 'Data Limits 200 Row',
+                            text: 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu',
+                            icon: 'warning',
+                            // timer: 5000
+                        })
+                    }
+                }
+            });
+
+        });
+        $(document).on('click', '#notif_deal_kp', function() {
+            var url = "{{ route('qc.lab.count_deal_lab2') }}";
+            var item = 'ketanputih';
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: {
+                    item: item,
+                },
+                success: function(response) {
+                    console.log(response.cek_kp_deal);
+                    if (response.cek_kp_deal >= 200) {
+                        Swal.fire({
+                            title: 'Data Limits 200 Row',
+                            text: 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu',
+                            icon: 'warning',
+                            // timer: 5000
+                        })
+                    }
+                }
+            });
+
         });
         $(document).on('click', '.detail_hasil_qc', function() {
             var id = $(this).attr("name");

@@ -7,6 +7,8 @@
     "require": {
         "php": "^7.3|^8.0",
         "anhskohbo/no-captcha": "^3.6",
+        "azishapidin/indoregion": "^3.0",
+        "barryvdh/laravel-dompdf": "^2.2",
         "doctrine/dbal": "^4.0",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
@@ -19,6 +21,8 @@
         "lcobucci/jwt": "*",
         "maatwebsite/excel": "*",
         "realrashid/sweet-alert": "^7.1",
+        "simplesoftwareio/simple-qrcode": "^4.2",
+        "swiftmailer/swiftmailer": "^6.3",
         "yajra/laravel-datatables-oracle": "~9.0"
     },
     "require-dev": {

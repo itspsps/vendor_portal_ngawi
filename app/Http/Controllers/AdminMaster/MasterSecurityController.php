@@ -61,35 +61,6 @@ class MasterSecurityController extends Controller
 
     public function gabah_basah()
     {
-        $date = date('Y-m-d H:i:s');
-        $PONum = DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-            ->join('users', 'users.id', '=', 'data_po.user_idbid')
-            ->where('data_po.status_bid', 1)
-            ->where('bid.name_bid', 'like', '%GABAH BASAH%')
-            ->where('batas_penerimaan_po', '<=', $date)
-            ->orderBy("id_data_po", "desc")
-            ->get();
-        // dd($PONum);
-
-        foreach ($PONum as $get) {
-            // dd($get_id->PONum);
-
-            // dd($response); 
-            // Integrasi Epicor
-            $get_id = DB::table('data_po')->where('PONum', $get->PONum)->update(['status_bid' => '5']);
-
-
-            // insert Log Aktivity
-            $data = new LogAktivitySecurity();
-            $data->name_user                        = Auth::guard('master')->user()->name_master;
-            $data->id_objek_aktivitas_security     = $get->id_data_po;
-            $data->aktivitas_security              = 'Close PO: ' . $get->kode_po;
-            $data->keterangan_aktivitas             = 'Selesai';
-            $data->created_at                       = date('Y-m-d H:i:s');
-            $data->save();
-        }
-
         return view('dashboard.admin_master.admin_security.gabah_basah');
     }
     public function beras_pk()
@@ -195,8 +166,7 @@ class MasterSecurityController extends Controller
     public function gabahbasah_index_kemarin()
     {
 
-        return Datatables::of(DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->where('data_po.status_bid', 5)
             ->where('bid.name_bid', 'like', '%GABAH BASAH%')
@@ -210,42 +180,42 @@ class MasterSecurityController extends Controller
             ->addColumn('nama_vendor', function ($list) {
                 $result = $list->nama_vendor;
                 return '
-            <span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>
+            <span class="btn btn-label-info btn-sm" style="font-weight: bold;">' . $result . '</span>
             ';
             })
             ->addColumn('tanggal_po', function ($list) {
                 $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
                 return $result;
             })
+            ->addColumn('tanggal_bongkar', function ($list) {
+                $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                return $result;
+            })
             ->addColumn('mulai_penerimaan', function ($list) {
                 $result = $list->date_bid;
-                return date('Y-m-d', strtotime($result)) . '<br><span class="btn-danger">Mulai 12.00</span>';
+                return date('d-m-Y', strtotime($result)) . '<br><span class="btn btn-label-danger btn-sm" style="font-weight: bold;">Mulai 12.00 WIB</span>';
             })
             ->addColumn('batas_bid', function ($list) {
                 $result = $list->batas_penerimaan_po;
-                return date('d-m-Y', strtotime($result)) . '<br><span class="btn-danger">Batas 12.00</span>';
+                return date('d-m-Y', strtotime($result)) . '<br><span class="btn btn-label-danger btn-sm" style="font-weight: bold;">Batas 12.00 WIB</span>';
                 // return $result;
             })
 
             ->addColumn('ckelola', function ($list) {
 
-                return
-                    '<button style="margin:2px;" name="' . $list->id_data_po . '" title="PO Close" class="totolak btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
-                        <i class="fa fa-shipping-fast" >&nbsp;</i>PO&nbsp;CLOSE
-                    </button>';
+                return '<span class="btn btn-label-danger btn-sm" style="font-weight: bold;"><i class="fa fa-shipping-fast" ></i>PO&nbsp;CLOSE</span>';
             })
-            ->rawColumns(['kode_po', 'nama_vendor', 'tanggal_po', 'mulai_penerimaan', 'batas_bid', 'ckelola'])
+            ->rawColumns(['kode_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'mulai_penerimaan', 'batas_bid', 'ckelola'])
             ->make(true);
     }
     public function gabahbasah_index_sekarang()
     {
 
-        return Datatables::of(DB::table('data_po')
-            ->join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
+        return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->where('data_po.status_bid', 1)
             ->where('bid.name_bid', 'like', '%GABAH BASAH%')
-            ->where('bid.open_po', date('Y-m-d'))
+            // ->where('bid.open_po', '>=', date('Y-m-d'))
             ->orderBy("id_data_po", "desc")
             ->get())
 
@@ -263,46 +233,33 @@ class MasterSecurityController extends Controller
                 $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
                 return $result;
             })
+            ->addColumn('tanggal_bongkar', function ($list) {
+                $result = \Carbon\Carbon::parse($list->tanggal_bongkar)->isoFormat('DD-MM-Y');
+                return $result;
+            })
             ->addColumn('mulai_penerimaan', function ($list) {
                 $result = $list->date_bid;
-                if (date('H:i:s') >= date('12:00:00', strtotime($result))) {
-                    return date('Y-m-d', strtotime($result)) . '<br><span class="btn-danger">Mulai 12.00</span>';
+                if ($list->date_bid > date('Y-m-d H:i:s')) {
+                    return date('d-m-Y', strtotime($result)) . '<br><span class="btn btn-label-danger btn-sm" style="font-weight: bold;">Mulai 12.00 WIB</span>';
                 } else {
-                    return date('Y-m-d', strtotime($result)) . '<br><span class="btn-success">Mulai 12.00</span>';
+                    return date('d-m-Y', strtotime($result)) . '<br><span class="btn btn-label-success btn-sm" style="font-weight: bold;">Mulai 12.00 WIB</span>';
                 }
             })
             ->addColumn('batas_bid', function ($list) {
                 $result = $list->batas_penerimaan_po;
-                if (date('12:00:00', strtotime($result)) >= date('H:i:s')) {
-                    return date('d-m-Y', strtotime($result)) . '<br><span class="btn-success">Batas 12.00</span>';
+                if ($list->date_bid > date('Y-m-d H:i:s')) {
+                    return date('d-m-Y', strtotime($result)) . '<br><span class="btn btn-label-danger btn-sm" style="font-weight: bold;">Batas 12.00 WIB</span>';
                 } else {
-                    return date('d-m-Y', strtotime($result)) . '<br><span class="btn-danger">Batas 12.00</span>';
+                    return date('d-m-Y', strtotime($result)) . '<br><span class="btn btn-label-success btn-sm" style="font-weight: bold;">Batas 12.00 WIB</span>';
                 }
                 // return $result;
             })
 
             ->addColumn('ckelola', function ($list) {
-                if (date("Y-m-d") == $list->open_po) {
-                    if (date('H:i:s') <= date('12:00:00')) {
-                        return
-                            '<button style="margin:2px;" name="' . $list->id_data_po . '" data-toggle="modal" data-target="#modal2" title="Terima Data" class="toedit btn btn-outline-success m-btn m-btn--icon btn-sm m-btn--icon-only">
-                        <i class="fa fa-shipping-fast" >&nbsp;</i>
-                        Proses&nbsp;Pengiriman
-                    </button>';
-                    } else {
-                        return
-                            '<button style="margin:2px;" name="' . $list->id_data_po . '" title="PO Close" class="totolak btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
-                            <i class="fa fa-shipping-fast" >&nbsp;</i>PO&nbsp;CLOSE
-                        </button>';
-                    }
-                } else {
-                    return
-                        '<button style="margin:2px;" name="' . $list->id_data_po . '" title="PO Close" class="totolak btn btn-outline-danger m-btn m-btn--icon btn-sm m-btn--icon-only">
-                        <i class="fa fa-shipping-fast" >&nbsp;</i>PO&nbsp;CLOSE
-                    </button>';
-                }
+
+                return '<span class="btn btn-label-success btn-sm" style="font-weight: bold;"><i class="fa fa-shipping-fast" ></i>PO&nbsp;OPEN</span>';
             })
-            ->rawColumns(['kode_po', 'nama_vendor', 'tanggal_po', 'mulai_penerimaan', 'batas_bid', 'ckelola'])
+            ->rawColumns(['kode_po', 'nama_vendor', 'tanggal_po', 'tanggal_bongkar', 'mulai_penerimaan', 'batas_bid', 'ckelola'])
             ->make(true);
     }
     public function gabahbasah_index_besok()

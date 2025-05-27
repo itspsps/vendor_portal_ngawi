@@ -859,8 +859,8 @@ SURYA PANGAN SEMESTA
                 },
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -975,8 +975,8 @@ SURYA PANGAN SEMESTA
                 },
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -1140,8 +1140,8 @@ SURYA PANGAN SEMESTA
                 },
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -1255,8 +1255,8 @@ SURYA PANGAN SEMESTA
                 },
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -1418,8 +1418,8 @@ SURYA PANGAN SEMESTA
                 },
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -1534,8 +1534,8 @@ SURYA PANGAN SEMESTA
                 },
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -1697,8 +1697,8 @@ SURYA PANGAN SEMESTA
                 },
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -1816,8 +1816,8 @@ SURYA PANGAN SEMESTA
                 },
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -1983,8 +1983,8 @@ SURYA PANGAN SEMESTA
                 },
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -2102,8 +2102,8 @@ SURYA PANGAN SEMESTA
                 },
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
@@ -2342,6 +2342,8 @@ SURYA PANGAN SEMESTA
 <script type="text/javascript">
     $(function() {
         $(document).on('click', '#notif_swal_bongkar', function(e) {
+            var from_date = $('#from_date').val();
+            var end_date = $('#end_date').val();
             $.ajax({
                 type: "GET",
                 url: "{{route('qc.lab.count_outputlab1_gb') }}",
@@ -2349,21 +2351,24 @@ SURYA PANGAN SEMESTA
                     alert('Something is wrong');
                 },
                 success: function(data) {
-                    console.log(data.count_success);
-                    if (data.count_success >= 200) {
+                    if (from_date == null || from_date == '') {
+                        if (data.count_success >= 200) {
 
-                        Swal.fire({
-                            title: 'Data Limits 200 Row',
-                            text: 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu',
-                            icon: 'warning',
-                            // timer: 5000
-                        })
+                            Swal.fire({
+                                title: 'Data Limits 200 Row',
+                                text: 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu',
+                                icon: 'warning',
+                                // timer: 5000
+                            })
+                        }
                     }
                 }
             })
 
         });
         $(document).on('click', '#notif_swal_tolak', function(e) {
+            var from_date = $('#from_date').val();
+            var end_date = $('#end_date').val();
             $.ajax({
                 type: "GET",
                 url: "{{route('qc.lab.count_outputlab1_gb') }}",
@@ -2372,14 +2377,16 @@ SURYA PANGAN SEMESTA
                 },
                 success: function(data) {
                     console.log(data.count_tolak);
-                    if (data.count_tolak >= 200) {
+                    if (from_date == null || from_date == '') {
+                        if (data.count_tolak >= 200) {
 
-                        Swal.fire({
-                            title: 'Data Limits 200 Row',
-                            text: 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu',
-                            icon: 'warning',
-                            // timer: 5000
-                        })
+                            Swal.fire({
+                                title: 'Data Limits 200 Row',
+                                text: 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu',
+                                icon: 'warning',
+                                // timer: 5000
+                            })
+                        }
                     }
                 }
             })

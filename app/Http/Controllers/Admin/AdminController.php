@@ -78,17 +78,37 @@ class AdminController extends Controller
             ->where('penerimaan_po.status_analisa', 2)
             ->where('penerimaan_po.status_revisi', 0)
             ->orderBy('penerimaan_po.id_penerimaan_po', 'DESC')
-            ->count();
-        $count_notif_po_datang = PenerimaanPO::where('status_penerimaan', '=', 3)->count();
+            ->select('id_data_po')
+            ->get();
+        $count_notif_po_datang = PenerimaanPO::where('status_penerimaan', '=', 3)
+            ->select('id_penerimaan_po')
+            ->get();
         $count_notif_po_parkir = PenerimaanPO::where('status_penerimaan', '!=', '5')
             ->where('status_penerimaan', '!=', '16')
             ->where('status_penerimaan', '!=', '13')
-            ->count();
-        $count_notif_po_on_call = PenerimaanPO::where('status_penerimaan', 8)->count();
-        $count_notif_po_pending = Lab1GabahBasah::where('output_lab_gb', '=', 'Pending')->where('status_lab1_gb', 16)->count();
-        $count_notif_po_bongkar = Lab1GabahBasah::where('output_lab_gb', '=', 'Unload')->where('status_lab1_gb', 8)->count();
-        $count_notif_po_ditolak = PenerimaanPO::where('status_penerimaan', 5)->count();
-        $result = ['count_notif_data_revisi' => $count_notif_data_revisi, 'count_notif_po_datang' => $count_notif_po_datang, 'count_notif_po_parkir' => $count_notif_po_parkir, 'count_notif_po_on_call' => $count_notif_po_on_call, '' => $count_notif_po_pending, 'count_notif_po_bongkar' => $count_notif_po_bongkar, 'count_notif_po_ditolak' => $count_notif_po_ditolak];
+            ->select('id_penerimaan_po')
+            ->get();
+        $count_notif_po_on_call = PenerimaanPO::where('status_penerimaan', 8)
+            ->select('id_penerimaan_po')
+            ->get();
+        $count_notif_po_pending = Lab1GabahBasah::where('output_lab_gb', '=', 'Pending')->where('status_lab1_gb', 16)
+            ->select('id_lab1_gb')
+            ->get();
+        $count_notif_po_bongkar = Lab1GabahBasah::where('output_lab_gb', '=', 'Unload')->where('status_lab1_gb', 8)
+            ->select('id_lab1_gb')
+            ->get();
+        $count_notif_po_ditolak = PenerimaanPO::where('status_penerimaan', 5)
+            ->select('id_penerimaan_po')
+            ->get();
+        $result = [
+            'count_notif_data_revisi' => $count_notif_data_revisi->count(),
+            'count_notif_po_datang' => $count_notif_po_datang->count(),
+            'count_notif_po_parkir' => $count_notif_po_parkir->count(),
+            'count_notif_po_on_call' => $count_notif_po_on_call->count(),
+            'count_notif_po_pending' => $count_notif_po_pending->count(),
+            'count_notif_po_bongkar' => $count_notif_po_bongkar->count(),
+            'count_notif_po_ditolak' => $count_notif_po_ditolak->count()
+        ];
         return response()->json($result);
     }
     public function cetak_po($id)

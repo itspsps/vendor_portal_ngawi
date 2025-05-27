@@ -316,9 +316,7 @@
                     $("#count_notif").prepend(length);
                 }
                 $("#count_tonaseawal").html(data.getcountnotif_tonaseawal);
-                $("#count_datatonaseawal").html(data.getcountnotif_datatonaseawal);
                 $("#count_tonaseakhir").html(data.getcountnotif_tonaseakhir);
-                $("#count_datatonaseakhir").html(data.getcountnotif_datatonaseakhir);
                 $("#count_revisitonase").html(data.getcountnotif_revisitonase);
 
             }

@@ -74,7 +74,7 @@ SURYA PANGAN SEMESTA
                                         <th style="text-align: center;width:auto">&nbsp;&nbsp;Tonase&nbsp;&nbsp;</th>
                                         <th style="text-align: center;width:auto">Harga&nbsp;Awal</th>
                                         <th style="text-align: center;width:auto">Reaksi&nbsp;Harga</th>
-                                        <th style="text-align: center;width:auto">Aksi&nbsp;Harga</th>
+                                        <th style="text-align: center;width:auto">Status&nbsp;Harga</th>
                                         <th style="text-align: center;width:auto">Harga&nbsp;Akhir</th>
                                         <th style="text-align: center;width:auto">Keterangan&nbsp;Harga</th>
                                     </tr>
@@ -137,12 +137,12 @@ SURYA PANGAN SEMESTA
                 processing: true,
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
-                    url: "{{ route('master.data_sourching_output_nego_gb_index') }}",
+                    url: "{{ route('master.sourching.data_sourching_output_nego_gb_index') }}",
                     data: {
                         from_date: from_date,
                         to_date: to_date
@@ -183,7 +183,7 @@ SURYA PANGAN SEMESTA
                         data: 'reaksi_harga'
                     },
                     {
-                        data: 'aksi_harga'
+                        data: 'status_outputnego'
                     },
                     {
                         data: 'harga_akhir_gb'
@@ -259,12 +259,12 @@ SURYA PANGAN SEMESTA
                 processing: true,
                 serverSide: true,
                 "aLengthMenu": [
-                    [25, 100, 300, -1],
-                    [25, 100, 300, "All"]
+                    [10, 25, 100, 300, -1],
+                    [10, 25, 100, 300, "All"]
                 ],
                 "iDisplayLength": 10,
                 ajax: {
-                    url: "{{ route('master.data_sourching_output_nego_pk_index') }}",
+                    url: "{{ route('master.sourching.data_sourching_output_nego_pk_index') }}",
                     data: {
                         from_date: from_date,
                         to_date: to_date
@@ -378,7 +378,7 @@ SURYA PANGAN SEMESTA
                         onBeforeOpen: () => {
                             Swal.showLoading()
                             $.ajax({
-                                url: "{{route('master.status_deal_gb')}}/" + cek,
+                                url: "{{route('master.sourching.status_deal_gb')}}/" + cek,
                                 type: "GET",
                                 error: function() {
                                     alert('Something is wrong');
@@ -415,7 +415,7 @@ SURYA PANGAN SEMESTA
             }).then((result) => {
                 if (result.value) {
                     $.ajax({
-                        url: "{{route('master.status_deal_pk')}}/" + cek,
+                        url: "{{route('master.sourching.status_deal_pk')}}/" + cek,
                         type: "GET",
                         error: function() {
                             alert('Something is wrong');

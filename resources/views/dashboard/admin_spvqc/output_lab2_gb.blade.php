@@ -70,138 +70,140 @@ SURYA PANGAN SEMESTA
                         </li>
                     </ul>
                     <div class="tab-content">
-                        <ul class="nav nav-pills float-right" role="tablist">
-                            <li class="nav-item mt-3">
-                                <a class="btn btn-sm btn-secondary btn-outline-hover-secondary active" role="tab" aria-controls="lab2_1" aria-selected="true" data-toggle="tab" href="#lab2_1"><i class="flaticon2-list-1"></i>PENGAJUAN APPROVE</a>
-                            </li>
+                        <div class="tab-pane active" id="m_tabs_3_1" role="tabpanel">
+                            <ul class="nav nav-pills float-right" role="tablist">
+                                <li class="nav-item mt-3">
+                                    <a class="btn btn-sm btn-secondary btn-outline-hover-secondary active" role="tab" aria-controls="lab2_1" aria-selected="true" data-toggle="tab" href="#lab2_1"><i class="flaticon2-list-1"></i>PENGAJUAN APPROVE</a>
+                                </li>
 
-                            <li class="nav-item mt-3">
-                                <a class="btn btn-sm btn-secondary btn-outline-hover-success" id="notif_swal_success" role="tab" aria-controls="lab2_2" aria-selected="false" data-toggle="tab" href="#lab2_2"><i class="flaticon2-list-1"></i>APPROVED SUCCESS</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="lab2_1" role="tabpanel">
-                                <table class="table table-bordered" id="data_longgrain">
-                                    <thead>
-                                        <tr>
-                                            <th style="text-align: center;width:2%">No</th>
-                                            <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                            <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
-                                            <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                            <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                            <th style="text-align: center;width:auto">Kategori&nbsp;PO</th>
-                                            <th style="text-align: center;width:auto">Status </th>
-                                            <th style="text-align: center;width:auto">Tanggal&nbsp;PO</th>
-                                            <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkaran</th>
-                                            <th style="text-align: center;width:auto">Asal&nbsp;Gabah</th>
-                                            <th style="text-align: center;width:auto">DTM&nbsp;KS</th>
-                                            <th style="text-align: center;width:auto">Lokasi&nbsp;Bongkar</th>
+                                <li class="nav-item mt-3">
+                                    <a class="btn btn-sm btn-secondary btn-outline-hover-success" id="notif_swal_success" role="tab" aria-controls="lab2_2" aria-selected="false" data-toggle="tab" href="#lab2_2"><i class="flaticon2-list-1"></i>APPROVED SUCCESS</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="lab2_1" role="tabpanel">
+                                    <table class="table table-bordered" id="data_longgrain">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center;width:2%">No</th>
+                                                <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                                <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
+                                                <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                                <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                                <th style="text-align: center;width:auto">Kategori&nbsp;PO</th>
+                                                <th style="text-align: center;width:auto">Status </th>
+                                                <th style="text-align: center;width:auto">Tanggal&nbsp;PO</th>
+                                                <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkaran</th>
+                                                <th style="text-align: center;width:auto">Asal&nbsp;Gabah</th>
+                                                <th style="text-align: center;width:auto">DTM&nbsp;KS</th>
+                                                <th style="text-align: center;width:auto">Lokasi&nbsp;Bongkar</th>
 
-                                            <th style="text-align: center;width:auto">Tonase&nbsp;KS</th>
-                                            <th style="text-align: center;width:auto">KA&nbsp;KS</th>
-                                            <th style="text-align: center;width:auto">KA&nbsp;KG</th>
-                                            <th style="text-align: center;width:auto">Berat&nbsp;Sampel&nbsp;Awal&nbsp;KS</th>
-                                            <th style="text-align: center;width:auto">Berat&nbsp;Sampel&nbsp;Awal&nbsp;KG</th>
-                                            <th style="text-align: center;width:auto">Berat&nbsp;Sampel&nbsp;Akhir&nbsp;KG</th>
-                                            <th style="text-align: center;width:auto">Berat&nbsp;Sampel&nbsp;PK</th>
-                                            <th style="text-align: center;width:auto">Berat&nbsp;Sampel&nbsp;Beras</th>
-                                            <th style="text-align: center;width:auto">WH</th>
-                                            <th style="text-align: center;width:auto">TP</th>
+                                                <th style="text-align: center;width:auto">Tonase&nbsp;KS</th>
+                                                <th style="text-align: center;width:auto">KA&nbsp;KS</th>
+                                                <th style="text-align: center;width:auto">KA&nbsp;KG</th>
+                                                <th style="text-align: center;width:auto">Berat&nbsp;Sampel&nbsp;Awal&nbsp;KS</th>
+                                                <th style="text-align: center;width:auto">Berat&nbsp;Sampel&nbsp;Awal&nbsp;KG</th>
+                                                <th style="text-align: center;width:auto">Berat&nbsp;Sampel&nbsp;Akhir&nbsp;KG</th>
+                                                <th style="text-align: center;width:auto">Berat&nbsp;Sampel&nbsp;PK</th>
+                                                <th style="text-align: center;width:auto">Berat&nbsp;Sampel&nbsp;Beras</th>
+                                                <th style="text-align: center;width:auto">WH</th>
+                                                <th style="text-align: center;width:auto">TP</th>
 
-                                            <th style="text-align: center;width:auto">MD</th>
-                                            <th style="text-align: center;width:auto">Broken&nbsp;Setelah&nbsp;Bongkar</th>
-                                            <th style="text-align: center;width:auto">Hampa&nbsp;(%)</th>
-                                            <th style="text-align: center;width:auto">KG&nbsp;After&nbsp;Adjust&nbsp;Hampa</th>
-                                            <th style="text-align: center;width:auto">(%)&nbsp;KG</th>
-                                            <th style="text-align: center;width:auto">(%)&nbsp;Susut</th>
-                                            <th style="text-align: center;width:auto">Adjust&nbsp;(%)&nbsp;Susut&nbsp;1.2</th>
-                                            <th style="text-align: center;width:auto">(%)&nbsp;KS&nbsp;&minus;&nbsp;KG&nbsp;After&nbsp;Adjust&nbsp;Susut</th>
-                                            <th style="text-align: center;width:auto">(%)&nbsp;KG&nbsp;&minus;&nbsp;PK</th>
-                                            <th style="text-align: center;width:auto">Adjust&nbsp;(%)&nbsp;KG&nbsp;&minus;&nbsp;PK&nbsp;(0.952)</th>
+                                                <th style="text-align: center;width:auto">MD</th>
+                                                <th style="text-align: center;width:auto">Broken&nbsp;Setelah&nbsp;Bongkar</th>
+                                                <th style="text-align: center;width:auto">Hampa&nbsp;(%)</th>
+                                                <th style="text-align: center;width:auto">KG&nbsp;After&nbsp;Adjust&nbsp;Hampa</th>
+                                                <th style="text-align: center;width:auto">(%)&nbsp;KG</th>
+                                                <th style="text-align: center;width:auto">(%)&nbsp;Susut</th>
+                                                <th style="text-align: center;width:auto">Adjust&nbsp;(%)&nbsp;Susut&nbsp;1.2</th>
+                                                <th style="text-align: center;width:auto">(%)&nbsp;KS&nbsp;&minus;&nbsp;KG&nbsp;After&nbsp;Adjust&nbsp;Susut</th>
+                                                <th style="text-align: center;width:auto">(%)&nbsp;KG&nbsp;&minus;&nbsp;PK</th>
+                                                <th style="text-align: center;width:auto">Adjust&nbsp;(%)&nbsp;KG&nbsp;&minus;&nbsp;PK&nbsp;(0.952)</th>
 
-                                            <th style="text-align: center;width:auto">(%)&nbsp;KS&nbsp;&minus;&nbsp;PK</th>
-                                            <th style="text-align: center;width:auto">(%)&nbsp;Putih</th>
-                                            <th style="text-align: center;width:auto">Adjust&nbsp;(%)&nbsp;KG&nbsp;ke&nbsp;Putih&nbsp;(0.952)</th>
-                                            <th style="text-align: center;width:auto">Pland&nbsp;Rend&nbsp;dari&nbsp;KS&nbsp;&minus;&nbsp;Beras</th>
-                                            <th style="text-align: center;width:auto">Katul</th>
-                                            <th style="text-align: center;width:auto">Refraksi&nbsp;Broken</th>
-                                            <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Plan&nbsp;Harga&nbsp;Gabah&nbsp;/Kg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                            <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Plan&nbsp;Harga&nbsp;Beli&nbsp;gabah&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                                <th style="text-align: center;width:auto">(%)&nbsp;KS&nbsp;&minus;&nbsp;PK</th>
+                                                <th style="text-align: center;width:auto">(%)&nbsp;Putih</th>
+                                                <th style="text-align: center;width:auto">Adjust&nbsp;(%)&nbsp;KG&nbsp;ke&nbsp;Putih&nbsp;(0.952)</th>
+                                                <th style="text-align: center;width:auto">Pland&nbsp;Rend&nbsp;dari&nbsp;KS&nbsp;&minus;&nbsp;Beras</th>
+                                                <th style="text-align: center;width:auto">Katul</th>
+                                                <th style="text-align: center;width:auto">Refraksi&nbsp;Broken</th>
+                                                <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Plan&nbsp;Harga&nbsp;Gabah&nbsp;/Kg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                                <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Plan&nbsp;Harga&nbsp;Beli&nbsp;gabah&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
 
-                                            <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Harga&nbsp;Tempat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                            <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Harga&nbsp;Atas&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                            <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Harga&nbsp;Awal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                            <th style="text-align: center;width:auto">Aksi&nbsp;Harga</th>
-                                            <th style="text-align: center;width:auto">Reaksi&nbsp;Harga</th>
-                                            <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Harga&nbsp;Akhir&nbsp;(&minus;Rp.&nbsp;14)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                            <th style="text-align: center;width:auto">Keterangan&nbsp;Harga</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody style="text-align: center">
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="tab-pane" id="lab2_2" role="tabpanel">
-                                <table class="table table-bordered" id="data_longgrain_approved">
-                                    <thead>
-                                        <tr>
-                                            <th style="text-align: center;width:2%">No</th>
-                                            <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                            <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
-                                            <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                            <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                            <th style="text-align: center;width:auto">Kategori&nbsp;PO</th>
-                                            <th style="text-align: center;width:auto">Status </th>
-                                            <th style="text-align: center;width:auto">Waktu&nbsp;Approve</th>
-                                            <th style="text-align: center;width:auto">Tanggal&nbsp;PO</th>
-                                            <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkaran</th>
-                                            <th style="text-align: center;width:auto">Asal&nbsp;Gabah</th>
-                                            <th style="text-align: center;width:auto">DTM&nbsp;KS</th>
-                                            <th style="text-align: center;width:auto">Lokasi&nbsp;Bongkar</th>
+                                                <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Harga&nbsp;Tempat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                                <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Harga&nbsp;Atas&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                                <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Harga&nbsp;Awal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                                <th style="text-align: center;width:auto">Aksi&nbsp;Harga</th>
+                                                <th style="text-align: center;width:auto">Reaksi&nbsp;Harga</th>
+                                                <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Harga&nbsp;Akhir&nbsp;(&minus;Rp.&nbsp;14)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                                <th style="text-align: center;width:auto">Keterangan&nbsp;Harga</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="text-align: center">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tab-pane" id="lab2_2" role="tabpanel">
+                                    <table class="table table-bordered" id="data_longgrain_approved">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center;width:2%">No</th>
+                                                <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nama&nbsp;Item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                                <th style="text-align: center;width:auto">Kode&nbsp;PO</th>
+                                                <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supplier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                                <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nopol&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                                <th style="text-align: center;width:auto">Kategori&nbsp;PO</th>
+                                                <th style="text-align: center;width:auto">Status </th>
+                                                <th style="text-align: center;width:auto">Waktu&nbsp;Approve</th>
+                                                <th style="text-align: center;width:auto">Tanggal&nbsp;PO</th>
+                                                <th style="text-align: center;width:auto">Tanggal&nbsp;Bongkaran</th>
+                                                <th style="text-align: center;width:auto">Asal&nbsp;Gabah</th>
+                                                <th style="text-align: center;width:auto">DTM&nbsp;KS</th>
+                                                <th style="text-align: center;width:auto">Lokasi&nbsp;Bongkar</th>
 
-                                            <th style="text-align: center;width:auto">Tonase&nbsp;KS</th>
-                                            <th style="text-align: center;width:auto">KA&nbsp;KS</th>
-                                            <th style="text-align: center;width:auto">KA&nbsp;KG</th>
-                                            <th style="text-align: center;width:auto">Berat&nbsp;Sampel&nbsp;Awal&nbsp;KS</th>
-                                            <th style="text-align: center;width:auto">Berat&nbsp;Sampel&nbsp;Awal&nbsp;KG</th>
-                                            <th style="text-align: center;width:auto">Berat&nbsp;Sampel&nbsp;Akhir&nbsp;KG</th>
-                                            <th style="text-align: center;width:auto">Berat&nbsp;Sampel&nbsp;PK</th>
-                                            <th style="text-align: center;width:auto">Berat&nbsp;Sampel&nbsp;Beras</th>
-                                            <th style="text-align: center;width:auto">WH</th>
-                                            <th style="text-align: center;width:auto">TP</th>
+                                                <th style="text-align: center;width:auto">Tonase&nbsp;KS</th>
+                                                <th style="text-align: center;width:auto">KA&nbsp;KS</th>
+                                                <th style="text-align: center;width:auto">KA&nbsp;KG</th>
+                                                <th style="text-align: center;width:auto">Berat&nbsp;Sampel&nbsp;Awal&nbsp;KS</th>
+                                                <th style="text-align: center;width:auto">Berat&nbsp;Sampel&nbsp;Awal&nbsp;KG</th>
+                                                <th style="text-align: center;width:auto">Berat&nbsp;Sampel&nbsp;Akhir&nbsp;KG</th>
+                                                <th style="text-align: center;width:auto">Berat&nbsp;Sampel&nbsp;PK</th>
+                                                <th style="text-align: center;width:auto">Berat&nbsp;Sampel&nbsp;Beras</th>
+                                                <th style="text-align: center;width:auto">WH</th>
+                                                <th style="text-align: center;width:auto">TP</th>
 
-                                            <th style="text-align: center;width:auto">MD</th>
-                                            <th style="text-align: center;width:auto">Broken&nbsp;Setelah&nbsp;Bongkar</th>
-                                            <th style="text-align: center;width:auto">Hampa&nbsp;(%)</th>
-                                            <th style="text-align: center;width:auto">KG&nbsp;After&nbsp;Adjust&nbsp;Hampa</th>
-                                            <th style="text-align: center;width:auto">(%)&nbsp;KG</th>
-                                            <th style="text-align: center;width:auto">(%)&nbsp;Susut</th>
-                                            <th style="text-align: center;width:auto">Adjust&nbsp;(%)&nbsp;Susut&nbsp;1.2</th>
-                                            <th style="text-align: center;width:auto">(%)&nbsp;KS&nbsp;&minus;&nbsp;KG&nbsp;After&nbsp;Adjust&nbsp;Susut</th>
-                                            <th style="text-align: center;width:auto">(%)&nbsp;KG&nbsp;&minus;&nbsp;PK</th>
-                                            <th style="text-align: center;width:auto">Adjust&nbsp;(%)&nbsp;KG&nbsp;&minus;&nbsp;PK&nbsp;(0.952)</th>
+                                                <th style="text-align: center;width:auto">MD</th>
+                                                <th style="text-align: center;width:auto">Broken&nbsp;Setelah&nbsp;Bongkar</th>
+                                                <th style="text-align: center;width:auto">Hampa&nbsp;(%)</th>
+                                                <th style="text-align: center;width:auto">KG&nbsp;After&nbsp;Adjust&nbsp;Hampa</th>
+                                                <th style="text-align: center;width:auto">(%)&nbsp;KG</th>
+                                                <th style="text-align: center;width:auto">(%)&nbsp;Susut</th>
+                                                <th style="text-align: center;width:auto">Adjust&nbsp;(%)&nbsp;Susut&nbsp;1.2</th>
+                                                <th style="text-align: center;width:auto">(%)&nbsp;KS&nbsp;&minus;&nbsp;KG&nbsp;After&nbsp;Adjust&nbsp;Susut</th>
+                                                <th style="text-align: center;width:auto">(%)&nbsp;KG&nbsp;&minus;&nbsp;PK</th>
+                                                <th style="text-align: center;width:auto">Adjust&nbsp;(%)&nbsp;KG&nbsp;&minus;&nbsp;PK&nbsp;(0.952)</th>
 
-                                            <th style="text-align: center;width:auto">(%)&nbsp;KS&nbsp;&minus;&nbsp;PK</th>
-                                            <th style="text-align: center;width:auto">(%)&nbsp;Putih</th>
-                                            <th style="text-align: center;width:auto">Adjust&nbsp;(%)&nbsp;KG&nbsp;ke&nbsp;Putih&nbsp;(0.952)</th>
-                                            <th style="text-align: center;width:auto">Pland&nbsp;Rend&nbsp;dari&nbsp;KS&nbsp;&minus;&nbsp;Beras</th>
-                                            <th style="text-align: center;width:auto">Katul</th>
-                                            <th style="text-align: center;width:auto">Refraksi&nbsp;Broken</th>
-                                            <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Plan&nbsp;Harga&nbsp;Gabah&nbsp;/Kg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                            <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Plan&nbsp;Harga&nbsp;Beli&nbsp;gabah&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                                <th style="text-align: center;width:auto">(%)&nbsp;KS&nbsp;&minus;&nbsp;PK</th>
+                                                <th style="text-align: center;width:auto">(%)&nbsp;Putih</th>
+                                                <th style="text-align: center;width:auto">Adjust&nbsp;(%)&nbsp;KG&nbsp;ke&nbsp;Putih&nbsp;(0.952)</th>
+                                                <th style="text-align: center;width:auto">Pland&nbsp;Rend&nbsp;dari&nbsp;KS&nbsp;&minus;&nbsp;Beras</th>
+                                                <th style="text-align: center;width:auto">Katul</th>
+                                                <th style="text-align: center;width:auto">Refraksi&nbsp;Broken</th>
+                                                <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Plan&nbsp;Harga&nbsp;Gabah&nbsp;/Kg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                                <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Plan&nbsp;Harga&nbsp;Beli&nbsp;gabah&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
 
-                                            <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Harga&nbsp;Tempat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                            <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Harga&nbsp;Atas&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                            <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Harga&nbsp;Awal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                            <th style="text-align: center;width:auto">Aksi&nbsp;Harga</th>
-                                            <th style="text-align: center;width:auto">Reaksi&nbsp;Harga</th>
-                                            <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Harga&nbsp;Akhir&nbsp;(&minus;Rp.&nbsp;14)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                            <th style="text-align: center;width:auto">Keterangan&nbsp;Harga</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody style="text-align: center">
-                                    </tbody>
-                                </table>
+                                                <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Harga&nbsp;Tempat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                                <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Harga&nbsp;Atas&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                                <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Harga&nbsp;Awal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                                <th style="text-align: center;width:auto">Aksi&nbsp;Harga</th>
+                                                <th style="text-align: center;width:auto">Reaksi&nbsp;Harga</th>
+                                                <th style="text-align: center;width:auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Harga&nbsp;Akhir&nbsp;(&minus;Rp.&nbsp;14)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                                <th style="text-align: center;width:auto">Keterangan&nbsp;Harga</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="text-align: center">
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                         <div class="tab-pane" id="m_tabs_3_3" role="tabpanel">
@@ -349,7 +351,7 @@ SURYA PANGAN SEMESTA
                     [10, 25, 100, 300, -1],
                     [10, 25, 100, 300, "All"]
                 ],
-                "iDisplayLength": 25,
+                "iDisplayLength": 10,
                 ajax: {
                     url: "{{ route('qc.spv.new_output_lab2_gb_longgrain_index') }}",
                     data: {
@@ -536,7 +538,7 @@ SURYA PANGAN SEMESTA
                     [10, 25, 100, 300, -1],
                     [10, 25, 100, 300, "All"]
                 ],
-                "iDisplayLength": 25,
+                "iDisplayLength": 10,
                 ajax: {
                     url: "{{ route('qc.spv.output_lab2_gb_pandan_wangi_index') }}",
                     data: {
@@ -714,7 +716,7 @@ SURYA PANGAN SEMESTA
                     [10, 25, 100, 300, -1],
                     [10, 25, 100, 300, "All"]
                 ],
-                "iDisplayLength": 25,
+                "iDisplayLength": 10,
                 ajax: {
                     url: "{{ route('qc.spv.output_lab2_gb_ketan_putih_index') }}",
                     data: {
@@ -891,7 +893,7 @@ SURYA PANGAN SEMESTA
                     [10, 25, 100, 300, -1],
                     [10, 25, 100, 300, "All"]
                 ],
-                "iDisplayLength": 25,
+                "iDisplayLength": 10,
                 ajax: {
                     url: "{{ route('qc.spv.output_lab2_gb_longgrain_approved_index') }}",
                     data: {
@@ -1132,22 +1134,30 @@ SURYA PANGAN SEMESTA
             });
         });
         $(document).on('click', '#notif_swal_success', function(e) {
+            var from_date = $('#from_date').val();
+            var to_date = $('#to_date').val();
+            var item = 'longgrain';
             $.ajax({
                 type: "GET",
                 url: "{{route('qc.spv.count_outputlab2_gb') }}",
+                data: {
+                    item: item,
+                },
                 error: function() {
                     alert('Something is wrong');
                 },
                 success: function(data) {
                     console.log(data.count_success);
-                    if (data.count_success >= 200) {
+                    if (from_date == '' || from_date == null) {
+                        if (data.count_success >= 200) {
 
-                        Swal.fire({
-                            title: 'Data Limits 200 Row',
-                            text: 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu',
-                            icon: 'warning',
-                            // timer: 5000
-                        })
+                            Swal.fire({
+                                title: 'Data Limits 200 Row',
+                                text: 'Harap Menggunakan Filter PO Untuk Mengetahui PO Terdahulu',
+                                icon: 'warning',
+                                // timer: 5000
+                            })
+                        }
                     }
                 }
             })
@@ -1390,22 +1400,6 @@ SURYA PANGAN SEMESTA
     });
 </script>
 <script type="text/javascript">
-    // function cekAnalisa(that) {
-    //     if (that.value == "tidak") {
-    //          Swal.fire({
-    //         position: 'top',
-    //         icon: 'warning',
-    //         title: 'Silahkan Input Harga Permintaan',
-    //         showConfirmButton: true
-    //       });
-
-    //         document.getElementById("form_keterangan").style.display = "block";  
-    //         document.getElementById("harga_akhir_permintaan_gb").focus();
-    //     } else {
-    //         document.getElementById("form_keterangan").style.display = "none";
-    //     }
-    // }
-
     function cekAdmin(that) {
         if (that.value == "1") {
             $('textarea[id=keterangan_analisa]').val('Nopol Tidak Sesuai');

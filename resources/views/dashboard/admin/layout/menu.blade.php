@@ -90,8 +90,8 @@
                     <i class="kt-menu__link-icon    fa fa-tasks"></i>
                     <span class="kt-menu__link-text ">Data&nbsp;Revisi
                     </span>
-                    <span id="count_notif_data_revisi" class="badge badge badge-info" style="position:absolute; margin-left:75%; width: 100%; text-align: left; background-color: #9f187c;">
-
+                    <span id="count_notif_data_revisi" class="badge badge badge-info" style="position:absolute; right: 0%; width: max-content;  background-color: #9f187c;">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     </span>
                 </a>
             </li>
@@ -100,7 +100,8 @@
                     <i class="kt-menu__link-icon fa fa-calendar-check"></i>
                     <span class="kt-menu__link-text">PO Datang
                     </span>
-                    <span id="count_notif_po_datang" class="badge badge badge-info" style="position:absolute; margin-left:75%; width: 100%; text-align: left; background-color: #9f187c;">
+                    <span id="count_notif_po_datang" class="badge badge badge-info" style="position:absolute; right: 0%; width: max-content;  background-color: #9f187c;">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     </span>
                 </a>
             </li>
@@ -109,7 +110,8 @@
                     <i class="kt-menu__link-icon    fa fa-layer-group"></i>
                     <span class="kt-menu__link-text">PO Parkir
                     </span>
-                    <span id="count_notif_po_parkir" class="badge badge badge-info" style="position:absolute; margin-left:75%; width: 100%; text-align: left; background-color: #9f187c;">
+                    <span id="count_notif_po_parkir" class="badge badge badge-info" style="position:absolute; right: 0%; width: max-content;  background-color: #9f187c;">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     </span>
                 </a>
             </li>
@@ -119,7 +121,8 @@
                     <i class="kt-menu__link-icon    fa fa-microphone-alt"></i>
                     <span class="kt-menu__link-text">PO On Call
                     </span>
-                    <span id="count_notif_po_on_call" class="badge badge badge-info" style="position:absolute; margin-left:75%; width: 100%; text-align: left; background-color: #9f187c;">
+                    <span id="count_notif_po_on_call" class="badge badge badge-info" style="position:absolute; right: 0%; width: max-content;  background-color: #9f187c;">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     </span>
                 </a>
             </li>
@@ -128,7 +131,8 @@
                     <i class="kt-menu__link-icon    fa fa-user-clock"></i>
                     <span class="kt-menu__link-text">PO Pending
                     </span>
-                    <span id="count_notif_po_pending" class="badge badge badge-info" style="position:absolute; margin-left:75%; width: 100%; text-align: left; background-color: #9f187c;">
+                    <span id="count_notif_po_pending" class="badge badge badge-info" style="position:absolute; right: 0%; width: max-content;  background-color: #9f187c;">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     </span>
                 </a>
             </li>
@@ -143,7 +147,8 @@
                     <i class="kt-menu__link-icon    fa fa-flag-checkered"></i>
                     <span class="kt-menu__link-text">PO Bongkar
                     </span>
-                    <span id="count_notif_po_bongkar" class="badge badge badge-info" style="position:absolute; margin-left:75%; width: 100%; text-align: left; background-color: #9f187c;">
+                    <span id="count_notif_po_bongkar" class="badge badge badge-info" style="position:absolute; right: 0%; width: max-content;  background-color: #9f187c;">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     </span>
                 </a>
             </li>
@@ -152,7 +157,8 @@
                     <i class="kt-menu__link-icon    fa fa-ban"></i>
                     <span class="kt-menu__link-text">PO Ditolak
                     </span>
-                    <span id="count_notif_po_ditolak" class="badge badge badge-info" style="position:absolute; margin-left:75%; width: 100%; text-align: left; background-color: #9f187c;">
+                    <span id="count_notif_po_ditolak" class="badge badge badge-info" style="position:absolute; right: 0%; width: max-content;  background-color: #9f187c;">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     </span>
                 </a>
             </li>

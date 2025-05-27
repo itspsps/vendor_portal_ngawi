@@ -31,6 +31,7 @@ use App\Models\NotifTimbangan;
 use App\Models\trackerPO;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
+use Yajra\DataTables\DataTables as DataTablesDataTables;
 
 class AdminTimbanganController extends Controller
 {
@@ -1138,6 +1139,77 @@ class AdminTimbanganController extends Controller
             }
         }
     }
+    public function count_timbangan_akhir(Request $request)
+    {
+        if ($request->item == 'longgrain') {
+
+            $datatonaseakhir  = PenerimaanPO::With(['DataPO' => function ($query) {
+                $query->With(['Bid' => function ($query) {
+                    $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                }]);
+                $query->With('User');
+            }])
+                ->With('DataBongkar')
+                ->whereHas('DataPO', function ($query) {
+                    $query->whereHas('Bid', function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                    });
+                })
+                ->whereHas('DataBongkar', function ($query) {
+                    $query->where('status_bongkar', 'FINISH');
+                })
+                ->where(function ($query) {
+                    $query->where('tonase_akhir', '!=', NULL);
+                })
+                ->limit(250)
+                ->get();
+        } else if ($request->item == 'pandanwangi') {
+            $datatonaseakhir  = PenerimaanPO::With(['DataPO' => function ($query) {
+                $query->With(['Bid' => function ($query) {
+                    $query->where('name_bid', 'GABAH BASAH PANDAN WANGI');
+                }]);
+                $query->With('User');
+            }])
+                ->With('DataBongkar')
+                ->whereHas('DataPO', function ($query) {
+                    $query->whereHas('Bid', function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH PANDAN WANGI');
+                    });
+                })
+                ->whereHas('DataBongkar', function ($query) {
+                    $query->where('status_bongkar', 'FINISH');
+                })
+                ->where(function ($query) {
+                    $query->where('tonase_akhir', '!=', NULL);
+                })
+                ->limit(250)
+                ->get();
+        } else {
+            $datatonaseakhir  = PenerimaanPO::With(['DataPO' => function ($query) {
+                $query->With(['Bid' => function ($query) {
+                    $query->where('name_bid', 'GABAH BASAH KETAN PUTIH');
+                }]);
+                $query->With('User');
+            }])
+                ->With('DataBongkar')
+                ->whereHas('DataPO', function ($query) {
+                    $query->whereHas('Bid', function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH KETAN PUTIH');
+                    });
+                })
+                ->whereHas('DataBongkar', function ($query) {
+                    $query->where('status_bongkar', 'FINISH');
+                })
+                ->where(function ($query) {
+                    $query->where('tonase_akhir', '!=', NULL);
+                })
+                ->limit(250)
+                ->get();
+        }
+        return response()->json([
+            'datatonaseakhir' => $datatonaseakhir->count(),
+        ]);
+    }
     public function data_timbangan_akhir()
     {
         return view('dashboard.admin_timbangan.data_timbangan_akhir');
@@ -1268,30 +1340,56 @@ class AdminTimbanganController extends Controller
         if (request()->ajax()) {
 
             if (!empty($request->from_date)) {
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('data_qc_bongkar', 'data_qc_bongkar.kode_po_bongkar', '=', 'data_po.kode_po')
-                    ->whereBetween('data_po.tanggal_po', array($request->from_date, $request->to_date))
-                    ->where('data_qc_bongkar.status_bongkar', 'FINISH')
-                    ->where('bid.name_bid', '=', 'GABAH BASAH LONG GRAIN')
-                    ->where('penerimaan_po.tonase_akhir', '!=', NULL)
-                    ->orderBy('id_penerimaan_po', 'desc')
-                    ->get())
+                // dd($request->from_date);
+                $table = PenerimaanPO::With(['DataPO' => function ($query) use ($request) {
+                    $query->whereBetween('tanggal_po', [$request->from_date, $request->to_date]);
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->whereHas('DataPO', function ($query) use ($request) {
+                        $query->whereBetween('tanggal_po', [$request->from_date, $request->to_date]);
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                        });
+                    })
+
+                    ->where(function ($query) {
+                        $query->where('tonase_akhir', '!=', NULL);
+                    })
+                    ->orderBy('id_penerimaan_po', 'DESC')
+                    ->select(
+                        'id_penerimaan_po',
+                        'penerimaan_id_data_po',
+                        'penerimaan_kode_po',
+                        'tonase_awal',
+                        'tonase_akhir',
+                        'hasil_akhir_tonase',
+                        'form_tonase_akhir',
+                        'plat_kendaraan',
+                    )
+                    ->get();
+                // dd($table);
+                return DataTables::of($table)
                     ->addColumn('name_bid', function ($list) {
-                        $result = $list->name_bid;
+                        $result = $list->DataPO->Bid->name_bid;
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
+                        $result = $list->DataPO->kode_po;
                         return $result;
                     })
                     ->addColumn('form_tonase_akhir', function ($list) {
                         $result = $list->form_tonase_akhir;
                         return $result;
                     })
+                    ->addColumn('no_dtm', function ($list) {
+                        $result = $list->DataBongkar->no_dtm;
+                        return $result;
+                    })
                     ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
+                        $result = $list->DataPO->User->nama_vendor;
                         return '
                         <span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>
                         ';
@@ -1301,7 +1399,11 @@ class AdminTimbanganController extends Controller
                         return $result;
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('tonase_awal', function ($list) {
@@ -1319,35 +1421,60 @@ class AdminTimbanganController extends Controller
                     ->addColumn('ckelola', function ($list) {
                         return
                             '<a style="margin:2px;" href="' . route('timbangan.cetak_penerimaanpo_2', ['id' => $list->id_penerimaan_po]) . '"target="_blank" title="Print Data" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
-                    <i class="fa fa-print">&nbsp;Cetak&nbsp;Penerimaan</i>
-                </a>';
+                            <i class="fa fa-print">&nbsp;Cetak&nbsp;Penerimaan</i>
+                            </a>';
                     })
-                    ->rawColumns(['kode_po', 'form_tonase_akhir', 'name_bid', 'nama_vendor', 'plat_kendaraan', 'tanggal_po', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'rafraksi', 'ckelola'])
+                    ->rawColumns(['kode_po', 'no_dtm', 'form_tonase_akhir', 'name_bid', 'nama_vendor', 'plat_kendaraan', 'tanggal_po', 'tanggal_bongkar', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'rafraksi', 'ckelola'])
                     ->make(true);
             } else {
-                return Datatables::of(DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-                    ->join('users', 'users.id', '=', 'data_po.user_idbid')
-                    ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-                    ->join('data_qc_bongkar', 'data_qc_bongkar.kode_po_bongkar', '=', 'data_po.kode_po')
-                    ->where('data_qc_bongkar.status_bongkar', 'FINISH')
-                    ->where('bid.name_bid', '=', 'GABAH BASAH LONG GRAIN')
-                    ->where('penerimaan_po.tonase_akhir', '!=', NULL)
-                    ->orderBy('id_penerimaan_po', 'desc')
-                    ->get())
+                $table = PenerimaanPO::With(['DataPO' => function ($query) {
+                    $query->With(['Bid' => function ($query) {
+                        $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                    }]);
+                    $query->With('User');
+                }])
+                    ->whereHas('DataPO', function ($query) {
+                        $query->whereHas('Bid', function ($query) {
+                            $query->where('name_bid', 'GABAH BASAH LONG GRAIN');
+                        });
+                    })
+
+                    ->where(function ($query) {
+                        $query->where('tonase_akhir', '!=', NULL);
+                    })
+                    ->orderBy('id_penerimaan_po', 'DESC')
+                    ->select(
+                        'id_penerimaan_po',
+                        'penerimaan_id_data_po',
+                        'penerimaan_kode_po',
+                        'tonase_awal',
+                        'tonase_akhir',
+                        'hasil_akhir_tonase',
+                        'form_tonase_akhir',
+                        'plat_kendaraan',
+                    )
+                    ->take(200)
+                    ->get();
+                // dd($table);
+                return DataTables::of($table)
                     ->addColumn('name_bid', function ($list) {
-                        $result = $list->name_bid;
+                        $result = $list->DataPO->Bid->name_bid;
                         return $result;
                     })
                     ->addColumn('kode_po', function ($list) {
-                        $result = $list->kode_po;
+                        $result = $list->DataPO->kode_po;
                         return $result;
                     })
                     ->addColumn('form_tonase_akhir', function ($list) {
                         $result = $list->form_tonase_akhir;
                         return $result;
                     })
+                    ->addColumn('no_dtm', function ($list) {
+                        $result = $list->DataBongkar->no_dtm;
+                        return $result;
+                    })
                     ->addColumn('nama_vendor', function ($list) {
-                        $result = $list->nama_vendor;
+                        $result = $list->DataPO->User->nama_vendor;
                         return '
                         <span style="margin:2px;" class="m-badge m-badge--danger m-badge--wide">' . $result . '</span>
                         ';
@@ -1357,7 +1484,11 @@ class AdminTimbanganController extends Controller
                         return $result;
                     })
                     ->addColumn('tanggal_po', function ($list) {
-                        $result = \Carbon\Carbon::parse($list->open_po)->isoFormat('DD-MM-Y');
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_po)->isoFormat('DD-MM-Y');
+                        return $result;
+                    })
+                    ->addColumn('tanggal_bongkar', function ($list) {
+                        $result = \Carbon\Carbon::parse($list->DataPO->tanggal_bongkar)->isoFormat('DD-MM-Y');
                         return $result;
                     })
                     ->addColumn('tonase_awal', function ($list) {
@@ -1375,10 +1506,10 @@ class AdminTimbanganController extends Controller
                     ->addColumn('ckelola', function ($list) {
                         return
                             '<a style="margin:2px;" href="' . route('timbangan.cetak_penerimaanpo_2', ['id' => $list->id_penerimaan_po]) . '"target="_blank" title="Print Data" class="btn btn-outline-info m-btn m-btn--icon btn-sm m-btn--icon-only">
-                    <i class="fa fa-print">&nbsp;Cetak&nbsp;Penerimaan</i>
-                </a>';
+                            <i class="fa fa-print">&nbsp;Cetak&nbsp;Penerimaan</i>
+                            </a>';
                     })
-                    ->rawColumns(['kode_po', 'form_tonase_akhir', 'name_bid', 'nama_vendor', 'plat_kendaraan', 'tanggal_po', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'rafraksi', 'ckelola'])
+                    ->rawColumns(['kode_po', 'no_dtm', 'form_tonase_akhir', 'name_bid', 'nama_vendor', 'plat_kendaraan', 'tanggal_po', 'tanggal_bongkar', 'tonase_awal', 'tonase_akhir', 'hasil_akhir_tonase', 'rafraksi', 'ckelola'])
                     ->make(true);
             }
         }
@@ -1396,7 +1527,7 @@ class AdminTimbanganController extends Controller
                     ->where('data_qc_bongkar.status_bongkar', 'FINISH')
                     ->where('bid.name_bid', '=', 'GABAH BASAH PANDAN WANGI')
                     ->where('penerimaan_po.tonase_akhir', '!=', NULL)
-                    ->orderBy('id_penerimaan_po', 'desc')
+                    ->orderBy('penerimaan_po.id_penerimaan_po', 'desc')
                     ->get())
                     ->addColumn('name_bid', function ($list) {
                         $result = $list->name_bid;
@@ -2369,23 +2500,14 @@ class AdminTimbanganController extends Controller
     public function get_all_notifikasi()
     {
         $get_notifikasitimbangan = NotifTimbangan::where('status', 0)->orderBy('id_notif', 'DESC')->limit(10)->get();
-        $getcountnotif_datatonaseawal = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-            ->join('users', 'users.id', '=', 'data_po.user_idbid')
-            ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-            ->join('admins_timbangan', 'admins_timbangan.id_admin_timbangan', '=', 'penerimaan_po.penerima_tonase_awal')
-            ->where('penerimaan_po.status_penerimaan', '>', 8)
-            ->where('penerimaan_po.tonase_akhir', NULL)
-            ->count();
         $getcountnotif_tonaseawal = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-            ->join('admins', 'admins.id', '=', 'penerimaan_po.penerima_po')
             ->where('data_po.status_bid', 8)
             ->count();
         $getcountnotif_tonaseakhir = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'data_po.user_idbid')
             ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-            ->join('admins_timbangan', 'admins_timbangan.id_admin_timbangan', '=', 'penerimaan_po.penerima_tonase_awal')
             ->join('data_qc_bongkar', 'data_qc_bongkar.kode_po_bongkar', '=', 'data_po.kode_po')
             ->where('data_qc_bongkar.status_bongkar', 'FINISH')
             ->where('penerimaan_po.tonase_akhir', '=', NULL)
@@ -2400,19 +2522,10 @@ class AdminTimbanganController extends Controller
             ->where('penerimaan_po.status_analisa', 2)
             ->where('penerimaan_po.status_revisi', 0)
             ->count();
-        $getcountnotif_datatonaseakhir = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
-            ->join('users', 'users.id', '=', 'data_po.user_idbid')
-            ->join('penerimaan_po', 'penerimaan_po.penerimaan_id_data_po', '=', 'data_po.id_data_po')
-            ->join('data_qc_bongkar', 'data_qc_bongkar.kode_po_bongkar', '=', 'data_po.kode_po')
-            ->where('data_qc_bongkar.status_bongkar', 'FINISH')
-            ->where('penerimaan_po.tonase_akhir', '!=', NULL)
-            ->count();
         $result = [
             'get_notifikasitimbangan' => $get_notifikasitimbangan,
-            'getcountnotif_datatonaseawal' => $getcountnotif_datatonaseawal,
             'getcountnotif_tonaseawal' => $getcountnotif_tonaseawal,
             'getcountnotif_tonaseakhir' => $getcountnotif_tonaseakhir,
-            'getcountnotif_datatonaseakhir' => $getcountnotif_datatonaseakhir,
             'getcountnotif_revisitonase' => $getcountnotif_revisitonase,
         ];
         return response()->json($result);

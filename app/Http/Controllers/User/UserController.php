@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Mail\NotifyMail;
 use Illuminate\Http\Request;
 use App\Models\News;
 use App\Models\User;
@@ -31,8 +32,11 @@ use Illuminate\Support\Facades\Mail;
 use App\Models\UserVerify;
 use RealRashid\SweetAlert\Facades\Alert;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 use Laravel\Sanctum\PersonalAccessToken;
+use Mockery\Generator\StringManipulation\Pass\Pass;
 
 class UserController extends Controller
 {
@@ -344,7 +348,15 @@ class UserController extends Controller
     {
         $date = date('Y-m-d');
         $id = Auth::user()->id;
-        $getcount_transaksi = DataPO::leftjoin(
+        $data_pengajuan = Biduser::Join('users', 'users.id', '=', 'bid_user.user_id')
+            ->Join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
+            ->where('bid_user.user_id', $id)
+            ->where('bid_user.status_biduser', 0)
+            ->where('bid.open_po', '>=', $date)
+            ->select('users.*', 'bid.*', 'bid_user.*')
+            ->orderBy('id_biduser', 'desc')
+            ->count();
+        $data_transaksi = DataPO::leftjoin(
             'bid',
             'bid.id_bid',
             '=',
@@ -373,6 +385,8 @@ class UserController extends Controller
             ->where('data_po.user_idbid', $id)
             ->orderBy('data_po.id_data_po', 'DESC')
             ->count();
+        $getcount_transaksi = ($data_pengajuan + $data_transaksi);
+        // dd($getcount_transaksi);
         $getcount_broadcast = DB::table('broadcast')->count();
         $getcount_pajak = DB::table('potong_pajak')
             ->where('id_user_potong_pajak', Auth::user()->id)
@@ -465,54 +479,28 @@ class UserController extends Controller
                     auth()->user()->is_email_verified == '1' &&
                     auth()->user()->status_user == '1'
                 ) {
-                    Alert::success(
-                        'Berhasil',
-                        'Selamat Datang ' . auth()->user()->nama_vendor
-                    );
+
+                    $request->session()->flash('login_success');
                     return redirect()
-                        ->route('user.home')
-                        ->with(
-                            'Berhasil',
-                            'Selamat Datang ' . auth()->user()->nama_vendor
-                        );
+                        ->route('user.home');
                 } elseif (
                     auth()->user()->is_email_verified == '0' &&
                     auth()->user()->status_user == '0'
                 ) {
                     Auth::logout();
-                    Alert::warning(
-                        'Cek Email Sekarang',
-                        'Mohon Cek Email Anda Sekarang Dan Lakukan Verifikasi'
-                    );
+                    $request->session()->flash('proses_validasi');
                     return redirect()
-                        ->route('user.login')
-                        ->with(
-                            'Cek Email Sekarang',
-                            'Mohon Cek Email Anda Sekarang Dan Lakukan Verifikasi'
-                        );
+                        ->route('user.login');
                 } elseif (auth()->user()->status_user == '0') {
                     Auth::logout();
-                    Alert::warning('Mohon Maaf', 'Akun Anda Tidak Aktif');
+                    $request->session()->flash('non_active');
                     return redirect()
-                        ->route('user.login')
-                        ->with('Mohon Maaf', 'Akun Anda Tidak Aktif');
+                        ->route('user.login');
                 }
-                // else {
-                //     Auth::logout();
-                //     Alert::warning('Mohon Di Tunggu', 'Akun Anda Dalam Proses Validasi');
-                //     return redirect()->route('user.login')->with('Mohon Di Tunggu', 'Akun Anda Dalam Proses Validasi');
-                // }
             } else {
-                Alert::error(
-                    'Gagal',
-                    'Mohon Masukkan Email Atau Username Dan Password Dengan Benar'
-                );
+                $request->session()->flash('gagal_login');
                 return redirect()
-                    ->route('user.login')
-                    ->with(
-                        'Gagal',
-                        'Mohon Masukkan Email Atau Password Dengan Benar'
-                    );
+                    ->route('user.login');
             }
         } elseif (filter_var($request->username, FILTER_VALIDATE_EMAIL)) {
             // dd('b');
@@ -527,61 +515,32 @@ class UserController extends Controller
                     auth()->user()->is_email_verified == 1 &&
                     auth()->user()->status_user == 1
                 ) {
-                    Alert::success(
-                        'Berhasil',
-                        'Selamat Datang ' . auth()->user()->nama_vendor
-                    );
+                    $request->session()->flash('login_success');
                     return redirect()
-                        ->route('user.home')
-                        ->with(
-                            'Berhasil',
-                            'Selamat Datang ' . auth()->user()->nama_vendor
-                        );
+                        ->route('user.home');
                 } elseif (
                     auth()->user()->is_email_verified == 0 &&
                     auth()->user()->status_user == 0
                 ) {
                     Auth::logout();
-                    Alert::warning(
-                        'Cek Email Sekarang',
-                        'Mohon Cek Email Anda Sekarang Dan Lakukan Verifikasi'
-                    );
+                    $request->session()->flash('proses_validasi');
                     return redirect()
-                        ->route('user.login')
-                        ->with(
-                            'Cek Email Sekarang',
-                            'Mohon Cek Email Anda Sekarang Dan Lakukan Verifikasi'
-                        );
+                        ->route('user.login');
                 } elseif (auth()->user()->status_user == 0) {
                     Auth::logout();
-                    Alert::warning('Mohon Maaf', 'Akun Anda Tidak Aktif');
+                    $request->session()->flash('non_active');
                     return redirect()
-                        ->route('user.login')
-                        ->with('Mohon Maaf', 'Akun Anda Tidak Aktif');
+                        ->route('user.login');
                 } else {
                     Auth::logout();
-                    Alert::warning(
-                        'Mohon Di Tunggu',
-                        'Akun Anda Dalam Proses Validasi'
-                    );
+                    $request->session()->flash('proses_validasi');
                     return redirect()
-                        ->route('user.login')
-                        ->with(
-                            'Mohon Di Tunggu',
-                            'Akun Anda Dalam Proses Validasi'
-                        );
+                        ->route('user.login');
                 }
             } else {
-                Alert::error(
-                    'Gagal',
-                    'Mohon Masukkan Email Atau Username Dan Password Dengan Benar'
-                );
+                $request->session()->flash('gagal_login');
                 return redirect()
-                    ->route('user.login')
-                    ->with(
-                        'Gagal',
-                        'Mohon Masukkan Email Atau Password Dengan Benar'
-                    );
+                    ->route('user.login');
             }
         } else {
             // dd('c');
@@ -596,72 +555,43 @@ class UserController extends Controller
                     auth()->user()->is_email_verified == 1 &&
                     auth()->user()->status_user == 1
                 ) {
-                    Alert::success(
-                        'Berhasil',
-                        'Selamat Datang ' . auth()->user()->nama_vendor
-                    );
+                    $request->session()->flash('login_success');
                     return redirect()
-                        ->route('user.home')
-                        ->with(
-                            'Berhasil',
-                            'Selamat Datang ' . auth()->user()->nama_vendor
-                        );
+                        ->route('user.home');
                 } elseif (
                     auth()->user()->is_email_verified == 0 &&
                     auth()->user()->status_user == 0
                 ) {
                     Auth::logout();
-                    Alert::warning(
-                        'Cek Email Sekarang',
-                        'Mohon Cek Email Anda Sekarang Dan Lakukan Verifikasi'
-                    );
+                    $request->session()->flash('proses_validasi');
                     return redirect()
-                        ->route('user.login')
-                        ->with(
-                            'Cek Email Sekarang',
-                            'Mohon Cek Email Anda Sekarang Dan Lakukan Verifikasi'
-                        );
+                        ->route('user.login');
                 } elseif (auth()->user()->status_user == 0) {
                     Auth::logout();
-                    Alert::warning('Mohon Maaf', 'Akun Anda Tidak Aktif');
+                    $request->session()->flash('non_active');
                     return redirect()
-                        ->route('user.login')
-                        ->with('Mohon Maaf', 'Akun Anda Tidak Aktif');
+                        ->route('user.login');
                 } else {
                     Auth::logout();
-                    Alert::warning(
-                        'Mohon Di Tunggu',
-                        'Akun Anda Dalam Proses Validasi'
-                    );
+                    $request->session()->flash('proses_validasi');
                     return redirect()
-                        ->route('user.login')
-                        ->with(
-                            'Mohon Di Tunggu',
-                            'Akun Anda Dalam Proses Validasi'
-                        );
+                        ->route('user.login');
                 }
             } else {
-                Alert::error(
-                    'Gagal',
-                    'Mohon Masukkan Email Atau Username Dan Password Dengan Benar'
-                );
+                $request->session()->flash('gagal_login');
                 return redirect()
-                    ->route('user.login')
-                    ->with(
-                        'Gagal',
-                        'Mohon Masukkan Email Atau Password Dengan Benar'
-                    );
+                    ->route('user.login');
             }
         }
         // dd($fieldType);
         // $creds = $request->only('email', 'password');
     }
 
-    function logout()
+    function logout(Request $request)
     {
         Auth::guard('web')->logout();
-        Alert::success('Sukses', 'Anda Berhasil Logout');
-        return redirect('/')->with('Sukses', 'Anda Berhasil Logout');
+        $request->session()->flash('logout_success');
+        return redirect('/');
     }
 
     public function home()
@@ -786,6 +716,20 @@ class UserController extends Controller
         } else {
             $count_transaksi = '0';
         }
+        $data_riwayat = DB::table('bid_user')
+            ->join('users', 'users.id', '=', 'bid_user.user_id')
+            ->join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
+            ->leftjoin(
+                'approve_bid',
+                'approve_bid.bid_user_id',
+                '=',
+                'bid_user.id_biduser'
+            )
+            ->select('users.*', 'bid.*', 'bid_user.*', 'approve_bid.*')
+            ->where('users.id', $id)
+            ->orderBy('id_biduser', 'DESC')
+            ->limit(10)
+            ->get();
         $notif = DB::table('broadcast')->count();
         // dd($notif);
         return view('dashboard.user.home', [
@@ -799,6 +743,7 @@ class UserController extends Controller
             'lainnya' => $lainnya,
             'berita' => $berita,
             'notif' => $notif,
+            'data_riwayat' => $data_riwayat,
             'count_transaksi' => $count_transaksi,
         ]);
     }
@@ -819,7 +764,7 @@ class UserController extends Controller
             ->where('batas_bid', '<=', Carbon::now()->format('Y-m-d'))
             ->where('status_bid', 1)
             ->get();
-        dd($data);
+        // dd($data);
         foreach ($data as $data) {
             if ($data->status_bid == 1) {
                 DB::table('bid')->update(['status_bid' => 0]);
@@ -874,7 +819,7 @@ class UserController extends Controller
             $jumlah_kuotatruk = $jumlah_kuota / 8000;
             $get_sisakuota = $jumlah_kuota - $cek_jumlahpengajuan * 8000;
             $sisakuota = $get_sisakuota / 8000;
-            return view('dashboard.user.bid.dt_detailbid', [
+            return view('dashboard.user.daftar_lelang.detail_lelang', [
                 'data' => $data,
                 'bid_user' => $bid_user,
                 'partisipasi_bid' => $partisipasi_bid,
@@ -887,7 +832,6 @@ class UserController extends Controller
             return view('dashboard.user.login');
         }
     }
-
     public function lelang_storeuser(Request $request)
     {
         // dd($request->all());
@@ -898,131 +842,73 @@ class UserController extends Controller
                 ->where('status_biduser', '0')
                 ->count();
             // dd($get_data);
+            $rules = [
+                'jumlah_kirim' => 'required|max:255',
+                'description_biduser' => 'required|max:255',
+            ];
+            $customMessages = [
+                'required' => ':attribute tidak boleh kosong.',
+                'unique' => ':attribute tidak boleh sama',
+                // 'email' => ':attribute format email salah',
+                'max' => ':attribute Kurang Dari Batas Minimal',
+                'min' => ':attribute Melebihi Batas Maksimal'
+            ];
+            $validatedData = $request->validate($rules, $customMessages);
             if ($get_data == '0') {
                 // dd('a');
-                if ($request->file('image_biduser') != null) {
-                    $image = $request->file('image_biduser');
-                    $request->validate([
-                        'image_biduser' =>
-                        'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                    ]);
-                    $file = $request->file('image_biduser');
-                    $imageName =
-                        time() . '.' . $request->image_biduser->extension();
-                    $save = $file->move('public/img/user/bid/', $imageName);
 
-                    $data = new BidUser();
-                    $data->user_id = $id_user;
-                    $data->bid_id = $request->bid_id;
-                    $data->site_id = $request->site_id;
-                    $data->price_biduser = $request->price_biduser;
-                    $data->jumlah_kirim = $request->jumlah_kirim;
-                    $data->date_biduser = Carbon::now()->format('Y-m-d H:i:s');
-                    $data->description_biduser = $request->description_biduser;
-                    $data->image_biduser = $imageName;
-                    $data->save();
+                $data = new BidUser();
+                $data->user_id = $id_user;
+                $data->bid_id = $request->bid_id;
+                $data->site_id = $request->site_id;
+                $data->price_biduser = $request->price_biduser;
+                $data->jumlah_kirim = $validatedData['jumlah_kirim'];
+                $data->date_biduser = Carbon::now()->format('Y-m-d H:i:s');
+                $data->description_biduser = $validatedData['description_biduser'];
+                $data->save();
 
-                    // insert Log Aktivity
-                    $log = new LogAktivityUser();
-                    $log->name_user = Auth::guard('web')->user()->name;
-                    $log->aktivitas_user =
-                        'Pengajuan ikut Lelang , Item : ' .
-                        $request->name_bid .
-                        ' , ' .
-                        $request->jumlah_kirim .
-                        ' Truk';
-                    $log->id_objek_aktivitas_user = $data->id_biduser;
-                    $log->keterangan_aktivitas = 'Selesai';
-                    $log->created_at = date('Y-m-d H:i:s');
-                    $log->save();
+                // insert Log Aktivity
+                $log = new LogAktivityUser();
+                $log->name_user = Auth::guard('web')->user()->name;
+                $log->aktivitas_user =
+                    'Pengajuan ikut Lelang , Item : ' .
+                    $request->name_bid .
+                    ' , ' .
+                    $request->jumlah_kirim .
+                    ' Truk';
+                $log->id_objek_aktivitas_user = $data->id_biduser;
+                $log->keterangan_aktivitas = 'Selesai';
+                $log->created_at = date('Y-m-d H:i:s');
+                $log->save();
 
-                    $notif = new NotifSourching();
-                    $notif->judul = 'Pengajuan PO';
-                    $notif->keterangan =
-                        'Ada Pengajuan PO Tanggal :' .
-                        $request->tanggal_po .
-                        '  , Supplier : ' .
-                        Auth::guard('web')->user()->name .
-                        ' , Jumlah : ' .
-                        $request->jumlah_kirim .
-                        ' Truk';
-                    $notif->notifbaru = '0';
-                    $notif->status = '0';
-                    $notif->id_objek = $request->bid_id;
-                    $notif->kategori = '0';
-                    $notif->created_at = date('Y-m-d H:i:s');
-                    $notif->save();
-
-                    Alert::success(
-                        'Berhasil',
-                        'Anda berhasil Mengikuti Lelang'
-                    );
-                    return redirect()->route('user.home');
-                } else {
-                    $data = new BidUser();
-                    $data->user_id = $id_user;
-                    $data->bid_id = $request->bid_id;
-                    $data->site_id = $request->site_id;
-                    $data->price_biduser = $request->price_biduser;
-                    $data->jumlah_kirim = $request->jumlah_kirim;
-                    $data->date_biduser = Carbon::now()->format('Y-m-d H:i:s');
-                    $data->description_biduser = $request->description_biduser;
-                    $data->save();
-
-                    // insert Log Aktivity
-                    $log = new LogAktivityUser();
-                    $log->name_user = Auth::guard('web')->user()->name;
-                    $log->aktivitas_user =
-                        'Pengajuan ikut Lelang , Item : ' .
-                        $request->name_bid .
-                        ' , ' .
-                        $request->jumlah_kirim .
-                        ' Truk';
-                    $log->id_objek_aktivitas_user = $data->id_biduser;
-                    $log->keterangan_aktivitas = 'Selesai';
-                    $log->created_at = date('Y-m-d H:i:s');
-                    $log->save();
-
-                    $notif = new NotifSourching();
-                    $notif->judul = 'Pengajuan PO';
-                    $notif->keterangan =
-                        'Ada Pengajuan PO Tanggal :' .
-                        $request->tanggal_po .
-                        ' , Supplier : ' .
-                        Auth::guard('web')->user()->name .
-                        ' , Jumlah : ' .
-                        $request->jumlah_kirim .
-                        ' Truk';
-                    $notif->notifbaru = '0';
-                    $notif->status = '0';
-                    $notif->id_objek = $request->bid_id;
-                    $notif->kategori = '0';
-                    $notif->created_at = date('Y-m-d H:i:s');
-                    $notif->save();
-                    Alert::success(
-                        'Berhasil',
-                        'Anda berhasil Mengikuti Lelang'
-                    );
-                    return redirect()->route('user.home');
-                }
+                $notif = new NotifSourching();
+                $notif->judul = 'Pengajuan PO';
+                $notif->keterangan =
+                    'Ada Pengajuan PO Tanggal :' .
+                    $request->tanggal_po .
+                    ' , Supplier : ' .
+                    Auth::guard('web')->user()->name .
+                    ' , Jumlah : ' .
+                    $request->jumlah_kirim .
+                    ' Truk';
+                $notif->notifbaru = '0';
+                $notif->status = '0';
+                $notif->id_objek = $request->bid_id;
+                $notif->kategori = '0';
+                $notif->created_at = date('Y-m-d H:i:s');
+                $notif->save();
+                $request->session()->flash('lelang_success');
+                return redirect()->route('user.home');
             } elseif ($get_data == '1') {
-                // dd('b');
-                Alert::error(
-                    'Gagal',
-                    'Pengajuan Anda Sebelumnya Belum Di Setujui Sourching'
-                );
+                $request->session()->flash('lelang_warning');
                 return redirect()
-                    ->back()
-                    ->with(
-                        'Gagal',
-                        'Pengajuan Anda Sebelumnya Belum Di Setujui Sourching'
-                    );
+                    ->back();
             }
         } else {
-            Alert::error('Gagal', 'Harap login terlebih dahulu!');
+            $request->session()->flash('not_login');
             return redirect()
                 ->back()
-                ->with('Gagal', 'Harap login terlebih dahulu!');
+                ->with('error', 'Harap login terlebih dahulu!');
         }
     }
 
@@ -1132,49 +1018,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function transaksi()
-    {
-        $date = date('Y-m-d');
-        if (Auth()->user()) {
-            $id = Auth::user()->id;
-            $data_pengajuan = DataPO::leftjoin(
-                'bid',
-                'bid.id_bid',
-                '=',
-                'data_po.bid_id'
-            )
-                ->leftjoin(
-                    'penerimaan_po',
-                    'penerimaan_po.penerimaan_id_data_po',
-                    '=',
-                    'data_po.id_data_po'
-                )
-                ->leftjoin(
-                    'bid_user',
-                    'data_po.bid_user_id',
-                    '=',
-                    'bid_user.id_biduser'
-                )
-                ->leftjoin('users', 'users.id', '=', 'data_po.user_idbid')
-                ->leftjoin(
-                    'lab2_gb',
-                    'lab2_gb.lab2_kode_po_gb',
-                    '=',
-                    'data_po.kode_po'
-                )
-                ->where('data_po.tanggal_po', '>=', $date)
-                ->where('data_po.user_idbid', $id)
-                ->orderBy('data_po.id_data_po', 'DESC')
-                ->get();
-            // dd($data_pengajuan);
-            return view(
-                'dashboard.user.transaksi.dt_transaction',
-                compact('data_pengajuan')
-            );
-        } else {
-            return view('dashboard.user.login');
-        }
-    }
+
     public function daftar_lelang()
     {
         $date = date('Y-m-d H:i:s');
@@ -1288,7 +1132,7 @@ class UserController extends Controller
         $berita = news::get();
 
         // dd($site_ngawi_longgrain);
-        return view('dashboard.user.bid.dt_daftar_lelang', [
+        return view('dashboard.user.daftar_lelang.lelang', [
             'site_kediri' => $site_kediri,
             'site_subang' => $site_subang,
             'site_ngawi_longgrain' => $site_ngawi_longgrain,
@@ -1300,24 +1144,7 @@ class UserController extends Controller
             'berita' => $berita,
         ]);
     }
-    public function riwayat_transaksi()
-    {
-        $id = Auth::user()->id;
-        $data = DB::table('bid_user')
-            ->join('users', 'users.id', '=', 'bid_user.user_id')
-            ->join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
-            ->leftjoin(
-                'approve_bid',
-                'approve_bid.bid_user_id',
-                '=',
-                'bid_user.id_biduser'
-            )
-            ->select('users.*', 'bid.*', 'bid_user.*', 'approve_bid.*')
-            ->where('users.id', $id)
-            ->orderBy('id_biduser', 'desc')
-            ->get();
-        return view('dashboard.user.transaksi.dt_riwayat_transaksi', compact('data'));
-    }
+
     public function transaksi_index(Request $request)
     {
         $id = Auth::user()->id;
@@ -1539,7 +1366,9 @@ class UserController extends Controller
             ->orderBy('data_po.id_data_po', 'asc')
             ->get();
         // dd($data);
-        return view('dashboard.user.transaksi.dt_list_po', ['data' => $data]);
+        return view('dashboard.user.transaksi.data_list_po', [
+            'data' => $data,
+        ]);
     }
 
     public function status_pengiriman($id)
@@ -1666,31 +1495,17 @@ class UserController extends Controller
         $data = DataPO::join('bid', 'bid.id_bid', '=', 'data_po.bid_id')
             ->join('users', 'users.id', '=', 'user_idbid')
             ->where('id_data_po', $id)
+            ->select('bid.name_bid', 'users.nama_vendor', 'users.SPS_AlamatNPWP_c', 'data_po.kode_po', 'data_po.PONum')
             ->get();
-        $get_provinsi = DB::table('provinces')
-            ->where('id', $params->id_provinsiktp)
-            ->first();
-        $get_kabupaten = DB::table('regencies')
-            ->where('id', $params->id_kabupatenktp)
-            ->first();
-        $get_kecamatan = DB::table('districts')
-            ->where('id', $params->id_kecamatanktp)
-            ->first();
-        $get_desa = DB::table('villages')
-            ->where('id', $params->id_desaktp)
-            ->first();
         $get_item = DB::table('item')
             ->where('nama_item', $params->name_bid)
             ->first();
         $data1 = PDF::loadview('dashboard.user.transaksi.dt_cetak_po', [
             'data' => $data,
-            'get_provinsi' => $get_provinsi,
-            'get_kabupaten' => $get_kabupaten,
-            'get_kecamatan' => $get_kecamatan,
-            'get_desa' => $get_desa,
             'get_item' => $get_item,
         ]);
-        return $data1->download('CETAK ' . $params->kode_po . '.pdf');
+        set_time_limit(300);
+        return $data1->download('CETAK ' . $params->kode_po . '.pdf');;
     }
 
     public function scan_po($id)
@@ -2297,10 +2112,6 @@ class UserController extends Controller
         return view('dashboard.user.berita.dt_news', ['data' => $data]);
     }
 
-    public function notif()
-    {
-        return view('dashboard.user.pemberitahuan.dt_notification');
-    }
 
     public function setting_profile()
     {
@@ -2376,27 +2187,7 @@ class UserController extends Controller
     {
         return view('dashboard.user.akun.dt_procedure');
     }
-    public function potong_pajak()
-    {
-        $auth = Auth()->user()->id;
-        $broadcaster_count = DB::table('potong_pajak')
-            ->selectRaw('potong_pajak.*,COUNT(*) AS total')
-            ->where('potong_pajak.id_user_potong_pajak', $auth)
-            ->get();
-        $broadcaster = DB::table('potong_pajak')
-            ->orderBy('date_potong_pajak', 'DESC')
-            ->where('potong_pajak.id_user_potong_pajak', $auth)
-            ->get();
-        // dd($broadcaster);
-        $data = DB::table('broadcast')
-            ->orderBy('id_broadcast', 'desc')
-            ->get();
-        return view('dashboard.user.pajak.potong_pajak', [
-            'broadcaster' => $broadcaster,
-            'broadcaster_count' => $broadcaster_count,
-            'data' => $data,
-        ]);
-    }
+
     public function pemberitahuan()
     {
         $broadcaster_count = DB::table('broadcast')
@@ -2453,7 +2244,18 @@ class UserController extends Controller
     }
     public function lupa_password()
     {
-        return view('dashboard.user.new_user.lupa_password');
+        return view('dashboard.user.reset_password.lupa_password');
+    }
+    public function input_otp($id)
+    {
+        $data = PasswordResets::where('id', $id)->first();
+        if ($data == NULL) {
+            Alert::warning('Info', 'Session OTP Expired', 4000);
+            return redirect()->route('user.lupa_password');
+        } else {
+            // dd($data);
+            return view('dashboard.user.akun.input_otp', compact('data'));
+        }
     }
     public function form_otp($id)
     {
@@ -2463,29 +2265,84 @@ class UserController extends Controller
             return redirect()->route('user.lupa_password');
         } else {
             // dd($data);
-            return view('dashboard.user.new_user.form_otp', compact('data'));
+            return view('dashboard.user.reset_password.form_otp', compact('data'));
         }
     }
     public function reset_password($id)
     {
         $kategori = $id;
-        return view('dashboard.user.new_user.formreset_password', compact('kategori'));
+        return view('dashboard.user.reset_password.formreset_password', compact('kategori'));
     }
-    public function sendOTP(Request $request)
+    public function input_editpassword($id)
+    {
+        $user = User::where('id', $id)->first();
+        return view('dashboard.user.akun.input_editpassword', compact('user'));
+    }
+    public function new_password($id)
+    {
+        $user = User::where('id', $id)->first();
+        return view('dashboard.user.reset_password.new_password', compact('user'));
+    }
+    public function update_neweditpassword(Request $request)
+    {
+        $rules = [
+            'new_password'               => ['required',  Password::min(6)->numbers()->letters()->mixedCase()->symbols()],
+            'confirm_password'           => ['required', 'same:new_password',  Password::min(6)->numbers()->letters()->mixedCase()->symbols()],
+        ];
+        $customMessages = [
+            'required' => ':attribute tidak boleh kosong.',
+            'unique' => ':attribute tidak boleh sama',
+            'same' => ':attribute Password Tidak Sama',
+            'min' => ':attribute Minimal 6 Karakter',
+            'max' => ':attribute Melebihi Batas Maksimal'
+        ];
+        $validatedData = $request->validate($rules, $customMessages);
+        $update = User::where('id', $request->id_user)->first();
+        $update->password = \Hash::make($validatedData['new_password']);
+        $update->password_show = $validatedData['new_password'];
+        $update->update();
+        Alert::success('Sukses', 'Berhasil Update Password', 4000);
+        return redirect()->route('user.account');
+    }
+    public function update_newpassword(Request $request)
+    {
+        $rules = [
+            'new_password'               => ['required',  Password::min(6)->numbers()->letters()->mixedCase()->symbols()],
+            'confirm_password'           => ['required', 'same:new_password',  Password::min(6)->numbers()->letters()->mixedCase()->symbols()],
+        ];
+        $customMessages = [
+            'required' => ':attribute tidak boleh kosong.',
+            'unique' => ':attribute tidak boleh sama',
+            'same' => ':attribute Password Tidak Sama',
+            'min' => ':attribute Minimal 6 Karakter',
+            'max' => ':attribute Melebihi Batas Maksimal'
+        ];
+        $validatedData = $request->validate($rules, $customMessages);
+        $update = User::where('id', $request->id_user)->first();
+        $update->password = \Hash::make($validatedData['new_password']);
+        $update->password_show = $validatedData['new_password'];
+        $update->update();
+        Alert::success('Sukses', 'Berhasil Update Password', 4000);
+        return redirect()->route('user.login');
+    }
+
+    public function sendOTPEditPassword(Request $request)
     {
         $otp = rand(1000, 9999);
+        $now = date('Y-m-d H:i:s');
         // dd($request->all(), $otp);
-        if ($request->id_kategori == 1) {
-            $cek = User::where('nomer_hp', replace_titik($request->nomor_hp))->where('status_user', 1)->first();
-            // dd($cek);
-            if ($cek == NULL) {
-                return response()->json([
-                    'code' => 400,
-                    'message' => 'NOMOR HP TIDAK VALID',
-                ]);
-            } else {
-                $cek_reset = PasswordResets::where('nomor', $request->nomor_hp)->where('user_id', $cek->id)->first();
-                if ($cek_reset != NULL) {
+        $cek = User::where('id', Auth::user()->id)->where('nomer_hp', replace_titik($request->nomor_hp))
+            ->where('status_user', 1)->first();
+        // dd($cek);
+        if ($cek == NULL) {
+            return response()->json([
+                'code' => 400,
+                'message' => 'NOMOR HP TIDAK VALID',
+            ]);
+        } else {
+            $cek_reset = PasswordResets::where('nomor', $request->nomor_hp)->where('user_id', $cek->id)->first();
+            if ($cek_reset != NULL) {
+                if ($now > $cek_reset->expired_at) {
                     $cek_reset->otp = $otp;
                     $cek_reset->created_at = date('Y-m-d H:i:s');
                     $cek_reset->expired_at = date('Y-m-d H:i:s', strtotime('+4 minutes'));
@@ -2503,16 +2360,17 @@ class UserController extends Controller
                         CURLOPT_POSTFIELDS => array(
                             'target' => $request->nomor_hp,
                             'message' =>
-                            "KODE OTP!
-    
+                            "VP-NGAWI (Edit Password)
+                            
+KODE OTP!   
 Hello $cek->nama_vendor
-Kamu ingin mereset passwod atau lupa password dari username $request->nomor_hp
+Kamu ingin merubah passwod dari username $request->nomor_hp
 OTP : $otp
 Berlaku 4 Menit",
                             'countryCode' => '62', //optional
                         ),
                         CURLOPT_HTTPHEADER => array(
-                            'Authorization: Y1aSGZ8Lqh7rUwZP5ka6' //change TOKEN to your actual token
+                            'Authorization: Xp5bwZZN22VPhojYcPEB' //change TOKEN to your actual token
                         ),
                     ));
 
@@ -2525,86 +2383,299 @@ Berlaku 4 Menit",
                     if (isset($error_msg)) {
                         echo $error_msg;
                     }
+                } else {
                     return response()->json([
                         'code' => 200,
                         'data' => $cek_reset->id,
                         'message' => 'SUKSES INPUT NOMOR',
                     ]);
-                } else {
-                    $insert = new PasswordResets();
-                    $insert->user_id = $cek->id;
-                    $insert->id_kategori = $request->id_kategori;
-                    $insert->nomor = $request->nomor_hp;
-                    $insert->otp = $otp;
-                    $insert->created_at = date('Y-m-d H:i:s');
-                    $insert->expired_at = date('Y-m-d H:i:s', strtotime('+4 minutes'));
-                    $insert->save();
-                    $curl = curl_init();
-                    curl_setopt_array($curl, array(
-                        CURLOPT_URL => 'https://api.fonnte.com/send',
-                        CURLOPT_RETURNTRANSFER => true,
-                        CURLOPT_ENCODING => '',
-                        CURLOPT_MAXREDIRS => 10,
-                        CURLOPT_TIMEOUT => 0,
-                        CURLOPT_FOLLOWLOCATION => true,
-                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                        CURLOPT_CUSTOMREQUEST => 'POST',
-                        CURLOPT_POSTFIELDS => array(
-                            'target' => $request->nomor_hp,
-                            'message' =>
-                            "KODE OTP!
-    
-Hello $cek->nama_vendor
-Kamu ingin mereset passwod atau lupa password dari username $request->nomor_hp
-OTP : $otp
-Berlaku 4 Menit",
-                            'countryCode' => '62', //optional
-                        ),
-                        CURLOPT_HTTPHEADER => array(
-                            'Authorization: Y1aSGZ8Lqh7rUwZP5ka6' //change TOKEN to your actual token
-                        ),
-                    ));
-
-                    $response = curl_exec($curl);
-                    if (curl_errno($curl)) {
-                        $error_msg = curl_error($curl);
-                    }
-                    curl_close($curl);
-
-                    if (isset($error_msg)) {
-                        echo $error_msg;
-                    }
-                    echo $response;
-                    return response()->json([
-                        'code' => 200,
-                        'data' => $insert->id,
-                        'message' => 'SUKSES INPUT NOMOR',
-                    ]);
                 }
-            }
-        } else {
-            $cek = User::where('email', $request->email)->where('status_user', 1)->first();
-            if ($cek == NULL) {
                 return response()->json([
-                    'code' => 400,
-                    'message' => 'EMAIL TIDAK VALID',
+                    'code' => 200,
+                    'data' => $cek_reset->id,
+                    'message' => 'SUKSES INPUT NOMOR',
                 ]);
             } else {
                 $insert = new PasswordResets();
                 $insert->user_id = $cek->id;
-                $insert->id_kategori = $request->id_kategori;
                 $insert->nomor = $request->nomor_hp;
                 $insert->otp = $otp;
                 $insert->created_at = date('Y-m-d H:i:s');
+                $insert->expired_at = date('Y-m-d H:i:s', strtotime('+4 minutes'));
                 $insert->save();
+                $curl = curl_init();
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => 'https://api.fonnte.com/send',
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'POST',
+                    CURLOPT_POSTFIELDS => array(
+                        'target' => $request->nomor_hp,
+                        'message' =>
+                        "VP-NGAWI (Edit Password)
+
+KODE OTP!   
+Hello $cek->nama_vendor
+Kamu ingin merubah passwod dari username $request->nomor_hp
+OTP : $otp
+Berlaku 4 Menit",
+                        'countryCode' => '62', //optional
+                    ),
+                    CURLOPT_HTTPHEADER => array(
+                        'Authorization: Xp5bwZZN22VPhojYcPEB' //change TOKEN to your actual token
+                    ),
+                ));
+
+                $response = curl_exec($curl);
+                if (curl_errno($curl)) {
+                    $error_msg = curl_error($curl);
+                }
+                curl_close($curl);
+
+                if (isset($error_msg)) {
+                    echo $error_msg;
+                }
                 return response()->json([
                     'code' => 200,
-                    'message' => 'SUKSES INPUT EMAIL',
+                    'data' => $insert->id,
+                    'message' => 'SUKSES INPUT NOMOR',
                 ]);
             }
         }
     }
-    public function send_verified_otp(Request $request) {}
+    public function sendOTP(Request $request)
+    {
+        $otp = rand(1000, 9999);
+        // dd($request->all(), $otp);
+        try {
+            if ($request->id_kategori == 1) {
+                $cek = User::where('nomer_hp', replace_titik($request->nomor_hp))->where('status_user', 1)->first();
+                // dd($cek);
+                if ($cek == NULL) {
+                    return response()->json([
+                        'code' => 400,
+                        'message' => 'NOMOR HP TIDAK VALID',
+                    ]);
+                } else {
+                    $cek_reset = PasswordResets::where('nomor', $request->nomor_hp)->where('user_id', $cek->id)->first();
+                    // dd($cek_reset);
+                    if ($cek_reset != NULL) {
+                        $cek_reset->otp = $otp;
+                        $cek_reset->created_at = date('Y-m-d H:i:s');
+                        $cek_reset->expired_at = date('Y-m-d H:i:s', strtotime('+4 minutes'));
+                        $cek_reset->update();
+                        $curl = curl_init();
+                        curl_setopt_array($curl, array(
+                            CURLOPT_URL => 'https://api.fonnte.com/send',
+                            CURLOPT_RETURNTRANSFER => true,
+                            CURLOPT_ENCODING => '',
+                            CURLOPT_MAXREDIRS => 10,
+                            CURLOPT_TIMEOUT => 0,
+                            CURLOPT_FOLLOWLOCATION => true,
+                            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                            CURLOPT_CUSTOMREQUEST => 'POST',
+                            CURLOPT_POSTFIELDS => array(
+                                'target' => $request->nomor_hp,
+                                'message' =>
+                                "VP-NGAWI (Reset Password)
+                            
+KODE OTP!   
+Hello $cek->nama_vendor
+Kamu ingin mereset passwod atau lupa password dari username $request->nomor_hp
+OTP : $otp
+Berlaku 4 Menit",
+                                'countryCode' => '62', //optional
+                            ),
+                            CURLOPT_HTTPHEADER => array(
+                                'Authorization: Xp5bwZZN22VPhojYcPEB' //change TOKEN to your actual token
+                            ),
+                        ));
+
+                        $response = curl_exec($curl);
+                        if (curl_errno($curl)) {
+                            $error_msg = curl_error($curl);
+                        }
+                        curl_close($curl);
+
+                        if (isset($error_msg)) {
+                            echo $error_msg;
+                        }
+                        return response()->json([
+                            'code' => 200,
+                            'data' => $cek_reset->id,
+                            'message' => 'SUKSES INPUT NOMOR',
+                        ]);
+                    } else {
+                        $insert = new PasswordResets();
+                        $insert->user_id = $cek->id;
+                        $insert->id_kategori = $request->id_kategori;
+                        $insert->nomor = $request->nomor_hp;
+                        $insert->otp = $otp;
+                        $insert->created_at = date('Y-m-d H:i:s');
+                        $insert->expired_at = date('Y-m-d H:i:s', strtotime('+4 minutes'));
+                        $insert->save();
+                        $curl = curl_init();
+                        curl_setopt_array($curl, array(
+                            CURLOPT_URL => 'https://api.fonnte.com/send',
+                            CURLOPT_RETURNTRANSFER => true,
+                            CURLOPT_ENCODING => '',
+                            CURLOPT_MAXREDIRS => 10,
+                            CURLOPT_TIMEOUT => 0,
+                            CURLOPT_FOLLOWLOCATION => true,
+                            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                            CURLOPT_CUSTOMREQUEST => 'POST',
+                            CURLOPT_POSTFIELDS => array(
+                                'target' => $request->nomor_hp,
+                                'message' =>
+                                "VP-NGAWI (Reset Password)
+
+KODE OTP!   
+Hello $cek->nama_vendor
+Kamu ingin mereset passwod atau lupa password dari username $request->nomor_hp
+OTP : $otp
+Berlaku 4 Menit",
+                                'countryCode' => '62', //optional
+                            ),
+                            CURLOPT_HTTPHEADER => array(
+                                'Authorization: Xp5bwZZN22VPhojYcPEB' //change TOKEN to your actual token
+                            ),
+                        ));
+
+                        $response = curl_exec($curl);
+                        if (curl_errno($curl)) {
+                            $error_msg = curl_error($curl);
+                        }
+                        curl_close($curl);
+
+                        if (isset($error_msg)) {
+                            echo $error_msg;
+                        }
+                        return response()->json([
+                            'code' => 200,
+                            'data' => $insert->id,
+                            'message' => 'SUKSES INPUT NOMOR',
+                        ]);
+                    }
+                }
+            } else {
+                $cek = User::where('email', $request->email)->where('status_user', 1)->first();
+                if ($cek == NULL) {
+                    return response()->json([
+                        'code' => 400,
+                        'message' => 'EMAIL TIDAK VALID',
+                    ]);
+                } else {
+                    $cek_reset = PasswordResets::where('email', $request->email)->where('user_id', $cek->id)->first();
+                    if ($cek_reset != NULL) {
+                        $cek_reset->otp = $otp;
+                        $cek_reset->created_at = date('Y-m-d H:i:s');
+                        $cek_reset->expired_at = date('Y-m-d H:i:s', strtotime('+4 minutes'));
+                        $cek_reset->update();
+                        $data = ['body' => 'Your OTP for password reset is: ' . $otp];
+                        Mail::to($request->email)->send(new NotifyMail($data));
+                        return response()->json([
+                            'code' => 200,
+                            'data' => $cek_reset->id,
+                            'message' => 'SUKSES INPUT EMAIL',
+                        ]);
+                    } else {
+                        $insert = new PasswordResets();
+                        $insert->user_id = $cek->id;
+                        $insert->id_kategori = $request->id_kategori;
+                        $insert->email = $request->email;
+                        $insert->otp = $otp;
+                        $insert->created_at = date('Y-m-d H:i:s');
+                        $insert->expired_at = date('Y-m-d H:i:s', strtotime('+4 minutes'));
+                        $insert->save();
+                        $data = ['body' => 'Your OTP for password reset is: ' . $otp];
+                        Mail::to($request->email)->send(new NotifyMail($data));
+                        return response()->json([
+                            'code' => 200,
+                            'data' => $insert->id,
+                            'message' => 'SUKSES INPUT EMAIL',
+                        ]);
+                    }
+                }
+            }
+        } catch (QueryException $e) {
+            return response()->json([
+                'code' => 500,
+                'message' => $e->getMessage() // bisa disembunyikan di production
+            ]);
+        }
+    }
+    public function send_verified_otpEditPassword(Request $request)
+    {
+        try {
+            // dd($request->all());
+            $cek_reset = PasswordResets::where('id', $request->id_pass)->where('otp', $request->otp)->first();
+            if ($cek_reset == NULL) {
+                return response()->json([
+                    'code' => 400,
+                    'message' => 'KODE OTP TIDAK VALID',
+                ]);
+            } else {
+                $now = Carbon::now()->format('YmdHis');
+                $date = Carbon::parse($cek_reset->expired_at)->format('YmdHis');
+                // dd($now, $date);
+                if ($now >= $date) {
+                    return response()->json([
+                        'code' => 400,
+                        'message' => 'KODE OTP EXPIRED',
+                    ]);
+                } else {
+                    $cek_reset = PasswordResets::where('id', $request->id_pass)->where('otp', $request->otp)->delete();
+                    return response()->json([
+                        'code' => 200,
+                        'message' => 'KODE OTP SUKSES',
+                    ]);
+                }
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'code' => 400,
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+    public function send_verified_otp(Request $request)
+    {
+        try {
+            // dd($request->all());
+            $cek_reset = PasswordResets::where('id', $request->id_pass)->where('otp', $request->otp)->first();
+            if ($cek_reset == NULL) {
+                return response()->json([
+                    'code' => 400,
+                    'message' => 'KODE OTP TIDAK VALID',
+                ]);
+            } else {
+                $now = Carbon::now()->format('YmdHis');
+                $date = Carbon::parse($cek_reset->expired_at)->format('YmdHis');
+                if ($request->id_kategori == 1) {
+                    // dd($now, $date);
+                    if ($now >= $date) {
+                        return response()->json([
+                            'code' => 400,
+                            'message' => 'KODE OTP EXPIRED',
+                        ]);
+                    } else {
+                        $cek_reset = PasswordResets::where('id', $request->id_pass)->where('otp', $request->otp)->delete();
+                        return response()->json([
+                            'code' => 200,
+                            'message' => 'KODE OTP SUKSES',
+                        ]);
+                    }
+                } else {
+                }
+            }
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
     public function new_check(Request $request)
     {
         if (is_numeric($request->username)) {
@@ -3322,7 +3393,7 @@ Berlaku 4 Menit",
             return view('dashboard.user.login');
         }
     }
-    public function new_transaksi()
+    public function transaksi()
     {
         $date = date('Y-m-d');
         if (Auth::check()) {
@@ -3331,7 +3402,8 @@ Berlaku 4 Menit",
                 ->Join('bid', 'bid.id_bid', '=', 'bid_user.bid_id')
                 ->where('bid_user.user_id', $id)
                 ->where('bid_user.status_biduser', 0)
-                ->select('users.*', 'bid.*', 'bid_user.*')
+                ->where('bid.bid_status', '1')
+                ->select('users.nama_vendor', 'bid.*', 'bid_user.*')
                 ->orderBy('id_biduser', 'desc')
                 ->get();
             // dd($data_pengajuan);
@@ -3360,22 +3432,23 @@ Berlaku 4 Menit",
                     '=',
                     'data_po.kode_po'
                 )
-                ->where('data_po.tanggal_po', '>=', $date)
+                ->where('bid.bid_status', '1')
                 ->where('data_po.user_idbid', $id)
                 ->orderBy('data_po.id_data_po', 'DESC')
                 ->get();
             // dd($data_transaksi);
             return view(
-                'dashboard.user.new_user.transaksi.transaksi',
+                'dashboard.user.transaksi.transaksi',
                 compact('data_pengajuan', 'data_transaksi')
             );
         } else {
             Auth::logout();
-            return view('dashboard.user.new_user.login');
+            return view('dashboard.user.login');
         }
     }
-    public function new_history()
+    public function history()
     {
+        $time = date('YmdHis');
         $id = Auth::user()->id;
         $data = DB::table('bid_user')
             ->join('users', 'users.id', '=', 'bid_user.user_id')
@@ -3389,10 +3462,12 @@ Berlaku 4 Menit",
             ->select('users.*', 'bid.*', 'bid_user.*', 'approve_bid.*')
             ->where('users.id', $id)
             ->orderBy('id_biduser', 'desc')
+            ->limit(10)
             ->get();
+        // dd($data);
         return view(
-            'dashboard.user.new_user.transaksi.history',
-            compact('data')
+            'dashboard.user.transaksi.history',
+            compact('data', 'time')
         );
     }
     public function new_data_list_po($id)
@@ -3429,7 +3504,7 @@ Berlaku 4 Menit",
             'data' => $data,
         ]);
     }
-    public function new_notif()
+    public function notif()
     {
         $broadcaster_count = DB::table('broadcast')
             ->selectRaw('broadcast.*,COUNT(*) AS total')
@@ -3450,14 +3525,14 @@ Berlaku 4 Menit",
         $data = DB::table('broadcast')
             ->orderBy('id_broadcast', 'desc')
             ->get();
-        return view('dashboard.user.new_user.notifikasi.notifikasi', [
+        return view('dashboard.user.notifikasi.notifikasi', [
             'broadcaster' => $broadcaster,
             'broadcaster_count' => $broadcaster_count,
             'data' => $data,
             'firsttabs' => $firsttabs,
         ]);
     }
-    public function new_potong_pajak()
+    public function potong_pajak()
     {
         $auth = Auth()->user()->id;
         $broadcaster_count = DB::table('potong_pajak')
@@ -3478,7 +3553,7 @@ Berlaku 4 Menit",
         $data = DB::table('broadcast')
             ->orderBy('id_broadcast', 'desc')
             ->get();
-        return view('dashboard.user.new_user.bukti_pajak.bukti_pajak', [
+        return view('dashboard.user.bukti_pajak.bukti_pajak', [
             'broadcaster' => $broadcaster,
             'broadcaster_count' => $broadcaster_count,
             'data' => $data,
@@ -3622,7 +3697,7 @@ Berlaku 4 Menit",
                 ->with('Gagal', 'Harap login terlebih dahulu!');
         }
     }
-    public function new_account()
+    public function account()
     {
         $id = Auth::user()->id;
         $idprovinsi = Auth::user()->id_provinsiktp;
@@ -3637,9 +3712,13 @@ Berlaku 4 Menit",
         $npwp = User::where('id', $id)->first();
         // dd($prov);
         return view(
-            'dashboard.user.new_user.akun.account',
+            'dashboard.user.akun.account',
             compact('profil', 'provinsi', 'prov', 'npwp', 'bank')
         );
+    }
+    public function edit_password($id)
+    {
+        return view('dashboard.user.akun.editpassword');
     }
     public function new_about()
     {

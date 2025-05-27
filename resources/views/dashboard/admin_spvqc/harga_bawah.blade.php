@@ -258,6 +258,22 @@ SURYA PANGAN SEMESTA
 </script>
 <script>
     $(document).ready(function() {
+        $(document).on('click', '#btn_disable_edit', function() {
+            Swal.fire({
+                title: 'Info!',
+                text: 'Tidak Bisa Di Edit',
+                icon: 'warning',
+                timer: 4000
+            })
+        });
+        $(document).on('click', '#btn_disable_hapus', function() {
+            Swal.fire({
+                title: 'Info!',
+                text: 'Tidak Bisa Di Hapus',
+                icon: 'warning',
+                timer: 4000
+            })
+        });
         $(document).on('click', '#btn_save', function(e) {
             e.preventDefault();
             $('#btn_save').html('Menyimpan...');

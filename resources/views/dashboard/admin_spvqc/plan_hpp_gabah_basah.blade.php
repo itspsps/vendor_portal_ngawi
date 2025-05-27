@@ -467,7 +467,22 @@ SURYA PANGAN SEMESTA
         })
     });
 
-
+    $(document).on('click', '#btn_disable_edit', function() {
+        Swal.fire({
+            title: 'Info!',
+            text: 'Tidak Bisa Di Edit',
+            icon: 'warning',
+            timer: 4000
+        })
+    });
+    $(document).on('click', '#btn_disable_hapus', function() {
+        Swal.fire({
+            title: 'Info!',
+            text: 'Tidak Bisa Di Hapus',
+            icon: 'warning',
+            timer: 4000
+        })
+    });
     $('body').on('click', '#btnDelete', function() {
         var cek = $(this).data('id');
         console.log(cek);

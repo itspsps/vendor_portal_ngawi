@@ -274,7 +274,8 @@
             type: "GET",
             url: "{{route('sourching.get_notifikasisourching')}}",
             success: function(data) {
-                var notif = JSON.parse(data);
+                // console.log(data);
+                var notif = data.data;
                 notif.sort();
                 notif.reverse();
                 // console.log(notif);
@@ -302,8 +303,9 @@
                     var not = '<div class="kt-notification__item-details" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);padding: 10px;"><p>Tidak Ada Notifikasi</p></div>';
                     $("#daftarnotif").prepend(not);
                     $("#count_notif").text(panjang);
-
+                    
                 }
+                $("#count_onprocess").html(data.on_proses);
             }
         });
     }

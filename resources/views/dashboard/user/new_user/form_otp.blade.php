@@ -1290,23 +1290,23 @@
                 <div class="wow fadeInUp" data-wow-delay="0.1s">
                     <div class="row g-3 p-4">
                         <div class="position-relative w-100 mt-3">
-                            <input type="text" name="id_kategori" id="id_kategori" value="{{$data->id_kategori}}">
-                            <input type="text" name="id_user" id="id_user" value="{{$data->user_id}}">
-                            <input type="text" name="nomor_hp" id="nomor_hp" value="{{$data->nomor}}">
-                            <input type="text" name="email" id="email" value="{{$data->email}}">
-                            <input type="text" name="id_pass" id="id_pass" value="{{$data->id}}">
-                            <input type="text" name="expired_at" id="expired_at" value="{{$data->expired_at}}">
+                            <input type="hidden" name="id_kategori" id="id_kategori" value="{{$data->id_kategori}}">
+                            <input type="hidden" name="id_user" id="id_user" value="{{$data->user_id}}">
+                            <input type="hidden" name="nomor_hp" id="nomor_hp" value="{{$data->nomor}}">
+                            <input type="hidden" name="email" id="email" value="{{$data->email}}">
+                            <input type="hidden" name="id_pass" id="id_pass" value="{{$data->id}}">
+                            <input type="hidden" name="expired_at" id="expired_at" value="{{$data->expired_at}}">
                             <div class="otp-container">
-                                <form id="otp-form">
+                                <form id="otp-form" method="post">
                                     @csrf
                                     <div class="d-flex align-items-center justify-content-center">
                                         <div class="d-flex align-items-center justify-content-center" style=" width: 40px;height: 40px;font-size: 20px; text-align: center; margin-top:2%;">
                                             <h3 style="color: rgb(110, 97, 209);">VP-</h3>
                                         </div>
-                                        <input type="text" class="otp-input form-control" maxlength="1">
-                                        <input type="text" class="otp-input form-control" maxlength="1">
-                                        <input type="text" class="otp-input form-control" maxlength="1">
-                                        <input type="text" class="otp-input form-control" maxlength="1">
+                                        <input type="text" maxlength="1" class="otp-input" id="otp1" data-next="otp2">
+                                        <input type="text" maxlength="1" class="otp-input" id="otp2" data-next="otp3" data-prev="otp1">
+                                        <input type="text" maxlength="1" class="otp-input" id="otp3" data-next="otp4" data-prev="otp2">
+                                        <input type="text" maxlength="1" class="otp-input" id="otp4" data-prev="otp3">
                                     </div>
                                     <p class="time">
                                     </p>
@@ -1391,19 +1391,41 @@
 </script>
 <script>
     $(document).ready(function() {
-        $('.otp-input').on('input', function() {
-            if ($(this).val().length === 1) {
-                $(this).next('.otp-input').focus();
+        $(".otp-input").on("input", function(e) {
+            let $this = $(this);
+            let value = e.originalEvent.data || ""; // Ambil angka terakhir yang diketik
+            let nextId = $this.data("next");
+
+            if (value.match(/\d/)) { // Pastikan hanya angka yang diterima
+                $this.val(value); // Ganti angka lama dengan yang baru
+                if (nextId) {
+                    $("#" + nextId).focus().val("");
+                }
+            } else {
+                $this.val(""); // Kosongkan jika bukan angka
             }
         });
 
-        $('.otp-input').on('keydown', function(e) {
-            if (e.key === "Backspace" && $(this).val() === "") {
-                $(this).prev('.otp-input').focus();
+        $(".otp-input").on("keydown", function(e) {
+            let $this = $(this);
+            let prevId = $this.data("prev");
+
+            if (e.key === "Backspace") {
+                $this.val(""); // Hapus angka saat backspace ditekan
+                if (prevId) {
+                    $("#" + prevId).focus().val("");
+                }
             }
         });
+        $(".otp-input").on("paste", function(e) {
+            e.preventDefault();
+            let pasteData = (e.originalEvent || e).clipboardData.getData("text").replace(/\D/g, "").slice(0, 4);
 
-
+            let inputs = $(".otp-input");
+            for (let i = 0; i < pasteData.length; i++) {
+                $(inputs[i]).val(pasteData[i]);
+            }
+        });
     });
 
     function replace_titik(x) {
@@ -1456,15 +1478,18 @@
                             nomor_hp: nomor_hp,
                             id_user: id_user,
                             id_pass: id_pass,
+                            otp: otp,
                             expired_at: expired_at,
                         },
                         url: "{{ route('user.send_verified_otp') }}",
                         type: "POST",
                         dataType: 'json',
                         success: function(data) {
+                            console.log(data);
                             if (data.code == 200) {
-                                window.location.href = "{{url('user/form_otp')}}/" + data.data;
-                                $('#content_notif').html('Silahkan Masukan Kode OTP');
+                                window.location.href = "{{url('user/new_password')}}/" + id_user;
+                            } else {
+                                $('#content_notif').html(data.message);
                                 var newDiv = $('<div class="lottie-animation"></div>');
                                 $("#icon").empty();
                                 $('#icon').append(newDiv);
@@ -1481,20 +1506,30 @@
                                     "display": "inline-block",
                                 });
                                 offcanvasElement.show();
-                            } else {
-
+                                Swal.close();
                             }
 
                         },
                         error: function(data) {
-                            $("#formhargabawah").trigger('reset');
-                            $('#btn_save').html('Simpan');
-                            Swal.fire({
-                                title: 'Gagal',
-                                text: 'Tanggal PO Melebihi Batas Yang Ditentukan ',
-                                icon: 'error',
-                                timer: 1500
-                            })
+                            console.log(data);
+                            $('#content_notif').html(data.responseText);
+                            var newDiv = $('<div class="lottie-animation"></div>');
+                            $("#icon").empty();
+                            $('#icon').append(newDiv);
+                            lottie.loadAnimation({
+                                container: newDiv[0], // Elemen target
+                                renderer: 'svg', // Bisa 'canvas' atau 'html'
+                                loop: true, // Animasi terus berjalan
+                                autoplay: true, // Mulai otomatis
+                                path: "{{ asset('assets_user/assets/animation/close.json') }}" // Path ke file JSON (harus ada di folder public)
+                            });
+                            $(".lottie-animation").css({
+                                "width": "100px",
+                                "height": "100px",
+                                "display": "inline-block",
+                            });
+                            offcanvasElement.show();
+                            Swal.close();
 
                         }
                     });
